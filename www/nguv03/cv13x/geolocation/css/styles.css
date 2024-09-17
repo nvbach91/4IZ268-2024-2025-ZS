@@ -1,0 +1,19 @@
+* {
+    box-sizing: border-box;
+}
+html, body {
+    padding: 0;
+    margin: 0;
+}
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+h1, h2 {
+    margin: 0;
+    padding: 10px 0;
+}
+#map {
+    flex-grow: 1;
+}

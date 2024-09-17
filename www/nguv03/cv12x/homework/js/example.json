@@ -1,0 +1,12 @@
+{
+    "age": 42.4,
+    "name": "David",
+    "isMarried": true,
+    "address": {
+        "street": "AMericka",
+        "country": "AMerica!",
+        "zip": "ABC123"
+    },
+    "pets": ["jenda", "pepa"],
+    "wife": null,
+}

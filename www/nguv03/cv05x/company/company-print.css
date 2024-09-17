@@ -1,0 +1,116 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.logo {
+    background-image: url(https://upload.wikimedia.org/wikipedia/commons/c/cf/Bitcoin.com_logo.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    padding: 20px;
+    font-size: 32px;
+    text-indent: 90px;
+    font-weight: bold;
+}
+
+nav ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    display: flex;
+    padding: 20px;
+}
+
+nav ul li {
+    padding: 10px;
+}
+
+nav a {
+    text-decoration: none;
+    padding: 10px;
+    transition: background-color 0.5s linear;
+}
+
+nav a.active, nav a:hover {
+    background-color: rgb(48, 103, 175);
+    color: white;
+}
+
+.jumbotron {
+    background-image: url(https://linkedinbackground.com/download/Business-HQ.jpg);
+    padding: 100px 0;
+    color: white;
+    text-align: center;
+}
+
+.jumbotron h1 {
+    font-size: 45px;
+}
+.jumbotron h1, .jumbotron h3 {
+    padding: 50px 20px;
+    background-color: rgba(0, 0, 0, 0.7);
+    max-width: 720px;
+    margin: 0 auto 10px auto;
+}
+
+main {
+    max-width: 1024px;
+    margin: 0 auto;
+}
+
+.poster {
+    background-image: url(https://www.raconteur.net/wp-content/uploads/2016/11/increase-productivity.jpg);
+    background-position: center;
+    padding: 50px 0;
+}
+
+.poster h2 {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+.products {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+}
+.product {
+    width: 25%;
+    padding: 10px;
+    /*border: 1px solid black;*/
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+}
+.product p {
+    flex-grow: 1;
+}
+.product button {
+    border: none;
+    padding: 10px;
+    background-color: pink;
+    transition: background-color 0.5s ease;
+}
+
+.product button:hover {
+    background-color: rgb(209, 91, 111);
+}
+
+.product:nth-child(1) h2 { border-bottom: 5px solid red; }
+.product:nth-child(2) h2 { border-bottom: 5px solid rgb(206, 95, 95); }
+.product:nth-child(3) h2 { border-bottom: 5px solid rgb(66, 158, 101); }
+.product:nth-child(4) h2 { border-bottom: 5px solid rgb(45, 52, 151); }
+.product:nth-child(5) h2 { border-bottom: 5px solid rgb(135, 155, 46); }
+.product:nth-child(6) h2 { border-bottom: 5px solid rgb(175, 58, 175); }
+.product:nth-child(7) h2 { border-bottom: 5px solid rgb(212, 103, 158); }
+.product:nth-child(8) h2 { border-bottom: 5px solid rgb(59, 174, 194); }

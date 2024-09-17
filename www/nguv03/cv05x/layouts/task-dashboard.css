@@ -1,0 +1,143 @@
+* { 
+    box-sizing: border-box; 
+}
+body { 
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+  color: white;
+}
+.spinner {
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+  border: 30px solid transparent;
+  border-top-color: firebrick;
+  border-bottom-color: firebrick;
+  animation: spinning 2s linear infinite;
+  transition: border-color 0.5s ease;
+}
+.spinner:hover {
+  border-top-color: cadetblue;
+  border-bottom-color: cadetblue;
+}
+@keyframes spinning {
+  from { 
+    transform: rotate(0deg); 
+  }
+    to { 
+      transform: rotate(360deg); 
+  }
+}
+
+.layout {
+  display: flex;
+  padding: 5px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.menu-item, .main-header, .card, .kpi-item, .mf-item {
+  border-radius: 10px;
+  border: 2px solid white;
+}
+.menu {
+  min-width: 240px;
+  display: flex;
+  flex-direction: column;
+}
+.menu-item {
+  background-color: #395269;
+  padding: 15px 10px;
+  color: white;
+}
+.menu-item i {
+  width: 50px;
+  padding: 0 10px;
+}
+.menu-active {
+  background-color: #477c47;
+}
+.menu-welcome {
+  padding: 20px 20px;
+  background-color: #344663;
+}
+.menu-profile {
+  padding: 40px 20px;
+  background-color: #53688a;
+}
+.menu-footer {
+  background-color: transparent;
+  margin-top: auto;
+  display: flex;
+  padding: 0;
+}
+.mf-item {
+  width: calc(100% / 3);
+  padding: 10px 0;
+  text-align: center;
+}
+.mf-item:nth-child(odd) {
+  background-color: #2b4665;
+}
+.mf-item:nth-child(even) {
+  background-color: #3c6791;
+}
+.main {
+  flex-grow: 1;
+  width: 100%;
+}
+.main-header {
+  background-color: #567498;
+  padding: 50px 10px;
+  text-align: center;
+}
+.kpis {
+  display: flex;
+}
+.kpi-item {
+  width: 25%;
+  padding: 20px 10px;
+  text-align: center;
+  background-color: #266fb1;
+}
+.kpi-item:nth-child(odd), .card:nth-of-type(odd) {
+  background-color: #365588;
+}
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+}
+.card {
+  padding: 150px 0;
+  text-align: center;
+  background-color: #315da7;
+}
+.card-video {
+  width: 70%;
+}
+.card iframe {
+  border: none;
+  width: 100%;
+  height: 100%;
+}
+.card-performance {
+  width: 30%;
+  background-color: #33495e;
+}
+.card-app, .card-usage, .card-settings {
+  width: calc(100% / 3);
+}
+.card-recent {
+  width: calc(100% / 3);
+}
+.card-image {
+  width: calc(100% - 100% / 3);
+}
+.card img {
+  width: 100%;
+}
+.card-footer {
+  width: 100%;
+  padding: 40px 0;
+}
