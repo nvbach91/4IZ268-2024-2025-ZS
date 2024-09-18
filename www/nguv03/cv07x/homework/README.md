@@ -14,7 +14,7 @@ Následně vytvořte **uživatelské rozhraní**, ve kterém bude možné zadat 
 
 **IMPORTANT**
 Použijte výchozí zdrojové kódy, které jsou uvedené na této stránce.
-- https://github.com/nvbach91/4IZ268-2023-2024-ZS/blob/master/www/nguv03/cv07x/homework/js/main.js
-- https://github.com/nvbach91/4IZ268-2023-2024-ZS/blob/master/www/nguv03/cv07x/homework/index.html
+- https://github.com/nvbach91/4IZ268-2024-2025-ZS/blob/master/www/nguv03/cv07x/homework/js/main.js
+- https://github.com/nvbach91/4IZ268-2024-2025-ZS/blob/master/www/nguv03/cv07x/homework/index.html
 
 (Nepovinné) Poté pošlete svému kamarádovi/kamarádce na e-mail jednu zašifrovanou zprávu s klíčem a nechte je dešifrovat a přečíst to, co k nim máte na srdci :)
