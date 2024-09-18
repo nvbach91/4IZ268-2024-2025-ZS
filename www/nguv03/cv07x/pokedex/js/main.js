@@ -4,10 +4,10 @@ const pokemonInput = document.querySelector('#pokemon-name');
 const pokemonList = document.querySelector('#pokemon-list');
 const selectedPokemon = document.querySelector('#selected-pokemon');
 
-const fetchPokemonStats = (pokemonName, statsContainer, loader) => {
+const fetchPokemonStats = function (pokemonName, statsContainer, loader) {
   const xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://pokeapi.co/api/v2/pokemon/' + pokemonName.toLowerCase() + '/');
-  xhr.addEventListener('load', () => {
+  xhr.addEventListener('load', function () {
     const data = JSON.parse(xhr.responseText);
     //console.log(data);
     const id = document.createElement('p');
@@ -59,7 +59,7 @@ const createNewPokemon = function(name) {
   const pokemonName = document.createElement('div');
   pokemonName.classList.add('pokemon-name');
   pokemonName.innerText = name;
-  pokemonName.addEventListener('click', function () {
+  pokemonName.addEventListener('click', function() {
     const existingPokemons = document.querySelectorAll('.pokemon-name');
     existingPokemons.forEach(function(existingPokemon) {
       existingPokemon.classList.remove('selected');
@@ -71,7 +71,7 @@ const createNewPokemon = function(name) {
   const deleteButton = document.createElement('button');
   deleteButton.classList.add('pokemon-delete');
   deleteButton.innerText = 'Bye';
-  deleteButton.addEventListener('click', function () {
+  deleteButton.addEventListener('click', function() {
     this.parentNode.parentNode.parentNode.removeChild(pokemon);
     selectedPokemon.innerText = 'Bye bye, ' + name + ' :\'(';
   });
@@ -86,7 +86,7 @@ const createNewPokemon = function(name) {
   return pokemon;
 };
 
-const addPokemon = (newPokemonName) => {
+const addPokemon = function(newPokemonName) {
   // checking if the input is empty
   if (!newPokemonName) {
     alert('Please enter a pokemon name');
@@ -113,7 +113,7 @@ const addPokemon = (newPokemonName) => {
   pokemonInput.value = '';
 };
 
-pokemonForm.addEventListener('submit', (e) => {
+pokemonForm.addEventListener('submit', function(e) {
   e.preventDefault();
   const newPokemonName = pokemonInput.value;
   addPokemon(newPokemonName);
@@ -124,7 +124,7 @@ addPokemon('Charmander');
 addPokemon('Bulbasaur');
 addPokemon('Squirtle');
 
-navigator.geolocation.getCurrentPosition((position) => {
+navigator.geolocation.getCurrentPosition(function(position) {
   const latitude = position.coords.latitude;
   const longitude = position.coords.longitude;
   console.log(position, latitude, longitude);

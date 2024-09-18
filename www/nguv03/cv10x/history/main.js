@@ -38,7 +38,7 @@ $(document).ready(() => {
 /* verze pro path /1 /2 /3 atd */
 
 $(document).ready(() => {
-    const staticPath = `/www/nguv03/cv13x/history`;
+    const staticPath = `/www/nguv03/cv10x/history`;
     const pageNumbers = [1, 2, 3];
     const navigationButtons = pageNumbers.map((n) => $(`<button class="page" data-page="${n}">Page ${n}</button>`))
     const navigation = $('#navigation');
