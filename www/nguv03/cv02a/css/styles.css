@@ -1,0 +1,17 @@
+body {
+    font-family: monospace;
+}
+/* select by class */
+.blog-article {
+    border: 5px solid red;
+}
+.blog-article p {
+    font-style: italic;
+    color: purple;
+}
+
+/* select by id */
+#main-container {
+    background-color: cyan;
+    padding: 20px;
+}
