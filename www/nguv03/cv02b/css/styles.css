@@ -1,0 +1,14 @@
+body {
+    font-family: sans-serif;
+    color: darkblue;
+    font-size: 1.2em;
+}
+.blog-article {
+    font-family: monospace;
+}
+.blog-article p {
+    font-style: italic;
+}
+#page-header {
+    background-color: rgb(36, 93, 192);
+}

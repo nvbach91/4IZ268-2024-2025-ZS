@@ -1,0 +1,16 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+}
+
+nav {
+    background-color: cadetblue;
+    padding: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+}
