@@ -1,16 +1,81 @@
 body {
     font-family: sans-serif;
     margin: 0;
+    background-color: #eee;
 }
-
+header {
+    text-align: center;
+    color: white;
+    background-image: url(https://assets.pokemon.com//assets/cms2/img/misc/virtual-backgrounds/go/pokestop.jpg);
+    background-position: center;
+    background-size: cover;
+}
+header h1 {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 50px;
+    margin: 0;
+}
 nav {
     background-color: cadetblue;
     padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
 }
-
 nav a {
     text-decoration: none;
     color: white;
     padding-left: 20px;
     padding-right: 20px;
+    /*display: block;*/
+}
+
+main {
+    max-width: 840px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 40px;
+    margin-bottom: 20px;
+}
+
+main h2 {
+    text-align: center;
+}
+
+article h3 {
+    color: cadetblue;
+    font-size: 28px;
+}
+
+article p {
+    line-height: 28px;
+    text-align: justify;
+}
+
+article img {
+    float: left;
+    margin-right: 20px;
+    width: 150px;
+}
+
+aside, footer {
+    color: white;
+    text-align: center;
+    background-color: cadetblue;
+    padding: 20px;
+}
+
+footer {
+    background-color: #38787a;
+}
+
+@media print {
+    body {
+        background-color: white;
+    }
+    article p {
+        line-height: 20px;
+    }
+    aside, footer {
+        display: none;
+    }
 }
