@@ -1,0 +1,45 @@
+* {
+    box-sizing: border-box;
+}
+
+header {
+    background-color: blue;
+}
+aside {
+    background-color: orange;
+    width: 30%;
+    height: 200px;
+}
+main {
+    background-color: grey;
+    width: 70%;
+    height: 200px;
+}
+footer {
+    background-color: green;
+}
+.container {
+    display: flex;
+}
+
+.list {
+    display: flex;
+    flex-wrap: wrap;
+}
+.list-item {
+    border: 5px solid tomato;
+    width: calc(100% / 2);
+}
+
+@media screen and (min-width: 480px) {
+    .list-item {
+        width: calc(100% / 3);
+    }
+}
+
+@media screen and (min-width: 720px) {
+    .list-item {
+        width: calc(100% / 4);
+    }
+    
+}
