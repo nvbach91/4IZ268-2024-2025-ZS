@@ -1,0 +1,26 @@
+* {
+    box-sizing: border-box;
+}
+.spinner {
+    width: 200px;
+    height: 200px;
+    border: 20px solid brown;
+    border-radius: 50%;
+    border-right-color: transparent;
+    /* transform: rotate(270deg); */
+    animation: spinning 2s linear infinite;
+}
+@keyframes spinning {
+    0% {
+        transform: rotate(0deg);
+        margin-left: 0;
+    }
+    90% {
+        margin-left: 200px;
+    }
+    100% {
+        transform: rotate(360deg);
+        margin-left: 0;
+    }
+}
+

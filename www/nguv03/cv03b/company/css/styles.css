@@ -1,0 +1,99 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    font-family: "Open Sans", sans-serif;
+}
+header {
+    border-top: 5px solid cadetblue;
+    display: flex;
+    justify-content: space-between;
+}
+header span {
+    background-image: url(https://github.com/nvbach91/nvbach91/assets/20724910/e7e240b4-382d-4b09-a62b-2ad43e03b518);
+    background-size: contain;
+    background-repeat: no-repeat;
+    padding: 20px;
+    display: block;
+    text-indent: 50px;
+    font-weight: bold;
+}
+nav a {
+    text-decoration: none;
+    color: #434343;
+    padding: 20px;
+    display: inline-block;
+    transition: background-color 0.5s linear,
+                color 0.5s linear;
+}
+nav a:hover {
+    background-color: cadetblue;
+    color: white;
+}
+.header-search {
+    background-image: url(https://github.com/nvbach91/nvbach91/assets/20724910/3f68cddb-5283-4fbe-a2cc-f236464d9dc3);
+    background-size: 25px;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: transparent;
+}
+.billboard {
+    background-image: url(https://github.com/nvbach91/nvbach91/assets/20724910/d0430f61-b06f-42ef-9f3e-a207d18be834);
+    background-position: center;
+    padding: 40px;
+    color: white;
+}
+.billboard h1, .billboard h3 {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    text-align: center;
+    max-width: 840px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+main {
+    max-width: 840px;
+    margin: 0 auto;
+    line-height: 28px;
+}
+.products-heading {
+    background-image: url(https://github.com/nvbach91/nvbach91/assets/20724910/a8ad1146-4eb0-4bd4-8170-e1764783e892);
+    background-position: center;
+    background-size: cover;
+    padding: 50px 0;
+}
+.products-heading h2 {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 20px 0;
+}
+.products {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+}
+.products li {
+    width: calc(100% / 4);
+    padding: 5px;
+}
+.products p {
+    height: 300px;
+}
+.products button {
+    background-color: crimson;
+    color: white;
+    padding: 5px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.products li:nth-child(1) h2 { border-bottom: 5px solid skyblue; }
+.products li:nth-child(2) h2 { border-bottom: 5px solid yellow; }
+.products li:nth-child(3) h2 { border-bottom: 5px solid cadetblue; }
+.products li:nth-child(4) h2 { border-bottom: 5px solid brown; }
+.products li:nth-child(5) h2 { border-bottom: 5px solid tomato; }
+.products li:nth-child(6) h2 { border-bottom: 5px solid pink; }
+.products li:nth-child(7) h2 { border-bottom: 5px solid green; }
+.products li:nth-child(8) h2 { border-bottom: 5px solid lightgreen; }
