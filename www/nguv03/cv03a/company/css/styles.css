@@ -1,0 +1,103 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    font-family: "Roboto", sans-serif;
+}
+header {
+    border-top: 5px solid cadetblue;
+}
+header span {
+    background-image: url(https://github.com/nvbach91/nvbach91/assets/20724910/e7e240b4-382d-4b09-a62b-2ad43e03b518);
+    background-size: contain;
+    background-repeat: no-repeat;
+    padding: 20px;
+    display: inline-block;
+    text-indent: 50px;
+    font-weight: bold;
+}
+header {
+    display: flex;
+    justify-content: space-between;
+}
+header nav a {
+    text-decoration: none;
+    color: #434343;
+    padding: 20px;
+    display: inline-block;
+    transition: background-color 0.5s linear,
+                color 0.5s linear;
+}
+header nav a:hover {
+    background-color: cadetblue;
+    color: white;
+}
+header .nav-search {
+    background-image: url(https://github.com/nvbach91/nvbach91/assets/20724910/3f68cddb-5283-4fbe-a2cc-f236464d9dc3);
+    background-size: 30px;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 20px;
+    color: transparent;
+}
+.billboard {
+    background-image: url(https://github.com/nvbach91/nvbach91/assets/20724910/d0430f61-b06f-42ef-9f3e-a207d18be834);
+    background-position: center;
+    padding: 50px;
+    color: white;
+}
+.billboard h1, .billboard h3 {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    text-align: center;
+    max-width: 840px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+main {
+    max-width: 840px;
+    margin: 0 auto;
+    line-height: 26px;
+}
+.products-heading {
+    background-image: url(https://github.com/nvbach91/nvbach91/assets/20724910/a8ad1146-4eb0-4bd4-8170-e1764783e892);
+    padding: 50px 0;
+    background-position: center;
+    background-size: cover;
+    text-align: center;
+}
+.products-heading h2 {
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 10px;
+}
+.products {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    flex-wrap: wrap;
+}
+.products li {
+    width: calc(100% / 4);
+}
+.products p {
+    height: 260px;
+}
+.products button {
+    background-color: crimson;
+    color: white;
+    padding: 5px 20px;
+    border: 0;
+    border-radius: 3px;
+}
+.products li:nth-child(1) h2 { border-bottom: 3px solid skyblue; }
+.products li:nth-child(2) h2 { border-bottom: 3px solid yellow; }
+.products li:nth-child(3) h2 { border-bottom: 3px solid blue; }
+.products li:nth-child(4) h2 { border-bottom: 3px solid brown; }
+.products li:nth-child(5) h2 { border-bottom: 3px solid tomato; }
+.products li:nth-child(6) h2 { border-bottom: 3px solid pink; }
+.products li:nth-child(7) h2 { border-bottom: 3px solid green; }
+.products li:nth-child(8) h2 { border-bottom: 3px solid lightgreen; }
+.products li {
+    border: 4px solid transparent;
+}
