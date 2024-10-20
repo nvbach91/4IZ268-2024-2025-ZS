@@ -103,18 +103,26 @@ buttonAge.innerText = 'Uloha 1 (Pepe\'s age)';
 buttonAge.setAttribute('id', 'task-1');
 buttonAge.addEventListener('click', () => calculateAge(1990)); 
 
-const buttonTemperature = document.createElement('button');
-buttonTemperature.innerText = 'Uloha 2 (Temperature Conversion)';
-buttonTemperature.setAttribute('id', 'task-2');
-buttonTemperature.addEventListener('click', () => {
+const buttonCtoF = document.createElement('button');
+buttonCtoF.innerText = 'Uloha 2 (C° to F°)';
+buttonCtoF.setAttribute('id', 'task-2');
+buttonCtoF.addEventListener('click', () => {
     convertTemperature(20, 'C');  
+});
+
+
+const buttonFtoC = document.createElement('button');
+buttonFtoC.innerText = 'Uloha 3 (F° to C°)';
+buttonFtoC.setAttribute('id', 'task-3');
+buttonFtoC.addEventListener('click', () => {
     convertTemperature(68, 'F');  
 });
 
 
 const tasksContainer = document.querySelector('#tasks');
 tasksContainer.appendChild(buttonAge);
-tasksContainer.appendChild(buttonTemperature);
+tasksContainer.appendChild(buttonCtoF);
+tasksContainer.appendChild(buttonFtoC);
 
 
 
@@ -164,7 +172,7 @@ tasksContainer.appendChild(buttonPercentage);
 
 const compareNumbers = (num1, num2) => {
     const resultContainer = document.querySelector('#results'); 
-   
+
     if (num1 > num2) {
         resultContainer.innerText = `${num1} je větší než ${num2}.`;
     } else if (num1 < num2) {
@@ -292,9 +300,9 @@ createVolumeButton();
 const isTriangle = (a, b, c) => {
     const resultContainer = document.querySelector('#results');
     resultContainer.innerText = `Délky stran: a = ${a}, b = ${b}, c = ${c}. `;
-    
+
     const canFormTriangle = (a + b > c) && (a + c > b) && (b + c > a);
-    
+
     if (canFormTriangle) {
         resultContainer.innerText += " Tyto délky mohou tvořit trojúhelník.";
     } else {
@@ -351,7 +359,7 @@ const calculateTriangleArea = (a, b, c) => {
 
     const s = (a + b + c) / 2;
     const area = Math.sqrt(s * (s - a) * (s - b) * (s - c));
-    
+
     resultContainer.innerText += ` Obsah trojúhelníka s délkami stran a = ${a}, b = ${b}, c = ${c} je ${area.toFixed(2)}.`;
 };
 
