@@ -17,4 +17,4 @@ Použijte výchozí zdrojové kódy, které jsou uvedené na této stránce.
 - https://github.com/nvbach91/4IZ268-2024-2025-ZS/blob/master/www/nguv03/cv06x/homework/js/main.js
 - https://github.com/nvbach91/4IZ268-2024-2025-ZS/blob/master/www/nguv03/cv06x/homework/index.html
 
-(Nepovinné) Poté pošlete svému kamarádovi/kamarádce na e-mail jednu zašifrovanou zprávu s klíčem a nechte je dešifrovat a přečíst to, co k nim máte na srdci :)
+Své řešení pošlete jednomu spolužákovi ať to otestuje, poté ho můžete tagnout ve svém Pull Requestu a přidat ho jako Reviewer.
