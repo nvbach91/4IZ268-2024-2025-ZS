@@ -1,0 +1,68 @@
+:root {
+  --main-white-color: #fff;
+  --main-bg-color: #18181b;
+  --main-gray-color: #3e3e45;
+  --main-green-color: #04aa6d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Open Sans", sans-serif;
+  margin: 0;
+  padding: 0;
+  color: var(--main-white-color);
+  background-color: var(--main-bg-color);
+}
+
+.w-full {
+  width: 100%;
+}
+
+.mt-5 {
+  margin-top: 5px;
+}
+
+.container {
+  max-width: 500px;
+  margin: 20px;
+}
+
+.prompt-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.prompt-container .prompt {
+  margin-top: 100px;
+  padding: 20px;
+  border-radius: 5px;
+  background-color: var(--main-gray-color);
+}
+
+.prompt-container .prompt textarea {
+  min-height: 70px;
+}
+
+.prompt-container .prompt button {
+  margin-top: 10px;
+  background-color: var(--main-green-color);
+  border: none;
+  color: var(--main-white-color);
+  padding: 10px 25px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.prompt-container .prompt button:hover {
+  cursor: pointer;
+}
+
+.spacer {
+  width: 100%;
+  margin: 15px 0;
+  border: 1px solid var(--main-gray-color);
+}
