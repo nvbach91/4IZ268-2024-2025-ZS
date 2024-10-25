@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caesar's Decipherer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Caesar's Decipherer</h1>
+    <form id="cipher-form">
+      <textarea id="cipher-text" rows="4" cols="50" placeholder="Enter the cipher text here..." required></textarea>
+      <input type="text" id="shift-key" placeholder="Enter the key" required pattern="\d{1,2}">
+      <button type="submit">Decipher!</button>
+    </form>
+    
+    <div id="deciphered-text" class="result-box"></div> 
+  <script src="js/main.js"></script> 
+</body>
+</html>
