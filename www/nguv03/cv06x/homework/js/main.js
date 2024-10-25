@@ -14,7 +14,7 @@
  * "Decipher!" se na určeném místě zobrazí dešifrovaný text. Rozhraní také vhodně
  * nastylujte.
  */
-//              0123456789...
+//         index: 0123456789...
 const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 const shiftChar = (c, shift) => {
@@ -28,8 +28,9 @@ const shiftString = (str, shift) => {
 const caesarDecipher = (cipherText, usedKey) => {
     // your implementation goes here
     // good to know: 
-    //    str.indexOf(c) - returns the index of the specified character in the string
-    //    str.charAt(i) - returns the character at the specified index in the string
+    //    str.indexOf(c) - get the index of the specified character in the string
+    //    str.charAt(i) - get the character at the specified index in the string
+    //    String.fromCharCode(x) - get the character based on ASCII value
     //    when the shifted character is out of bound, it goes back to the beginning and count on from there
 };
 
