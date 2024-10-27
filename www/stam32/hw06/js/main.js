@@ -18,14 +18,11 @@
 const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 const shiftChar = (c, shift) => {
-    const ind = alphabet.indexOf(c);
+    const char = c.toUpperCase();
+    const ind = alphabet.indexOf(char);
+    if (ind === -1) return char;
     const shiftedIndex = (ind + shift + 26) % 26;
-    if (ind === -1) return c;
-    
     return alphabet.charAt(shiftedIndex);
-
-    // a helper function to shift one character inside the 
-    // alphabet based on the shift value and return the result
 };
 const shiftString = (str, shift) => {
     let result = '';
