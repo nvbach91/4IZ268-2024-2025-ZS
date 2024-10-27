@@ -22,9 +22,11 @@ const shiftChar = (c, shift) => {
     const char = c.toUpperCase();
     const ind = alphabet.indexOf(char);
     if (ind === -1) return char;
-    const shiftedIndex = (ind + shift + 26) % 26;
+    const adjustedShift = shift % 26;
+    const shiftedIndex = (ind + adjustedShift + 26) % 26;
     return alphabet.charAt(shiftedIndex);
-};
+}; //update
+
 
 const shiftString = (str, shift) => {
     let result = '';
