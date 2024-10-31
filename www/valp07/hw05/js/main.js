@@ -290,9 +290,9 @@ tasks.appendChild(buttonTask8);
  * staticky.
  */
 // Solution here
-triangleValue1 = 0;
-triangleValue2 = 2;
-triangleValue3 = 3;
+const triangleValue1 = 0;
+const triangleValue2 = 2;
+const triangleValue3 = 3;
 const isTriangle = (a, b, c) => {
     const sides = [];
     let sentence = (`a=${a} b=${b} c=${c}`);

@@ -1,0 +1,66 @@
+body {
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+  background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Cole_Thomas_The_Consummation_The_Course_of_the_Empire_1836.jpg/2560px-Cole_Thomas_The_Consummation_The_Course_of_the_Empire_1836.jpg') center/cover no-repeat;
+}
+
+form {
+  font-family: "Cinzel", serif;
+  background: url("https://upload.wikimedia.org/wikipedia/commons/a/af/Koelg.jpg"), #fff;
+  background-position: center;
+  background-size: cover;
+  margin: auto;
+  width: 600px;
+  padding: 20px;
+  text-align: center;
+  height: 100%;
+}
+
+h1 {
+  margin: 30px 0 20px;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  display: block;
+}
+
+input {
+  width: 400px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 0 auto;
+}
+
+button {
+  display: block;
+  margin: 20px auto;
+  background-color: #942828;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+#checkbox,
+#shift-amount {
+  margin: 0 auto;
+}
+
+#shift-amount {
+  width: 70px;
+}
+
+input:first-of-type {
+  margin-bottom: 15px;
+}
+
+#result {
+  display: flex;
+  margin-top: 20px;
+  text-align: justify;
+  font-weight: 600;
+}
