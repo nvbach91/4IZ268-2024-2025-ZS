@@ -1,0 +1,78 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    max-width: 600px;
+    font-family: 'Arial', sans-serif;
+    font-size: 17px;
+    margin: 80px auto;
+    background-color: #f0f4f8;
+    color: #333;
+}
+
+main {
+    background-color: #ffffff;
+    padding: 30px 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #4a90e2;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+form {
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    gap: 20px;
+}
+
+input {
+    padding: 18px;
+    border-radius: 8px;
+    border: 1px solid #d1d9e6;
+    background-color: #f7f9fc;
+}
+
+input:focus {
+    border-color: #4a90e2;
+    outline: none;
+}
+
+button {
+    margin: 0 100px;
+    padding: 14px;
+    background-color: #4a90e2;
+    color: #fff;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+    background-color: #357ab7;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+button:active {
+    background-color: #2b5c8a;
+}
+
+div {
+    padding: 12px 16px;
+    line-height: 1.6;
+    font-size: 15px;
+    background-color: #e9eff6;
+    border-radius: 8px;
+    color: #555;
+}
