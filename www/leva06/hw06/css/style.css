@@ -1,0 +1,86 @@
+* {
+    font-family: sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f9f2f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.cipher-box {
+    width: 90%;
+    max-width: 600px;
+    border: 2px solid #d63384;
+    border-radius: 20px;
+    background: #fff;
+    padding: 30px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    color: #d63384;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+
+form {
+    padding: 0;
+}
+
+form input,
+form textarea {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    width: 100%;
+    border: 1px solid #d63384;
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 16px;
+    transition: border 0.3s;
+}
+
+form textarea {
+    height: 150px;
+}
+
+form input:focus,
+form textarea:focus {
+    border-color: #ff77a3;
+    outline: none;
+}
+
+button {
+    margin: 0 auto;
+    border-radius: 10px;
+    border: none;
+    height: 50px;
+    width: 100px;
+    text-align: center;
+    font-weight: bold;
+    background-color: #d63384;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+button:hover {
+    background-color: #c32a6f;
+    transform: translateY(-2px);
+}
+
+.cipherResultsBox {
+    padding-top: 20px;
+    margin: 0 auto;
+    width: 100%;
+    font-size: 18px;
+    color: #333;
+    text-align: center;
+}
