@@ -1,0 +1,35 @@
+
+body{
+    background-color: #D6DBB2;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+h2{
+    text-align: center;
+}
+
+#deci{
+    padding-left: 3%;
+    padding-right: 3%;
+    padding-bottom: 3%;
+    margin-left: 20%;
+    margin-right: 20%;
+    display: flex;
+    flex-direction: column;
+    background-color: #E3D985;
+    border: 10px solid #422040;
+    border-radius: 5%;
+}
+#output{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 5px solid #422040;
+    background-color: #BCD8C1;
+    text-align: left;
+}
+.buttlol{
+    margin-top: 5%;
+    margin-left: 20%;
+    margin-right: 20%;
+
+}
