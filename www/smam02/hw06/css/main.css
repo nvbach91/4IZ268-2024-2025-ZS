@@ -1,0 +1,62 @@
+* {
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cipher-container {
+    width: 50%;
+    background-color: bisque;
+}
+
+.cipher-container h1 {
+    text-align: center;
+}
+
+.cipher-input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cipher-input-container textarea {
+    width: 70%;
+    margin-top: 1%;
+    margin-bottom: 5%;
+}
+
+.cipher-input-container input {
+    width: 30%;
+    margin-bottom: 5%;
+}
+
+.cipher-input-container button {
+    height: 40px;
+    background-color: aquamarine;
+    border: none;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.cipher-input-container button:hover {
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-3px);
+}
+
+.error-div {
+    color: red;
+    margin-bottom: 5%;
+}
+
+.result {
+    margin-top: 1%;
+    word-break: break-word;
+    max-width: 100vw;
+    font-size: 40px;
+    text-align: center;
+}
