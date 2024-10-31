@@ -1,0 +1,59 @@
+body {
+    font-family: 'Chakra Petch', sans-serif;
+    display: flex; 
+    justify-content: center; 
+    height: 100vh; 
+    margin: 0; 
+    background-color: #871313; 
+}
+
+main {
+    background-color: black; 
+    color: white;
+    border-radius: 8px; 
+    padding: 20px; 
+    width: 100vh;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column; /* elements to column */
+    gap: 10px; /* gap between elements */
+}
+input, textarea {
+    font-family: 'Chakra Petch';
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 18px;
+}
+
+
+button {
+    font-family: 'Chakra Petch';
+    padding: 10px;
+    border: none; 
+    border-radius: 4px;
+    background-color: #871313;
+    color: white; 
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 140px;
+    align-self: flex-start;
+}
+
+button:hover {
+    background-color: #6f0f0f; 
+}
+
+#result {
+    margin-top: 50px;
+    font-size: 20px;
+    color: white; 
+    border-top: 2px solid #871313; 
+    border-bottom: 2px solid #871313;
+    padding: 24px;
+}
