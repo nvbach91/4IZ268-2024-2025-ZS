@@ -1,0 +1,14 @@
+*{
+    box-sizing: border-box;
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+
+.submit{
+    background-color: rgb(198, 198, 224);
+    border-radius: 3px;
+}
