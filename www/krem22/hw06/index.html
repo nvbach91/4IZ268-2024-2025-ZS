@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Long live SPARTA!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <div class="container">
+    <h1>Caesar's Cipher</h1>
+    <form id="cipher-form">
+      <div class="cipher-text">
+        <p>Enter your cipher text:</p>
+        <textarea class="textarea" name="text" id="text" required placeholder="ciphered text"></textarea>
+      </div>
+      <div class="shift-text">
+        <p>Enter shift value:</p>
+        <input class="input" type="number" id="key" name="key" min="0" required placeholder="shift key">
+      </div>
+      <button type="submit">Decipher</button>
+    </form>
+  </div>
+  <div id="result-div">
+    <h1 id="result-p"></h1>
+  </div>
+  <script src="js/main.js"></script>
+</body>
+
+</html>

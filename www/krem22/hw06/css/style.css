@@ -1,0 +1,76 @@
+body {
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.container {
+    border: 1px black solid;
+    width: 350px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(128, 128, 128, 0.295);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background-color: rgba(62, 224, 12, 0.082);
+}
+
+.textarea {
+    height: 100px;
+    width: 100%;
+    border: none;
+    border: green 1px solid;
+}
+
+.textarea:focus {
+    outline: none;
+}
+
+.input {
+    border-color: green 1px solid;
+}
+
+.input:focus {
+    outline: none;
+}
+
+h1 {
+    margin-bottom: 0px;
+    width: 85%;
+    margin: auto;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.cipher-text,
+.shift-text {
+    width: 85%;
+    margin: auto;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+button {
+    width: 30%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: rgba(0, 128, 0, 0.404);
+    border-radius: 5px;
+    height: 30px;
+    border: none;
+    transition: 0.4s ease-in-out;
+}
+
+button:hover {
+    background-color: green;
+    cursor: pointer;
+}
+
+p {
+    margin-bottom: 0px;
+}
