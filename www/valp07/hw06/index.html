@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Long live SPARTA!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="./css/styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Sixtyfour+Convergence&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+  <form>
+    <h1>Caesar's Cipher</h1>
+    <label for="cipher-text">Cipher Text</label>
+    <input id="cipher-text" required>
+    <label for="shift-amount">Shift Amount</label>
+    <input id="shift-amount" type="number" min="0" max="25" required>
+    <button>Submit</button>
+    <div id="result"></div>
+  </form>
+
+  <script src="js/main.js"></script>
+</body>
+
+</html>
