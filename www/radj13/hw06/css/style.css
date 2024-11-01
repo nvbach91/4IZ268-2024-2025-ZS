@@ -1,0 +1,63 @@
+*{
+    box-sizing: border-box;
+}
+
+/* Basic styling for body and centering container */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f9;
+}
+
+/* Centered box styling */
+#cipherForm {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Styling for form elements inside the box */
+#cipherForm label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+#cipherForm textarea,
+#cipherForm input,
+#cipherForm button {
+    margin-top: 8px;
+    width: 100%;
+    padding: 8px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#cipherForm button {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+#cipherForm button:hover {
+    background-color: #45a049;
+}
+
+/* Decrypted text display styling */
+#result {
+    margin-top: 20px;
+    font-size: 1.2em;
+    text-align: center;
+    color: #333;
+    font-weight: bold;
+}

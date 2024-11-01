@@ -1,0 +1,94 @@
+*{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    box-sizing: border-box;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+}
+
+.input{
+    background-color: rgb(235, 235, 235);
+    width: 600px;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+hr{
+    border: 1px solid rgb(99, 163, 117);
+    width: 600px;
+}
+
+.cipher{
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
+
+.cipher label{
+    color: rgb(93, 93, 93);
+}
+
+#cipher{
+    border: 0;
+    border-radius: 5px;
+}
+
+.key{
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
+
+#key{
+    border: 0;
+    border-radius: 5px;
+}
+
+.key label{
+    color: rgb(93, 93, 93);
+}
+
+.decipher-button{
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+}
+
+button#decipher{
+    width: 100px;
+    padding: 5px;
+    border-color: rgb(99, 163, 117);
+    background-color: rgb(99, 163, 117);
+    border-radius: 7px;
+}
+
+.result{
+    background-color: rgb(235, 235, 235);
+    width: 600px;
+    height: 100px;
+    margin: 10px;
+    display: flex;
+    padding: 10px;
+    align-items: center;
+}
+
+@media (max-width: 760px) {
+    .input{
+        width: 65vw;
+    }
+    
+    hr{
+        width: 65vw;
+    }
+
+    .result{
+        width: 65vw;
+    }
+    
+}

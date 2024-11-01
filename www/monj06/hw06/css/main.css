@@ -1,0 +1,49 @@
+@font-face {
+    font-family: 'greek-freakregular';
+    src: url('../fonts/greek-freak.regular-webfont.woff2') format('woff2'),
+         url('../fonts/greek-freak.regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+body{
+    box-sizing: border-box;
+    max-width: 500px;
+    margin: 10px auto;
+    font-family: 'greek-freakregular', sans-serif;
+    background-color: rgba(128, 128, 128, 0.39);
+}
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(133, 0, 0);
+    padding: 40px;
+    font-weight: bold;
+    font-size: 2rem;
+    text-shadow: rgba(245,245,245, 0.5) 2px 2px 1px;
+}
+.form{
+   margin-top: 10px;
+}
+button{
+    width: 100px;
+    padding: 10px;
+    color: white;
+    background-color: rgb(95, 95, 95);
+    border: 0;
+    cursor: pointer;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+input, textarea{
+    width: 100%;
+    max-width: 100%;
+}
+div{
+    font-size: 2rem;
+    text-align: center;
+    margin: 20px 0;
+    padding: 20px 0;
+    border-top: solid 2px gray;
+    border-bottom: solid 2px gray;
+}

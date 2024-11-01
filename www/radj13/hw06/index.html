@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Long live SPARTA!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+    <h1>Dešifrace Caesarovy Šifry</h1>
+    <div id="cipherForm">
+        <label for="cipherText">Zašifrovaný Text:</label>
+        <textarea id="cipherText" rows="4" cols="50"></textarea>
+        <label for="key">Klíč:</label>
+        <input type="number" id="key" min="0" max="25">
+        <button id="decipherBtn">Decipher!</button>
+    </div>
+    <div id="result"><br><span id="decryptedText"></span></div>
+    
+  <script src="js/main.js"></script>
+</body>
+
+</html>

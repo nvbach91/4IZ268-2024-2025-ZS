@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Long live SPARTA!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Economica:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+  <h1>Long live Sparta!</h1>
+  <form id="text-form">
+    <div class="input-field">
+      <label for="ciphered-text">Ciphered text:</label>
+      <textarea id="ciphered-text" name="ciphered-text"></textarea>
+    </div>
+    <div class="key-input-field">
+      <label for="key-input">Key:</label>
+      <input type="number" id="key-input" name="key-input" min="0">
+    </div>
+    <button type="submit">Decipher!</button>
+  </form>
+  <h2>Deciphered text:</h2>
+  <div class="output"></div>
+  <script src="js/main.js"></script>
+</body>
+
+</html>

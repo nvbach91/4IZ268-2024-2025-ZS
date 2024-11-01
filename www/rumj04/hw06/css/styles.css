@@ -1,0 +1,40 @@
+* {
+    font-family: sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    padding: 10vw 20vw;
+}
+
+
+.container {
+    width: 100%;
+    padding: 50px 20vw;
+    color: darkblue;
+    background-color: aliceblue;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+   
+}
+
+
+button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #8fd633;
+}
+
+.keyText, .cipherText {
+    padding: 0;
+
+}
+

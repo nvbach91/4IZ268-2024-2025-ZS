@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Long Live SPARTA!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Anastassiya Levchenko">
+    <link rel="stylesheet" href="./css/style.css" />
+</head>
+
+<body>
+    <div class="cipher-box">
+        <h1 id="cipher-form-label">Caesar's Cipher</h1>
+        <form id="cipher-form" aria-labelledby="cipher-form-label">
+            <label for="cipher-text" class="visually-hidden">Enter your cipher text:</label>
+            <textarea id="cipher-text" class="cipherTextBox" name="cipher-text" placeholder="Your cipher:" required></textarea>
+            
+            <label for="cipher-shift" class="visually-hidden">Enter shift value:</label>
+            <input type="number" id="cipher-shift" name="cipher-shift" placeholder="Shift:" required>
+            
+            <button type="submit" id="decipher">Decipher</button>
+        </form>
+    </div>
+    <div class="cipherResultsBox" id="cipher-results"></div>
+
+    <script src="./js/main.js"></script>
+</body>
+
+</html>

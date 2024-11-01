@@ -1,0 +1,53 @@
+* {
+    font-family: sans-serif;
+}
+
+div {
+    margin: 0 auto;
+}
+
+.cipher-box {
+    width: 600px;
+    border: 1px;
+    border-style: solid;
+    border-radius: 10px;
+    background: rgb(192, 188, 188);
+    padding: 20px;
+}
+
+h1{
+    padding-left: 45px;
+}
+
+form {
+    padding-left: 45px;
+}
+
+form input {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    width: 500px;
+}
+
+.cipherTextBox {
+    height: 150px;
+    width: 500px;
+}
+
+button {
+    margin: 0 215px;
+    border-radius: 10px;
+    border-width: 0px;
+    height: 50px;
+    width: 80px;
+    text-align: center;
+    font-weight: bold;
+    background-color: rgb(15, 133, 15);
+}
+
+.cipherResultsBox {
+    padding-top: 20px;
+    margin: 0 auto;
+    width: 600px;
+}
