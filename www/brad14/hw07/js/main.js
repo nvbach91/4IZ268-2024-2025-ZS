@@ -35,10 +35,8 @@ cities.forEach((city) => {
 const updateGameState = (card) => {
   if (card1 === null) {
     card1 = card;
-    console.log('card1: ' + card1.textContent);
   } else if (card2 === null) {
     card2 = card;
-    console.log('card2: ' + card2.textContent);
     isProcessing = true;
 
     if (card1.textContent === card2.textContent) {
@@ -49,6 +47,7 @@ const updateGameState = (card) => {
       pointsScore++;
       points.textContent = pointsScore;
       isProcessing = false;
+      checkAllMatched();
     } else {
       // Cards do not match
       setTimeout(() => {
@@ -68,11 +67,14 @@ const updateGameState = (card) => {
   }
 };
 
-if (card1 != null && card2 != null) {
-  setTimeout(() => {
-    card1 = null;
-    card2 = null;
-  }, 2000);
+const checkAllMatched = () => {
+  const allCards = document.querySelectorAll('.card');
+  const allMatched = Array.from(allCards).every(card => card.classList.contains('matched'));
+  if (allMatched) {
+    setTimeout(() => {
+      alert(`Congratulations! You've matched all the cards. Your score is ${pointsScore}.`)
+    }, 1000);
+  }
 }
 
 gameField.appendChild(fragment);
