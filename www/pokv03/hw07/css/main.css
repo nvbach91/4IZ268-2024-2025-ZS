@@ -1,0 +1,58 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: monospace, sans-serif;
+    text-align: center;
+}
+
+#game-field {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    width: 100%;
+    max-width: calc(100px * 4 + 10px * 3);
+    margin: 0 auto;
+}
+
+.card {
+    font-family: monospace;
+    background-color: cadetblue;
+    font-size: 0px;
+    padding: 8px;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: 0.4s;
+}
+
+.card:hover:not(.revealed):not(.guessed) {
+    cursor: pointer;
+    box-shadow: 0 0 16px cadetblue;
+    background-color: rgb(67, 121, 123);
+}
+
+.card.revealed {
+    color: black;
+    background-color: rgb(140, 193, 195);
+    font-size: 18px;
+}
+
+.guessed{
+    background-color: coral;
+    font-size: 18px;
+    color: black;
+    font-weight: bold;
+}
+
+.win{
+    display: none;
+    text-decoration: underline;
+    font-size: 40px;
+    transition: 0.4s;
+}
