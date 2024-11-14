@@ -1,0 +1,33 @@
+*{
+    box-sizing: border-box;
+}
+#table{
+    max-width: 700px;
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+}
+.card{
+    height: 100px;
+    width: 100px;
+    margin: 20px;
+    border: solid black 2px;
+    padding: 10px;
+    box-shadow: 5px 10px 18px #888888;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: rgb(80, 165, 84);
+    box-shadow: inset;
+}
+.hidden{
+    display: none;
+}
+.shown{
+    display: contents;
+}
+h1{
+    text-align: center;
+}
+#pointsDiv{
+    text-align: center;
+}
