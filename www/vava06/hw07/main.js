@@ -1,10 +1,11 @@
-const cities = ['Prague', 'London', 'Paris', 'Moscow', 'California', 'Vancouver', 'Sydney','Berlin'];
+const cities = ['Prague', 'London', 'Paris', 'Moscow', 'California', 'Vancouver', 'Sydney','Berlin', 'Beijing', 'Tokyo'];
 let shuffledCities = cities.concat(cities).sort(() => 0.5 - Math.random());
 
 const gameField = document.getElementById('game-field');
 let points = 0;
 let firstCard = null;
 let secondCard = null;
+let foundPairs = 0;
 
 document.getElementById('points').innerText = points;
 
@@ -37,7 +38,14 @@ function checkMatch() {
     document.getElementById('points').innerText = points;
     firstCard = null;
     secondCard = null;
+    foundPairs++;
+    if (foundPairs == 10)
+    {
+      alert('You have: ' + points + ' points!');
+    }
   } else {
+    if (points > 0) points--;
+    
     document.getElementById('points').innerText = points;
     setTimeout(() => {
       firstCard.classList.remove('revealed');
