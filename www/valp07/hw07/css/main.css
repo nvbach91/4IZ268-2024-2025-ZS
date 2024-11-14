@@ -1,0 +1,39 @@
+* {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1,
+h2 {
+  text-align: center;
+}
+
+.card-container {
+  text-align: center;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding: 0px 300px;
+}
+
+.card {
+  border: 1px solid black;
+  border-radius: 15px;
+  padding: 10px;
+  height: 120px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: xx-large;
+  transition: background-color .5s ease;
+}
+
+.card.front {
+  background: rgb(197, 99, 99);
+
+}
+
+
+.card.found {
+  background-color: rgb(119, 168, 119);
+}
