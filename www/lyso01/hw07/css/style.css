@@ -1,0 +1,69 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+    background-color: #f4f7f6;
+    color: #333;
+    padding: 20px;
+    margin: 0;
+}
+
+#game-field {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 1024px;
+    margin: 40px auto;
+    gap: 15px;
+    justify-content: center;
+}
+
+.card {
+    background-color: #3dbca3;
+    color: transparent;
+    transition: all 0.4s ease;
+    border: 8px solid #fff;
+    border-radius: 15px;
+    width: 18%;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.card:hover::before {
+    opacity: 0.3;
+}
+
+.card:hover {
+    background-color: #2b9e88;
+    transform: scale(1.05);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card.revealed {
+    background-color: #ffd700;
+    color: #333;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card.revealed:hover {
+    transform: scale(1.05);
+}
