@@ -1,0 +1,63 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Open Sans', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f7f7f7;
+}
+h1, h2 {
+    text-align: center;
+    margin: 10px;
+}
+#game-field {
+    display: grid;
+    grid-template-columns: repeat(5, 100px);
+    grid-gap: 10px;
+    margin-top: 20px;
+}
+.card {
+    width: 100px;
+    height: 100px;
+    background-color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    color: transparent;
+    font-weight: bold;
+    font-size: 1em;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.5s;
+    user-select: none; 
+}
+.card:hover {
+    transform: scale(1.05);
+    background-color: #464141;
+}
+.card.revealed {
+    background-color: #4CAF50;
+    color: white;
+    cursor: default;
+
+}
+
+.card.revealed:hover {
+    transform:none;
+}
+
+@media (max-width: 640px) {
+    #game-field {
+        grid-template-columns: repeat(4, 80px); 
+        grid-gap: 8px;
+    }
+    .card {
+        width: 80px;
+        height: 80px;
+        font-size: 0.9em;
+    }
+}
+
