@@ -8,13 +8,13 @@ Aplikace nejprve vyzve uživatele k **zadání** uživatelského jména **GitHub
 Po zobrazení základních informací aplikace pošle další **GET požadavek** na GitHub API a načte **seznam repozitářů** vyhledaného uživatele a zobrazí je na stránce pod uživatelem.
 
 ### GitHub API
-Dokumentace: [https://developer.github.com/v3/](https://developer.github.com/v3/)
-- Autentizace k API [https://developer.github.com/v3/#authentication](https://developer.github.com/v3/#authentication)
-- Načtení uživatele [https://developer.github.com/v3/users/#get-a-single-user](https://developer.github.com/v3/users/#get-a-single-user)
-- Načtení seznamu repozitářů [https://developer.github.com/v3/repos/#list-user-repositories](https://developer.github.com/v3/repos/#list-user-repositories)
+Dokumentace: https://developer.github.com/v3/
+- Autentizace k API https://docs.github.com/en/rest/authentication/authenticating-to-the-rest-api
+- Načtení uživatele https://docs.github.com/en/rest/users/users (Get a user)
+- Načtení seznamu repozitářů určitého uživatele https://docs.github.com/en/rest/repos/repos (List repositories for a user)
 
 ### FYI
-Abyste mohli libovolně používat **GitHub API**, je potřeba si zaregistrovat tzv. **OAuth účet** na GitHubu následovně
+Abyste mohli libovolně používat **GitHub API**, je potřeba si zaregistrovat **OAuth účet** na GitHubu následovně
 - Přihlašte se na GitHub a otevřete **Settings** [https://github.com/settings/](https://github.com/settings/)
 - Vyberte **Developer settings**
 - Vytvořte novou **OAuth aplikaci** dle obrázku
@@ -26,35 +26,44 @@ Abyste mohli libovolně používat **GitHub API**, je potřeba si zaregistrovat 
 // Příklad volání na GitHub API
 const CLIENT_ID = '...';     // client_id získáte po registraci OAuth účtu
 const CLIENT_SECRET = '...'; // client_secret získáte po registraci OAuth účtu
-const baseApiUrl = 'https://api.github.com';
-// sestavujeme URL, který obsahuje parametry CLIENT_ID a CLIENT_SECRET
-// každý parametr se určuje v podobě klíč=hodnota, parametry se oddělují ampersandem, 
-// na začátek přidáme otazník
-// např. ?client_id=abcdef&client_secret=fedcba
-const url = `${baseApiUrl}/users/${searchValue}?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}`;
+const BASE_API_URL = 'https://api.github.com';
 
 const userProfileContainer = $('#user-profile')
 
-const renderUser = (user) => {
-    // ...
+const fetchUser = async (username) => {
+    // sestavujeme URL, který obsahuje parametry CLIENT_ID a CLIENT_SECRET
+    // každý parametr se určuje v podobě klíč=hodnota, parametry se oddělují ampersandem, 
+    // na začátek přidáme otazník
+    // např. ?client_id=abcdef&client_secret=fedcba
+    const url = `${BASE_API_URL}/users/${username}?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}`;
+    // TODO
 };
-
-const fetchRepositories = (userLogin) => {
-    // ...
+const fetchRepositories = async (userLogin) => {
+    // TODO
 };
-
-$.getJSON(url).done((user) => {
-    renderUser(user);
-    fetchRepositories(user.login);
-}).fail(() => {
-    userProfileContainer.empty().append('<p>User not found</p>');
-});
+const displayUser = (user) => {
+    // TODO
+};
+const displayRepositories = (repositories) => {
+    // TODO
+};
+(async () => {
+    try {
+        const userResp = await fetchUser('some_username');
+        displayUser(userResp.data);
+        const repositoriesResp = await fetchRepositories(userResp.data.login);
+        displayRepositories(repositoriesResp.data);
+  } catch (err) {
+        console.error(err);
+        userProfileContainer.empty().append('<p>User not found</p>');
+  }
+})();
 ```
-Můžete použít výchozí kód uvedený na začátku této stránky
+Můžete použít výše uvedený výchozí kód
 
 ### Testování
 Funkčnost aplikace otestujte s použitím několika z následujících GitHub uživatelských jmen:
-- [https://gist.github.com/paulmillr/2657075](https://gist.github.com/paulmillr/2657075)
+- https://gist.github.com/paulmillr/2657075
 
 ### Demo
 ![image](https://user-images.githubusercontent.com/20724910/49305585-f031c000-f4cf-11e8-962c-77b231916b7e.png)
