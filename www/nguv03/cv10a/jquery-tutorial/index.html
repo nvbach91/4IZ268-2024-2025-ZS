@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .spinner {
+            width: 200px;
+            height: 200px;
+            border: 20px solid red;
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spinning 1s ease infinite;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+        }
+        @keyframes spinning {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg)
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>AJAX App</h1>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./js/main.js"></script>
+</body>
+</html>
+
+<!-- https://jsonplaceholder.typicode.com/ -->
