@@ -141,6 +141,21 @@ header h1 {
   color: var(--main-danger-color);
 }
 
+.payment-dot {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.payment-dot.paid {
+  background-color: var(--main-success-color);
+}
+
+.payment-dot.unpaid {
+  background-color: var(--main-text-inactive-color);
+}
+
 @media screen and (min-width: 768px) {
   header h1 {
     font-size: 1.8rem;

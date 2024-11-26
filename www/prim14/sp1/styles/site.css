@@ -84,6 +84,10 @@ a.button:hover {
   color: var(--main-white-color);
 }
 
+.text-negative {
+  color: var(--main-text-inactive-color);
+}
+
 .button.circle-icon-button {
   display: flex;
   flex-direction: row;
@@ -229,6 +233,7 @@ a.button:hover {
   border-radius: 10px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
   padding: 20px;
+  overflow-x: auto;
 }
 
 .card.card__top-bordered {
@@ -241,6 +246,29 @@ a.button:hover {
 
 .card .card__description {
   margin: 1.5rem 0.5rem;
+}
+
+.card .card__content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.card .card__table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0 0.5rem 0;
+  white-space: nowrap;
+}
+
+.card .card__table thead th {
+  text-align: start;
+  padding: 0 0.5rem 0.8rem 0.5rem;
+}
+
+.card .card__table tbody td {
+  padding: 0.5rem;
 }
 
 @media (min-width: 768px) {
@@ -258,5 +286,13 @@ a.button:hover {
 @media (min-width: 1200px) {
   .container {
     width: 1170px;
+  }
+}
+
+@media print {
+  button,
+  svg,
+  .button {
+    display: none;
   }
 }

@@ -194,9 +194,53 @@
       <main>
         <div class="card">
           <h2 class="card__heading">Invoicing overview</h2>
+          <img src="/public/images/graph.webp" alt="Overview graph"
+            class="w-full" loading="lazy" decoding="async" width="1000" />
+          <span class="text-negative">Poznámka autora: Tohle mohl být
+            interaktivní graf, ale času málo a práce moc.<br />
+            Zdroj: Screenshot z nějaké aplikace na googlu</span>
         </div>
         <div class="card">
           <h2 class="card__heading">Featured</h2>
+          <table class="card__table">
+            <thead>
+              <tr>
+                <th>Number</th>
+                <th></th>
+                <th>Recipient</th>
+                <th>Price</th>
+                <th>Issued</th>
+                <th>Due</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><a href="./invoices/inv1/">20230001</a></td>
+                <td><span class="payment-dot paid" title="Paid"></span></td>
+                <td>Škoda a.s.</td>
+                <td>15 000,-</td>
+                <td>09/20/2023</td>
+                <td>10/20/2023</td>
+              </tr>
+              <tr>
+                <td><a href="./invoices/inv2/">20230002</a></td>
+                <td><span class="payment-dot unpaid"
+                    title="Not paid"></span></td>
+                <td>Kofola s.r.o.</td>
+                <td>15 000,-</td>
+                <td>09/20/2023</td>
+                <td>10/20/2023</td>
+              </tr>
+              <tr>
+                <td><a href="./invoices/inv3/">20230003</a></td>
+                <td><span class="payment-dot paid" title="Paid"></span></td>
+                <td>Škoda a.s.</td>
+                <td>15 000,-</td>
+                <td>09/20/2023</td>
+                <td>10/20/2023</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </main>
       <aside>
