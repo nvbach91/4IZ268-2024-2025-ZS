@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>InvoiceR - Login</title>
+    <title>InvoiceR - Registration</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="/styles/site.css" />
@@ -33,33 +33,50 @@
         <h1>InvoiceR</h1>
         <div class="intro__form">
           <div class="intro__form__content">
-            <h2>Login</h2>
-            <p>
-              Want to start invoicing?
-              <a href="./registration">Register now</a>
-            </p>
+            <h2>Fill in your company data</h2>
+            <p>Then you will be able to create your first invoice</p>
             <form action="#" class="mt-2">
               <div class="form-group">
-                <label for="email">Email</label>
+                <label for="cin">CIN</label>
+                <input id="cin" name="cin" required class="form-control" />
+              </div>
+              <div class="form-group">
+                <label for="companyName">Company name</label>
                 <input
-                  type="email"
-                  id="email"
-                  name="email"
+                  id="companyName"
+                  name="companyName"
                   required
                   class="form-control"
                 />
               </div>
               <div class="form-group">
-                <label for="password">Password</label>
+                <label for="street">Street</label>
                 <input
-                  type="password"
-                  id="password"
-                  name="password"
+                  id="street"
+                  name="street"
                   required
                   class="form-control"
                 />
               </div>
-              <a href="./account/" class="button primary">Login</a>
+              <div class="row">
+                <div class="form-group col-8 pr-2">
+                  <label for="city">City</label>
+                  <input id="city" name="city" required class="form-control" />
+                </div>
+                <div class="form-group col-4">
+                  <label for="zip">ZIP</label>
+                  <input id="zip" name="zip" required class="form-control" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="tin">TIN</label>
+                <input id="tin" name="tin" required class="form-control" />
+              </div>
+              <div class="form-group mt-2">
+                <a href="../../account/" class="button primary w-full">
+                  Create your company
+                </a>
+              </div>
             </form>
           </div>
         </div>

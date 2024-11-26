@@ -1,0 +1,102 @@
+header {
+  background-color: var(--main-white-color);
+  position: relative;
+}
+
+header h1 {
+  font-size: 1.6rem;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.nav .nav__item {
+  text-decoration: none;
+  color: var(--main-text-inactive-color);
+  fill: var(--main-text-inactive-color);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 5px 5px 0 0;
+  border-bottom: 2px solid var(--main-text-inactive-color);
+  font-size: 1.1rem;
+  gap: 7px;
+  transition: color 0.3s, border-bottom 0.1s;
+}
+
+.nav .nav__item path {
+  transition: fill 0.1s;
+}
+
+.nav .nav__left {
+  height: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 30px;
+  display: none;
+}
+
+.nav .nav__right {
+  margin-left: auto;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.nav .nav__menu-button label {
+  cursor: pointer;
+}
+
+.nav .nav__menu-button input[type="checkbox"] {
+  display: none;
+}
+
+.nav:has(.nav__menu-button input[type="checkbox"]:checked) .nav__left {
+  height: 30vh;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: var(--main-white-color);
+  padding-bottom: 40px;
+}
+
+.nav .nav__company-name {
+  display: none;
+  white-space: nowrap;
+}
+
+.nav .nav__item.active,
+.nav .nav__item:hover,
+.nav .nav__item.active path {
+  color: var(--main-primary-color);
+  fill: var(--main-primary-color);
+  border-bottom: 2px solid var(--main-primary-color);
+}
+
+@media screen and (min-width: 768px) {
+  header h1 {
+    font-size: 1.8rem;
+  }
+
+  .nav .nav__menu-button {
+    display: none;
+  }
+
+  .nav .nav__left {
+    height: 100%;
+    display: flex;
+  }
+}
+
+@media (min-width: 992px) {
+  .nav .nav__company-name {
+    display: block;
+  }
+}
