@@ -133,6 +133,39 @@ header h1 {
   margin-left: auto;
 }
 
+.card .card__invoice-form {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  padding: 2rem 1rem 0.5rem 1rem;
+}
+
+.card .card__invoice-form .card__invoice-form__upper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.card
+  .card__invoice-form
+  .card__invoice-form__upper
+  .card__invoice-form__upper__left {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0;
+}
+
+.card
+  .card__invoice-form
+  .card__invoice-form__upper
+  .card__invoice-form__upper__right {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0;
+}
+
 .card__overview-content__sub__value.positive {
   color: var(--main-success-color);
 }
@@ -172,6 +205,26 @@ header h1 {
   .nav .nav__left {
     height: 100%;
     display: flex;
+  }
+
+  .card .card__invoice-form .card__invoice-form__upper {
+    flex-direction: row;
+  }
+
+  .card
+    .card__invoice-form
+    .card__invoice-form__upper
+    .card__invoice-form__upper__left {
+    width: 50%;
+    padding: 0;
+  }
+
+  .card
+    .card__invoice-form
+    .card__invoice-form__upper
+    .card__invoice-form__upper__right {
+    width: 50%;
+    padding: 0 0 0 1.5rem;
   }
 }
 
