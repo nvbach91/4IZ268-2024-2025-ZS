@@ -166,12 +166,59 @@ header h1 {
   padding: 0;
 }
 
+.main__wrapper input,
+.main__wrapper textarea {
+  background-color: var(--main-white-color);
+}
+
+.main__wrapper input:focus-visible,
+.main__wrapper textarea:focus-visible {
+  border-color: var(--main-primary-color);
+  outline: none;
+}
+
 .card__overview-content__sub__value.positive {
   color: var(--main-success-color);
 }
 
 .card__overview-content__sub__value.negative {
   color: var(--main-danger-color);
+}
+
+.invoice-form__items button {
+  max-width: 200px;
+}
+
+.invoice-form__items__header,
+.invoice-form__items__body {
+  display: flex;
+  width: 100%;
+  padding: 0.7rem 2rem;
+  gap: 20px;
+}
+
+.invoice-form__items__header {
+  border-radius: 7px;
+  background-color: var(--main-background-color);
+}
+
+.invoice-form__items__body .invoice-form__items__body__price {
+  display: flex;
+  align-items: center;
+}
+
+.invoice-form__summary {
+  display: flex;
+  gap: 15px;
+  width: 100%;
+  padding: 0.7rem 2rem;
+  justify-content: end;
+  align-items: end;
+}
+
+.invoice-form__summary .invoice-form__summary__price {
+  font-size: 2rem;
+  font-weight: 600;
 }
 
 .payment-dot {

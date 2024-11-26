@@ -245,11 +245,6 @@
                     value="English" />
                 </div>
                 <div class="form-group">
-                  <label for="issue-date">Issue date</label>
-                  <input type="text" class="form-control" id="issue-date"
-                    value="09/20/2023" />
-                </div>
-                <div class="form-group">
                   <label for="text-before-items">Text before items</label>
                   <textarea type="text" class="form-control"
                     id="text-before-items"></textarea>
@@ -257,13 +252,70 @@
               </div>
               <div class="card__invoice-form__upper__right">
                 <div class="form-group">
+                  <label for="issue-date">Issue date</label>
+                  <input type="text" class="form-control" id="issue-date"
+                    value="09/20/2023" />
+                </div>
+                <div class="form-group">
                   <label for="text-after-items">Text after items</label>
                   <textarea type="text" class="form-control"
                     id="text-after-items"></textarea>
                 </div>
               </div>
             </div>
+            <div class="invoice-form__items mt-4">
+              <div class="invoice-form__items__header">
+                <div class="w-40">Item</div>
+                <div class="w-15">Quantity</div>
+                <div class="w-10">Unit</div>
+                <div class="w-20">Price</div>
+                <div class="w-15">Total</div>
+              </div>
+              <div class="invoice-form__items__body">
+                <div class="w-40">
+                  <input class="form-control" type="text"
+                    value="A nice new car" />
+                </div>
+                <div class="w-15">
+                  <input class="form-control" type="number" value="1" />
+                </div>
+                <div class="w-10">
+                  <input class="form-control" type="text" value="Pcs" />
+                </div>
+                <div class="w-20">
+                  <input class="form-control" type="text" value="10 000,-" />
+                </div>
+                <div class="w-15 text-bold invoice-form__items__body__price">10
+                  000,-</div>
+              </div>
+              <div class="invoice-form__items__body">
+                <div class="w-40">
+                  <input class="form-control" type="text"
+                    value="Some snacks" />
+                </div>
+                <div class="w-15">
+                  <input class="form-control" type="number" value="2" />
+                </div>
+                <div class="w-10">
+                  <input class="form-control" type="text" value="Pcs" />
+                </div>
+                <div class="w-20">
+                  <input class="form-control" type="text" value="2 500,-" />
+                </div>
+                <div class="w-15 text-bold invoice-form__items__body__price">5
+                  000,-</div>
+              </div>
+              <button class="button secondary mt-1">Add item</button>
+            </div>
+            <div class="invoice-form__summary mt-2">
+              <div>Total price:</div>
+              <div class="invoice-form__summary__price">15 000,- EUR</div>
+            </div>
           </div>
+        </div>
+        <div class="buttons-horizontal-container justify-end">
+          <button class="button secondary fit">PDF</button>
+          <button class="button primary fit">Save</button>
         </div>
       </main>
     </div>
