@@ -7,6 +7,8 @@
   --main-background-dark-color: #eef1f4;
   --main-text-inactive-color: #7a7d80;
   --main-white-color: #fff;
+  --main-success-color: #28a745;
+  --main-danger-color: #dc3545;
 }
 
 * {
@@ -71,6 +73,11 @@ a:hover {
 .button.negative {
   background-color: var(--main-background-dark-color);
   color: var(--main-text-inactive-color);
+}
+
+.button.negative:not(.button.circle-icon-button):hover {
+  background-color: var(--main-text-inactive-color);
+  color: var(--main-background-dark-color);
 }
 
 a.button:hover {
@@ -169,6 +176,10 @@ a.button:hover {
   padding-right: 1.5rem;
 }
 
+.gap-3 {
+  gap: 2rem;
+}
+
 .row {
   display: flex;
   flex-wrap: wrap;
@@ -206,6 +217,30 @@ a.button:hover {
 
 .d-inline {
   display: inline;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+/* Components */
+.card {
+  background-color: var(--main-white-color);
+  border-radius: 10px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.card.card__top-bordered {
+  border-top: 5px solid var(--main-primary-color);
+}
+
+.card .card__heading {
+  margin: 0.5rem;
+}
+
+.card .card__description {
+  margin: 1.5rem 0.5rem;
 }
 
 @media (min-width: 768px) {
