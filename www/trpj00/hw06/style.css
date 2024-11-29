@@ -1,0 +1,27 @@
+.form {
+    width: 400px;
+    margin: 0 auto;
+    padding: 10px;
+    background-color: #D3D3D3;
+}
+
+.decipherButton {
+    color: white;
+    padding: 15px;
+    background-color: #40B5AA;
+    border: none;
+}
+
+.messageInput {
+    padding: 40px;
+}
+
+.mainForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.messageContainer {
+    width: 400px;
+    margin: 20px auto;
+}
