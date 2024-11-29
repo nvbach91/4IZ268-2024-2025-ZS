@@ -1,0 +1,173 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  
+  #app {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+    text-align: center;
+    color: #444;
+  }
+  
+  .search-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  
+  #username {
+    padding: 10px;
+    font-size: 16px;
+    width: 60%;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+  }
+  
+  #find-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    background-color: #f04;
+    color: white;
+    cursor: pointer;
+    border-radius: 0 4px 4px 0;
+  }
+  
+  #find-btn:hover {
+    background-color: #d004;
+  }
+  
+  .info-container {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #fafafa;
+    border: 1px solid #eee;
+    border-radius: 8px;
+  }
+
+  #app p {
+    text-align: center; /* Center the text horizontally */
+    font-size: 18px; /* Optional: Adjust font size */
+    margin-top: 10px; /* Add some spacing above */
+    color: #666; /* Optional: Slightly lighter text color for better contrast */
+  }
+  
+ /* User Profile Section */
+#user-profile {
+    display: flex;
+    justify-content: center;
+    padding: 30px; /* Increased padding for larger height */
+  }
+  
+  .user-info {
+    display: flex;
+    align-items: center; /* Center content vertically */
+    gap: 30px; /* Space between image and details */
+    text-align: left;
+    max-width: 800px; /* Allow slightly larger width */
+  }
+  
+  .user-info img {
+    flex-shrink: 0; /* Prevent the image from shrinking */
+    width: 300px; /* Larger image size */
+    height: 300px;
+    border-radius: 50%;
+    border: 3px solid #ddd; /* Add border for emphasis */
+    align-self: center; /* Ensure the image aligns to the center */
+  }
+  
+  .user-info .details {
+    flex-grow: 1; /* Ensure details expand to fill space */
+    display: flex;
+    flex-direction: column; /* Arrange details vertically */
+    justify-content: center; /* Center details vertically */
+    text-align: center; /* Center all text within details */
+  }
+  
+  .user-info h2 {
+    margin: 0 0 15px; /* More spacing below the heading */
+    font-size: 32px; /* Larger font size for the username */
+    color: #333; /* Darker color for emphasis */
+  }
+  
+  .user-info p {
+    margin: 10px 0; /* Increased spacing between text lines */
+    font-size: 18px; /* Larger font size for text */
+    line-height: 1.6; /* Adjust line height for readability */
+  }
+  
+  .user-info a {
+    margin-top: 10px; /* Add some spacing above the link */
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px; /* Increase font size for the link */
+    text-align: center; /* Center align the link */
+  }
+  
+  .user-info a:hover {
+    text-decoration: underline;
+  }
+  
+  
+  
+  
+  /* Repositories Section */
+  #repositories table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  #repositories th,
+  #repositories td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  #repositories th {
+    background-color: #f4f4f4;
+  }
+  
+  #repositories a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  #repositories a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Utility Classes */
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  ul li {
+    margin: 5px 0;
+  }
+  
+  p {
+    margin: 10px 0;
+  }
+
+  /* Hide user profile and repositories by default */
+#user-profile,
+#repositories {
+  display: none;
+}
+
