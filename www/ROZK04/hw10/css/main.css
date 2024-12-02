@@ -1,0 +1,129 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+h1 {
+    color: cadetblue;
+    margin-top: 20px;
+}
+
+hr {
+    border-style: solid;
+    border-color: #eee;
+    width: 80%;
+    margin: 20px auto;
+}
+
+.loader {
+    border: 5px solid cadetblue;
+    border-top: 5px solid #ccc;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: auto;
+    display: block;
+}
+
+#user-profile {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    width: 80%;
+    max-width: 600px;
+    margin: 20px auto;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+#user-profile img {
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+#user-profile h3 {
+    font-size: 24px;
+    color: cadetblue;
+}
+
+#user-profile p {
+    font-size: 16px;
+    color: #555;
+}
+
+#repositories {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    width: 80%;
+    max-width: 600px;
+    margin: 20px auto;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+#repositories ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+#repositories li {
+    background-color: #fafafa;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+#repositories a {
+    color: cadetblue;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#repositories a:hover {
+    text-decoration: underline;
+}
+
+form {
+    margin: 20px 0;
+}
+
+form input[type="text"] {
+    padding: 10px;
+    font-size: 16px;
+    width: 250px;
+    margin-right: 10px;
+    border: 2px solid cadetblue;
+    border-radius: 4px;
+}
+
+form button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: cadetblue;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #3b6d6d;
+}
+
+footer {
+    background-color: cadetblue;
+    padding: 20px 0;
+    color: white;
+    margin-top: 40px;
+}
+
+footer p {
+    margin: 0;
+}
