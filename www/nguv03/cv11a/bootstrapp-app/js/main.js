@@ -55,3 +55,41 @@ bucketListItems.forEach((record) => {
     item.textContent = record.name;
     bucketList.append(item);
 });
+
+// navigator.geolocation.getCurrentPosition((position) => {
+//     console.log(position);
+//     const { coords: { longitude, latitude } } = position;
+//     console.log(position);
+//     const url = `https://maps.google.com/maps?q=${latitude},${longitude}&hl=es;z=14&amp;output=embed`;
+//     console.log(url);
+//     const iframe = `<iframe src="${url}">`;
+//     document.body.innerHTML = iframe;
+// });
+
+document.body.innerHTML = '';
+
+const renderPage = (pageNumber) => {
+    document.querySelector('h1')?.remove();
+    const heading = document.createElement('h1');
+    heading.textContent = `Page ${pageNumber}`;
+    document.title = `Page ${pageNumber}`;
+    document.body.append(heading);
+};
+const numbers = [1, 2, 3, 4];
+numbers.forEach((number) => {
+    const button = document.createElement('button');
+    button.textContent = number;
+    document.body.append(button);
+    button.addEventListener('click', (e) => {
+        const currentPageNumber = location.pathname.split('/').slice(-1).join('');
+        if (currentPageNumber !== number.toString()) {
+            history.pushState({}, '', number.toString());
+            renderPage(number);
+        }
+    });
+});
+window.onpopstate = (e) => {
+    const pageNumber = location.pathname.split('/').slice(-1).join('');
+    renderPage(pageNumber);
+};
+
