@@ -64,9 +64,9 @@ const renderMovieSearchResults = (data) => {
     movieContainer.innerHTML = html;
     movieContainer.querySelector('button').addEventListener('click', async () => {
       modalContainer.querySelector('.modal-body').innerHTML = `
-          <div class="spinner-border text-primary" role="status">
-              <span class="visually-hidden">Loading...</span>
-          </div>
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
       `;
       const movieDetailsData = await fetchMovieDetails(result.id);
       renderMovieDetails(movieDetailsData);
@@ -89,18 +89,24 @@ const renderMovieDetails = (data) => {
   // render elements
   const { title, poster_path, release_date, genres, budget, overview } = data;
   const dom = `
-        <div class="movie">
-            <h3 class="movie-title">${title}</h3>
-            <div class="movie-poster">
-                <img width="200" src="${BASE_POSTER_URL}${poster_path}" alt="POSTER: ${title}">
-            </div>
-            <div class="movie-overview">${overview}</div>
-            <div class="movie-release">${release_date}</div>
-            <div class="movie-genres">${genres.map(({ name }) => name).join(', ')}</div>
-            <div class="movie-budget">$${budget}</div>
+      <div class="movie">
+        <h3 class="movie-title">${title}</h3>
+        <div class="movie-poster">
+          <img width="200" src="${BASE_POSTER_URL}${poster_path}" alt="POSTER: ${title}">
         </div>
+        <div class="movie-overview">${overview}</div>
+        <div class="movie-release">${release_date}</div>
+        <div class="movie-genres">${genres.map(({ name }) => name).join(', ')}</div>
+        <div class="movie-budget">$${budget}</div>
+      </div>
     `;
   modalContainer.querySelector('.modal-body').innerHTML = dom;
+};
+
+const fetchAndRenderSearchResults = async (searchValue) => {
+  const movieSearchData = await fetchMovieSearchResults(searchValue);
+  renderMovieSearchResults(movieSearchData);
+  localStorage.setItem('searchValue', searchValue);
 };
 
 const searchForm = document.querySelector('#search-form');
@@ -108,6 +114,20 @@ searchForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const formData = new FormData(searchForm);
   const { searchValue } = Object.fromEntries(formData);
-  const movieSearchData = await fetchMovieSearchResults(searchValue);
-  renderMovieSearchResults(movieSearchData);
+  fetchAndRenderSearchResults(searchValue);
 });
+
+// IIFE = immediately invoked function expression
+(async () => {
+  const url = new URL(location.href);
+  const searchValue = url.searchParams.get('searchValue');
+  if (searchValue) {
+    fetchAndRenderSearchResults(searchValue);
+  } else {
+    const searchValue = localStorage.getItem('searchValue');
+    if (searchValue) {
+      searchForm.querySelector('input[name="searchValue"]').value = searchValue;
+      fetchAndRenderSearchResults(searchValue);
+    }
+  }
+})();
