@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Počasí Layout</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div>
+                <input type="text" placeholder="Zadejte město" id="search">
+                <button id="search-btn">Hledat</button>
+            </div>
+            <button id="location-btn">Zjistit polohu</button>
+            <h1 class="city-name"></h1>
+        </header>
+        
+        <div class="content">
+            <aside class="left-panel">
+                <h3>Naposledy vyhledané</h3>
+            </aside>
+            <div class="workspace-container">
+            </div>
+        </div>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>
