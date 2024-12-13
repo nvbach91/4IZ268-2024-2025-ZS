@@ -1,0 +1,9 @@
+.card-img-top {
+    width: 200px;
+}
+.card {
+    border: none;
+}
+.movie-poster img {
+    width: 500px;
+}
