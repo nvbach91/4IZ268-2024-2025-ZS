@@ -103,10 +103,30 @@ const renderMovieDetails = (data) => {
 };
 
 const searchForm = document.querySelector('#search-form');
-searchForm.addEventListener('submit', async (e) => {
+const submitForm = async (e) => {
     e.preventDefault();
     const formData = new FormData(searchForm);
     const { searchValue } = Object.fromEntries(formData);
     const movieSearchData = await fetchMovieSearchResults(searchValue);
     renderMovieSearchResults(movieSearchData);
-});
+    localStorage.setItem('searchValue', searchValue);
+};
+searchForm.addEventListener('submit', submitForm);
+
+(async () => {
+    if (localStorage.getItem('searchValue')) {
+        const searchValue = localStorage.getItem('searchValue');
+        searchForm.querySelector('input[name="searchValue"]').value = searchValue;
+        const movieSearchData = await fetchMovieSearchResults(searchValue);
+        renderMovieSearchResults(movieSearchData);
+    }
+})();
+
+(async () => {
+    const url = location.href;
+    const urlObject = new URL(url);
+    const searchValue = urlObject.searchParams.get('searchValue');
+    searchForm.querySelector('input[name="searchValue"]').value = searchValue;
+    const movieSearchData = await fetchMovieSearchResults(searchValue);
+    renderMovieSearchResults(movieSearchData);
+})();
