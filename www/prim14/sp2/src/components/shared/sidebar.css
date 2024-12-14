@@ -1,0 +1,3 @@
+aside {
+  @apply w-52 shadow-md border-r border-black flex flex-col py-8 px-5;
+}

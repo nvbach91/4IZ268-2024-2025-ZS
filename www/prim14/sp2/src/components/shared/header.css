@@ -1,0 +1,19 @@
+header {
+  @apply block md:flex py-8 px-3 justify-between items-center;
+}
+
+header .logo {
+  @apply p-6 flex;
+}
+
+header .logo .name {
+  @apply flex gap-5 items-center w-full;
+}
+
+header .logo .name img {
+  @apply ml-auto;
+}
+
+header .search-bar {
+  @apply max-w-[400px] my-3 flex gap-2;
+}
