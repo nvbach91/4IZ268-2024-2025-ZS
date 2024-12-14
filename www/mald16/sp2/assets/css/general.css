@@ -1,0 +1,22 @@
+.thumbnail {
+	height: 300px;
+}
+
+#quote {
+	width: 40%;
+}
+
+/* TODO: Fix this */
+footer {
+	display: none;
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+@media (max-width: 800px) {
+	#quote {
+		width: 90%;
+	}
+}
