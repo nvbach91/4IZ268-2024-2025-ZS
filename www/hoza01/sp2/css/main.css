@@ -1,0 +1,8 @@
+* {
+    box-sizing: border-box;
+}
+
+#restart-button {
+    display: none;
+}
+
