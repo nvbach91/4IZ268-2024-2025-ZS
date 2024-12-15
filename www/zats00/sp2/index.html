@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="shortcut icon" href="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678116-calendar-512.png"
+        type="image/x-icon">
+    <title>Call endar</title>
+</head>
+
+<body>
+    <h1>Call endar</h1>
+    <button id="addEventButton"> Add event</button>
+
+    <div id="eventForm" style="display: none;">
+        <h3>Event Details</h3>
+        <form id="eventDetailsForm">
+            <label for="eventTitle">Event Title:</label>
+            <input type="text" id="eventTitle" name="eventTitle" required><br><br>
+
+            <label for="eventTime">Event Time:</label>
+            <input type="time" id="eventTime" name="eventTime" required><br><br>
+
+            <label for="eventDate">Event Date:</label>
+            <input type="date" id="eventDate" name="eventDate" required><br><br>
+
+            <button type="submit">Submit Event</button>
+        </form>
+    </div>
+    <div id="eventDisplaySection">
+        <h2>Upcoming Events:</h2>
+    </div>
+    <div class="calendar-wrapper">
+        <div class="calendar-month-year-wrapper">
+            <button type="button" id="calendar-previous-month" disabled="true">
+                &#x2190; Previous month </button>
+            <div class="calendar-month-year"></div>
+            <button type="button" id="calendar-next-month">Next month &rarr;</button>
+        </div>
+        <div class="calendar-week-days">
+            <div>Monday</div>
+            <div>Tuesday</div>
+            <div>Wednesday</div>
+            <div>Thursday</div>
+            <div>Friday</div>
+            <div>Saturday</div>
+            <div>Sunday</div>
+        </div>
+        <div class="calendar-days"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.slim.min.js" defer></script>
+    <script src="./js/main.js"></script>
+</body>
+
+</html>
