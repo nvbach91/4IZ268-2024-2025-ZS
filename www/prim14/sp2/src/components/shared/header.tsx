@@ -22,7 +22,7 @@ export default function Header() {
       searchParams.delete("q");
     }
 
-    router.replace(`?${searchParams.toString()}`);
+    router.replace(`./?${searchParams.toString()}`);
   };
 
   return (

@@ -50,7 +50,7 @@ export default function AvailabilitySelect() {
       searchParams.delete("availability");
     }
 
-    router.replace(`?${searchParams.toString()}`);
+    router.replace(`./?${searchParams.toString()}`);
   }, [selectedAvailability, router]);
 
   return (

@@ -54,7 +54,7 @@ export default function ConditionCheckboxes() {
       }))
     );
 
-    router.replace(`?${searchParams.toString()}`);
+    router.replace(`./?${searchParams.toString()}`);
   };
 
   useEffect(() => {
