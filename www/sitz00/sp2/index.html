@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="keywords" content="word, dictionary, definition, lexicon, translation, synonym, antonym">
+    <meta name="author" content="Zuzana Šitancová">
+    <meta name="description" content="Searching for words definitions and descriptions.">
+    <title>MyLexicon</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="icon" type="image/png" href="./img/">
+</head>
+
+<body>
+    <header>
+        <h1>MyLexicon</h1>
+    </header>
+
+    <div class="search">
+        <main>
+            <form id="searchForWord">
+                <input name="searchedWord" type="text" id="searchedWord" placeholder="Write your word...">
+                <button type="submit">Search</button>
+            </form>
+            <div id="wordInformation">
+            </div>
+        </main>
+
+        <aside>
+            <button id="showHistory">Show history</button>
+            <ul id="searchHistory"></ul>
+            <button id="cleanHistory">Clear</button>
+        </aside>
+    </div>
+
+    <footer>
+        <div>
+            MyLexicon &#124; Powered by FreeDictionary API
+        </div>
+        <div>
+            &copy; Zuzana Šitancová
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+
+</html>
