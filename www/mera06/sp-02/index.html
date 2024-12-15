@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OMDb Movie Finder</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>OMDb Movie Finder</h1>
+        <form id="search-form">
+            <input type="text" id="search-input" placeholder="Enter movie or series title..." required>
+            <input type="number" id="year-input" placeholder="Year (optional)">
+            <button type="submit">Search</button>
+        </form>
+    </header>
+    <main>
+        <section id="results"></section>
+        <section id="details"></section>
+        <section id="favorites">
+            <h2>Favorites</h2>
+            <ul id="favorites-list"></ul>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
