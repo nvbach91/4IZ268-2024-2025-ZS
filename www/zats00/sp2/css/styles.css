@@ -1,0 +1,86 @@
+html {
+    box-sizing: border-box;
+    font-family: 'Titillium Web', sans-serif;
+    height: 100vh;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+.calendar-wrapper {
+    max-width: 70%;
+    max-height: 500px;
+    display: flex;
+    flex-flow: column nowrap;
+    margin: 1em auto;
+}
+
+button {
+    background-color: rgb(215, 224, 233);
+    box-shadow: 2px 2px rgb(166, 172, 179);
+    border: none;
+    padding: 1em 0;
+}
+
+button:hover {
+    box-shadow: 3px 3px rgb(166, 172, 179);
+    cursor: pointer;
+}
+
+.calendar-month-year-wrapper {
+    display: grid;
+    grid-template-areas: "back title next";
+    grid-template-columns: 12% 1fr 12%;
+    margin-bottom: 1em;
+}
+
+.calendar-month-year {
+    text-align: center;
+    grid-area: title;
+}
+
+.calendar-week-days {
+    text-align: center;
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: repeat(7, 1fr);
+    padding-bottom: 1em;
+}
+
+.calendar-days {
+    text-align: center;
+    display: grid;
+    grid-template-rows: repeat(6, 1fr);
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.calendar-days p {
+    margin: 0;
+    padding: 1em;
+    border: 1px blue solid;
+}
+
+.calendar-days p:nth-child(n + 1) {
+    margin-left: -1px;
+}
+
+.calendar-days p {
+    margin-bottom: -1px;
+}
+
+#calendar-previous-month {
+    grid-area: back;
+}
+
+#calendar-next-month {
+    grid-area: next;
+}
