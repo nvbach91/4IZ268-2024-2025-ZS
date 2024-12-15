@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Outfit:wght@100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="./public/static/css/styles.css">
+    <link rel="icon" href="./public/static/img/icon.png" type="image/x-icon">
+    <title>Pomodio habit tracker</title>
+</head>
+
+<body>
+
+    <main>
+
+        <div class="container text-center" id="login">
+
+            <div class="container" id="login-form-container">
+                <form class="card w-75 py-3 px-3 login-form-google">
+                    <img class="mb-4" src="./public/static/img/icon.png" alt="timer icon" width="72">
+
+                    <div class="container px-0" id="heading">
+                        <h1>Welcome to Pomodio habit tracker</h1>
+                    </div>
+
+                    <p class="lead my-5">
+                        Pomodio uses your Google drive to store data about your pomodoro sessions. Those data are used
+                        later to create dashboard with your statistics.
+                        Your data are completely under your control and won't take much space on your drive.
+                    </p>
+
+                    <button class="gsi-material-button" id="signin-button">
+                        <div class="gsi-material-button-state"></div>
+                        <div class="gsi-material-button-content-wrapper">
+                            <div class="gsi-material-button-icon">
+                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink" style="display: block;">
+                                    <path fill="#EA4335"
+                                        d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z">
+                                    </path>
+                                    <path fill="#4285F4"
+                                        d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z">
+                                    </path>
+                                    <path fill="#FBBC05"
+                                        d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z">
+                                    </path>
+                                    <path fill="#34A853"
+                                        d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z">
+                                    </path>
+                                    <path fill="none" d="M0 0h48v48H0z"></path>
+                                </svg>
+                            </div>
+                            <span class="gsi-material-button-contents">Sign in with Google</span>
+                            <span style="display: none;">Sign in with Google</span>
+                        </div>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="container text-center" id="timer-settings">
+
+            <div class="container mt-4 mb-5" id="heading">
+                <h1>Set new timer</h1>
+            </div>
+
+            <div class="container my-5" id="settings">
+                <form>
+
+                    <div class="input-group mb-3">
+                        <label class="input-group-text form-settings-input input-group-custom"
+                            for="inputGroupSelect01">Focus time</label>
+                        <select class="form-select form-settings-input input-group-custom" id="inputGroupSelect01">
+                            <option selected></option>
+                            <option value="1">15 min</option>
+                            <option value="2">20 min</option>
+                            <option value="3">30 min</option>
+                            <option value="3">45 min</option>
+                            <option value="3">60 min</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <label class="input-group-text form-settings-input input-group-custom"
+                            for="inputGroupSelect01">Break time</label>
+                        <select class="form-select form-settings-input input-group-custom" id="inputGroupSelect01">
+                            <option selected></option>
+                            <option value="1">5 min</option>
+                            <option value="2">10 min</option>
+                            <option value="3">15 min</option>
+                            <option value="3">20 min</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <label class="input-group-text form-settings-input input-group-custom"
+                            for="inputGroupSelect01">Sections</label>
+                        <select class="form-select form-settings-input input-group-custom" id="inputGroupSelect01">
+                            <option selected></option>
+                            <option value="1">2 sections</option>
+                            <option value="2">3 sections</option>
+                            <option value="3">4 sections</option>
+                            <option value="3">5 sections</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <label class="input-group-text form-settings-input input-group-custom"
+                            for="inputGroupSelect01">Task type</label>
+                        <select class="form-select form-settings-input input-group-custom" id="inputGroupSelect01">
+                            <option selected></option>
+                            <option value="1">School learning</option>
+                            <option value="2">Work</option>
+                            <option value="3">Working out</option>
+                            <option value="3">Learning to code</option>
+                        </select>
+                    </div>
+                    <div class="container my-5">
+                        <button type="button" class="mx-3 btn custom-btn-cancel-form btn-lg">Cancel</button>
+                        <button type="button" class="mx-3 btn custom-btn-submit-form btn-lg">Start</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+
+    <!-- Bottom Navigation -->
+    <nav class="navbar navbar-expand fixed-bottom" id="navbar-panel">
+        <div class="container-fluid justify-content-around" id="nav-panel">
+            <button type="button" class="btn btn-outline-secondary custom-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                    class="bi bi-stopwatch-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M6.5 0a.5.5 0 0 0 0 1H7v1.07A7.001 7.001 0 0 0 8 16a7 7 0 0 0 5.29-11.584l.013-.012.354-.354.353.354a.5.5 0 1 0 .707-.707l-1.414-1.415a.5.5 0 1 0-.707.707l.354.354-.354.354-.012.012A6.97 6.97 0 0 0 9 2.071V1h.5a.5.5 0 0 0 0-1zm2 5.6V9a.5.5 0 0 1-.5.5H4.5a.5.5 0 0 1 0-1h3V5.6a.5.5 0 1 1 1 0">
+                    </path>
+                </svg>
+            </button>
+
+            <button type="button" class="btn btn-outline-secondary custom-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                    class="bi bi-bar-chart-line-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1z" />
+                </svg>
+            </button>
+
+            <button type="button" class="btn btn-outline-secondary custom-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                    class="bi bi-box-arrow-in-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0z" />
+                    <path fill-rule="evenodd"
+                        d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708z" />
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://apis.google.com/js/api.js" async defer></script>
+    <script type="module" src="./js/index.js"></script>
+</body>
+
+</html>
