@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/shared/header";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Obchůdek Petra Lišáka",
@@ -19,8 +20,10 @@ export default function RootLayout({
       </head>
       <body>
         <div className="main-wrapper">
-          <Header />
-          <main>{children}</main>
+          <Suspense>
+            <Header />
+            <main>{children}</main>
+          </Suspense>
         </div>
       </body>
     </html>
