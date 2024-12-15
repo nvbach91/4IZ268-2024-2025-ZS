@@ -1,0 +1,154 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    padding: 0;
+    background-color: rgb(155, 215, 255);
+    font-family: sans-serif;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+    margin: 0 auto;
+    max-width: 1200px;
+    height: 100dvh;
+}
+
+.center {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-actions {
+    display: flex;
+    gap: 20px;
+}
+
+.action {
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.action:hover {
+    text-decoration: underline;
+}
+
+.search-wrapper {
+    display: flex;
+    margin: 80px 0px;
+    justify-content: center;
+    position: relative;
+}
+
+#location-icon:hover {
+    fill: black;
+}
+
+.search-box {
+    display: flex;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex-grow: 1;
+    flex-shrink: 1;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+.search-box,
+.search-box input {
+    border-radius: 13px;
+}
+
+.search-box input {
+    outline: none;
+    border: none;
+    display: block;
+    line-height: 58px;
+    font-size: 1.2rem;
+    padding-left: 23px;
+    background-color: white;
+    flex-grow: 1;
+    flex-shrink: 1;
+    width: 100%;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.search-box input:focus {
+    outline: none;
+}
+
+#location-icon {
+    position: absolute;
+    top: 18px;
+    right: 70px;
+    fill: rgb(102, 102, 102);
+    cursor: pointer;
+}
+
+.search-box button {
+    background-color: rgb(42, 125, 249);
+    border: none;
+    position: relative;
+    right: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    cursor: pointer;
+}
+
+.search-box button:hover {
+    background-color: rgb(12, 109, 255);
+}
+
+footer {
+    margin-bottom: 10px;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.copyright {
+    text-align: right;
+    margin: 0;
+}
+
+.open-weather {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.open-weather p {
+    font-size: 0.8rem;
+}
+
+@media (max-width: 1228px) {
+
+    body {
+        margin: 0 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .footer-container {
+        flex-direction: column;
+        gap: 3px;
+    }
+
+    footer {
+        margin-bottom: 0px;
+    }
+}
+
+@media (min-width: 400px) {
+    .search-box {
+        max-width: 600px;
+    }
+}
