@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutriční hodnoty</title>
+    <link rel="icon" type="image/png" href="./img/banan.png">
+    <link href="./css/styles.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <form id="foodForm" class="form">
+            <div class="food-input">
+                <label for="foodInput" class="food-input-label">Vyhledávač jídlel</label>
+                <input type="text" id="foodInput" name="food" class="input" placeholder="Vložte jídlo">
+                <button type="submit" class="button" id="getFoodButton">Vyhledat</button>
+            </div>
+        </form>
+        <div class="selected-food">
+            <pre id="response-output"></pre>
+        </div>
+        <h1>Axios Test</h1>
+        <button type="submit" id="fetch-data">Fetch Data</button>
+        
+
+
+
+
+    </div>
+    
+    <script src="./js/main.js"></script>
+</body>
+</html>
