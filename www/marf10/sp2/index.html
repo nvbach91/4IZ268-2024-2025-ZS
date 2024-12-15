@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trivia Quest</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>Trivia Quest</h1>
+    </header>
+
+    <main>
+        <section id="settings">
+            <div class="container">
+                <h2>Setup Quiz</h2>
+                <form id="quiz-settings">
+                    <label for="category">Category:</label>
+                    <select id="category" name="category">
+                        <option value="">Loading...</option>
+                    </select>
+
+                    <label for="difficulty">Difficulty:</label>
+                    <select id="difficulty" name="difficulty">
+                        <option value="">Loading...</option>
+                    </select>
+
+                    <label for="amount">Number of Questions:</label>
+                    <input type="number" id="amount" name="amount" min="1" max="50" value="10">
+
+                    <button type="button" id="start-quiz">Start Quiz</button>
+                </form>
+            </div>
+        </section>
+
+        <section id="quiz" class="hidden">
+            <div class="container">
+                <div id="question-container">
+                    <h2 id="question">Question text</h2>
+                    <div id="answers"></div>
+                </div>
+                <div id="quiz-controls">
+                    <button id="end-quiz" class="control-button">End Quiz</button>
+                    <button id="next-question" class="control-button">Next Question</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="results" class="hidden">
+            <div class="container">
+                <h2>Results</h2>
+                <p id="score">Your Score: X/X</p>
+                <canvas id="results-chart"></canvas>
+                <div id="results-controls">
+                    <button id="play-again" class="control-button">Play Again</button>
+                    <button id="change-settings" class="control-button">Change Settings</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>
