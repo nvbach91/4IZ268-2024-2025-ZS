@@ -1,0 +1,300 @@
+/* General Reset */
+body, h1, h2, p, ul, li {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f8f9fa;
+  color: #333;
+  text-align: center; /* Align all text content centrally */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensure full height of the viewport */
+}
+
+/* Header Section */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: #6200ea;
+  color: #fff;
+}
+header .logo h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+header nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+header nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+}
+header nav ul li a:hover {
+  text-decoration: underline;
+}
+
+/* Main Section */
+main {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto; /* Center main content horizontally */
+  flex: 1; /* Allow main content to grow and take available space */
+}
+.intro {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.intro h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+.intro p {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+.intro button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  color: #fff;
+  background: #6200ea;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.intro button:hover {
+  background: #3700b3;
+}
+
+/* Features Section */
+.features h2 {
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+  text-align: center;
+}
+.features ul {
+  list-style: disc inside;
+  text-align: left;
+  max-width: 500px;
+  margin: 0 auto; /* Center the feature list */
+}
+
+/* Footer Section */
+footer {
+  text-align: center;
+  padding: 1rem;
+  background: #333;
+  color: #fff;
+  margin-top: auto; /* Push the footer to the bottom */
+}
+footer .social-links a {
+  color: #bbb; /* Softer color for better readability */
+  text-decoration: none;
+  margin: 0 0.5rem;
+  font-size: 0.9rem;
+}
+footer .social-links a:hover {
+  text-decoration: underline;
+  color: #ddd;
+}
+
+/* Login Section */
+.login-section {
+  background: #fff;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 400px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.login-section h2 {
+  margin-bottom: 1rem;
+  color: #6200ea;
+  font-size: 1.5rem;
+}
+.login-section form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.login-section input {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+.login-section button {
+  padding: 0.5rem;
+  font-size: 1rem;
+  color: #fff;
+  background: #6200ea;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.login-section button:hover {
+  background: #3700b3;
+}
+.login-section a {
+  color: #6200ea;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.login-section a:hover {
+  text-decoration: underline;
+}
+
+
+/* Dashboard Layout */
+.dashboard-container {
+  display: flex;
+  gap: 1rem;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Sidebar */
+.sidebar {
+  flex: 1;
+  background: #fff;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+.sidebar h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+.sidebar ul li {
+  margin-bottom: 0.5rem;
+}
+.sidebar ul li a {
+  color: #6200ea;
+  text-decoration: none;
+}
+.sidebar ul li a:hover {
+  text-decoration: underline;
+}
+#addGroupBtn {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: #6200ea;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+#addGroupBtn:hover {
+  background: #3700b3;
+}
+
+/* Main Content */
+.main-content {
+  flex: 3;
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.main-content h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+#calendarContainer {
+  margin-bottom: 1rem;
+  height: 500px; /* Set calendar height */
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+/* Upcoming Events */
+.upcoming-events h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+.upcoming-events ul {
+  list-style: disc inside;
+  padding-left: 1rem;
+}
+
+/* Add Event Button */
+#addEventBtn {
+  display: block;
+  margin: 1rem auto 0;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  color: #fff;
+  background: #6200ea;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+#addEventBtn:hover {
+  background: #3700b3;
+}
+
+
+.profile-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-container h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.profile-container p {
+  margin: 0.5rem 0;
+}
+
+.profile-container form {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.profile-container input[type="text"] {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.profile-container button {
+  padding: 0.5rem;
+  background: #6200ea;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.profile-container button:hover {
+  background: #3700b3;
+}

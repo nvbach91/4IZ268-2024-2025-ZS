@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Tabletop Game Planner</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <script type="module" src="../js/firebase-config.js"></script>
+  <script type="module" src="../js/dashboard.js"></script>
+  <script src="../libs/daypilot/daypilot-all.min.js"></script>
+
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <h1>Tabletop Game Planner</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="profile.html">Profile</a></li>
+        <li><a href="#" id="logoutBtn">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Dashboard Section -->
+  <main class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2>Your Groups</h2>
+      <ul id="groupList">
+        <!-- Groups will be populated here dynamically -->
+      </ul>
+      <button id="addGroupBtn">+ Add Group</button>
+    </aside>
+
+    <!-- Main Content -->
+    <section class="main-content">
+      <h2 id="groupTitle">Select a Group</h2>
+
+      <!-- Calendar Section -->
+      <div id="calendarContainer">
+        <!-- DayPilot Lite Calendar will load here -->
+      </div>
+
+      <!-- Upcoming Events -->
+      <section class="upcoming-events">
+        <h3>Upcoming Events</h3>
+        <ul id="upcomingEvents">
+          <!-- Event list will be dynamically populated -->
+        </ul>
+      </section>
+
+      <!-- Add Event Button -->
+      <button id="addEventBtn">+ Add Event</button>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2024 Tabletop Game Planner. All rights reserved.</p>
+    <div class="social-links">
+      <a href="#">Contact</a> | 
+      <a href="#">Privacy Policy</a> | 
+      <a href="#">Terms of Service</a>
+    </div>
+  </footer>
+</body>
+</html>
