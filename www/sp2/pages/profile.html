@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile - Tabletop Game Planner</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <script type="module" src="../js/firebase-config.js"></script>
+  <script type="module" src="../js/profile.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <h1>Tabletop Game Planner</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="profile.html">Profile</a></li>
+        <li><a href="#" id="logoutBtn">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="profile-container">
+    <h2>Your Profile</h2>
+    <div id="profileInfo">
+      <p><strong>Email:</strong> <span id="userEmail">Loading...</span></p>
+      <p><strong>Display Name:</strong> <span id="displayName">Loading...</span></p>
+    </div>
+
+    <form id="updateProfileForm">
+      <label for="newDisplayName">New Display Name:</label>
+      <input type="text" id="newDisplayName" placeholder="Enter new name" required>
+      <button type="submit">Update Profile</button>
+    </form>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2024 Tabletop Game Planner. All rights reserved.</p>
+  </footer>
+</body>
+</html>
