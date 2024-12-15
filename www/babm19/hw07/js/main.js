@@ -1,4 +1,3 @@
-// Seznam měst
 const cities = ['Prague', 'Vienna', 'Budapest', 'Warsaw', 'Bratislava', 'Ljubljana', 'Zagreb', 'Berlin', 'Bern', 'Vilnius'];
 
 let cards = cities.concat(cities);
@@ -9,7 +8,6 @@ let secondCard = null;
 let score = 0;
 let flippedCards = 0;
 
-// Vytvoření hrací plochy
 const board = document.querySelector('.board');
 const scoreDisplay = document.querySelector('.score');
 
