@@ -1,0 +1,53 @@
+.container {
+    max-width: 70%;
+    margin: 20px auto;
+    background-color: #fffe;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 20px;
+    position: relative;
+}
+
+.food-input {
+    margin: 20px;
+    text-align: center;
+    font-size: 24px;
+}
+
+.food-input-label {
+    display: block;
+    font-size: 40px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.input {
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    width: 40%;
+}
+.button {
+    padding: 12px 20px;
+    margin: 8px 0;
+    text-decoration: none;
+    background-color: goldenrod;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+.button:hover {
+    cursor: pointer;
+}
+.selected-food {
+    width: 60%;
+    height: 500px;
+    margin: 20px auto;
+    background-color: #fffe;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 20px;
+    position: relative;
+    display: block;
+    overflow: scroll;
+}
