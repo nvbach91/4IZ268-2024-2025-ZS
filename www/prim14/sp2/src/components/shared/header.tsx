@@ -5,15 +5,24 @@ import { Button } from "../ui/button";
 import { Card, CardTitle } from "../ui/card";
 import { Input } from "../ui/input";
 import "./header.css";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 
 export default function Header() {
-  const [searchValue, setSearchValue] = useState("");
+  const searchParams = useSearchParams();
+  const [searchValue, setSearchValue] = useState(searchParams.get("q") || "");
   const router = useRouter();
 
   const handleSearch = () => {
-    router.push(`./?search=${encodeURIComponent(searchValue)}`);
+    const searchParams = new URLSearchParams(window.location.search);
+
+    if (searchValue) {
+      searchParams.set("q", searchValue);
+    } else {
+      searchParams.delete("q");
+    }
+
+    router.replace(`?${searchParams.toString()}`);
   };
 
   return (

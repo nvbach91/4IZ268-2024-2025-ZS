@@ -18,8 +18,10 @@ export default function RootLayout({
         <link rel="icon" href="./favicon.ico" />
       </head>
       <body>
-        <Header />
-        <main>{children}</main>
+        <div className="main-wrapper">
+          <Header />
+          <main>{children}</main>
+        </div>
       </body>
     </html>
   );

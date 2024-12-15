@@ -9,7 +9,7 @@ export default function ProductsContent() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    setValue(searchParams.get("search") || "");
+    setValue(searchParams.get("q") || "");
   }, [searchParams]);
 
   return <div className="products-content">{value}</div>;

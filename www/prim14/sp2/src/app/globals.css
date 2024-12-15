@@ -4,7 +4,11 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
-  @apply antialiased container px-2 xl:px-28 mx-auto bg-border font-[family-name:var(--font-geist-sans)] min-h-screen flex flex-col;
+  @apply antialiased bg-border;
+}
+
+.main-wrapper {
+  @apply container px-2 xl:px-28 mx-auto font-[family-name:var(--font-geist-sans)] min-h-screen flex flex-col;
 }
 
 @layer base {
