@@ -7,6 +7,8 @@ import { Input } from "../ui/input";
 import "./header.css";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
+import { FaSearch } from "react-icons/fa";
 
 export default function Header() {
   const searchParams = useSearchParams();
@@ -17,27 +19,29 @@ export default function Header() {
     const searchParams = new URLSearchParams(window.location.search);
 
     if (searchValue) {
-      searchParams.set("q", searchValue);
+      searchParams.set("query", searchValue);
     } else {
-      searchParams.delete("q");
+      searchParams.delete("query");
     }
 
-    router.replace(`./?${searchParams.toString()}`);
+    router.replace(`?${searchParams.toString()}`);
   };
 
   return (
     <header>
-      <Card className="logo">
-        <CardTitle className="name">
-          <h1>Lišákův obchod</h1>
-          <Image
-            height={35.2}
-            width={46.5}
-            src="./logo-gray.webp"
-            alt="Logo obchůdku Petra Lišáka"
-          />
-        </CardTitle>
-      </Card>
+      <Link href="./">
+        <Card className="logo">
+          <CardTitle className="name">
+            <h1>Lišákův obchod</h1>
+            <Image
+              height={35.2}
+              width={46.5}
+              src="/logo-gray.webp"
+              alt="Logo obchůdku pana Lišáka"
+            />
+          </CardTitle>
+        </Card>
+      </Link>
       <div className="search-bar">
         <Input
           type="search"
@@ -50,7 +54,9 @@ export default function Header() {
             }
           }}
         />
-        <Button onClick={handleSearch}>Hledat</Button>
+        <Button onClick={handleSearch} title="Vyhledat">
+          <FaSearch />
+        </Button>
       </div>
     </header>
   );

@@ -1,6 +1,6 @@
 import ILookup from "@/models/ILookup";
 import { fetchAuthorized } from "./requestHelpers";
-import ApiResponse from "@/models/BaseApiResponse";
+import { ApiResponse } from "@/models/BaseApiResponse";
 
 const path = "/lookup";
 

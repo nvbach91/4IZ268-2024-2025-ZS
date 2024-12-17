@@ -1,0 +1,3 @@
+.admin-overview {
+  @apply w-full flex flex-col gap-8;
+}

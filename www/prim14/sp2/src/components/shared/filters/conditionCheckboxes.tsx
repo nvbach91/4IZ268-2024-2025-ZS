@@ -2,28 +2,28 @@
 
 import { useEffect, useState } from "react";
 import { ICheckableLookup } from "@/models/ILookup";
-import { getConditionLookups } from "@/services/lookupService";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useRouter, useSearchParams } from "next/navigation";
+import useConditionLookups from "@/hooks/useConditionLookups";
 
 export default function ConditionCheckboxes() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { conditions } = useConditionLookups();
   const [conditionLookups, setConditionLookups] =
     useState<ICheckableLookup[]>();
 
-  const fetchLookups = async () => {
-    const resCondition = await getConditionLookups();
-    if (resCondition.success) {
+  useEffect(() => {
+    if (conditions) {
       setConditionLookups(
-        resCondition.data.map((lookup) => ({
+        conditions.map((lookup) => ({
           ...lookup,
           checked: searchParams.getAll("condition").includes(lookup._id),
         }))
       );
     }
-  };
+  }, [conditions, searchParams]);
 
   /**
    * Handles adding or removing a condition from the URL query
@@ -54,12 +54,8 @@ export default function ConditionCheckboxes() {
       }))
     );
 
-    router.replace(`./?${searchParams.toString()}`);
+    router.replace(`?${searchParams.toString()}`);
   };
-
-  useEffect(() => {
-    fetchLookups();
-  }, []);
 
   return (
     <div className="flex flex-col gap-3">
