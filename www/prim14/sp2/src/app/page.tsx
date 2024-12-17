@@ -12,7 +12,7 @@ export default function Home() {
 
   return (
     <>
-      <Header homeLink="" logoLink="logo-gray.webp" />
+      <Header homeLink="./" logoLink="./logo-gray.webp" />
       <main>
         <Sidebar conditions={conditions} availabilities={availabilities} />
         <ProductsContent

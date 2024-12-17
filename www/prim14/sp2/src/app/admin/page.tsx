@@ -5,7 +5,7 @@ import "./admin.css";
 export default function Home() {
   return (
     <>
-      <Header homeLink="./" logoLink="./logo-gray.webp" />
+      <Header homeLink="../" logoLink="../logo-gray.webp" />
       <main>
         <div className="admin-wrapper">
           <div className="admin-wrapper__content">

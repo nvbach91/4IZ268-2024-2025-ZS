@@ -51,7 +51,7 @@ export default function AdminProductContent() {
 
     const res = await sendAuditableRequest(request, values);
     if (res.success) {
-      router.push("./");
+      router.push("../");
     }
   };
 
@@ -198,7 +198,7 @@ export default function AdminProductContent() {
               <Button
                 type="button"
                 className="px-10"
-                onClick={() => router.push("./")}
+                onClick={() => router.push("../")}
               >
                 Zpět
               </Button>

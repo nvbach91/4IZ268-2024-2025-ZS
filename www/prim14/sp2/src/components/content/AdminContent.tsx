@@ -52,9 +52,7 @@ export default function AdminContent() {
   return (
     <div className="admin-overview">
       <div className="w-full flex justify-end">
-        <Button onClick={() => router.push("./admin/product")}>
-          Přidat produkt
-        </Button>
+        <Button onClick={() => router.push("./product")}>Přidat produkt</Button>
       </div>
       <Table>
         <TableHeader>
@@ -72,9 +70,7 @@ export default function AdminContent() {
                   <TableCell>{product.price},- Kč</TableCell>
                   <TableCell className="flex gap-2 justify-end">
                     <Button
-                      onClick={() =>
-                        router.push("./admin/product?id=" + product._id)
-                      }
+                      onClick={() => router.push("./product?id=" + product._id)}
                     >
                       <FaEdit />
                     </Button>
