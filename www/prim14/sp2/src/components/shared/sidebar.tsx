@@ -2,17 +2,17 @@
 
 import { FaFilter } from "react-icons/fa";
 import "./sidebar.css";
-import { useEffect } from "react";
 import AvailabilitySelect from "./filters/availabilitySelect";
 import ConditionCheckboxes from "./filters/conditionCheckboxes";
+import ILookup from "@/models/ILookup";
 
-export default function Sidebar() {
-  const fetchLookups = async () => {};
-
-  useEffect(() => {
-    fetchLookups();
-  }, []);
-
+export default function Sidebar({
+  conditions,
+  availabilities,
+}: {
+  conditions?: Array<ILookup>;
+  availabilities?: Array<ILookup>;
+}) {
   return (
     <>
       <aside>
@@ -20,8 +20,8 @@ export default function Sidebar() {
           <FaFilter />
           <h2 className="text-xl font-semibold">Filtrování</h2>
         </div>
-        <AvailabilitySelect />
-        <ConditionCheckboxes />
+        <AvailabilitySelect availabilities={availabilities} />
+        <ConditionCheckboxes conditions={conditions} />
       </aside>
     </>
   );

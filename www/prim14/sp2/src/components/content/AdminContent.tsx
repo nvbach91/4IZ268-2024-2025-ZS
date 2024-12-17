@@ -53,7 +53,7 @@ export default function AdminContent() {
     <div className="admin-overview">
       <div className="w-full flex justify-end">
         <Button onClick={() => router.push("./admin/product")}>
-          Přidat produkt produkt
+          Přidat produkt
         </Button>
       </div>
       <Table>
@@ -104,7 +104,7 @@ export default function AdminContent() {
         </TableBody>
       </Table>
       <div className="w-full">
-        {products && !loading && (
+        {products && !loading && totalRecords && (
           <Pagination>
             <PaginationContent>
               {Array.from({ length: Math.ceil(totalRecords / pageSize) }).map(

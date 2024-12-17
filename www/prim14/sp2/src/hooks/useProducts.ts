@@ -3,12 +3,14 @@ import useFetch from "./useFetch";
 import IProduct from "@/models/IProduct";
 import { getProducts } from "@/services/productsService";
 
+const DEFAULT_PAGE_SIZE = 8;
+
 const useProducts = (searchParams: URLSearchParams) => {
   const { sendRequest } = useFetch();
   const [products, setProducts] = useState<IProduct[]>();
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [totalRecords, setTotalRecords] = useState<number>(10);
-  const [pageSize, setPageSize] = useState<number>(10);
+  const [currentPage, setCurrentPage] = useState<number>();
+  const [totalRecords, setTotalRecords] = useState<number>();
+  const [pageSize] = useState<number>(DEFAULT_PAGE_SIZE);
   const [loading, setLoading] = useState<boolean>();
 
   const refreshProducts = async () => {
@@ -23,7 +25,6 @@ const useProducts = (searchParams: URLSearchParams) => {
       setProducts(res.data.items);
       setCurrentPage(res.data.currentPage);
       setTotalRecords(res.data.totalRecords);
-      setPageSize(10);
     }
     setLoading(false);
   };

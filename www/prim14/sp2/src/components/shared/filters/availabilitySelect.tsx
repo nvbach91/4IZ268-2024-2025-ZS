@@ -11,15 +11,18 @@ import {
 } from "../../ui/select";
 import { Skeleton } from "../../ui/skeleton";
 import { useRouter, useSearchParams } from "next/navigation";
-import useAvailabilityLookups from "@/hooks/useAvailabilityLookups";
+import ILookup from "@/models/ILookup";
 
-export default function AvailabilitySelect() {
+export default function AvailabilitySelect({
+  availabilities,
+}: {
+  availabilities?: Array<ILookup>;
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [selectedAvailability, setSelectedAvailability] = useState<
     string | undefined
   >(searchParams.get("availability") || "");
-  const { availabilities } = useAvailabilityLookups();
 
   const handleValueChange = (value: string) => {
     if (value === "all") {

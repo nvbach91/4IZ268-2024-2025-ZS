@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "@/components/shared/header";
 import { Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 
@@ -21,10 +20,7 @@ export default function RootLayout({
       </head>
       <body>
         <div className="main-wrapper">
-          <Suspense>
-            <Header />
-            <main>{children}</main>
-          </Suspense>
+          <Suspense>{children}</Suspense>
         </div>
         <Toaster />
       </body>

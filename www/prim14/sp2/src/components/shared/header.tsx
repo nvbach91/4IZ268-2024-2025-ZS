@@ -10,7 +10,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaSearch } from "react-icons/fa";
 
-export default function Header() {
+export default function Header({
+  homeLink,
+  logoLink,
+}: {
+  homeLink: string;
+  logoLink: string;
+}) {
   const searchParams = useSearchParams();
   const [searchValue, setSearchValue] = useState(searchParams.get("q") || "");
   const router = useRouter();
@@ -29,15 +35,16 @@ export default function Header() {
 
   return (
     <header>
-      <Link href="./">
+      <Link href={homeLink}>
         <Card className="logo">
           <CardTitle className="name">
             <h1>Lišákův obchod</h1>
             <Image
               height={35.2}
               width={46.5}
-              src="/logo-gray.webp"
+              src={logoLink}
               alt="Logo obchůdku pana Lišáka"
+              priority
             />
           </CardTitle>
         </Card>

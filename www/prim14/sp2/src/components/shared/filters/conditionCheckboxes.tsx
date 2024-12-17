@@ -1,16 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ICheckableLookup } from "@/models/ILookup";
+import ILookup, { ICheckableLookup } from "@/models/ILookup";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useRouter, useSearchParams } from "next/navigation";
-import useConditionLookups from "@/hooks/useConditionLookups";
 
-export default function ConditionCheckboxes() {
+export default function ConditionCheckboxes({
+  conditions,
+}: {
+  conditions?: Array<ILookup>;
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { conditions } = useConditionLookups();
   const [conditionLookups, setConditionLookups] =
     useState<ICheckableLookup[]>();
 
