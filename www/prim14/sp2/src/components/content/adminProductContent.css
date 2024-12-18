@@ -1,0 +1,11 @@
+.admin-product {
+  @apply w-full;
+}
+
+.admin-product__content {
+  @apply w-full flex flex-col md:flex-row gap-4 md:gap-14;
+}
+
+.admin-product__content .admin-product__content__col {
+  @apply w-full md:w-1/2 flex flex-col gap-4;
+}
