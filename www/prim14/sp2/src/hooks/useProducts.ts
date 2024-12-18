@@ -3,7 +3,7 @@ import useFetch from "./useFetch";
 import IProduct from "@/models/IProduct";
 import { getProducts } from "@/services/productsService";
 
-const DEFAULT_PAGE_SIZE = 8;
+const DEFAULT_PAGE_SIZE = 6;
 
 const useProducts = (searchParams: URLSearchParams) => {
   const { sendRequest } = useFetch();

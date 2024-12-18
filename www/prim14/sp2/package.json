@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && npm run postBuild",
+    "postBuild": "node postBuild.js",
     "start": "next start",
     "lint": "next lint"
   },
@@ -35,6 +36,8 @@
     "eslint-config-next": "15.1.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.16",
-    "typescript": "^5"
+    "typescript": "^5",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7"
   }
 }
