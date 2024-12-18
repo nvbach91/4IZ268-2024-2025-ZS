@@ -50,7 +50,7 @@ export default function ProductsContent({
                   <CardTitle className="text-md">{p.name}</CardTitle>
                   <CardDescription>{p.price} Kč</CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="product-card__image-wrapper">
                   <Image
                     src={p.imagePath}
                     alt={p.name}
@@ -77,7 +77,7 @@ export default function ProductsContent({
                   <Skeleton className="h-6 w-3/4 mb-2" />
                   <Skeleton className="h-4 w-1/2" />
                 </CardHeader>
-                <CardContent>
+                <CardContent className="product-card__image-wrapper">
                   <Skeleton className="h-[150px] w-full" />
                 </CardContent>
                 <CardFooter className="flex flex-col items-center gap-2">
