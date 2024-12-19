@@ -1,11 +1,13 @@
 // Class to preload all the assets
 // Remember you can load this assets in another scene if you need it
+
 export class Preloader extends Phaser.Scene {
     constructor() {
         super({ key: "Preloader" });
     }
 
     preload() {
+
         // Load all the assets
         this.load.setPath("assets");
         this.load.image("logo", "logo.png");
@@ -24,6 +26,9 @@ export class Preloader extends Phaser.Scene {
         this.load.atlas("enemy-blue", "enemies/enemy-blue/enemy-blue.png", "enemies/enemy-blue/enemy-blue_atlas.json");
         this.load.animation("enemy-blue-anim", "enemies/enemy-blue/enemy-blue_anim.json");
         this.load.image("enemy-bullet", "enemies/enemy-bullet.png");
+
+        // Ball
+        this.load.image("ball", "ball.png")
 
         // Fonts
         this.load.bitmapFont("pixelfont", "fonts/pixelfont.png", "fonts/pixelfont.xml");

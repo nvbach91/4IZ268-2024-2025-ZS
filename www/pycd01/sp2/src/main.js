@@ -10,9 +10,9 @@ import { SplashScene } from "./scenes/SplashScene";
 const config = {
     type: Phaser.AUTO,
     parent: "phaser-container",
-    width: 960,
-    height: 540,
-    backgroundColor: "#1c172e",
+    width: 800,
+    height: 500,
+    backgroundColor: "#5e1458",
     pixelArt: true,
     roundPixel: false,
     max: {
