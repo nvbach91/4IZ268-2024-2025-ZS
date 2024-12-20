@@ -36,9 +36,15 @@ body {
 
 .search-wrapper {
     display: flex;
-    margin: 80px 0px;
+    margin: 80px 0px 40px 0px;
     justify-content: center;
     position: relative;
+    transition: margin 0.5s ease-in-out;
+}
+
+.search-wrapper.chosen {
+    margin: 0px;
+    margin-bottom: 20px;
 }
 
 #location-icon:hover {
@@ -103,6 +109,76 @@ body {
     background-color: rgb(12, 109, 255);
 }
 
+.results {
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+}
+
+.results h3 {
+    margin: 0 0 5px 0;
+}
+
+.results p {
+    margin: 0px;
+}
+
+.hourly,
+.daily {
+    background-color: rgb(114, 173, 251);
+    border-radius: 10px;
+    height: 100px;
+    display: flex;
+    justify-content: baseline;
+    align-items: center;
+    padding: 10px;
+    width: calc(100vw - 40px);
+}
+
+.hourly {
+    height: 140px;
+    overflow: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+}
+
+.hourly::-webkit-scrollbar {
+    display: none;
+}
+
+.hour-box {
+    height: 100%;
+    border-radius: 10px;
+    width: 80px;
+    text-align: center;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 3px 0px;
+    flex-shrink: 0;
+}
+
+.img-wrapper {
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.temp {
+    font-size: 1rem;
+    margin: 5px;
+}
+
+.temp-number {
+    font-size: 1.5rem;
+    font-style: normal;
+    font-family: monospace;
+}
+
+
+
 footer {
     margin-bottom: 10px;
 }
@@ -111,6 +187,7 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 15px;
 }
 
 
@@ -125,7 +202,7 @@ footer {
     align-items: center;
 }
 
-.open-weather p {
+footer {
     font-size: 0.8rem;
 }
 

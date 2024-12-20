@@ -23,5 +23,15 @@ const fetchCoordinates = async (city) => {
     return data;
 }
 
+const form = document.querySelector('form');
+const searchWrapper = document.querySelector('.search-wrapper');
+const input = form.querySelector('input');
+
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    input.blur();
+    searchWrapper.classList.add('chosen');
+})
+
 // fetchWeatherData('33.44', '-94.04');
 // fetchCoordinates('London');
