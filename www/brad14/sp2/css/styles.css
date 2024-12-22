@@ -113,6 +113,7 @@ body {
     display: flex;
     gap: 20px;
     flex-direction: column;
+    margin-bottom: 50px;
 }
 
 .results h3 {
@@ -125,19 +126,18 @@ body {
 
 .hourly,
 .daily {
-    background-color: rgb(114, 173, 251);
     border-radius: 10px;
-    height: 100px;
     display: flex;
     justify-content: baseline;
     align-items: center;
     padding: 10px;
-    width: calc(100vw - 40px);
 }
 
 .hourly {
-    height: 140px;
     overflow: auto;
+    background-color: rgb(114, 173, 251);
+    height: 140px;
+    width: calc(100vw - 40px);
     white-space: nowrap;
     scrollbar-width: none;
 }
@@ -177,6 +177,37 @@ body {
     font-family: monospace;
 }
 
+.daily {
+    flex-direction: column;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 5px;
+    gap: 5px;
+    color: white;
+}
+
+.daily-box {
+    background-color: rgb(114, 173, 251);
+    width: 100%;
+    height: 60px;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 4px;
+    align-items: center;
+}
+
+.daily-box p {
+    text-align: right;
+}
+
+.weather-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100px;
+}
+
 
 
 footer {
@@ -210,6 +241,12 @@ footer {
 
     body {
         margin: 0 20px;
+    }
+}
+
+@media (min-width: 1229px) {
+    .hourly {
+        width: 1200px;
     }
 }
 
