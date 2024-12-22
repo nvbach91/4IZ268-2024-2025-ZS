@@ -1,9 +1,10 @@
-import { Scene } from "phaser";
+import {Scene} from "phaser";
 import {addImageToScene, getImage} from '/src/iconLoader.js';
 
 export class MenuScene extends Scene {
-    avatarsImageMap;
+    avatarsImageMap = new Map();
     activeAvatar = null;
+    alreadyLoaded = false;
 
     constructor() {
         super("MenuScene");
@@ -22,13 +23,16 @@ export class MenuScene extends Scene {
         `;
         console.log(svgString);*/
         let avatarNames = ["Riley", "Aiden", "Brian", "Eden", "Emery", "Jade"]
-        this.avatarsImageMap = new Map();
         let i = 0;
         const IMAGE_GAP = 100;
         const PARAMS = "&radius=20&backgroundType[]&backgroundColor=805050";
+
         for (const avatar of avatarNames) {
-            let img = await getImage(avatar, "https://api.dicebear.com/9.x/lorelei/svg?seed=" + avatar + PARAMS, this)
-            if (img != null) {
+            let img;
+            if (!this.alreadyLoaded) {
+                img = await getImage(avatar, "https://api.dicebear.com/9.x/lorelei/svg?seed=" + avatar + PARAMS, this)
+            }
+            if (img != null || this.alreadyLoaded) {
                 let iconObject = addImageToScene(avatar, 80 + IMAGE_GAP * i, 80, this);
                 this.avatarsImageMap.set(
                     avatar,
@@ -37,6 +41,8 @@ export class MenuScene extends Scene {
                 i++;
             }
         }
+        this.alreadyLoaded = true;
+
         //this.riley = await addImageToScene("Riley",  "https://api.dicebear.com/9.x/lorelei/svg?seed=Riley", 80, 80, this)
     }
 
@@ -93,17 +99,20 @@ export class MenuScene extends Scene {
 
         // Send start-game event when user clicks
         this.input.on("pointerdown", (pointer) => {
-            if(pointer.y > 150) {
-                this.scene.start("MainScene", { activeAvatar: this.activeAvatar });
+            if (pointer.y > 150) {
+                this.scene.start("MainScene", {activeAvatar: this.activeAvatar});
             }
         });
 
 
     }
 
+    resetAvatar() {
+        this.activeAvatar = null;
+    }
 
     onIconClick(unique_name) {
-        console.log('Button clicked!'+unique_name);
+        //console.log('Button clicked!'+unique_name);
 
         this.avatarsImageMap.forEach((image) => {
             image.setScale(0.1);

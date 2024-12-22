@@ -11,21 +11,8 @@ export class Preloader extends Phaser.Scene {
         // Load all the assets
         this.load.setPath("assets");
         this.load.image("logo", "logo.png");
-        this.load.image("floor");
-        this.load.image("background", "background.png");
 
         this.load.image("player", "player/player.png");
-        this.load.atlas("propulsion-fire", "player/propulsion/propulsion-fire.png", "player/propulsion/propulsion-fire_atlas.json");
-        this.load.animation("propulsion-fire-anim", "player/propulsion/propulsion-fire_anim.json");
-
-        // Bullets
-        this.load.image("bullet", "player/bullet.png");
-        this.load.image("flares")
-
-        // Enemies
-        this.load.atlas("enemy-blue", "enemies/enemy-blue/enemy-blue.png", "enemies/enemy-blue/enemy-blue_atlas.json");
-        this.load.animation("enemy-blue-anim", "enemies/enemy-blue/enemy-blue_anim.json");
-        this.load.image("enemy-bullet", "enemies/enemy-bullet.png");
 
         // Ball
         this.load.image("ball", "ball.png")

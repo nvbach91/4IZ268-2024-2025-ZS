@@ -1,11 +1,11 @@
-import { Scene } from "phaser";
-import { Player } from "../gameobjects/Player";
-import { Enemy } from "../gameobjects/Enemy";
-import { Ball } from "../gameobjects/Ball";
+import {Scene} from "phaser";
+import {Player} from "../gameobjects/Player";
+import {Enemy} from "../gameobjects/Enemy";
+import {Ball} from "../gameobjects/Ball";
 
 export class MainScene extends Scene {
     player = null;
-    enemy= null;
+    enemy = null;
     ball = null;
     cursors = null;
     hittable_player = null;
@@ -18,64 +18,67 @@ export class MainScene extends Scene {
     W_pressed = false;
     S_pressed = false;
     heightText;
+
     constructor() {
         super("MainScene");
     }
 
     init(data) {
         this.cameras.main.fadeIn(1000, 0, 0, 0);
-
-        // Reset points
         this.points = 0;
-        this.game_over_timeout = 20;
-
         this.activeAvatarName = data.activeAvatar;
     }
 
     create() {
         // Player
-        this.player = new Player({ scene: this });
+        this.player = new Player({scene: this});
         this.player.activeAvatarName = this.activeAvatarName;
         //this.heightText = this.add.text(200, 20, "", { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
 
         // Enemy
         this.enemy = new Enemy(this);
         this.enemy.activePlayerAvatarName = this.activeAvatarName;
+        this.hittable_player = this.enemy;
 
         // Ball
         this.ball = new Ball(this);
 
-        // Cursor keys
+        // Continue Playing
         this.cursors = this.input.keyboard.createCursorKeys();
-        /*this.cursors.space.on("down", () => {
-            //this.player.fire();
-        });*/
+
         this.input.on("pointerdown", (pointer) => {
-            //this.player.fire(pointer.x, pointer.y);
             this.changeState("play");
             this.scene.get("HudScene")
                 .update_center_text("");
         });
+        this.input.keyboard.on('keydown-SPACE', () => {
+                this.changeState("play");
+                this.scene.get("HudScene")
+                    .update_center_text("");
+            }
+        );
 
-        this.input.keyboard.on('keydown-W',() => this.W_pressed = true);
-        this.input.keyboard.on('keydown-S',() => this.S_pressed = true);
-        this.input.keyboard.on('keyup-W',() => this.W_pressed = false);
-        this.input.keyboard.on('keyup-S',() => this.S_pressed = false);
+        // Movement on W and S keys
+        this.input.keyboard.on('keydown-W', () => this.W_pressed = true);
+        this.input.keyboard.on('keydown-S', () => this.S_pressed = true);
+        this.input.keyboard.on('keyup-W', () => this.W_pressed = false);
+        this.input.keyboard.on('keyup-S', () => this.S_pressed = false);
 
         // Enable Colliders
         this.bindPhysics()
 
         // This event comes from MenuScene
-            this.scene.launch("HudScene");
+        this.scene.launch("HudScene");
 
         // Start
-            this.player.start();
-            this.enemy.start();
-            this.ball.start();
+        this.player.start();
+        this.enemy.start();
+        this.ball.start();
 
         // Exit
-        this.input.keyboard.on('keydown-ESC',() => this.ExitToMenu());
+        this.input.keyboard.on('keydown-ESC', () => this.exitToMenu());
     }
+
     //Collision of ball and players.
     bindPhysics() {
         this.physics.add.overlap(this.ball, this.enemy, (enemy, bullet) => {
@@ -115,10 +118,10 @@ export class MainScene extends Scene {
         this.enemy.move(this.ball.y, this.ball.speed);
 
         // Enemy score
-        if(this.ball.x < 0) {
+        if (this.ball.x < 0) {
             console.log("enemy score")
             this.changeState("pause");
-            this.ball.reset(this.scale.width/2, this.scale.height/2);
+            this.ball.reset(this.scale.width / 2, this.scale.height / 2);
             this.enemy.reset();
             this.hittable_player = null;
 
@@ -129,13 +132,34 @@ export class MainScene extends Scene {
         else if (this.ball.x > this.scale.width) {
             console.log("player score")
             this.changeState("pause");
-            this.ball.reset(this.scale.width/2, this.scale.height/2);
+            this.ball.reset(this.scale.width / 2, this.scale.height / 2);
             this.enemy.reset();
             this.hittable_player = null;
 
             this.player_score += 1;
             this.scene.get("HudScene")
                 .update_score(this.player_score, this.enemy_score);
+        }
+
+        const WIN_SCORE = 5;
+        let score = `${this.player_score.toString()} - ${this.enemy_score.toString()}`;
+        if (this.player_score >= WIN_SCORE) {
+            console.log("player won");
+            this.reset();
+            this.scene.start("GameOverScene", {
+                message: "YOU WON",
+                end_points: this.points,
+                score: score,
+            });
+        }
+        if (this.enemy_score >= WIN_SCORE) {
+            console.log("enemy won");
+            this.reset();
+            this.scene.start("GameOverScene", {
+                message: "YOU LOST",
+                end_points: this.points,
+                score: score,
+            });
         }
     }
 
@@ -144,14 +168,24 @@ export class MainScene extends Scene {
         this.enemy.state = state;
         this.ball.state = state;
 
-        if(state === "pause") {
+        if (state === "pause") {
             this.scene.get("HudScene")
                 .update_center_text("CLICK TO CONTINUE");
         }
     }
 
-    ExitToMenu() {
-        this.scene.stop("HudScene");
+    exitToMenu() {
+        this.reset()
         this.scene.start("MenuScene");
+    }
+
+    reset() {
+        this.player.avatarObject = null;
+        this.enemy.avatarObject = null;
+        this.enemy_score = 0;
+        this.player_score = 0;
+        this.scene.get("MenuScene")
+            .resetAvatar();
+        this.scene.stop("HudScene");
     }
 }

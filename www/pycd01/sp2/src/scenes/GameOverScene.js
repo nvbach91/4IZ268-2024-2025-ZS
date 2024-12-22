@@ -1,45 +1,47 @@
 import { Scene } from "phaser";
 
 export class GameOverScene extends Scene {
+    message = ""
     end_points = 0;
+    score = 0;
+
     constructor() {
         super("GameOverScene");
     }
 
     init(data) {
         this.cameras.main.fadeIn(1000, 0, 0, 0);
-        this.end_points = data.points || 0;
+        this.message = data.message;
+        this.end_points = data.end_points;
+        this.score = data.score;
     }
 
     create() {
-        // Backgrounds
-        this.add.image(0, 0, "background")
-            .setOrigin(0, 0);
-        this.add.image(0, this.scale.height, "floor")
-            .setOrigin(0, 1);
 
-        // Rectangles to show the text
         // Background rectangles
+        this.add.rectangle(
+            this.scale.width/2,
+            this.scale.height/2,
+            this.scale.width*2,
+            this.scale.height*2,
+            0x000000,
+            1
+        )
+
         this.add.rectangle(
             0,
             this.scale.height / 2,
             this.scale.width,
             120,
             0xffffff
-        ).setAlpha(.8).setOrigin(0, 0.5);
-        this.add.rectangle(
-            0,
-            this.scale.height / 2 + 105,
-            this.scale.width,
-            90,
-            0x000000
-        ).setAlpha(.8).setOrigin(0, 0.5);
+        ).setAlpha(1).setOrigin(0, 0.5);
 
+        console.log(this.message)
         const gameover_text = this.add.bitmapText(
             this.scale.width / 2,
             this.scale.height / 2,
             "knighthawks",
-            "GAME\nOVER",
+            `${this.message}`,
             62,
             1
         )
@@ -48,7 +50,7 @@ export class GameOverScene extends Scene {
 
         this.add.bitmapText(
             this.scale.width / 2,
-            this.scale.height / 2 + 85,
+            this.scale.height / 2 + 95,
             "pixelfont",
             `YOUR POINTS: ${this.end_points}`,
             24
@@ -56,7 +58,15 @@ export class GameOverScene extends Scene {
 
         this.add.bitmapText(
             this.scale.width / 2,
-            this.scale.height / 2 + 130,
+            this.scale.height / 2 + 125,
+            "pixelfont",
+            `${this.score}`,
+            24
+        ).setOrigin(0.5, 0.5);
+
+        this.add.bitmapText(
+            this.scale.width / 2,
+            this.scale.height / 2 + 180,
             "pixelfont",
             "CLICK TO RESTART",
             24
@@ -67,7 +77,7 @@ export class GameOverScene extends Scene {
             delay: 1000,
             callback: () => {
                 this.input.on("pointerdown", () => {
-                    this.scene.start("MainScene");
+                    this.scene.start("MenuScene");
                 });
             }
         
