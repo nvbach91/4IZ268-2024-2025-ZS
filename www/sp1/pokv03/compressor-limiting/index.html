@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Vojtěch Poklop">
+    <meta name="description" content="Blog zaměřený na hudební produkci. Naučte se techniky jako ekvalizace, komprese, mastering a další!">
+    <meta name="keywords" content="hudební produkce, mixáž, mastering, ekvalizace, komprese, reverb, delay, zvuková tvorba">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="cs">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    
+    <link rel="shortcut icon" href="../img/music-note-icon-29.png" type="image/x-icon">
+    <link rel="stylesheet" href="../css/style.css">
+    <title>LOOPWEB - Komprese a limitting</title>
+</head>
+<body>
+    <div class="content">
+        <header>
+            <a href="../" class="web-title"><h1>LOOPWEB</h1></a>
+            <nav class="header-nav">
+                <ul>
+                    <li><a href="../eq/">Ekvalizace</a></li>
+                    <li><a href="./" class="selected">Kompresor a limiting</a></li>
+                    <li><a href="../reverb-delay/">Reverb a delay</a></li>
+                    <li><a href="../mix/">Základy mixáže</a></li>
+                    <li><a href="../master/">Mastering</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <nav class="main-nav">
+                <ul>
+                    <li id="o0"><a href="#n0">+ úvod do tématu</a></li>
+                    <li><a href="#n1">+ k čemu slouží</a></li>
+                    <li><a href="#n2">+ pojmy</a></li>
+                    <li><a href="#n3">+ shrnutí</a></li>
+                    <li><a href="#n4">+ tabulka</a></li>
+                </ul>
+            </nav>
+            <article>
+                <h2>Kontrola dynamiky a hlasitosti</h2>
+                <section>
+                    <figure>
+                        <a href="../img/compressor-analog.png" target="_blank">
+                            <img src="../img/compressor-analog.png" width="300" alt="Obrázek analog kompresor.">
+                        </a>
+                        <figcaption>obr. kompresor</figcaption>
+                    </figure>
+                    <div>
+                        <h3 id="n0"><a href="#o0">úvod do tématu</a></h3>
+                        <p>Komprese a limiting jsou základní nástroje v arzenálu každého hudebního producenta. Pomáhají udržet dynamiku zvuku pod kontrolou, zajistit rovnováhu mezi tichými a hlasitými částmi a vytvořit profesionální, konzistentní zvuk. Ačkoli jsou komprese i limiting úzce spjaty, každý nástroj má svou specifickou roli.</p>        
+                    </div>
+                </section>
+                <section>
+                    <div>
+                        <h3 id="n1"><a href="#o0">k čemu slouží</a></h3>
+                        <p>Komprese se používá k tomu, aby se zmenšil rozdíl mezi nejtiššími a nejhlasitějšími částmi signálu. To je obzvlášť užitečné při práci s vokály, které mají přirozeně proměnlivou dynamiku. Nastavení parametrů, jako je threshold (práh) a ratio (poměr), umožňuje určit, jak výrazně bude komprese zasahovat. Například při poměru 4:1 se každé 4 decibely nad práh sníží na 1 decibel. Správná komprese zajistí, že tiché části budou více slyšet, zatímco hlasité nebudou působit rušivě.</p>        
+                    </div>
+                </section>
+                <section>
+                    <div>
+                        <h3 id="n2"><a href="#o0">pojmy</a></h3>
+                        <p>Attack a release jsou další klíčové parametry, které určují, jak rychle kompresor začne a skončí pracovat. Rychlý attack je ideální pro bicí nástroje, aby zachytil ostré transienty, zatímco pomalejší attack může udržet přirozený charakter vokálů nebo kytary. Dlouhý release zase pomáhá zajistit, že komprese nebude znít „pumpující“.</p>
+                        <p>Limiting je podobný kompresi, ale pracuje mnohem agresivněji. Jeho hlavní funkcí je zabránit tomu, aby signál překročil určitý maximální limit, což je klíčové při finálním masteringu. Limiter je často posledním článkem v signálovém řetězci a zajišťuje, že výsledná nahrávka nebude přebuzená, což by mohlo vést k nepříjemnému zkreslení.</p>        
+                    </div>
+                    <figure>
+                        <a href="../img/home-page1.png" target="_blank">
+                            <img class="left-img" src="../img/home-page1.png" width="300" alt="Obrázek limiter kompresor DAW.">
+                        </a>
+                        <figcaption>obr. DAW</figcaption>
+                    </figure>
+                </section>
+                <section>
+                    <div>
+                        <h3 id="n3"><a href="#o0">shrnutí</a></h3>
+                        <p>Důležité je používat kompresi i limiting s citem. Přílišná komprese může zvuk „udusit“ a odstranit jeho přirozenou dynamiku. Naopak správně použitá komprese a limiting pomáhají dosáhnout hutného a profesionálního zvuku, aniž by byl posluchač zahlcen. Pokud začínáte, experimentujte s různými nastaveními na jednotlivých stopách i na celkovém mixu – pochopení dynamiky je jedním z nejdůležitějších kroků k mistrovskému zvuku.</p>        
+                    </div>
+                </section>
+                <section class="compressor-table">
+                    <div>
+                        <h3 id="n4"><a href="#o0">doporučené kompresory (analogové a softwarové)</a></h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Název kompresoru</th>
+                                    <th>Typ</th>
+                                    <th>Specifikace</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><a href="https://www.sweetwater.com/store/detail/1176LN--universal-audio-1176ln-classic-analog-limiters" target="_blank">Universal Audio 1176</a></td>
+                                    <td>Analogový</td>
+                                    <td>FET kompresor, rychlá reakce, výrazná agresivita, ideální pro vokály a bicí</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="https://www.sweetwater.com/store/detail/Fairchild670--universal-audio-fairchild-670-classic-tube-limiter" target="_blank">Fairchild 670</a></td>
+                                    <td>Analogový</td>
+                                    <td>Opto-kompresor, velmi jemný, vhodný pro mastering, teplý zvuk s vysokou úrovní zvukové kvality</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="https://www.waves.com/plugins/ssl-g-master-buss-compressor" target="_blank">Waves SSL G-Master Buss Compressor</a></td>
+                                    <td>Software</td>
+                                    <td>Modeluje legendární SSL kompresor, ideální pro mixy, s kontrolou poměru a prahové hodnoty</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="https://www.fabfilter.com/products/pro-c-2-compressor" target="_blank">FabFilter Pro-C 2</a></td>
+                                    <td>Software</td>
+                                    <td>Všestranný kompresor s mnoha režimy, transparentní, ideální pro vokály, basy a mastering</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="https://www.sweetwater.com/store/detail/dbx160A--dbx-160a-compressor-limiter" target="_blank">dbx 160</a></td>
+                                    <td>Analogový</td>
+                                    <td>Využívá VCA, velká dynamika, jednoduché ovládání, často používaný pro bicí a basové linky</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="https://www.izotope.com/en/products/ozone.html" target="_blank">iZotope Ozone 9 Dynamics</a></td>
+                                    <td>Software</td>
+                                    <td>Inteligentní kompresor, přizpůsobitelný pro mastering, možnost multiband komprese, transparentní</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>                
+            </article>
+        </main>
+
+        <footer>&copy;LOOPWEB - VP 2024</footer>
+    </div>
+</body>
+</html>

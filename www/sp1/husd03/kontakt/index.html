@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kontaktní stránka pro Studentskou kuchařku.">
+    <title>Kontakt - Studentská kuchařka</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="icon" href="../img/hot-pot.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../priprava/index.html">Jak připravit</a></li>
+                <li><a href="../galerie/index.html">Galerie</a></li>
+                <li><a href="#" class="active">Kontakt</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="contact-section">
+            <h1>Kontaktujte mě</h1>
+            <p>Máte návrh na nový recept nebo dotaz? Neváhejte mi napsat pomocí formuláře níže.</p>
+
+            <form action="kontakt_podekovani/index.html" method="get" class="contact-form">
+                <label for="name">Jméno:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="subject">Předmět:</label>
+                <input type="text" id="subject" name="subject">
+
+                <label for="message">Zpráva:</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+
+                <button type="submit">Odeslat</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 David Husák. Všechna práva vyhrazena.</p>
+    </footer>
+
+</body>
+
+</html>

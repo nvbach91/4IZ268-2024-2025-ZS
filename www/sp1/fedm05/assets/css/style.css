@@ -1,0 +1,367 @@
+* {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+    text-align: justify;
+}
+
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #fff;
+    color: #333;
+}
+
+.page-container {
+    padding: 0% 25%;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 36px;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar ul li {
+    display: inline;
+}
+
+.navbar ul li a {
+    text-decoration: none;
+    color: #333;
+    font-size: 18px;
+}
+
+.navbar ul li a:hover,
+.navbar ul li a.active {
+    text-decoration: underline;
+    text-underline-offset: 6px;
+}
+
+/* END navbar */
+
+/* Common styles */
+.hero,
+.about,
+.services,
+.portfolio,
+.blog,
+.contact {
+    padding: 20px 10px 20px 10px;
+}
+
+.hero h1,
+.about h1,
+.services h1,
+.portfolio h1,
+.blog h1,
+.contact h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+    color: #0D1B2A
+}
+
+.hero h2,
+.about h2,
+.service-card h2,
+.project-card h2,
+.blog-card h2,
+.contact-background h2 {
+    font-size: 28px;
+    color: #0D1B2A;
+    padding-bottom: 20px;
+    padding-top: 10px;
+    text-align: left;
+}
+
+.service-card,
+.project-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.service-card:hover,
+.project-card:hover {
+    transform: translateY(-10px);
+}
+
+.project-card p,
+.blog-card p,
+.service-card p,
+.hero p,
+.about-background p,
+.job-entry ul li,
+.about-background p,
+.contact-background p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.projects-grid,
+.blog-grid,
+.services-grid {
+    display: grid;
+    gap: 20px;
+}
+
+.project-tag,
+.blog-tag {
+    background-color: #d9d9d9;
+    color: #0D1B2A;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+
+/* END Common elements */
+
+/* Home */
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.buttons {
+    margin-top: 30px;
+}
+
+.buttons .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-right: 10px;
+    border-radius: 25px;
+    text-decoration: none;
+    color: #fff;
+    background: #0D1B2A;
+    cursor: pointer;
+}
+
+.buttons .download-btn {
+    background: #e0e0e0;
+    color: #333;
+}
+
+.buttons .btn:hover {
+    opacity: 0.9;
+}
+
+.social-icons {
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.social-icons a {
+    font-size: 20px;
+    margin-right: 10px;
+    color: #0D1B2A;
+    text-decoration: none;
+    transition: transform 0.3s;
+}
+
+.img-wrapper img {
+    width: 460px;
+    object-fit: cover;
+    clip-path: polygon(20% 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+footer {
+    border-top: 1px solid #e0e0e0;
+    padding: 20px 0px 20px 0px;
+    text-align: center;
+}
+
+/* END Home */
+
+/* About Me */
+.about-background {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 0px 30px 30px;
+}
+
+.job-entry {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.job-entry ul {
+    padding-left: 30px;
+}
+
+.job-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.company-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin-right: 20px;
+    background: #f0f0f0;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.job-details h3 {
+    font-size: 20px;
+    color: #0D1B2A;
+    margin-bottom: 5px;
+}
+
+.job-details .job-date {
+    color: #708090;
+    font-size: 14px;
+}
+
+.job-details p,
+.job-date p,
+.job-entry ul li {
+    margin: 0px;
+}
+
+/* END About Me */
+
+/* Services */
+
+.services-grid {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.service-card i {
+    font-size: 40px;
+    color: #0D1B2A;
+    margin-bottom: 15px;
+    display: block;
+}
+
+/* END Services */
+
+/* Portfolio */
+.projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.project-card i {
+    font-size: 40px;
+    color: #0D1B2A;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.project-tags {
+    margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* END Portfolio */
+
+/* Blog */
+.blog-grid {
+    grid-template-columns: 1fr;
+}
+
+.blog-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.blog-card:hover {
+    transform: translateX(10px);
+}
+
+.blog-card .blog-meta {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.blog-tags {
+    margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* END Blog */
+
+/* Contact */
+/* Contact Page */
+.contact-background {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 0px 30px 30px;
+}
+
+.contact-info i,
+.social-links a i {
+    margin-right: 10px;
+    color: #0D1B2A;
+}
+
+.social-links {
+    margin-top: 30px;
+}
+
+.social-links a {
+    display: block;
+    margin-bottom: 10px;
+    color: #0D1B2A;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+    color: #666;
+}
+
+.contact-background p a {
+    text-decoration: none;
+    color: #666;
+}
+
+/* END Contact */
+
+
+/* Optimize print version */
+@media print {
+    * {
+        margin: 0 !important;
+        padding: 0 !important;
+        font-size: 12px;
+    }
+
+    .navbar {
+        display: none;
+    }
+}

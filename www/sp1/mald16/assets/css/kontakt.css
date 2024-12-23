@@ -1,0 +1,57 @@
+.wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	font-size: 1.5em;
+	margin-bottom: 100px;
+}
+
+.social-icons-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.social-icon {
+	width: 50px;
+	height: 50px;
+	margin: 0 10px;
+}
+
+.mail {
+	color: #fff;
+	text-decoration: underline;
+	text-decoration-color: #1e73e8;
+	text-decoration-thickness: 3px;
+	text-decoration-skip: none;
+	margin-bottom: 30px;
+}
+
+.contact-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 30px;
+}
+
+.contact {
+	border: 1px solid #fff;
+	border-radius: 10px;
+	padding: 5px 10px;
+	margin: 20px;
+}
+
+.contact > a {
+	text-decoration: none;
+}
+
+.stageplan-rider {
+	margin-top: 20px;
+}
+
+@media (max-width: 500px) {
+	.contact-wrapper {
+		flex-direction: column;
+	}
+}

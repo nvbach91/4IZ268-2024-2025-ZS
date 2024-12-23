@@ -1,0 +1,490 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    overflow-x: hidden;
+    margin: 0;
+}
+
+body {
+    font-family: 'Roboto', serif;
+    background-color: #e0c569;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* menu */
+.logo-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0;
+}
+
+.menu {
+    display: flex;
+    justify-content: flex-start;
+    position: absolute;
+    top: 10px;
+}
+
+.menu-item {
+    list-style-type: none;
+    margin-left: 40px;
+}
+
+.menu-item a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    display: block;
+    transition: background-color 0.3s ease;
+}
+
+.menu-item a:hover {
+    background-color: #e0c569;
+    color: black;
+}
+
+.menu-item.menu-active a {
+    font-weight: bold;
+}
+
+
+/* hl obsah */
+.main-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.main-content img {
+    max-width: 40%;
+    height: auto;
+    margin-left: 10%;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.text {
+    flex: 1;
+    margin-left: 5%;
+}
+
+.title {
+    font-size: 30px;
+}
+
+.description {
+    font-size: 18px;
+    line-height: 1.5;
+    text-align: justify;
+
+}
+
+/* dalsi obsah */
+.detail-info {
+    background-color: #ebd89c;
+    padding-bottom: 30px;
+    padding-top: 20px;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 30px;
+    margin-bottom: 15px;
+}
+
+/* platf a about tlac */
+.image-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    align-items: center;
+    height: 400px;
+}
+
+.image-link {
+    position: relative;
+    display: block;
+    width: 550px;
+    height: 350px;
+}
+
+.image-link-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.7);
+    transition: filter 0.3s ease;
+}
+
+.image-link:hover .image-link-img {
+    filter: brightness(1);
+}
+
+.image-link-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    font-size: 18px;
+    font-weight: normal;
+    opacity: 1;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.image-link-text h3 {
+    font-size: 30px;
+    font-weight: bold;
+    color: white;
+}
+
+.image-link-text p {
+    font-size: 20px;
+    margin-top: 10px;
+    color: white;
+}
+
+/**/
+.feature-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.feature-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    justify-content: center;
+}
+
+.feature-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+}
+
+.feature-item p {
+    font-size: 18px;
+    line-height: 1.5;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+
+.platform-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding-left: 5%;
+    padding-right: 5%;
+    margin-top: 5%;
+}
+
+.platform-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+    width: calc(33.33% - 20px);
+}
+
+.platform-logo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.platform-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.platform-name {
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.detail-info-dark {
+    padding-bottom: 30px;
+    padding-top: 20px;
+    text-align: center;
+}
+
+.text-container {
+    flex: 1;
+    font-size: 35px;
+    text-align: right;
+    align-items: center;
+    margin-left: 15%;
+    margin-right: 5%;
+    color: black;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* rozlozeni villagers */
+.bachelor-list,
+.bachelorette-list,
+.non-marriage-candidates-list,
+.non-giftable-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 2%;
+}
+
+.villager {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.villager-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+.villager-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.mini-title {
+    font-size: 23px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+/*skills*/
+.skill-container,
+.tips-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+    gap: 20px;
+}
+
+.ultimate-guide-vid {
+    width: 100%;
+    height: auto;
+    max-width: 45%;
+    aspect-ratio: 16/9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 20px 0;
+    object-fit: cover;
+}
+
+/*skill a tips*/
+.skill-title,
+.tips-title {
+    text-align: left;
+    font-size: 30px;
+    margin-bottom: 15px;
+}
+
+.skill-description,
+.tt-description {
+    font-size: 18px;
+    line-height: 1.5;
+    text-align: justify;
+}
+
+.tips-container img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: 600px;
+    object-fit: cover;
+    margin-top: 3%;
+}
+
+/*footer*/
+.footer {
+    background-color: #e0c569;
+    color: white;
+    text-align: center;
+    font-size: 14px;
+    padding: 20px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.footer-menu {
+    display: inline-flex;
+}
+
+.footer-menu a {
+    color: white;
+    text-decoration: none;
+}
+
+.footer-menu a:hover,
+.footer-info:hover p {
+    color: white;
+    font-weight: bold;
+}
+
+/*media*/
+@media (max-width: 768px) {
+
+    .main-content {
+        flex-direction: column;
+    }
+
+    .main-content img {
+        position: relative;
+        width: 100%;
+        margin-top: 20px;
+        z-index: 0;
+    }
+
+    .menu-item {
+        margin-left: 8%;
+    }
+
+    .menu-item a {
+        font-size: 4vw;
+    }
+
+    .text {
+        margin-left: 0;
+    }
+
+    .platform-card {
+        width: calc(100% - 20px);
+    }
+
+    .detail-info-dark {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .text-container {
+        text-align: center;
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    .skill-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .text-content,
+    .ultimate-guide-vid {
+        max-width: 100%;
+    }
+
+    .text-content {
+        margin-left: 0;
+    }
+
+    .footer-menu {
+        margin-top: 0px;
+        width: 100%;
+        margin-bottom: 10px;
+        display: inline-block;
+    }
+
+    .footer-info {
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .platform-card {
+        width: calc(100% - 20px);
+    }
+
+    .menu-item {
+        padding: 0px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .platform-card {
+        width: calc(25% - 20px);
+    }
+
+    .menu-item {
+        padding: 0px;
+    }
+}
+
+
+@media (min-width: 1200px) {
+    .platform-cards {
+        gap: 30px;
+    }
+
+    .menu-item {
+        padding: 0px;
+    }
+}
+
+/*  print */
+@media print {
+    .ultimate-guide-vid {
+        display: none !important;
+    }
+
+    .explore-more {
+        display: block !important;
+    }
+
+    main img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .platform-logo img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+}

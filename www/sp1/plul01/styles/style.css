@@ -1,0 +1,215 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.container {
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    background-image: url("../picture/flags_optimized.jpg");
+    background-position: center;
+    color: #fff;
+    text-align: center;
+    padding: 60px 0;
+}
+
+header h1 {
+    font-size: 2.5em;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+nav {
+    background-color: #222;
+    padding: 15px 0;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.activeNav{
+    color: #818181;
+}
+
+.secondNav {
+    background-color: #333333;
+    padding: 5px 0;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+nav a:hover {
+    color: #ff6600;
+}
+
+.homeBlock {
+    background-color: #222;
+    color: #fff;
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.hero {
+    background-color: #222;
+    color: #fff;
+    text-align: center;
+    padding: 30px 20px;
+}
+
+.hero h1 {
+    font-size: 30px;
+
+}
+
+.pictureContainer {
+    margin-top: 20px;
+    max-width: 100%;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.pictureContainer img {
+    max-width: 100%;
+    height: auto;
+}
+
+.pictureContainerTable {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    display: block;
+
+}
+
+.pictureContainerTable img {
+    height: auto;
+}
+
+
+footer {
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+}
+
+.player-grid {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-gap: 3%;
+}
+
+.player-grid img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.player-grid .caption {
+    text-align: center;
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.highlights {
+    background-color: #c1c1c1;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+h3 {
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+@media (max-width: 800px) {
+    nav {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav a {
+        padding: 10px;
+    }
+
+    .player-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+    }
+
+}
+
+@media (max-width: 1000px) {
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+@media print {
+    body {
+        font-size: 12px;
+
+        padding: 20px;
+        background-color: #fff;
+    }
+
+    header, nav, .secondNav, footer {
+        display: none;
+    }
+    .highlights, .hero, .homeBlock {
+        background-color: #fff;
+        padding: 0%;
+        margin: 0%;
+    }
+    p, h1 {
+        color: #000;
+    }
+    .player-grid {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+    }
+}

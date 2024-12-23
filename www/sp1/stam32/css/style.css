@@ -1,0 +1,294 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Lato", sans-serif;
+    background-color: #FADADD;
+    background-image: url('../images/back.jpg');
+    background-position: center;
+    color: #4F4F4F;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    border: 2px solid #B76E79;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+h1 {
+    color: #B76E79;
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    background-color: #B76E79;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
+.navbar li {
+    margin: 0 15px;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #FFFFFF;
+    font-size: 1rem;
+    padding: 8px 15px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.navbar a:hover {
+    background-color: #A66370;
+    color: #FFFFFF;
+}
+
+.navbar a.active {
+    background-color: #FFFFFF;
+    color: #B76E79; 
+    font-weight: bold; 
+    border: 2px solid #B76E79;
+}
+
+section {
+    margin: 20px;
+}
+
+section h2 {
+    font-size: 1.8rem;
+    color: #B76E79;
+    margin-bottom: 15px;
+    font-weight: bold;
+    text-align: left;
+}
+
+section p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    color: #4F4F4F;
+}
+
+.footer {
+    background-color: #B76E79;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 15px 0;
+    margin-top: 20px;
+    border-radius: 8px;
+}
+
+.footer a {
+    color: #FADADD;
+    text-decoration: underline;
+}
+
+.footer a:hover {
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+.photo-gallery {
+    padding: 20px;
+    border-radius: 8px;
+}
+
+
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.photo {
+    border-radius: 8px;
+    border: 2px solid #B76E79;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+}
+
+.photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.hobby {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 2px solid #B76E79;
+    border-radius: 8px;
+    background-color: #FFFFFF;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hobby:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.hobby h3 {
+    font-size: 1.5rem;
+    color: #B76E79;
+    margin-bottom: 10px;
+}
+
+.hobby p {
+    font-size: 1rem;
+    color: #4F4F4F;
+    line-height: 1.6;
+}
+
+.bio-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.bio-text {
+    flex: 2;
+    color: #4F4F4F;
+}
+
+.h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #B76E79;
+    text-align: left;
+}
+
+.bio-text p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    color: #4F4F4F;
+}
+
+.bio-photo {
+    flex: 1;
+    text-align: center;
+    align-self: flex-start;
+}
+
+.bio-photo img {
+    width: 100%;
+    max-width: 250px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border: 2px solid #B76E79;
+}
+
+.cp {
+    font-size: 14px;
+    padding: 10px;
+    color: #4F4F4F;
+}
+
+.skills-section {
+    margin-bottom: 20px;
+}
+
+.skills-section h3 {
+    background-color: #B76E79;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.skills-section ul {
+    list-style-type: none;
+    padding-left: 20px;
+}
+
+.skills-section ul li {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+}
+
+.skills-section ul li:before {
+    content: "• ";
+    color: #B76E79;
+    margin-right: 8px;
+}
+
+.main-content {
+    position: relative;
+    padding: 20px;
+    flex: 1;
+}
+
+.main-content img {
+    width: 100%; 
+    height: 800px; 
+    object-fit: cover; 
+    object-position: top; 
+    margin-top: 20px; 
+}
+
+
+@media print {
+    body {
+        background-color: #FFFFFF; 
+        color: #000000; 
+        font-size: 12pt; 
+        line-height: 1.5;
+    }
+
+    .navbar, .footer {
+        display: none; 
+    }
+
+    .container {
+        width: 100%;
+        max-width: 100%;
+        box-shadow: none;
+        border: none;
+    }
+
+    h1, h2 {
+        color: #000000;
+    }
+
+    section {
+        margin: 0;
+        padding: 10px;
+    }
+
+    .hobby {
+        border: none;
+        box-shadow: none;
+        padding: 10px 0;
+    }
+
+    a {
+        text-decoration: none;
+        color: #000000;
+    }
+}

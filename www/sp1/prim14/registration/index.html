@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>InvoiceR - Registration</title>
+    <meta name="description" content />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../styles/site.css" />
+    <link rel="stylesheet" href="../styles/auth.css" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="../public/apple-touch-icon.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../public/favicon-32x32.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="../public/favicon-16x16.png" />
+    <link rel="manifest" href="../public/site.webmanifest" />
+  </head>
+  <body>
+    <div class="intro-wrapper">
+      <main class="intro__main">
+        <h1>InvoiceR</h1>
+        <div class="intro__form">
+          <div class="intro__form__content">
+            <h2>Start invoicing</h2>
+            <p>
+              Already have an account?
+              <a href="../">Log in</a>
+            </p>
+            <form action="#" class="mt-2">
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  class="form-control" />
+              </div>
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  required
+                  class="form-control" />
+              </div>
+              <div class="form-group">
+                <label for="passwordAgain">Password again</label>
+                <input
+                  type="password"
+                  id="passwordAgain"
+                  name="passwordAgain"
+                  required
+                  class="form-control" />
+              </div>
+              <div class="intro__ephemeral-message mt-1">
+                You'll create a company in the next step
+              </div>
+              <div class="form-check mt-1">
+                <input
+                  type="checkbox"
+                  id="terms"
+                  name="terms"
+                  required
+                  class="form-check__input" />
+                <label for="terms" class="form-check__label">
+                  I agree to the
+                  <a href="#">terms and conditions</a>
+                </label>
+              </div>
+              <div class="form-group mt-2">
+                <a href="./company/" class="button primary mt-1">Register</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </main>
+      <aside class="intro__hero">
+        <img
+          alt="InvoiceR_Logo"
+          src="../public/images/logo.webp"
+          loading="lazy"
+          decoding="async"
+          width="738"
+          height="804" />
+      </aside>
+    </div>
+  </body>
+</html>

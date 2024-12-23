@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1korozni-galerie</title>
+    <link rel="stylesheet" href="../styles/style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Akaya+Kanadaka&family=Caveat:wght@400..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    
+</head>
+<body>
+    <div class="gallery-banner">
+        <div class="shadow">
+            <header>
+                <div class="logo">
+                    <img src="../Photos/logo.png" alt="logo">
+                </div>
+                <nav>
+                    <a href="../">Domů</a>
+                    <a href="../sluzby/">Služby</a>
+                    <a href="../reference/">Reference</a>
+                    <a href="./" class="active">Galerie</a>
+                    <a href="../o_spolecnosti/">O společnosti</a>
+                    <a href="../kontakty/">Kontakty</a>
+                </nav>
+                <div class="filler"></div>
+            </header>
+        </div>
+    </div>
+    <main class="main-gallery">
+        <section class="gallery-section">
+            <h1 class="gallery-title">Systém KORODAT</h1>
+            <div class="gallery">
+                <div class="gallery-item">
+                    <img src="../Photos/KORODAT/KD10-popis.jpg" alt="popis KORODATu 10">
+                    <div class="caption">popis KORODATu 10</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="../Photos/KORODAT/KD5.JPG" alt="KORODAT5">
+                    <div class="caption">KORODAT5</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="../Photos/KORODAT/KD-otevreny.JPG" alt="KORODAT otevreny">
+                    <div class="caption">KORODAT otevreny</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="../Photos/KORODAT/KD-zem-nacini.JPG" alt="KORODAT v zemi">
+                    <div class="caption">KORODAT v zemi</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="../Photos/KORODAT/KD-zem.JPG" alt="KORODAT v zemi">
+                    <div class="caption">KORODAT v zemi</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="../Photos/KORODAT/KD9-2x.JPG" alt="KORODAT v zemi">
+                    <div class="caption">KORODAT v zemi</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="gallery-section">
+            <h1 class="gallery-title">Průzkumy</h1>
+            <div class="gallery">
+                <div class="gallery-item">
+                    <img src="../Photos/Pruzkumy/Napeti-kolej elektroda.jpeg" alt="Eke">
+                    <div class="caption">Měření napětí kolej elektroda</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="../Photos/Pruzkumy/wenner.jpeg" alt="Wenner">
+                    <div class="caption">Měření reistivity půdy - wenner</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="../Photos/Pruzkumy/STL.jpeg" alt="STL">
+                    <div class="caption">Propojovák na středotlaku</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="../Photos/Pruzkumy/VTL.jpeg" alt="VTL">
+                    <div class="caption">Propojováky na vysokotlaku</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="../Photos/Pruzkumy/VTL-vevnitr.jpeg" alt="VTL-vevnitr">
+                    <div class="caption">Pohled do propojováku na vysokotlaku</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="../Photos/Pruzkumy/EPD.jpeg" alt="EPD">
+                    <div class="caption">Elektrická polarizovaná drenáž</div>
+                </div>
+                <!-- More images for Category 2 -->
+            </div>
+        </section>
+
+        <!-- Add more sections as needed -->
+    </main>
+    <footer>Copyright &copy; 2024 První korozní spol. s r.o.</footer>
+    <div id="image-modal" class="modal">
+        <span class="close" id="close-modal">&times;</span>
+        <img class="modal-content" id="modal-image" alt="Enlarged image view">
+        <div id="modal-caption" class="modal-caption"></div>
+    </div>
+    <script src="../js/main.js"></script>
+</body>
+</html>

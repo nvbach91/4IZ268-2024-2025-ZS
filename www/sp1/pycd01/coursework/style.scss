@@ -1,0 +1,65 @@
+@use '../base';
+
+$green: oklch(0.7 0.3 165);
+$dark_green: oklch(0.65 0.3 165);
+$light_green: oklch(0.75 0.3 165);
+
+hr {
+  color: aquamarine;
+}
+
+main {
+  .courses-container {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+
+    label {
+      display: flex;
+      gap: 10px;
+      margin-block: 20px;
+      align-items: baseline;
+
+
+      input[type=file] {
+        margin-bottom: 10px;
+        width: 200px;
+      }
+    }
+    label:hover {
+      background-color: $dark_green;
+      border-radius: 10px;
+
+      svg {
+        fill: white;
+      }
+    }
+
+    .class {
+      background-color: $dark_green;
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      overflow-x: auto;
+      margin-top: 20px;
+
+      h2,h4 {
+        margin: 0;
+      }
+
+      .assignments {
+        display: flex;
+        gap: 20px;
+        margin-top: 10px;
+
+        .assignment {
+          background-color: $light_green;
+          padding: 10px;
+          min-width: 150px;
+          width: 250px;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,62 @@
+.diskografie {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	margin: 0 auto;
+	width: 60%;
+}
+
+.dg-item {
+	margin: 30px 10px;
+	position: relative;
+}
+
+.dg-img {
+	width: 200px;
+	height: 200px;
+	border-radius: 3px;
+	z-index: 5;
+	position: relative;
+	border: 1px solid #fff;
+	margin-bottom: 5px;
+}
+
+.dg-decoration {
+	width: 200px;
+	height: 200px;
+	position: absolute;
+	border-radius: 3px;
+	border: 2px dotted #1e73e8;
+	top: -10px;
+	right: -10px;
+	z-index: 1;
+}
+
+.dg-title {
+	margin-bottom: 5px;
+	font-weight: 600;
+	text-align: center;
+	padding: 5px 10px;
+	text-decoration: underline;
+	text-decoration-color: #1e73e8;
+	text-decoration-thickness: 2px;
+	text-decoration-skip: none;
+}
+
+.dg-subtitle {
+	margin-bottom: 10px;
+	text-transform: lowercase;
+	text-align: center;
+	font-size: 12px;
+}
+
+.dg-stream-wrapper {
+	display: flex;
+	justify-content: center;
+}
+
+.dg-stream-icon {
+	width: 30px;
+	height: 30px;
+	margin: 0 5px 0 5px;
+}

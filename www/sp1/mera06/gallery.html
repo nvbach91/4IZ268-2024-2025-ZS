@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prima Koloběžky - Galerie</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .gallery-grid img {
+            width: 150px;
+            height: auto;
+            margin: 5px;
+            display: inline-block;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .gallery-grid img:hover {
+            transform: scale(1.1);
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            background-cP1+r6B37=1B5B31387E\P1+r6B38=1B5B31397E\P1+r6B39=1B5B32307E\P1+r6B3B=1B5B32317E\P1+r4631=1B5B32337E\olor: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .popup img {
+            max-width: 90vw;
+            max-height: 90vh;
+        }
+        .popup-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: white;
+            color: black;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Galerie</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Domů</a></li>
+                <li><a href="gallery.html">Galerie</a></li>
+                <li><a href="terms.html">Smluvní podmínky</a></li>
+                <li><a href="contact.html">Kontakt</a></li>
+                <li><a href="about.html">O nás</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="gallery">
+            <h2>Naše produkty</h2>
+            <div class="gallery-grid">
+                <img src="img/gallery/obr_1.png" alt="Obrázek 1" onclick="showPopup(this.src)" />
+                <img src="img/gallery/obr_2.png" alt="Obrázek 2" onclick="showPopup(this.src)" />
+                <img src="img/gallery/obr_3.png" alt="Obrázek 3" onclick="showPopup(this.src)" />
+                <img src="img/gallery/obr_5.png" alt="Obrázek 5" onclick="showPopup(this.src)" />
+                <img src="img/gallery/obr_6.png" alt="Obrázek 6" onclick="showPopup(this.src)" />
+                <img src="img/gallery/obr_7.png" alt="Obrázek 7" onclick="showPopup(this.src)" />
+                <img src="img/gallery/obr_8.png" alt="Obrázek 8" onclick="showPopup(this.src)" />
+                <img src="img/gallery/obr_9.png" alt="Obrázek 9" onclick="showPopup(this.src)" />
+                <img src="img/gallery/obr_10.png" alt="Obrázek 10" onclick="showPopup(this.src)" />
+                <img src="img/gallery/obr_11.png" alt="Obrázek 11" onclick="showPopup(this.src)" />
+            </div>
+        </section>
+        <div class="popup" id="imagePopup">
+            <button class="popup-close" onclick="closePopup()">&times;</button>
+            <img src="" alt="Popup Obrázek" id="popupImage" />
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 Prima Koloběžky. Všechna práva vyhrazena.</p>
+    </footer>
+    <script>
+        function showPopup(src) {
+            const popup = document.getElementById('imagePopup');
+            const popupImage = document.getElementById('popupImage');
+            popupImage.src = src;
+            popup.style.display = 'block';
+        }
+
+        function closePopup() {
+            const popup = document.getElementById('imagePopup');
+            popup.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
+

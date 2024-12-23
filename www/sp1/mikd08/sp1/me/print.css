@@ -1,0 +1,15 @@
+@media print {
+    *, *::before, *::after {
+        box-shadow: none !important;
+        filter: none !important;
+        color: black !important;
+    }
+
+    .custom-select {
+        display: none !important;
+    }
+
+    main {
+        flex-direction: column;
+    }
+}

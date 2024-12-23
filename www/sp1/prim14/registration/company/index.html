@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>InvoiceR - Registration</title>
+    <meta name="description" content />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../../styles/site.css" />
+    <link rel="stylesheet" href="../../styles/auth.css" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="../../public/apple-touch-icon.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../../public/favicon-32x32.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="../../public/favicon-16x16.png" />
+    <link rel="manifest" href="../../public/site.webmanifest" />
+  </head>
+  <body>
+    <div class="intro-wrapper">
+      <main class="intro__main">
+        <h1>InvoiceR</h1>
+        <div class="intro__form">
+          <div class="intro__form__content">
+            <h2>Fill in your company data</h2>
+            <p>Then you will be able to create your first invoice</p>
+            <form action="#" class="mt-2">
+              <div class="form-group">
+                <label for="cin">CIN</label>
+                <input id="cin" name="cin" required class="form-control" />
+              </div>
+              <div class="form-group">
+                <label for="companyName">Company name</label>
+                <input
+                  id="companyName"
+                  name="companyName"
+                  required
+                  class="form-control" />
+              </div>
+              <div class="form-group">
+                <label for="street">Street</label>
+                <input
+                  id="street"
+                  name="street"
+                  required
+                  class="form-control" />
+              </div>
+              <div class="row">
+                <div class="form-group col-8 pr-2">
+                  <label for="city">City</label>
+                  <input id="city" name="city" required class="form-control" />
+                </div>
+                <div class="form-group col-4">
+                  <label for="zip">ZIP</label>
+                  <input id="zip" name="zip" required class="form-control" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="tin">TIN</label>
+                <input id="tin" name="tin" required class="form-control" />
+              </div>
+              <div class="form-group mt-2">
+                <a href="../../account/" class="button primary w-full">
+                  Create your company
+                </a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </main>
+      <aside class="intro__hero">
+        <img
+          alt="InvoiceR_Logo"
+          src="../../public/images/logo.webp"
+          loading="lazy"
+          decoding="async"
+          width="738"
+          height="804" />
+      </aside>
+    </div>
+  </body>
+</html>

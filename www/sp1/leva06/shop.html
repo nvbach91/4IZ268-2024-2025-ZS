@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Official website for БОРЩ, the outdoor borsh soup in a tube.">
+    <meta name="keywords" content="borsh, soup, outdoor, space food, borscht, БОРЩ">    
+    <title>БОРЩ - Shop</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" href="images/logo.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <a href="index.html"><img src="images/Борщ.svg" alt="Logo БОРЩ"></a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="shop.html" class="active">Shop</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                </ul>
+            </nav>
+            <div class="header-icons">
+                <a href="#"><img src="images/cart.svg" alt="Cart"></a>
+                <a href="#"><img src="images/profil.svg" alt="Profile"></a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Product Section -->
+    <div class="product-container" style="margin-top: 100px;">
+        <div class="image-gallery">
+            <div class="main-image">
+                <img id="featured" src="images/produktmain.png" alt="Hlavní produkt">
+            </div>
+            <div class="thumbnail-container">
+                <img class="thumbnail" src="images/prod1.jpg" alt="Obrázek 1" onmouseover="changeImage(this)" onmouseout="resetImage()">
+                <img class="thumbnail" src="images/prod2.jpg" alt="Obrázek 2" onmouseover="changeImage(this)" onmouseout="resetImage()">
+                <img class="thumbnail" src="images/prod3.jpg" alt="Obrázek 3" onmouseover="changeImage(this)" onmouseout="resetImage()">
+                <img class="thumbnail" src="images/prod4.jpg" alt="Obrázek 4" onmouseover="changeImage(this)" onmouseout="resetImage()">
+            </div>
+        </div>
+
+        <!-- Popis produktu -->
+        <div class="product-info">
+            <h1>БОРЩ</h1>
+            <h3>BORSCH SOUP SPACE FOOD IN TUBE ASTRONAUT</h3>
+            <p>20 €</p>
+            <p><strong>ABOUT THIS ITEM</strong></p>
+            <p>🚀 SPACE FOOD - THIS FOOD, SPECIALLY CREATED AND PROCESSED PRODUCTS FOR SPACE NEEDS BY ASTRONAUTS DURING SPACE FLIGHTS. DEVELOPED ON THE BASIS OF ORIGINAL 1978 TECHNOLOGIES.</p>
+            <p>🚀 BORSCH - IS A HOT DRESSING SOUP BASED ON BEETROOT, WHICH GIVES IT ITS CHARACTERISTIC RED COLOR. A TRADITIONAL DISH OF THE EASTERN SLAVS, THE MAIN FIRST COURSE OF UKRAINIAN CUISINE.</p>
+            <p>🚀 INGREDIENTS - BEEF MEAT, CABBAGE, TABLE BEETS, POTATOES, CARROTS, ONIONS, VEGETABLE OIL, TOMATO PASTE, GRANULATED SUGAR, CITRIC ACID, GROUND BLACK PEPPER, EDIBLE SALT, BROTH. THE PRODUCTION DATE IS INDICATED ON THE TUBE! SHELF LIFE 2 YEARS!</p>
+            <p>🚀 WHERE TO USE - GREAT PRODUCT TO TAKE WITH YOU WHEN HIKING, CAMPING, TRAVELING, FISHING, HUNTING AND MORE. YOU CAN EAT FOOD FROM THE TUBE OR HEAT THE TUBE IN HOT WATER.</p>
+            <button class="add-to-cart">ADD TO CART</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <!-- Quick Links -->
+            <div class="footer-column">
+                <h4>QUICK LINKS</h4>
+                <ul>
+                    <li><a href="#">About us</a></li>
+                    <li><a href="#">Contact us</a></li>
+                    <li><a href="#">Track order</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Newsletter</a></li>
+                </ul>
+                <div class="social-icons">
+                    <img src="images/facebookicon.svg" alt="Facebook">
+                    <img src="images/insticon.svg" alt="Instagram">
+                    <img src="images/inicon.svg" alt="LinkedIn">
+                </div>
+            </div>
+            <!-- Information -->
+            <div class="footer-column">
+                <h4>INFORMATION</h4>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Return Policy</a></li>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Press and Media</a></li>
+                </ul>
+            </div>
+            <!-- Impressum -->
+            <div class="footer-column">
+                <h4>IMPRESSUM</h4>
+                <p>БОРЩ</p>
+                <p>Jecna 19</p>
+                <p>120 00 Prague</p>
+                <p>Czech Republic</p>
+            </div>
+            <!-- Newsletter -->
+            <div class="footer-column newsletter">
+                <h4>NEWSLETTER</h4>
+                <input type="email" placeholder="E-mail">
+                <button>SUBSCRIBE</button>
+            </div>
+        </div>
+        <!-- Payment Icons -->
+        <div class="payment-icons">
+            <img src="images/amex.svg" alt="Amex">
+            <img src="images/apple.svg" alt="Apple Pay">
+            <img src="images/gpay.svg" alt="Google Pay">
+            <img src="images/ppal.svg" alt="PayPal">
+            <img src="images/visa.svg" alt="Visa">
+        </div>
+    </footer>
+    <script src="js/main.js"></script>
+</body>
+</html>

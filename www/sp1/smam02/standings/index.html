@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Check out the latest standings of the Chance Liga teams. Stay updated with team positions, match stats, and performance forms.">
+    <meta name="keywords" content="Chance Liga, standings, soccer, football, team rankings, match statistics, sports league">
+    <meta name="author" content="Marian Smarik">
+    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="../img/favicon.png">
+    <title>Chance liga - tabulka</title>
+</head>
+
+<body>
+    <div class="top-banner">
+        <img src="../img/logo-top-left.png" alt="Chance liga logo">
+    </div>
+    <div class="navigation">
+        <ul>
+            <li><a href="../">Domov</a></li>
+            <li><a href="../finished-matches/">Dokončené zápasy</a></li>
+            <li><a href="../planned-matches/">Naplánované zápasy</a></li>
+            <li><a href="#" class="active">Tabulka</a></li>
+            <li><a href="../top-scorers/">Nejlepší střelci</a></li>
+        </ul>
+    </div>
+    <div class="standings-container">
+        <h1>Tabulka</h1>
+        <div class="team-standings">
+            <div class="team">
+                <div class="left-side">
+                    <div class="position">pos</div>
+                    <div class="team-logo"><div class="placeholder-logo"></div></div>
+                    <div class="team-name">Název týmu</div>
+                </div>
+                <div class="right-side">
+                    <div class="statistics">
+                        <div class="match-amount">OZ</div>
+                        <div class="win-amount">VZ</div>
+                        <div class="draw-amount">RZ</div>
+                        <div class="lose-amount">PZ</div>
+                        <div class="goal-amount">skóre</div>
+                        <div class="point-amount">PB</div>
+                    </div>
+                    <div class="form">
+                        <div>Forma</div>
+                    </div>
+                </div>
+            </div>
+            <div class="team">
+                <div class="left-side">
+                    <div class="position">01.</div>
+                    <div class="team-logo"><img src="../img/team-logos/bohemians-logo.png" alt="Bohemians logo"></div>
+                    <div class="team-name">Bohemians</div>
+                </div>
+                <div class="right-side">
+                    <div class="statistics">
+                        <div class="match-amount">13</div>
+                        <div class="win-amount">11</div>
+                        <div class="draw-amount">02</div>
+                        <div class="lose-amount">00</div>
+                        <div class="goal-amount">28:04</div>
+                        <div class="point-amount">35</div>
+                    </div>
+                    <div class="form">
+                        <div class="win">V</div>
+                        <div class="win">V</div>
+                        <div class="win">V</div>
+                        <div class="win">V</div>
+                        <div class="draw">R</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team">
+                <div class="left-side">
+                    <div class="position">02.</div>
+                    <div class="team-logo"><img src="../img/team-logos/slavia-logo.png" alt="Slavia logo"></div>
+                    <div class="team-name">Slavia Praha</div>
+                </div>
+                <div class="right-side">
+                    <div class="statistics">
+                        <div class="match-amount">13</div>
+                        <div class="win-amount">10</div>
+                        <div class="draw-amount">02</div>
+                        <div class="lose-amount">01</div>
+                        <div class="goal-amount">24:07</div>
+                        <div class="point-amount">32</div>
+                    </div>
+                    <div class="form">
+                        <div class="lose">P</div>
+                        <div class="win">V</div>
+                        <div class="win">V</div>
+                        <div class="win">V</div>
+                        <div class="draw">R</div>
+                    </div>
+                </div>
+            </div>
+            <div class="team">
+                <div class="left-side">
+                    <div class="position">03.</div>
+                    <div class="team-logo"><img src="../img/team-logos/plzen-logo.png" alt="Viktoria Plzeň logo"></div>
+                    <div class="team-name">Viktoria Plzeň</div>
+                </div>
+                <div class="right-side">
+                    <div class="statistics">
+                        <div class="match-amount">13</div>
+                        <div class="win-amount">08</div>
+                        <div class="draw-amount">03</div>
+                        <div class="lose-amount">02</div>
+                        <div class="goal-amount">22:09</div>
+                        <div class="point-amount">27</div>
+                    </div>
+                    <div class="form">
+                        <div class="lose">P</div>
+                        <div class="win">V</div>
+                        <div class="win">V</div>
+                        <div class="win">V</div>
+                        <div class="draw">R</div>
+                    </div>
+                </div>
+            </div>
+            <div class="team">
+                <div class="left-side">
+                    <div class="position">04.</div>
+                    <div class="team-logo"><img src="../img/team-logos/sparta-logo.png" alt="Sparta Praha logo"></div>
+                    <div class="team-name">Sparta Praha</div>
+                </div>
+                <div class="right-side">
+                    <div class="statistics">
+                        <div class="match-amount">13</div>
+                        <div class="win-amount">08</div>
+                        <div class="draw-amount">01</div>
+                        <div class="lose-amount">04</div>
+                        <div class="goal-amount">24:16</div>
+                        <div class="point-amount">25</div>
+                    </div>
+                    <div class="form">
+                        <div class="lose">P</div>
+                        <div class="lose">P</div>
+                        <div class="win">V</div>
+                        <div class="lose">P</div>
+                        <div class="lose">P</div>
+                    </div>
+                </div>
+            </div>
+            <div class="team">
+                <div class="left-side">
+                    <div class="position">05.</div>
+                    <div class="team-logo"><img src="../img/team-logos/ostrava-logo.png" alt="Baník Ostrava logo"></div>
+                    <div class="team-name">Baník Ostrava</div>
+                </div>
+                <div class="right-side">
+                    <div class="statistics">
+                        <div class="match-amount">13</div>
+                        <div class="win-amount">07</div>
+                        <div class="draw-amount">03</div>
+                        <div class="lose-amount">03</div>
+                        <div class="goal-amount">19:14</div>
+                        <div class="point-amount">24</div>
+                    </div>
+                    <div class="form">
+                        <div class="win">V</div>
+                        <div class="win">V</div>
+                        <div class="lose">P</div>
+                        <div class="draw">R</div>
+                        <div class="win">V</div>
+                    </div>
+                </div>
+            </div>
+            <div class="team">
+                <div class="left-side">
+                    <div class="position">06.</div>
+                    <div class="team-logo"><img src="../img/team-logos/jablonec-logo.png" alt="Jablonec logo"></div>
+                    <div class="team-name">Jablonec</div>
+                </div>
+                <div class="right-side">
+                    <div class="statistics">
+                        <div class="match-amount">13</div>
+                        <div class="win-amount">06</div>
+                        <div class="draw-amount">03</div>
+                        <div class="lose-amount">04</div>
+                        <div class="goal-amount">18:07</div>
+                        <div class="point-amount">21</div>
+                    </div>
+                    <div class="form">
+                        <div class="win">V</div>
+                        <div class="draw">R</div>
+                        <div class="lose">P</div>
+                        <div class="win">V</div>
+                        <div class="win">V</div>
+                    </div>
+                </div>
+            </div>
+            <div class="team">
+                <div class="left-side">
+                    <div class="position">07.</div>
+                    <div
+                            class="team-logo"><img src="../img/team-logos/olomouc-logo.png"
+                                                   alt="Sigma Olomouc logo"></div>
+                    <div class="team-name">Sigma Olomouc</div>
+                </div>
+                <div class="right-side">
+                    <div class="statistics">
+                        <div class="match-amount">13</div>
+                        <div class="win-amount">05</div>
+                        <div class="draw-amount">04</div>
+                        <div class="lose-amount">04</div>
+                        <div class="goal-amount">19:19</div>
+                        <div class="point-amount">19</div>
+                    </div>
+                    <div class="form">
+                        <div class="win">V</div>
+                        <div class="draw">R</div>
+                        <div class="lose">P</div>
+                        <div class="win">V</div>
+                        <div class="win">V</div>
+                    </div>
+                </div>
+            </div>
+            <div class="team">
+                <div class="left-side">
+                    <div class="position">08.</div>
+                    <div class="team-logo"><img src="../img/team-logos/karvina-logo.png" alt="Karviná logo"></div>
+                    <div class="team-name">Karviná</div>
+                </div>
+                <div class="right-side">
+                    <div class="statistics">
+                        <div class="match-amount">13</div>
+                        <div class="win-amount">05</div>
+                        <div class="draw-amount">04</div>
+                        <div class="lose-amount">04</div>
+                        <div class="goal-amount">15:16</div>
+                        <div class="point-amount">19</div>
+                    </div>
+                    <div class="form">
+                        <div class="win">V</div>
+                        <div class="draw">R</div>
+                        <div class="win">V</div>
+                        <div class="draw">R</div>
+                        <div class="lose">P</div>
+                    </div>
+                </div>
+            </div>
+            <div class="team">
+                <div class="left-side">
+                    <div class="position">09.</div>
+                    <div class="team-logo"><img src="../img/team-logos/slovacko-logo.png" alt="Slovácko logo"></div>
+                    <div class="team-name">Slovácko</div>
+                </div>
+                <div class="right-side">
+                    <div class="statistics">
+                        <div class="match-amount">13</div>
+                        <div class="win-amount">05</div>
+                        <div class="draw-amount">04</div>
+                        <div class="lose-amount">04</div>
+                        <div class="goal-amount">09:15</div>
+                        <div class="point-amount">19</div>
+                    </div>
+                    <div class="form">
+                        <div class="win">V</div>
+                        <div class="lose">P</div>
+                        <div class="lose">P</div>
+                        <div class="win">V</div>
+                        <div class="win">V</div>
+                    </div>
+                </div>
+            </div>
+            <div class="team">
+                <div class="left-side">
+                    <div class="position">10.</div>
+                    <div class="team-logo"><img src="../img/team-logos/hradec-logo.png" alt="Hradec Králové logo"></div>
+                    <div class="team-name">Hradec Králové</div>
+                </div>
+                <div class="right-side">
+                    <div class="statistics">
+                        <div class="match-amount">13</div>
+                        <div class="win-amount">05</div>
+                        <div class="draw-amount">03</div>
+                        <div class="lose-amount">05</div>
+                        <div class="goal-amount">12:11</div>
+                        <div class="point-amount">18</div>
+                    </div>
+                    <div class="form">
+                        <div class="draw">R</div>
+                        <div class="win">V</div>
+                        <div class="draw">R</div>
+                        <div class="draw">R</div>
+                        <div class="lose">P</div>
+                    </div>
+                </div>
+            </div>
+            <div class="team">
+                <div class="left-side">
+                    <div class="position">11.</div>
+                    <div class="team-logo"><img src="../img/team-logos/fkmb-logo.png" alt="Mladá Boleslav logo"></div>
+                    <div class="team-name">Mladá Boleslav</div>
+                </div>
+                <div class="right-side">
+                    <div class="statistics">
+                        <div class="match-amount">13</div>
+                        <div class="win-amount">04</div>
+                        <div class="draw-amount">05</div>
+                        <div class="lose-amount">04</div>
+                        <div class="goal-amount">19:16</div>
+                        <div class="point-amount">17</div>
+                    </div>
+                    <div class="form">
+                        <div class="win">V</div>
+                        <div class="draw">R</div>
+                        <div class="draw">R</div>
+                        <div class="draw">R</div>
+                        <div class="draw">R</div>
+                    </div>
+                </div>
+            </div>
+            <div class="team">
+                <div class="left-side">
+                    <div class="position">12.</div>
+                    <div
+                            class="team-logo"><img src="../img/team-logos/liberec-logo.png" alt="Slovan Liberec logo"></div>
+                    <div class="team-name">Slovan Liberec</div>
+                </div>
+                <div class="right-side">
+                    <div class="statistics">
+                        <div class="match-amount">13</div>
+                        <div class="win-amount">04</div>
+                        <div class="draw-amount">04</div>
+                        <div class="lose-amount">05</div>
+                        <div class="goal-amount">20:18</div>
+                        <div class="point-amount">16</div>
+                    </div>
+                    <div class="form">
+                        <div class="draw">R</div>
+                        <div class="win">V</div>
+                        <div class="lose">P</div>
+                        <div class="lose">P</div>
+                        <div class="win">V</div>
+                    </div>
+                </div>
+            </div>
+            <div class="team">
+                <div class="left-side">
+                    <div class="position">13.</div>
+                    <div class="team-logo"><img src="../img/team-logos/dukla-logo.png" alt="Dukla Praha logo"></div>
+                    <div class="team-name">Dukla Praha</div>
+                </div>
+                <div class="right-side">
+                    <div class="statistics">
+                        <div class="match-amount">13</div>
+                        <div class="win-amount">03</div>
+                        <div class="draw-amount">02</div>
+                        <div class="lose-amount">08</div>
+                        <div class="goal-amount">10:20</div>
+                        <div class="point-amount">11</div>
+                    </div>
+                    <div class="form">
+                        <div class="lose">P</div>
+                        <div class="lose">P</div>
+                        <div class="win">V</div>
+                        <div class="draw">R</div>
+                        <div class="lose">P</div>
+                    </div>
+                </div>
+            </div>
+            <div class="team">
+                <div class="left-side">
+                    <div class="position">14.</div>
+                    <div class="team-logo"><img src="../img/team-logos/teplice-logo.png" alt="Teplice logo"></div>
+                    <div class="team-name">Teplice</div>
+                </div>
+                <div class="right-side">
+                    <div class="statistics">
+                        <div class="match-amount">13</div>
+                        <div class="win-amount">03</div>
+                        <div class="draw-amount">01</div>
+                        <div class="lose-amount">09</div>
+                        <div class="goal-amount">14:24</div>
+                        <div class="point-amount">10</div>
+                    </div>
+                    <div class="form">
+                        <div class="lose">P</div>
+                        <div class="lose">P</div>
+                        <div class="win">V</div>
+                        <div class="draw">R</div>
+                        <div class="win">V</div>
+                    </div>
+                </div>
+            </div>
+            <div class="team">
+                <div class="left-side">
+                    <div class="position">15.</div>
+                    <div class="team-logo"><img src="../img/team-logos/pardubice-logo.png" alt="Pardubice logo"></div>
+                    <div class="team-name">Pardubice</div>
+                </div>
+                <div class="right-side">
+                    <div class="statistics">
+                        <div class="match-amount">13</div>
+                        <div class="win-amount">02</div>
+                        <div class="draw-amount">02</div>
+                        <div class="lose-amount">09</div>
+                        <div class="goal-amount">11:21</div>
+                        <div class="point-amount">08</div>
+                    </div>
+                    <div class="form">
+                        <div class="draw">R</div>
+                        <div class="lose">P</div>
+                        <div class="lose">P</div>
+                        <div class="lose">P</div>
+                        <div class="lose">P</div>
+                    </div>
+                </div>
+            </div>
+            <div class="team">
+                <div class="left-side">
+                    <div class="position">16.</div>
+                    <div class="team-logo"><img src="../img/team-logos/cb-logo.png" alt="České Budějovice logo"></div>
+                    <div class="team-name">České Budějovice</div>
+                </div>
+                <div class="right-side">
+                    <div class="statistics">
+                        <div class="match-amount">13</div>
+                        <div class="win-amount">00</div>
+                        <div class="draw-amount">02</div>
+                        <div class="lose-amount">11</div>
+                        <div class="goal-amount">03:31</div>
+                        <div class="point-amount">02</div>
+                    </div>
+                    <div class="form">
+                        <div class="draw">R</div>
+                        <div class="lose">P</div>
+                        <div class="lose">P</div>
+                        <div class="lose">P</div>
+                        <div class="lose">P</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <footer>
+        Created by @Marian Smarik
+    </footer>
+    <script src="../js/main.js"></script>
+</body>
+
+</html>

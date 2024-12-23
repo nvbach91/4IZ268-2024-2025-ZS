@@ -1,0 +1,620 @@
+:root {
+  --color-accent: #3cbbeb;
+  --color-accent-dark: #2fa4d6;
+  --color-action: #f1c40f;
+  --color-action-dark: #d4ac0d;
+  --color-stone: #95a5a6;
+  --color-stone-dark: #7f8c8d;
+  --color-emerald: #2ecc71;
+  --color-emerald-dark: #27ae60;
+  --color-section-heading: #f6ae2d;
+  --color-text: white;
+
+  --font-size-banner: 80px;
+  --font-size-large: 1.8em;
+  --font-size-medium: 1.5em;
+  --font-size-regular: 1.2em;
+  --font-size-small: 1em;
+
+  --max-width-content: 800px;
+
+  --spacing-small: 10px;
+  --spacing-medium: 20px;
+  --spacing-large: 40px;
+}
+
+/* Global Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  font-family: "Minecraftia", sans-serif;
+  background: url(./img/bg_clouds2.png) no-repeat center 27px,
+    url(./img/bg_ground_tile2.png) repeat-x center 28px,
+    url(./img/bg_black_tile.png) center top;
+  color: white;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+}
+
+.card__link,
+.footer__contact-link {
+  color: var(--color-emerald);
+}
+
+.card__link:hover,
+.footer__contact-link:hover {
+  color: var(--color-emerald-dark);
+}
+
+.btn-minecraft {
+  border: 2px solid black;
+  border-color: #aaa #565656 #565656 #aaa;
+  background-image: url(./img/button_bg.png);
+  outline: 2px solid #000;
+  text-align: center;
+  color: var(--color-text);
+}
+
+.btn-minecraft:hover {
+  text-shadow: 2px 2px #202013cc;
+  color: #ffffa0;
+
+  background-image: url(./img/button_bg_hover.png);
+  border-color: #bdc6ff #59639a #59639a #bdc6ff;
+}
+
+/* Header */
+header {
+  position: relative;
+  top: var(--spacing-medium);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 340px;
+}
+
+.page__banner {
+  font-size: var(--font-size-banner);
+  font-family: "Minecraft", sans-serif;
+  color: var(--color-text);
+  text-align: center;
+  -webkit-text-stroke: 0.1px black;
+}
+
+/* Navigation */
+.menu {
+  width: 50%;
+  margin-top: var(--spacing-large);
+}
+
+.menu__list {
+  display: flex;
+  gap: var(--spacing-medium);
+}
+
+.menu__item {
+  padding: var(--spacing-small) 0;
+  list-style-type: none;
+  color: var(--color-text);
+  width: calc(100% / 5);
+}
+
+.menu__item a {
+  display: block;
+}
+
+.active {
+  background-image: url(./img/button_bg_hover.png);
+  border-color: #bdc6ff #59639a #59639a #bdc6ff;
+}
+
+/* Main */
+main {
+  padding: var(--spacing-large) var(--spacing-medium);
+}
+
+.section {
+  margin: 40px auto;
+  text-align: center;
+}
+
+.section__heading {
+  font-size: var(--font-size-large);
+  margin-bottom: var(--spacing-medium);
+  color: var(--color-section-heading);
+}
+
+.section__text {
+  font-size: var(--font-size-regular);
+  max-width: 800px;
+  margin: 0 auto var(--spacing-large);
+}
+
+.link {
+  font-weight: bold;
+  color: var(--color-stone);
+}
+
+.link:hover {
+  color: var(--color-stone-dark);
+}
+
+.card {
+  border: 2px solid var(--color-accent);
+  border-radius: 8px;
+  padding: var(--spacing-medium);
+  margin: var(--spacing-small);
+  width: 300px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card__title {
+  font-size: var(--font-size-medium);
+  margin-bottom: var(--spacing-small);
+}
+
+.card__description {
+  font-size: var(--font-size-small);
+  margin-bottom: var(--spacing-small);
+}
+
+/* Projects Section */
+.projects__list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.projects__view-all {
+  display: inline-block;
+  margin-top: var(--spacing-medium);
+  font-weight: bold;
+}
+
+/* Call to Action */
+.call-to-action {
+  background-color: var(--color-accent-dark);
+  padding: var(--spacing-large) var(--spacing-medium);
+  border-radius: 8px;
+  color: var(--color-text);
+}
+
+.btn-action {
+  padding: 20px;
+  display: inline-block;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn-action:hover {
+  background-color: var(--color-action-dark);
+  transform: scale(1.2);
+}
+
+/* Footer */
+.footer {
+  border-top: 5px solid black;
+  background-image: url(./img/Bedrock.webp);
+  padding: var(--spacing-large) var(--spacing-medium);
+  display: flex;
+  justify-content: center;
+}
+
+.footer__container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-color: #23272a;
+  width: 50%;
+}
+
+.footer__section {
+  margin: var(--spacing-medium);
+}
+
+.footer__heading {
+  font-size: var(--font-size-medium);
+  margin-bottom: var(--spacing-small);
+}
+
+.footer__list {
+  list-style: none;
+  padding: 0;
+}
+
+.footer__social-list {
+  display: flex;
+}
+
+.footer__social-item {
+  margin-right: var(--spacing-small);
+  display: flex;
+  align-items: center;
+}
+
+.footer__icon {
+  width: 80px;
+  height: 80px;
+}
+
+/* Projects Gallery */
+.projects-gallery__list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-medium);
+}
+
+.projects-gallery__item {
+  width: calc(100% / 3);
+}
+
+.card__image {
+  width: 100px;
+  height: 100px;
+  margin: 10px auto;
+}
+
+.card__technologies {
+  font-size: var(--font-size-small);
+  color: var(--color-stone-dark);
+  margin-bottom: var(--spacing-small);
+}
+
+/* Features Section */
+.features__list {
+  list-style: none;
+  padding: 0;
+  max-width: var(--max-width-content);
+  margin: 0 auto var(--spacing-large);
+}
+
+.features__item {
+  font-size: var(--font-size-regular);
+  margin-bottom: var(--spacing-medium);
+  text-align: left;
+}
+
+/* About me */
+.skills__list {
+  list-style: none;
+  padding: 0;
+  max-width: var(--max-width-content);
+  margin: 0 auto var(--spacing-large);
+}
+
+.skills__item {
+  font-size: var(--font-size-regular);
+  margin-bottom: var(--spacing-medium);
+  text-align: left;
+}
+
+.about-me {
+  width: calc(100% / 2);
+  border: 2px solid white;
+  padding: 20px;
+}
+
+.about-me__container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Testimonials Section */
+.testimonials__list {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  max-width: var(--max-width-content);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-large);
+}
+
+.testimonials__item {
+  width: 100%;
+  max-width: 500px;
+}
+
+.testimonials__quote {
+  font-size: var(--font-size-regular);
+  margin-bottom: var(--spacing-small);
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: var(--spacing-medium);
+  border-radius: 8px;
+}
+
+.testimonials__author {
+  font-size: var(--font-size-regular);
+  font-weight: bold;
+  text-align: right;
+  color: var(--color-stone-dark);
+}
+
+/* Contact Form */
+.contact-form__form {
+  max-width: 600px;
+  margin: 0 auto var(--spacing-large);
+}
+
+.contact-form__group {
+  margin-bottom: var(--spacing-medium);
+}
+
+.contact-form__label {
+  display: block;
+  font-size: var(--font-size-regular);
+  margin-bottom: var(--spacing-small);
+}
+
+.contact-form__input,
+.contact-form__textarea {
+  width: 100%;
+  padding: var(--spacing-small);
+  font-size: var(--font-size-regular);
+  border: 1px solid var(--color-stone);
+  border-radius: 4px;
+  background-color: #2c2f33;
+  color: var(--color-text);
+}
+/* Contact Information */
+.contact-info {
+  text-align: center;
+  margin-bottom: var(--spacing-large);
+}
+
+.contact-info__link {
+  color: var(--color-emerald);
+}
+
+.btn-contact {
+  padding: 20px;
+  font-family: inherit;
+}
+
+/* Minecart animation */
+.minecart {
+  width: 200px;
+  height: 200px;
+  background-image: url(./img/Minecart.png);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: relative;
+  animation: minecart-animation 8s infinite linear;
+}
+
+@keyframes minecart-animation {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(90vw);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  header {
+    height: auto;
+    width: 100%;
+  }
+
+  .page__banner {
+    font-size: 40px;
+    margin: var(--spacing-medium);
+  }
+
+  .minecart {
+    display: none;
+  }
+
+  /* Navigation */
+  .menu {
+    margin: 0;
+    width: 100%;
+  }
+
+  .menu__list {
+    padding: 0;
+    margin: 0 var(--spacing-medium);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .menu__item {
+    width: 100%;
+  }
+
+  /* Main Content */
+
+  .section {
+    margin: var(--spacing-medium) auto;
+  }
+
+  .card__description,
+  .section__text,
+  .features__item,
+  .skills__item {
+    font-size: var(--font-size-small);
+    text-align: center;
+  }
+
+  .section__heading {
+    font-size: var(--font-size-regular);
+  }
+
+  /* Projects Gallery */
+  .projects-gallery__list {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card__image {
+    width: 50%;
+    height: 50%;
+  }
+
+  .projects-gallery__item {
+    width: 90%;
+  }
+
+  .card {
+    width: 100%;
+    margin: var(--spacing-small) 0;
+  }
+
+  .footer__container {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .profile-photo,
+  .hobbies-photo {
+    width: 100%;
+    height: auto;
+  }
+
+  .contact-form__form {
+    width: 100%;
+    padding: 0 var(--spacing-medium);
+  }
+
+  .container,
+  .about-me__container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .column {
+    width: 100%;
+    padding: 0;
+  }
+
+  /* Testimonials */
+  .testimonials__item {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .menu__list {
+    gap: var(--spacing-small);
+  }
+
+  .minecart {
+    display: none;
+  }
+
+  .menu__item {
+    padding: var(--spacing-small) 0;
+  }
+
+  .section__heading {
+    font-size: var(--font-size-regular);
+  }
+
+  .card__description,
+  .section__text,
+  .features__item,
+  .skills__item,
+  .testimonials__quote {
+    font-size: var(--font-size-small);
+  }
+}
+
+@media print {
+  header,
+  nav,
+  .menu,
+  .footer {
+    display: none;
+  }
+
+  body {
+    background: none;
+    color: black;
+  }
+
+  .minecart {
+    display: none;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  main {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .card,
+  .section,
+  .btn-minecraft {
+    background: none;
+    border: none;
+    box-shadow: none;
+  }
+
+  h1,
+  h2,
+  h3 {
+    color: black;
+  }
+
+  .page__banner {
+    font-size: 36px;
+  }
+  .section__heading {
+    font-size: 24px;
+  }
+  .section__text,
+  .card__description,
+  .features__item,
+  .skills__item,
+  .testimonials__quote,
+  .testimonials__author {
+    font-size: 14px;
+  }
+
+  input,
+  textarea {
+    border: 1px solid #000;
+    color: #000;
+  }
+
+  body,
+  .call-to-action {
+    background-image: none;
+  }
+}

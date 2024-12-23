@@ -1,0 +1,491 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+@font-face {
+    font-family: "AliceInWonderland";
+    src: url('../fonts/AliceInWonderland.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    max-width: 80%;
+    margin: 15px auto;
+    background-color: rgba(207, 194, 212, 0.5);
+    min-width: 600px;
+}
+
+p {
+    font-size: 20px;
+    text-align: justify;
+}
+
+h4 {
+    margin-top: 5px;
+}
+
+img {
+    width: 100%;
+    height: 100%;
+}
+
+.menu-item a {
+
+    padding: 25px 0;
+    text-decoration: none;
+    color: rgb(238, 238, 238);
+    font-size: 25px;
+    display: block;
+}
+
+nav {
+    background-color: black;
+    padding: 0;
+    margin: 20px 0px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.menu-item a:hover,
+.menu-item a.active {
+    background-color: #4f3b60;
+    font-weight: bold;
+}
+
+.menu-item {
+    flex: 1;
+    text-align: center;
+    position: relative;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    text-align: left;
+    width: 100%;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    font-size: 10px;
+    left: 0;
+    top: 100%;
+}
+
+.dropdown-content a {
+    color: black;
+    text-decoration: none;
+    display: block;
+    padding: 18px;
+}
+
+.dropdown-content a:hover,
+.dropdown-content a.active {
+    background-color: #4f3b60;
+    color: rgb(238, 238, 238);
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#header-container-main {
+    display: flex;
+    align-items: center;
+}
+
+#headline {
+    font-size: 80px;
+    margin: 30px 40px;
+    font-family: 'AliceInWonderland', 'Times New Roman', serif;
+    text-decoration: none;
+    color: black;
+    display: flex;
+}
+
+#img-burton {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+}
+
+#img-artwork {
+    height: 100%;
+    width: 150px;
+    margin-left: auto;
+}
+
+.active {
+    background-color: #4f3b60;
+}
+
+footer {
+    border-top: 3px solid #4f3b60;
+    padding: 20px 40px;
+    font-size: 16px;
+    text-align: center;
+}
+
+.footer-social-media h4 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.footer-social-media ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.footer-social-media ul li {
+    display: inline-block;
+}
+
+.footer-social-media ul li a {
+    text-decoration: none;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.footer-social-media ul li img {
+    width: 20px;
+    height: 20px;
+}
+
+.footer-bottom {
+    margin-top: 20px;
+    font-size: 12px;
+}
+
+.footer-bottom p {
+    text-align: center;
+}
+
+.back-to-top {
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.back-to-top:hover {
+    text-decoration: underline;
+}
+
+.page-heading {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 30px;
+}
+
+.items {
+    margin: 20px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-content: flex-start;
+}
+
+.item-frame {
+    border: 9px double #4f3b60;
+    padding: 15px 10px;
+    margin: 15px;
+    width: calc(100%/6);
+    text-align: center;
+}
+
+.item-info {
+    font-size: 20px;
+}
+
+.character-picture {
+    height: 150px;
+    width: auto;
+    padding-bottom: 10px;
+}
+
+.work-picture {
+    height: 200px;
+    width: auto;
+    padding-bottom: 10px;
+}
+
+#main-page-container1 {
+    display: flex;
+    margin: 20px;
+    padding: 30px 10px;
+    overflow: hidden;
+}
+
+.text-block {
+    flex-direction: column;
+    margin-right: 50px;
+    font-size: 20px;
+    align-self: center;
+}
+
+#tim-burton-quote {
+    height: 400px;
+    width: auto;
+}
+
+#main-page-container2 {
+    display: flex;
+    margin: 20px;
+    padding: 30px 10px;
+}
+
+#main-page-container2 p {
+    margin-left: 50px;
+    align-self: center;
+}
+
+#biography-container {
+    margin: 30px;
+    display: flex;
+}
+
+#img-bio {
+    width: auto;
+    height: 400px;
+    float: right;
+    margin: 0px 0px 30px 50px;
+}
+
+#tim-burton-artwork-cat {
+    height: 400px;
+    width: auto;
+}
+
+#filmography {
+    margin: 40px 50px;
+    display: flex;
+    justify-content: center;
+}
+
+#filmography-list {
+    font-size: 20px;
+    margin-right: 150px;
+}
+
+#img-filmography {
+    width: auto;
+    height: 500px;
+}
+
+.exhibition {
+    font-size: 20px;
+    margin: 0 30px 50px 30px;
+}
+
+.exhibition p {
+    display: flex;
+    margin-top: 30px;
+}
+
+.img-exhibition {
+    height: auto;
+    width: 280px;
+    margin: auto 40px;
+}
+
+.img-exhibition-art {
+    width: 350px;
+    height: auto;
+    margin: 0 0 40px 40px;
+}
+
+#exhibition-container {
+    margin: 30px;
+}
+
+#exhibition-arts-container {
+    display: flex;
+    flex-direction: column;
+    float: right;
+}
+
+#style-container {
+    margin: 30px;
+}
+
+#style-container h3 {
+    font-size: 25px;
+    margin: 20px 0;
+}
+
+.img-style {
+    width: 400px;
+    height: auto;
+    display: block;
+    margin: 40px auto;
+}
+
+#others-container {
+    margin: 30px;
+}
+
+.img-others {
+    width: 300px;
+    height: auto;
+    display: block;
+    margin: 30px auto;
+}
+
+pre {
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+    font-size: 20px;
+}
+
+@media (max-width: 1400px) {
+    .item-frame {
+        width: calc(100%/5);
+    }
+
+    #main-page-container1 {
+        flex-direction: column;
+    }
+
+    #tim-burton-quote {
+        margin-top: 30px;
+        height: auto;
+    }
+
+    #img-filmography {
+        height: 400px;
+    }
+
+    #filmography-list {
+        margin-right: 100px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .item-frame {
+        width: calc(100%/4);
+    }
+
+    #tim-burton-artwork-cat {
+        margin-top: 30px;
+        height: auto;
+    }
+
+    #main-page-container2 {
+        text-align: left;
+        flex-direction: column-reverse;
+    }
+
+    #main-page-container2 p {
+        margin-left: 0px;
+    }
+
+    #filmography-list {
+        margin-right: 50px;
+    }
+}
+
+@media (max-width: 1000px) {
+
+    #img-bio,
+    #img-filmography {
+        height: 300px;
+    }
+
+    .exhibition p {
+        display: block;
+    }
+
+    .img-exhibition {
+        margin: 30px 0;
+        display: block;
+    }
+
+    #exhibition-arts-container {
+        display: block;
+        margin: 30px auto;
+    }
+
+    #exhibition-container {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .img-exhibition-art {
+        margin: auto;
+    }
+}
+
+@media (max-width: 850px) {
+    .item-frame {
+        width: calc(100%/3);
+    }
+
+    .items {
+        justify-content: center;
+    }
+
+    #filmography {
+        display: block;
+    }
+
+    #img-filmography {
+        margin-top: 30px;
+    }
+}
+
+@media (max-width: 700px) {
+    nav {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .menu-item {
+        width: 100%;
+    }
+
+    .dropdown-content {
+        text-align: center;
+    }
+
+    #img-artwork {
+        display: none;
+    }
+}
+
+@media print {
+
+    nav,
+    footer,
+    #img-artwork {
+        display: none;
+    }
+
+    body {
+        background: none;
+    }
+}
+
+@page {
+    padding: 50px;
+}

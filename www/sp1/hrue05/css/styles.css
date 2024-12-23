@@ -1,0 +1,349 @@
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+h1 {
+    text-align: center;
+    background-image: url('../img/background.jpeg');
+    height: 110px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: bottom;
+    font-size: 70px;
+    color: transparent;
+    margin: 0;
+}
+
+body {
+    font-family: 'hubballi';
+    background-color: #c2eefe;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.level-one-nav {
+    background-color: pink;
+    display: flex;
+    justify-content: center;
+}
+
+.level-one-nav a {
+    text-decoration: none;
+    font-size: 20px;
+    color: black;
+    padding: 10px;
+    width: calc(100%/3);
+    border: 5px solid pink;
+    border-radius: 15px;
+    transition: 1s;
+    text-align: center;
+}
+
+.level-one-nav a:hover,
+.active-nav,
+.level-three-nav a:hover {
+    background-color: #c2eefe !important;
+}
+
+.level-two-nav {
+    display: flex;
+}
+
+.level-two-nav a {
+    width: 50%;
+    padding: 40px;
+    transition: 1s;
+    color: transparent;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.level-three-nav {
+    display: flex;
+    background-color: pink;
+}
+
+.level-three-nav a {
+    width: 25%;
+    font-size: 20px;
+    padding: 15px;
+    text-decoration: none;
+    color: black;
+    background-color: pink;
+    border: 5px solid pink;
+    border-radius: 15px;
+    transition: 1s;
+}
+
+.wingspan-field {
+    background-image: url("../img/wingspan-icon-bw.jpg");
+    background-position: 0 -50px;
+}
+
+.active-wingspan,
+.wingspan-field:hover {
+    background-image: url("../img/wingspan-icon.jpg");
+    background-position: 0 -125px;
+}
+
+.wyrmspan-field {
+    background-image: url("../img/wyrmspan-icon-bw.jpg");
+    background-position: 0 -110px;
+}
+
+.active-wyrmspan,
+.wyrmspan-field:hover {
+    background-image: url("../img/wyrmspan-icon.jpg");
+    background-position: 0px -240px;
+}
+
+.text-container {
+    text-align: center;
+    padding: 20px;
+    font-size: 18px;
+    min-height: auto;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.contact-container a {
+    display: flex;
+    text-decoration: none;
+    color: black;
+    padding: 5px;
+    border: 5px solid #c2eefe;
+    border-radius: 15px;
+    transition: 1s;
+    justify-content: center;
+}
+
+.contact-container ul {
+    list-style-type: none;
+}
+
+
+.contact-container li {
+    padding: 10px;
+}
+
+.contact-container a:hover {
+    background-color: pink;
+}
+
+.extension-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.extension-buttons a {
+    width: 25%;
+    transition: 1s;
+    height: 400px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    color: transparent;
+}
+
+.original-button {
+    background-image: url("../img/wingspan-icon-bw.jpg");
+}
+
+.europe-button {
+    background-image: url("../img/europe-icon-bw.jpg");
+}
+
+.oceania-button {
+    background-image: url("../img/oceania-icon-bw.jpg");
+}
+
+.asia-button {
+    background-image: url("../img/asia-icon-bw.jpg");
+}
+
+.original-button:hover {
+    background-image: url("../img/wingspan-icon.jpg");
+}
+
+.europe-button:hover {
+    background-image: url("../img/europe-icon.jpg");
+}
+
+.oceania-button:hover {
+    background-image: url("../img/oceania-icon.jpg");
+}
+
+.asia-button:hover {
+    background-image: url("../img/asia-icon.jpg");
+}
+
+footer {
+    margin-top: auto;
+    background-color: pink;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.footer-element {
+    text-decoration: none;
+    color: black;
+    padding: 10px;
+    border: 5px solid pink;
+    border-radius: 15px;
+    transition: 1s;
+}
+
+footer a:hover {
+    background-color: #c2eefe;
+}
+
+.box-image {
+    width: 70%;
+    margin: 10px 0;
+}
+
+.game-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.game-buttons a {
+    width: 50%;
+    transition: 1s;
+    height: 300px;
+    color: transparent;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.wingspan-button {
+    background-image: url("../img/wingspan-icon-bw.jpg");
+}
+
+.wingspan-button:hover {
+    background-image: url("../img/wingspan-icon.jpg");
+}
+
+.wyrmspan-button {
+    background-image: url("../img/wyrmspan-icon-bw.jpg");
+}
+
+.wyrmspan-button:hover {
+    background-image: url("../img/wyrmspan-icon.jpg");
+}
+
+.sub-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.review-container {
+    width: calc(100%/3);
+}
+
+.review-heading {
+    color: black;
+}
+
+.review-heading i {
+    color: pink;
+}
+
+@media screen and (max-width: 720px) {
+    .level-three-nav {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .level-three-nav a {
+        width: 50%;
+    }
+
+    .game-buttons a {
+        width: 100%;
+    }
+
+    .review-container {
+        width: 100%;
+    }
+
+    .extension-buttons a {
+        width: 100% !important;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .wingspan-field {
+        background-image: url("../img/wingspan-icon-bw.jpg");
+        background-position: top;
+    }
+
+    .active-wingspan,
+    .wingspan-field:hover {
+        background-image: url("../img/wingspan-icon.jpg");
+        background-position: top;
+    }
+
+    .wyrmspan-field {
+        background-image: url("../img/wyrmspan-icon-bw.jpg");
+        background-position: top;
+    }
+
+    .active-wyrmspan,
+    .wyrmspan-field:hover {
+        background-image: url("../img/wyrmspan-icon.jpg");
+        background-position: top;
+    }
+
+    .extension-buttons a {
+        width: 50%;
+    }
+}
+
+@media print {
+
+    html,
+    body {
+        background-color: white;
+    }
+
+    h1 {
+        background-image: none;
+        color: black;
+    }
+
+    .level-one-nav,
+    .level-two-nav,
+    .level-three-nav,
+    footer,
+    .game-buttons,
+    .extension-buttons {
+        display: none;
+    }
+
+    .review-container i {
+        color: black;
+    }
+
+    .contact-heading,
+    .contact-content {
+        display: none;
+    }
+
+    .review-container {
+        width: 100%;
+    }
+}

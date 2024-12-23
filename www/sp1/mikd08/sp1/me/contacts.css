@@ -1,0 +1,144 @@
+#contacts {
+    font-family: 'Lobster', Impact;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    word-wrap: break-word;
+    font-size: clamp(14px, 1.5vw, 100px);
+}
+
+#filter {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: -10;
+    filter: blur(20px);
+}
+
+#imgContainer {
+    --profilePic: 250px;
+    border-radius: 50%;
+    width: var(--profilePic);
+    height: var(--profilePic);
+    overflow: hidden;
+    position: relative;
+    margin: 20px;
+    box-shadow: 0 5px 10px -5px rgb(255, 255, 255);
+    
+}
+
+#imgContainer img {
+    height: var(--profilePic);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -48.3% -50%;    
+}
+
+#links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: calc(100% - 50px);
+}
+
+#links > * {
+    border: solid 2px rgb(0, 0, 255);
+    width: 80%;
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px 1px rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    justify-content: space-between;
+    word-break: break-all;
+    position: relative;
+}
+
+a > span {
+    width: 100%;
+}
+
+#links a *:nth-child(2) {
+    width: 16px;
+    font-size: 16px;
+    flex-basis: 16px;
+}
+
+#links > *:hover {
+    transition: scale 0.4s cubic-bezier(.63,1.18,.73,1.38), box-shadow 1s;
+    scale: 1.1;
+    box-shadow: 0 0 10px 1px rgb(0, 255, 255), 0 0 10px 1px rgb(0, 0, 255) inset;
+}
+
+#imgContainer.js-showLinks + #links a:nth-child(even) {
+    animation: linkSlideRight 1.5s cubic-bezier(.17,.67,.58,1.03);
+}
+#imgContainer.js-showLinks + #links a:nth-child(odd) {
+    animation: linkSlideLeft 1.5s cubic-bezier(.17,.67,.58,1.03);
+}
+
+
+a:active {
+    color: blue;
+}
+
+#imgContainer.js-animateLink, #imgContainer.js-showLinks {
+    pointer-events: none;
+}
+
+#imgContainer.js-animateLink {
+    animation: pfpMove 0.5s;
+}
+
+#imgContainer.js-animateLink + #links a:nth-child(1) {
+    animation: linkTouch 0.3s ease 0.25s;
+}
+#imgContainer.js-animateLink + #links a:nth-child(2) {
+    animation: linkTouch 0.3s ease calc(0.25s + 1 * 0.3s);
+}
+#imgContainer.js-animateLink + #links a:nth-child(3) {
+    animation: linkTouch 0.3s ease calc(0.25s + 2 * 0.3s);
+}
+#imgContainer.js-animateLink + #links a:nth-child(4) {
+    animation: linkTouch 0.3s ease calc(0.25s + 3 * 0.3s);
+}
+
+@keyframes pfpMove {
+    50% {
+        transform: translateY(70px);
+    }
+}
+
+@keyframes linkTouch {
+    100%{
+        transform: translateY(10px);
+    }
+}
+
+@keyframes linkSlideRight {
+    0%{
+        transform: translate(1000%);
+    }
+
+}
+@keyframes linkSlideLeft {
+    0%{
+        transform: translate(-1000%);
+    }
+
+}
+
+@media screen and (max-width: 600px) {
+    #imgContainer {
+        --profilePic: 40vw;
+    }
+}

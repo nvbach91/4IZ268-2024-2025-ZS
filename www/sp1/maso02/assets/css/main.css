@@ -1,0 +1,328 @@
+/* General */
+[data-theme="light"] {
+    --color-bg-primary: #ffffff;
+    --color-bg-secondary: #f9f5f0;
+    --color-txt-primary: #333;
+    --color-txt-secondary: #444444;
+    --color-on-hover: #37863a;
+    --linear-gradient-green: linear-gradient(#33d639, #158c19);
+}
+
+[data-theme="dark"] {
+    --color-bg-primary: #333;
+    --color-bg-secondary: #1a1a1a;
+    --color-txt-primary: #eaeaea;
+    --color-txt-secondary: #d5d5d5;
+    --color-on-hover: #4caf50;
+    --linear-gradient-green: linear-gradient(#33d639, #158c19);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    color: var(--color-txt-primary);
+    background-color: var(--color-bg-secondary);
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: var(--color-bg-primary);
+    height: 12vh;
+    min-height: 80px;
+}
+
+.header-left a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.header-left a h1 {
+    font-weight: 600;
+    color: var(--color-txt-primary);
+}
+
+/* logo from FlatIcon https://www.flaticon.com/authors/icon-home */
+.logo {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+nav.menu a,
+nav.menu i {
+    margin-left: 1rem;
+    text-decoration: none;
+    color: var(--color-txt-primary);
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+nav.menu i {
+    font-weight: 600;
+}
+
+nav.menu .selected {
+    color: var(--color-on-hover);
+    transition: color 0.3s;
+}
+
+nav.menu a:hover {
+    color: var(--color-on-hover);
+}
+
+#dark-mode-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 1rem;
+}
+
+nav.menu button i.fa-moon {
+    color: #302e287a;
+}
+
+nav.menu button i.fa-moon:hover {
+    color: #8a8372;
+}
+
+nav.menu button i.fa-sun {
+    color: #dea31893;
+}
+
+nav.menu button i.fa-sun:hover {
+    color: #fccf6694;
+}
+
+/* Main Hero Section */
+main {
+    flex: 1;
+}
+
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 88vh;
+    padding: 2rem;
+}
+
+.hero-text {
+    flex: 0 0 50%;
+    padding-left: 10vh;
+}
+
+.hero-text h2 {
+    font-family: 'Inter', sans-serif;
+    font-size: 2.5rem;
+    color: var(--color-txt-primary);
+    margin-bottom: 5rem;
+    font-weight: 800;
+    text-align: center;
+}
+
+.hero-text h2 span {
+    background: var(--linear-gradient-green);
+    -webkit-background-clip: text;
+            background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-text p {
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--color-txt-secondary);
+    text-align: justify;
+}
+
+.hero-animation {
+    flex: 0 0 40%;
+    height: 100%;
+}
+
+#tsparticles {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Footer */
+footer {
+    background-color: var(--color-bg-primary);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+footer p {
+    font-size: 0.75rem;
+}
+
+.footer-icons {
+    margin-top: 15px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.footer-icons a img {
+    margin-left: 1.5rem;
+    height: 30px;
+}
+
+#logo-fzu {
+    padding-bottom: 5px;
+}
+
+.footer-icons a:hover {
+    color: var(--color-on-hover);
+}
+
+/* General Styles for article */
+.main-article {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem;
+    text-align: justify;
+}
+
+.main-article a {
+    text-decoration: none;
+    color: var(--color-txt-primary);
+}
+
+.main-article a:hover {
+    color: var(--color-on-hover);
+}
+
+.article-title {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    color: var(--color-txt-primary);
+}
+
+article .quote {
+    font-style: italic;
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--color-txt-secondary);
+    margin-bottom: 5rem;
+}
+
+/* Content Layout */
+.content .text-image, 
+.content .image-text {
+    display: flex;
+    align-items: center;
+    gap: 5rem;
+    margin-bottom: 5rem;
+}
+
+.content .text-image .text, 
+.content .image-text .text {
+    flex: 0 0 40%;
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+}
+
+.text p {
+    padding-bottom: 10px;
+}
+
+.content .text-image .image,
+.content .image-text .image {
+    flex: 0 0 50%;
+}
+
+.content img {
+    width: 100%;
+    height: auto;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.content h2 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-txt-primary);
+}
+
+.content p {
+    line-height: 1.6;
+    font-size: 1rem;
+    color: var(--color-txt-secondary);
+}
+
+.content-footer h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    color: var(--color-txt-primary);
+}
+
+.content-footer p {
+    text-align: center;
+}
+
+.content-footer p a {
+    text-decoration: none;
+    color: var(--color-on-hover);
+}
+
+/* Responsive Layout */
+@media (max-width: 800px) {
+    .content .text-image, 
+    .content .image-text {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .content .text, 
+    .content .image {
+        flex: 1 0 100%;
+    }
+}
+
+/* Styling for Contact and email link */
+.main-contact {
+    max-width: 50rem;
+    margin: 0 auto;
+    padding: 4rem;
+    text-align: justify;
+}
+
+.contact-details {
+    padding-top: 40px;
+    text-align: center;
+}
+
+.contact-details a {
+    color: var(--color-on-hover);
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.contact-details a:hover {
+    background: var(--linear-gradient-green);
+    -webkit-background-clip: text;
+            background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

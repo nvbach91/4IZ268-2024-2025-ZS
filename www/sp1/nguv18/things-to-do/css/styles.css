@@ -1,0 +1,87 @@
+h1 {
+  text-align: center;
+  background-image: url(../img/things-to-do-background.png);
+  color: aliceblue;
+  text-indent: 50px;
+  font-weight: bold;
+  font-size: 60px;
+  margin: auto;
+  padding: 170px;
+  max-width: 1100px;
+  background-size: cover;
+  margin-bottom: 10px;
+}
+
+.pho {
+  text-align: justify;
+  font-size: 19px;
+  line-height: 24px;
+  width: 70%;
+}
+
+.pho-main {
+  margin-bottom: 0;
+}
+.pho-text-right {
+  margin-left: 10px;
+  margin-bottom: 0px;
+}
+
+.pho ul {
+  margin: auto;
+}
+
+.pho li {
+  margin: auto;
+  margin-left: 10px;
+  text-align: justify;
+  font-size: 19px;
+  line-height: 24px;
+  width: 70%;
+}
+
+.images-pho {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.images-pho img {
+  width: 220px;
+  height: auto;
+}
+
+.images-pho :nth-child(2) {
+  margin-bottom: 55px;
+}
+
+.container-pho {
+  margin: auto;
+  max-width: 800px;
+  margin-bottom: 80px;
+  display: flex;
+  align-items: flex-end;
+}
+
+@media screen and (max-width: 1024px) {
+  h1 {
+    padding-top: 170px;
+    padding-bottom: 170px;
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+  .container-pho {
+    display: block;
+  }
+  .images-pho img {
+    width: 100%;
+  }
+  .pho {
+    margin: auto;
+    width: 90%;
+  }
+  .pho li {
+    width: 100%;
+    margin-left: 0;
+  }
+}

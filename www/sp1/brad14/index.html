@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antonínovo pekařsrví</title>
+    <link rel="icon" type="image/x-icon" href="./assets/img/favicon.ico">
+    <link rel="stylesheet" href="./assets/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="main">
+        <header>
+            <nav class="nav">
+                <a href="./" id="logo-link">
+                    <img src="./assets/img/logo.png" width="120" alt="Antonínovo pekařství logo">
+                </a>
+                <button id="nav-toggle" class="nav-toggle"><svg xmlns="http://www.w3.org/2000/svg" width="30"
+                        height="30"
+                        viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                        <path fill="#000000"
+                            d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z" />
+                    </svg>
+                </button>
+                <ul class="nav-menu">
+                    <li>
+                        <a class="active" href="./">Hlavní strana</a>
+                    </li>
+                    <li>
+                        <a href="./o-autoninove-pekarstvi/">O nás</a>
+                    </li>
+                    <li>
+                        <a href="./tydenni-nabidka/">Týdenní nabídka</a>
+                    </li>
+                    <li>
+                        <a href="./nase-pecivo/">Naše pečivo</a>
+                    </li>
+                    <li>
+                        <a href="./hledame-pekare/">Hledáme pekaře</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="info" id="info-button">
+                <svg xmlns="http://www.w3.org/2000/svg" height="30" width="7.25"
+                    viewBox="0 0 192 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                    <path fill="#000000"
+                        d="M48 80a48 48 0 1 1 96 0A48 48 0 1 1 48 80zM0 224c0-17.7 14.3-32 32-32l64 0c17.7 0 32 14.3 32 32l0 224 32 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 512c-17.7 0-32-14.3-32-32s14.3-32 32-32l32 0 0-192-32 0c-17.7 0-32-14.3-32-32z" />
+                </svg>
+            </div>
+            <div class="dialog-overlay" id="dialog-overlay">
+                <div class="dialog">
+                    <h2>Upozornění</h2>
+                    <p>Tato stránka není oficiální stránkou Antonínova pekařství.</p>
+                    <button id="close-dialog">Zavřít</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="content-wrapper">
+            <main>
+                <div class="title-outer-wrapper">
+                    <div class="title-inner-wrapper h1-main">
+                        <h1>Vítejte v Antonínově pekařství - místo, kde se peče s láskou a tradicí.</h1>
+                    </div>
+                </div>
+                <nav id="site-gallery" class="site-gallery">
+                    <div class="gallery-section-big">
+                        <a href="./hledame-pekare/">
+                            <div class="tile tile-pekari">
+                                <p>Chcete se věnovat poctivému řemeslu?</p>
+                                <div class="tile-title">Přidejte se k nám jako pekař</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="gallery-section-small">
+                        <a href="./nase-pecivo/">
+                            <div class="tile tile-pecivo">
+                                <p>Užijte si čerstvě upečené pečivo s lahodnou kávou přímo u nás. Těšíme se na vaši
+                                    návštěvu!</p>
+                                <div class="tile-title">Čerstvé pečivo a skvělá káva</div>
+                            </div>
+                        </a>
+                        <a href="./tydenni-nabidka/">
+                            <div class="tile tile-nabidka">
+                                <p>Jaké dobroty pro vás připravujeme tento týden?</p>
+                                <div class="tile-title">Týdenní nabídka</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="gallery-section-big">
+                        <a href="#pobocky">
+                            <div class="tile tile-pobocky">
+                                <p>Najdete nás na Vinohradech, ve Vršovicích, Karlíně, Holešovicích, Dejvicích a nově i
+                                    na Smíchově!</p>
+                                <div class="tile-title">Šest poboček po celé Praze</div>
+                            </div>
+                        </a>
+                    </div>
+                </nav>
+                <div class="content-container delivery">
+                    <h2 id="#rozvoz">Rozvoz z našich poboček</h2>
+                    <p>Rychlý a pohodlný rozvoz čerstvého pečiva z vybraných poboček přímo k vám domů!</p>
+                    <h3>Nabízíme rozvoz prostřednictvím vašich oblíbených rozvozců:</h3>
+                    <div class="deliver-companies">
+                        <img src="./assets/img/delivery-companies/wolt.png" alt="wolt logo">
+                        <img src="./assets/img/delivery-companies/foodora.png" alt="foodora logo">
+                        <img src="./assets/img/delivery-companies/bolt-food.png" alt="bolt food logo">
+                        <img src="./assets/img/delivery-companies/rohlik.png" alt="rohlik logo">
+                        <img src="./assets/img/delivery-companies/kosik.png" alt="kosik logo">
+                    </div>
+                    <div class="branches-container" id="branches">
+                        <div class="branch-inner-wrapper">
+                            <div class="branch">
+                                <h3>📍 Pobočka Praha 3 - Vinohrady</h3>
+                                <ul>
+                                    <li><strong>Adresa:</strong> Laubova 4</li>
+                                    <li><strong>Telefon:</strong> <a href="tel:+420605202861">+420 605 202 861</a></li>
+                                    <li><strong>Společnosti pro rozvoz:</strong> 🛵 Wolt, Foodora</li>
+                                    <li><strong>Minimální hodnota objednávky:</strong> 250 Kč</li>
+                                    <li><strong>Doba doručení:</strong> Obvykle do 30 minut</li>
+                                </ul>
+                            </div>
+                            <div class="branch">
+                                <h3>📍 Pobočka Praha 5 - Smíchov</h3>
+                                <ul>
+                                    <li><strong>Adresa:</strong> Štefánikova 339/39</li>
+                                    <li><strong>Telefon:</strong> <a href="tel:+420734140650">+420 734 140 650</a></li>
+                                    <li><strong>Společnosti pro rozvoz:</strong> 🛵 Bolt Food, Košík</li>
+                                    <li><strong>Minimální hodnota objednávky:</strong> 300 Kč</li>
+                                    <li><strong>Doba doručení:</strong> Obvykle do 35 minut</li>
+                                </ul>
+                            </div>
+
+                            <div class="branch">
+                                <h3>📍 Pobočka Praha 6 - Bubeneč</h3>
+                                <ul>
+                                    <li><strong>Adresa:</strong> Československé armády 729/28</li>
+                                    <li><strong>Telefon:</strong> <a href="tel:+420739027750">+420 739 027 750</a></li>
+                                    <li><strong>Společnosti pro rozvoz:</strong> 🛵 Wolt, Rohlík</li>
+                                    <li><strong>Minimální hodnota objednávky:</strong> 200 Kč</li>
+                                    <li><strong>Doba doručení:</strong> Obvykle do 40 minut</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="branch-inner-wrapper">
+                            <div class="branch">
+                                <h3>📍 Pobočka Praha 7 - Holešovice</h3>
+                                <ul>
+                                    <li><strong>Adresa:</strong> Strossmayerovo náměstí 11</li>
+                                    <li><strong>Telefon:</strong> <a href="tel:+420734783443">+420 734 783 443</a></li>
+                                    <li><strong>Společnosti pro rozvoz:</strong> 🛵 Foodora, Košík</li>
+                                    <li><strong>Minimální hodnota objednávky:</strong> 250 Kč</li>
+                                    <li><strong>Doba doručení:</strong> Obvykle do 30 minut</li>
+                                </ul>
+                            </div>
+                            <div class="branch">
+                                <h3>📍 Pobočka Praha 8 - Karlín</h3>
+                                <ul>
+                                    <li><strong>Adresa:</strong> Sokolovská 55</li>
+                                    <li><strong>Telefon:</strong> <a href="tel:+420731611812">+420 731 611 812</a></li>
+                                    <li><strong>Společnosti pro rozvoz:</strong> 🛵 Wolt, Bolt Food</li>
+                                    <li><strong>Minimální hodnota objednávky:</strong> 300 Kč</li>
+                                    <li><strong>Doba doručení:</strong> Obvykle do 35 minut</li>
+                                </ul>
+                            </div>
+                            <div class="branch">
+                                <h3>📍 Pobočka Praha 10 - Vršovice</h3>
+                                <ul>
+                                    <li><strong>Adresa:</strong> Moskevská 38</li>
+                                    <li><strong>Telefon:</strong> <a href="tel:+420733593925">+420 733 593 925</a></li>
+                                    <li><strong>Společnosti pro rozvoz:</strong> 🛵 Foodora, Rohlík</li>
+                                    <li><strong>Minimální hodnota objednávky:</strong> 200 Kč</li>
+                                    <li><strong>Doba doručení:</strong> Obvykle do 45 minut</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-container gallery">
+                    <h2>Galerie</h2>
+                    <div class="gallery-grid">
+                        <img src="./assets/img/gallery/cafe-interior.png" alt="Interiér kavárny" class="gallery-item">
+                        <img src="./assets/img/gallery/bakery-items.png" alt="Pečivo" class="gallery-item">
+                        <img src="./assets/img/gallery/coffee-cup.png" alt="Šálek kávy" class="gallery-item">
+                        <img src="./assets/img/gallery/bread-loaves.png" alt="Bochníky chleba" class="gallery-item">
+                        <img src="./assets/img/gallery/croissants.png" alt="Croissanty" class="gallery-item">
+                        <img src="./assets/img/gallery/pastry-display.png" alt="Zákusky" class="gallery-item">
+                    </div>
+                </div>
+
+                <div class="content-container faq">
+                    <div class="faq-outer-wrapper shadow">
+                        <h2>FAQ</h2>
+                        <div class="faq-wrapper">
+                            <div class="faq-section">
+                                <div class="faq-section-header">
+                                    <h3>Kde najdu vaše pobočky?</h3>
+                                    <svg class="chevron-down" xmlns="http://www.w3.org/2000/svg" height="14" width="14"
+                                        viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                        <path fill="#000000"
+                                            d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
+                                    </svg>
+                                    <svg class="chevron-up" xmlns="http://www.w3.org/2000/svg" height="14" width="14"
+                                        viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                        <path fill="#000000"
+                                            d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z" />
+                                    </svg>
+                                </div>
+                                <p class="faq-text">Máme několik poboček po celé Praze. Kompletní seznam s adresami
+                                    a
+                                    otevíracími dobami najdete <a href="#branches">zde</a>.</p>
+                            </div>
+                            <div class="faq-section">
+                                <div class="faq-section-header">
+                                    <h3>Jaké pečivo nabízíte?</h3>
+                                    <svg class="chevron-down" xmlns="http://www.w3.org/2000/svg" height="14" width="14"
+                                        viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                        <path fill="#000000"
+                                            d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
+                                    </svg>
+                                    <svg class="chevron-up" xmlns="http://www.w3.org/2000/svg" height="14" width="14"
+                                        viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                        <path fill="#000000"
+                                            d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z" />
+                                    </svg>
+                                </div>
+                                <p class="faq-text">Nabízíme široký sortiment pečiva včetně tradičních chlebů,
+                                    sladkých
+                                    dezertů, francouzských croissantů, bezlepkových a veganských variant.</p>
+                            </div>
+                            <div class="faq-section">
+                                <div class="faq-section-header">
+                                    <h3>Používáte při pečení lokální a bio suroviny?</h3>
+                                    <svg class="chevron-down" xmlns="http://www.w3.org/2000/svg" height="14" width="14"
+                                        viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                        <path fill="#000000"
+                                            d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
+                                    </svg>
+                                    <svg class="chevron-up" xmlns="http://www.w3.org/2000/svg" height="14" width="14"
+                                        viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                        <path fill="#000000"
+                                            d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z" />
+                                    </svg>
+                                </div>
+                                <p class="faq-text">Ano, dbáme na kvalitu našich surovin. Většina z nich pochází od
+                                    lokálních dodavatelů a pečeme s důrazem na čerstvost a udržitelnost.</p>
+                            </div>
+                            <div class="faq-section">
+                                <div class="faq-section-header">
+                                    <h3>Máte bezlepkové nebo veganské produkty?</h3>
+                                    <svg class="chevron-down" xmlns="http://www.w3.org/2000/svg" height="14" width="14"
+                                        viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                        <path fill="#000000"
+                                            d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
+                                    </svg>
+                                    <svg class="chevron-up" xmlns="http://www.w3.org/2000/svg" height="14" width="14"
+                                        viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                        <path fill="#000000"
+                                            d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z" />
+                                    </svg>
+                                </div>
+                                <p class="faq-text">Ano, nabízíme bezlepkové a veganské varianty pečiva. Prosíme,
+                                    informujte náš personál, pokud máte speciální požadavky.</p>
+                            </div>
+                            <div class="faq-section">
+                                <div class="faq-section-header">
+                                    <h3>Jak mohu zadat objednávku na větší množství pečiva?</h3>
+                                    <svg class="chevron-down" xmlns="http://www.w3.org/2000/svg" height="14" width="14"
+                                        viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                        <path fill="#000000"
+                                            d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
+                                    </svg>
+                                    <svg class="chevron-up" xmlns="http://www.w3.org/2000/svg" height="14" width="14"
+                                        viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                        <path fill="#000000"
+                                            d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z" />
+                                    </svg>
+                                </div>
+                                <p class="faq-text">Pro velké objednávky nás prosím kontaktujte telefonicky nebo
+                                    prostřednictvím našeho online formuláře minimálně 48 hodin předem.</p>
+                            </div>
+
+                            <div class="faq-section">
+                                <div class="faq-section-header">
+                                    <h3>Máte možnost rozvozu?</h3>
+                                    <svg class="chevron-down" xmlns="http://www.w3.org/2000/svg" height="14" width="14"
+                                        viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                        <path fill="#000000"
+                                            d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
+                                    </svg>
+                                    <svg class="chevron-up" xmlns="http://www.w3.org/2000/svg" height="14" width="14"
+                                        viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                        <path fill="#000000"
+                                            d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z" />
+                                    </svg>
+                                </div>
+                                <p class="faq-text">Ano, nabízíme rozvoz po celé Praze. Více informací o možnostech
+                                    a
+                                    cenách rozvozu najdete <a href="">zde</a>.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-container">
+                    <div class="newsletter-wrapper">
+                        <h2>Chcete od nás dostávat novinky a být stále v obraze?</h2>
+                        <p>Přihlašte se k našemu newsletteru a nic vám neunikne!</p>
+                        <form>
+                            <input id="emailInput" type="email" placeholder="jan.novak@email.com" required>
+                            <button class="btn">Přihlásit k odběru novinek</button>
+                        </form>
+                    </div>
+                    <p id="confirm-message">
+                        Úspěšně jste se přihlásil k našemu newsletteru, děkujeme!
+                    </p>
+                </div>
+            </main>
+            <div class="footer-wrapper">
+                <footer>
+                    <section>
+                        <h2>Otevírací doba</h2>
+                        <div class="footer-container">
+                            <p>PONDĚLÍ - NEDĚLE<br>7:00 – 19:30</p>
+                            <p>Zajděte k nám na snídani,
+                                polévku k obědu
+                                nebo se stavte
+                                pro čerstvé pečivo
+                                cestou z práce...</p>
+                        </div>
+                    </section>
+                    <section>
+                        <div>
+                            <h2>Ozvěte se nám</h2>
+                            <div class="footer-container">
+                                <p>Informace o provozu
+                                    všech pekařství
+                                    <a href="mailto:info@antoninovopekarstvi.cz">info@antoninovopekarstvi.cz</a>
+                                    <a href="tel:+420605977291">+420 605 977 291</a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="last-footer">
+                            <h2>Jsme i na socálních sítích</h2>
+                            <ul class="footer-container">
+                                <li>
+                                    <a href="https://www.instagram.com/antoninovopekarstvi/">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="14" width="12.25"
+                                            viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                            <path fill="#000000"
+                                                d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z" />
+                                        </svg>
+                                        Instagram
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.facebook.com/AntoninovoPekarstvi/">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="14" width="14"
+                                            viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                            <path fill="#000000"
+                                                d="M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256C0 376 82.7 476.8 194.2 504.5V334.2H141.4V256h52.8V222.3c0-87.1 39.4-127.5 125-127.5c16.2 0 44.2 3.2 55.7 6.4V172c-6-.6-16.5-1-29.6-1c-42 0-58.2 15.9-58.2 57.2V256h83.6l-14.4 78.2H287V510.1C413.8 494.8 512 386.9 512 256h0z" />
+                                        </svg>
+                                        Facebook
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+                    <p class="copyright">Copyright &#169; 2024 David Brablc | School project for 4IZ268 subject</p>
+                    <button id="back-to-top-button" class="back-to-top-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="15"
+                            viewBox="0 0 320 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                            <path fill="#000000"
+                                d="M318 177.5c3.8-8.8 2-19-4.6-26l-136-144C172.9 2.7 166.6 0 160 0s-12.9 2.7-17.4 7.5l-136 144c-6.6 7-8.4 17.2-4.6 26S14.4 192 24 192l72 0 0 288c0 17.7 14.3 32 32 32l64 0c17.7 0 32-14.3 32-32l0-288 72 0c9.6 0 18.2-5.7 22-14.5z" />
+                        </svg>
+                    </button>
+                </footer>
+            </div>
+        </div>
+    </div>
+    <div id="overlay" class="overlay"></div>
+
+    <script type="module" src="./assets/js/main.js"></script>
+    <script type="module" src="./assets/js/faq/script.js"></script>
+</body>
+
+</html>

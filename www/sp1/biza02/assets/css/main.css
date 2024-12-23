@@ -1,0 +1,915 @@
+/* Reset základních stylů */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Tělo stránky */
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.8;
+    color: #333;
+    background: linear-gradient(180deg, #FFCDD2, #fff);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    animation: fadeInBody 1.5s ease-in-out;
+    -webkit-font-smoothing: antialiased;
+    max-width: 1200px;
+    margin: auto;
+}
+
+@keyframes fadeInBody {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Hlavička */
+header {
+    background: linear-gradient(90deg, #FFCDD2, #FFC1C1);
+    color: #333;
+    padding: 1.5rem 0;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: fadeInDown 1.2s ease-in-out;
+    transition: background-color 0.3s;
+}
+
+header:hover {
+    background: linear-gradient(90deg, #FFC1C1, #FFCDD2);
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Navigační menu */
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 0.5rem;
+}
+
+nav ul li a {
+    color: #333;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 0.5rem 0;
+    position: relative;
+    transition: color 0.3s, transform 0.3s ease-in-out;
+    text-decoration: none;
+}
+
+nav ul li a:hover {
+    color: #C62828;
+    transform: scale(1.1);
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+}
+
+nav ul li a::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background-color: #C62828;
+    transition: width 0.3s ease-in-out;
+}
+
+nav ul li a:hover::after {
+    width: 100%;
+}
+
+nav ul li a.active {
+    color: #C62828;
+    text-decoration: underline;
+}
+
+/* Hero sekce */
+.hero {
+    background: linear-gradient(135deg, #FFCDD2, #C62828);
+    color: white;
+    text-align: center;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 1.5s ease-in-out;
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 0% 100%);
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
+    animation: slideInFromLeft 1s ease-in-out;
+}
+
+.hero p {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+    max-width: 800px;
+    animation: slideInFromRight 1s ease-in-out;
+}
+
+.hero .btn {
+    background: linear-gradient(90deg, #fff, #FFCDD2);
+    color: #C62828;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    border-radius: 25px;
+    text-transform: uppercase;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+}
+
+.hero .btn:hover {
+    background: #C62828;
+    color: #fff;
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Karty */
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+    padding: 2rem 0;
+}
+
+.card {
+    background: linear-gradient(145deg, #fff, #f7f7f7);
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.4s, box-shadow 0.4s ease-in-out;
+    text-align: center;
+}
+
+.card:hover {
+    transform: scale(1.1);
+    box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.card h3 {
+    font-size: 1.8rem;
+    color: #C62828;
+    margin-bottom: 1rem;
+}
+
+.card p {
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Footer */
+footer {
+    background-color: #FFCDD2;
+    color: #333;
+    text-align: center;
+    padding: 2rem 0;
+    font-size: 1rem;
+    animation: fadeInUp 1.5s ease-in-out;
+}
+
+footer .footer-links {
+    margin: 1rem 0;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+footer .footer-links a {
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+footer .footer-links a:hover {
+    color: #C62828;
+}
+
+footer p {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* Tlačítka */
+.btn {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, #C62828, #FFCDD2);
+    border: none;
+    border-radius: 8px;
+    text-transform: uppercase;
+    text-decoration: none;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Malá tlačítka */
+.btn-small {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+/* Velká tlačítka */
+.btn-large {
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+}
+
+/* Primární tlačítko */
+.btn-primary {
+    background: linear-gradient(135deg, #FFCDD2, #C62828);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #C62828, #FFCDD2);
+}
+
+.btn-primary:active {
+    background: linear-gradient(135deg, #FFCDD2, #B71C1C);
+}
+
+/* Styl citací */
+.styled-quote {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #C62828;
+    background: #FFEBEE;
+    padding: 1.5rem;
+    border-left: 5px solid #C62828;
+    border-radius: 10px;
+    margin: 2rem 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    line-height: 1.8;
+}
+
+/* Sekce událostí */
+.events {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 2rem auto;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+.events h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #C62828;
+    margin-bottom: 1.5rem;
+    animation: blink 1.5s infinite;
+}
+
+/* Mřížka událostí */
+.event-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Styl jednotlivé události */
+.event {
+    display: flex;
+    flex-direction: column;
+    background: #FFF;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.event:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Obrázek události */
+.event-img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* Obsah události */
+.event-content {
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.event-content h2 {
+    font-size: 1.5rem;
+    color: #C62828;
+    margin-bottom: 1rem;
+}
+
+.event-content p {
+    font-size: 1rem;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Animace blikání nadpisu */
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* Responzivní design */
+@media (max-width: 768px) {
+    .event-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .event-content h2 {
+        font-size: 1.3rem;
+    }
+
+    .event-content p {
+        font-size: 0.9rem;
+    }
+}
+
+.news {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 2rem auto;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+.news h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #C62828;
+    margin-bottom: 1.5rem;
+}
+
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.news-item {
+    background: #FFF;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.news-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.news-item h2 {
+    font-size: 1.5rem;
+    color: #C62828;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.news-item h2 a {
+    color: #C62828;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.news-item h2 a:hover {
+    color: #B71C1C;
+}
+
+.news-item p {
+    font-size: 1rem;
+    color: #333;
+    line-height: 1.6;
+    text-align: center;
+}
+
+
+/* Sekce detailu aktuality */
+.news-detail {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 2rem auto;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+.news-detail h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.news-date {
+    text-align: center;
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 1.5rem;
+}
+
+.news-image {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    margin: 1.5rem auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.news-content {
+    line-height: 1.8;
+    font-size: 1.1rem;
+    color: #333;
+    text-align: justify;
+}
+
+.news-content p {
+    margin-bottom: 1.5rem;
+}
+
+.styled-quote {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #C62828;
+    background: #FFEBEE;
+    padding: 1.5rem;
+    border-left: 5px solid #C62828;
+    border-radius: 10px;
+    margin: 2rem 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.news-content a {
+    color: #C62828;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.news-content a:hover {
+    color: #B71C1C;
+}
+
+/* Tým: Úvodní sekce */
+.team-overview {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.team-overview p {
+    margin-top: 1.5rem;
+}
+
+.team-overview img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    margin-top: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Tým: Detaily */
+.team-details {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.team-card {
+    background: #FFF;
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.team-card h2 {
+    margin-bottom: 1rem;
+    color: #C62828;
+}
+
+.team-card p {
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.team-card a {
+    margin-top: 1rem;
+    display: inline-block;
+}
+
+/* Tým: Mise */
+.team-mission {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.team-mission p {
+    margin-top: 1.5rem;
+}
+
+.team-detail {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.team-member {
+    text-align: center;
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team-member:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.team-member h2 {
+    margin-bottom: 1rem;
+    color: #C62828;
+    font-size: 1.5rem;
+}
+
+.team-member p {
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-size: 1rem;
+}
+
+.team-image {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    margin: 1rem 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.contact-info, .contact-map, .contact-form {
+    background: white;
+    padding: 2rem;
+    margin: 1rem auto;
+    max-width: 800px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.contact-map #map {
+    height: 400px;
+    border-radius: 12px;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.contact-form button {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    background: linear-gradient(90deg, #C62828, #FFCDD2);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+ /* Hlavní sekce formuláře */
+.volunteer-form-container {
+    background: white;
+    padding: 2rem;
+    max-width: 600px;
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.volunteer-form-container h1 {
+    text-align: center;
+    font-size: 2rem;
+    color: #C62828;
+    margin-bottom: 1.5rem;
+}
+
+/* Styl jednotlivých polí formuláře */
+.volunteer-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.volunteer-form label {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #555;
+}
+
+.volunteer-form input,
+.volunteer-form select,
+.volunteer-form textarea {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.volunteer-form input:focus,
+.volunteer-form select:focus,
+.volunteer-form textarea:focus {
+    border-color: #C62828;
+}
+
+/* Tlačítko pro odeslání */
+.volunteer-form button {
+    padding: 0.8rem;
+    font-size: 1rem;
+    background: linear-gradient(90deg, #C62828, #FFCDD2);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background 0.3s;
+}
+
+.volunteer-form button:hover {
+    background: linear-gradient(90deg, #FFCDD2, #C62828);
+}
+
+.partners-carousel {
+    text-align: center;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    overflow: hidden; /* Skryje obsah mimo karusel */
+    position: relative;
+    max-width: 100%; /* Přizpůsobí se šířce stránky */
+}
+
+.partners-carousel h2 {
+    font-size: 2rem;
+    color: #C62828;
+    margin-bottom: 1rem;
+}
+
+.carousel {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    animation: scroll-horizontal 15s linear infinite;
+    gap: 20px;
+}
+
+.carousel img {
+    width: 150px; /* Pevná šířka loga */
+    height: 100px; /* Pevná výška loga */
+    object-fit: contain; /* Zachová poměr stran loga */
+    background-color: white; /* Bílé pozadí */
+    border: 1px solid #ddd; /* Tenký rámeček kolem loga */
+    border-radius: 5px; /* Zaoblené rohy */
+    padding: 5px;
+    transition: transform 0.3s ease;
+}
+
+.carousel img:hover {
+    transform: scale(1.1); /* Zvětšení při najetí myší */
+}
+
+@keyframes scroll-horizontal {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* Footer */
+footer {
+    background: #FFCDD2;
+    color: #333;
+    padding: 2rem;
+    text-align: center;
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+footer nav {
+    margin-bottom: 1rem;
+}
+
+footer nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+    padding: 0;
+}
+
+footer nav ul li {
+    margin: 0;
+}
+
+footer nav ul li a {
+    color: #C62828;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer nav ul li a:hover {
+    color: #B71C1C;
+}
+
+footer .social-icons {
+    display: flex;
+    gap: 1rem;
+}
+
+footer .social-icons a {
+    color: #C62828;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+}
+
+footer .social-icons a:hover {
+    color: #B71C1C;
+}
+
+footer .back-to-top {
+    margin-top: 1rem;
+    font-size: 1rem;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* Přidání podmínek pro tisk */
+@media print {
+    body {
+        background: none;
+        color: black;
+        font-size: 12pt;
+    }
+    header, footer {
+        display: none;
+    }
+    .hero, .carousel {
+        display: none;
+    }
+    .content {
+        max-width: 100%;
+    }
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+/* Zajištění funkčnosti při nízkém rozlišení */
+@media (max-width: 800px) {
+    .hero {
+        height: auto;
+        clip-path: none;
+    }
+    nav ul {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .card-container, .news-grid, .team-grid, .event-grid {
+        grid-template-columns: 1fr;
+    }
+    footer nav ul {
+        flex-direction: column;
+    }
+}
+
+/* Responzivní layout */
+@media (max-width: 600px) {
+    body {
+        font-size: 14px;
+    }
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+    .hero p {
+        font-size: 1rem;
+    }
+    footer .social-icons {
+        flex-direction: column;
+    }
+}

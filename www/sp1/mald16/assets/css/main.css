@@ -1,0 +1,141 @@
+* {
+	color: #fff;
+	box-sizing: border-box;
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+		Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	background-color: #000;
+}
+
+p {
+	line-height: 1.5rem;
+}
+
+nav {
+	border: 1px solid #fff;
+	border-radius: 50px;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	width: 60%;
+	height: 50px;
+	font-size: 1.3em;
+	position: fixed;
+	top: 20px;
+	left: 50%;
+	transform: translateX(-50%);
+	margin: 0 auto;
+	background-color: #000;
+	z-index: 1000;
+	-webkit-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.75);
+	-moz-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.75);
+	box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.75);
+}
+
+header {
+	margin-top: 150px;
+}
+
+nav > a {
+	color: #808080;
+	transition: color 0.1s ease-in;
+	text-decoration: none;
+}
+
+nav > a:hover {
+	color: #fff;
+}
+
+nav > a.highlighted {
+	color: #fff;
+	font-weight: 600;
+	text-decoration: underline;
+	text-decoration-color: #1e73e8;
+	text-decoration-thickness: 4px;
+	text-decoration-skip: none;
+}
+
+@media (max-width: 750px) {
+	nav {
+		font-size: 1em;
+		width: 95%;
+	}
+}
+
+.button {
+	background-color: #1e73e8;
+	border: 2px solid #1e73e8;
+	padding: 7px 15px;
+	border-radius: 8px;
+	font-size: 1.3em;
+	margin-right: 5px;
+	transition: background-color 0.05s ease-in;
+	text-decoration: none;
+}
+
+.button.secondary {
+	border: solid 2px #1e73e8;
+	background-color: transparent;
+}
+
+.button.spotify {
+	background-color: #1db954;
+	border: 2px solid #1db954;
+	color: #191414;
+	padding: 5px 10px;
+	border-radius: 8px;
+	font-size: 1em;
+}
+
+.button.instagram {
+	background-color: #fcaf45;
+	border: 2px solid #fcaf45;
+	color: #191414;
+	padding: 5px 10px;
+	border-radius: 8px;
+	font-size: 1em;
+}
+
+.button:hover {
+	background-color: #639eef;
+}
+
+.button.spotify:hover {
+	background-color: #42ba6c;
+}
+
+.button.instagram:hover {
+	background-color: #ffdc80;
+}
+
+.page-title {
+	margin-top: 75px;
+	text-decoration: underline;
+	text-decoration-color: #1e73e8;
+	text-decoration-thickness: 4px;
+	text-decoration-skip: none;
+	text-align: center;
+}
+
+.page-subtitle {
+	text-align: center;
+	margin-bottom: 50px;
+	line-height: 1.4em;
+}
+
+.align-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.footer {
+	position: fixed;
+	bottom: 10px;
+	left: 10px;
+	z-index: 1000;
+}

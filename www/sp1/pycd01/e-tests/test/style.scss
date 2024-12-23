@@ -1,0 +1,46 @@
+@use '../../base';
+
+$green: oklch(0.7 0.3 165);
+$dark_green: oklch(0.65 0.3 165);
+$light_green: oklch(0.75 0.3 165);
+
+.test-container {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+
+  .question-container {
+    .question {
+      color: white;
+    }
+    input {
+      display: none;
+    }
+    label {
+      background-color: black;
+      color: white;
+      width: 50%;
+      border: solid 1px $green;
+      display: block;
+      margin-bottom: 10px;
+      padding: 10px;
+    }
+
+    input[type=radio] + label {
+      border-radius: 10px;
+     }
+
+    input[type=checkbox] + label {
+      border-radius: 0;
+    }
+
+    input:checked + label {
+      background-color: $green;
+    }
+  }
+
+  .test-submit {
+    margin-block: 50px;
+  }
+}

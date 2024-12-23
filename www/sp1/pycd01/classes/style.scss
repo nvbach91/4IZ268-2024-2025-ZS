@@ -1,0 +1,111 @@
+@use '../base';
+
+$green: oklch(0.7 0.3 165);
+$dark_green: oklch(0.65 0.3 165);
+$light_green: oklch(0.75 0.3 165);
+
+
+main {
+  .classes-container {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+
+    .sec-name {
+      font-size: 24px;
+    }
+    .filters {
+      margin-top: 20px;
+      color: white;
+      font-size: 24px;
+      display: flex;
+      column-gap: 30px;
+      flex-wrap: wrap;
+      align-items: center;
+
+      * {
+        display: inline-block;
+      }
+
+      input[type=text] {
+        font-size: 20px;
+        height: 35px;
+        border: 2px solid $dark_green;
+        background-color: $light_green;
+      }
+
+      input[type=radio],
+      input[type=checkbox] {
+        display: none;
+      }
+
+      label {
+        cursor: pointer;
+        padding-inline: 10px;
+      }
+      button {
+        margin-top: 10px;
+      }
+      input:checked + label {
+         background-color: $dark_green;
+       }
+
+      input:not(:checked) + label {
+        border: 2px solid $green;
+      }
+
+      input:checked#ffu + label {
+        background-color: #ad005f;
+      }
+
+      input:checked#fmv + label {
+        background-color: #ba5309;
+      }
+
+      input:checked#fph + label {
+        background-color: #003f5a;
+      }
+
+      input:checked#fis + label {
+        background-color: #006252;
+      }
+
+      input:checked#nf + label {
+        background-color: #49b3e5;
+      }
+
+      input:checked#fm + label {
+        background-color: #af005e;
+      }
+    }
+
+    .classes-categories {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 40px;
+
+      .class-category {
+        flex: 1;
+        display: flex;
+        gap: 10px;
+        flex-direction: column;
+        text-align: center;
+
+        .sec-name {
+          position: sticky;
+          top: 0;
+          padding-block: 20px;
+          background-color: black;
+          color: white;
+          height: 60px;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 1200px) {
+  .classes-categories {
+    flex-direction: column;
+  }
+}
