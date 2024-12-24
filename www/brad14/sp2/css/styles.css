@@ -29,6 +29,14 @@ body {
     z-index: 20;
 }
 
+.error {
+    width: 400px;
+    background: red;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+}
+
 
 .center {
     display: flex;

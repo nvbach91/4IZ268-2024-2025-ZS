@@ -9,8 +9,8 @@ const constructUrl = (baseUrl, parameters) => {
 
 const fetchWeatherData = async (lat, lon) => {
     const url = constructUrl(BASE_URL_DATA, `lat=${lat}&lon=${lon}&units=metric&exclude=minutely`);
-    const reponse = await fetch(url);
-    const data = await reponse.json();
+    const res = await fetch(url);
+    const data = await res.json();
     return data;
 }
 
@@ -18,11 +18,15 @@ const fetchCoordinates = async (city) => {
     const url = constructUrl(BASE_URL_GEO, `q=${city}&limit=1`);
     const reponse = await fetch(url);
     const data = await reponse.json();
-    const coordinates = {
-        'lat': data[0].lat,
-        'lon': data[0].lon
-    };
-    return coordinates;
+    if (data.length === 0) {
+        return new Error('No city found');
+    } else {
+        const coordinates = {
+            'lat': data[0].lat,
+            'lon': data[0].lon
+        };
+        return coordinates;
+    }
 }
 
 const renderWeatherData = (data) => {
@@ -146,13 +150,28 @@ var editing = false
 
 $('form').on('submit', async (e) => {
     e.preventDefault();
-    $('.search-wrapper').addClass('chosen');
-    input.trigger('blur');
-    const location = $('input[name="location"]').val();
-    const coordinates = await fetchCoordinates(location);
-    const weatherData = await fetchWeatherData(coordinates.lat, coordinates.lon);
-    renderWeatherData(weatherData);
-    editing = false;
+    try {
+        const location = $('input[name="location"]').val();
+        const coordinates = await fetchCoordinates(location);
+        if (coordinates instanceof Error) {
+            Toastify({
+                text: coordinates.message,
+                className: 'error',
+                offset: {
+                    y: 5,
+                },
+                duration: 2000
+            }).showToast();
+        } else {
+            $('.search-wrapper').addClass('chosen');
+            input.trigger('blur');
+            const weatherData = await fetchWeatherData(coordinates.lat, coordinates.lon);
+            renderWeatherData(weatherData);
+            editing = false;
+        }
+    } catch (e) {
+        console.error(e);
+    }
 });
 
 input.on('focus', (e) => {
