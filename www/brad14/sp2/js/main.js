@@ -32,7 +32,7 @@ const renderWeatherData = (data) => {
                 <div class="big-temp">
                     <p class="main"><span class="current-temp">${Math.round(data.current.temp)}</span><span class="current-unit">°</span></p>
                     <div>
-                        <img width="90" height="90" src="./images/weather/sunny.png" alt="Sun">
+                        <img width="90" height="90" src="./images/weather/${getIconName(data.current.weather[0], data.current.dt, data.current.sunrise, data.current.sunset)}.png" alt="Sun">
                     </div>
                 </div>
                 <div class="info">
@@ -45,7 +45,7 @@ const renderWeatherData = (data) => {
     `;
     const hourlyHtml = `
         <h3>Hourly forecast</h3>
-        <div class="hourly">${renderHourlyContent(data.hourly)}</div>
+        <div class="hourly">${renderHourlyContent(data.hourly, data.current.sunrise, data.current.sunset)}</div>
     `;
     const dailyHtml = `
         <h3>Daily forecast</h3>
@@ -57,7 +57,7 @@ const renderWeatherData = (data) => {
     $('.daily-wrapper').empty().append(dailyHtml);
 }
 
-const renderHourlyContent = (hourlyData) => {
+const renderHourlyContent = (hourlyData, sunrise, sunset) => {
     let html = ``;
     hourlyData.slice(0, 24).forEach((hour, index) => {
         const dateTime = getDateTime(hour.dt);
@@ -65,7 +65,7 @@ const renderHourlyContent = (hourlyData) => {
             <div class="hour-box">
                 <p class="time">${index === 0 ? 'now' : dateTime.time}</p>
                 <div class="img-wrapper">
-                    <img width="60" src="./images/weather/sunny.png" alt="">
+                    <img width="60" src="./images/weather/${getIconName(hour.weather[0], hour.dt, sunrise, sunset)}.png" alt="">
                 </div>
                 <p class="temp"><span class="temp-number">${Math.round(hour.temp)}</span> °C</p>
             </div>
@@ -77,14 +77,14 @@ const renderHourlyContent = (hourlyData) => {
 
 const renderDailyContent = (dailyData) => {
     let html = ``;
-    dailyData.slice(0, 10).forEach((day, index) => {
+    dailyData.forEach((day, index) => {
         const dateTime = getDateTime(day.dt);
         const dayHtml = `
             <div class="daily-box">
                 <div class="date">${index === 0 ? 'Today' : dateTime.weekDay} ${dateTime.dayOfMonth} ${dateTime.month}</div>
                 <div class="weather-info">
                     <div class="img-wrapper">
-                        <img width="40" src="./images/weather/sunny.png" alt="">
+                        <img width="40" src="./images/weather/${getIconName(day.weather[0], day.dt, day.sunrise, day.sunset)}.png" alt="">
                     </div>
                     <p>${Math.round(day.temp.day)}°<span class="night-temp">/</span><span class="night-temp">${Math.round(day.temp.night)}°</span></p>
                 </div>
@@ -107,20 +107,89 @@ const getDateTime = (unixDt) => {
     return dateTime;
 }
 
-const form = $('form');
-const searchWrapper = $('.search-wrapper');
+const getIconName = (weatherCondition, dt, sunrise, sunset) => {
+    switch (weatherCondition.main) {
+        case 'Clear':
+            if (dt > sunset) {
+                return 'clear-night';
+            } else {
+                return 'clear-day';
+            }
+        case 'Snow':
+            return 'snow';
+        case 'Thunderstorm':
+            return 'thunderstorm';
+        case 'Rain':
+            return 'rain';
+        case 'Drizzle':
+            return 'drizzle';
+        case 'Clouds':
+            switch (weatherCondition.description) {
+                case 'few clouds':
+                case 'scattered clouds':
+                    if (dt > sunset) {
+                        return 'scattered-clouds-night';
+                    } else {
+                        return 'scattered-clouds-day';
+                    }
+                default:
+                    return 'overcast-clouds';
+            }
+        default:
+            return 'mist';
+    }
+}
+
+const input = $('input');
+const overlay = $('.overlay')
+var editing = false
 
 $('form').on('submit', async (e) => {
     e.preventDefault();
-    $('input').trigger('blur');
-    searchWrapper.addClass('chosen');
+    $('.search-wrapper').addClass('chosen');
+    input.trigger('blur');
     const location = $('input[name="location"]').val();
     const coordinates = await fetchCoordinates(location);
     const weatherData = await fetchWeatherData(coordinates.lat, coordinates.lon);
     renderWeatherData(weatherData);
+    editing = false;
 });
 
+input.on('focus', (e) => {
+    editing = true;
+    if (!$('.current-wrapper').is(':empty')) {
+        overlay.fadeIn('fast');
+        overlay.addClass('visible');
+    }
+    $('#location-icon').css('display', 'none');
+    $('#clear-icon').css('display', 'block');
+});
 
+input.on('blur', (e) => {
+    if (!editing) {
+        overlay.fadeOut('300');
+        setTimeout(() => {
+            overlay.removeClass('visible')
+        }, 300);
+        $('#location-icon').css('display', 'block');
+        $('#clear-icon').css('display', 'none');
+    } else {
+        editing = false;
+    }
+});
 
-// fetchWeatherData('51.5', '-0.12');
-// fetchCoordinates('London');
+$('#clear-icon').on('click', (e) => {
+    input.trigger('focus', [true]);
+    input.val('');
+});
+
+$(document).on('click', (e) => {
+    if (!$(e.target).closest('input[name="location"], #clear-icon').length) {
+        input.trigger('blur', [false]);
+    }
+});
+
+setInterval(() => {
+    console.log(editing);
+
+}, 100);

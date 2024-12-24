@@ -2,9 +2,10 @@
     box-sizing: border-box;
 }
 
+/* rgb(155, 215, 255); */
 body {
     padding: 0;
-    background-color: rgb(155, 215, 255);
+    background-color: rgb(136, 199, 242);
     font-family: "Montserrat Alternates", sans-serif;
     display: grid;
     grid-template-columns: 1fr;
@@ -13,6 +14,21 @@ body {
     max-width: 1200px;
     height: 100dvh;
 }
+
+.overlay {
+    position: absolute;
+    top: 100px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    backdrop-filter: blur(10px);
+}
+
+.visible {
+    z-index: 20;
+}
+
 
 .center {
     display: flex;
@@ -40,15 +56,12 @@ body {
     justify-content: center;
     position: relative;
     transition: margin 0.5s ease-in-out;
+    z-index: 30;
 }
+
 
 .search-wrapper.chosen {
-    margin: 0px;
-    margin-bottom: 20px;
-}
-
-#location-icon:hover {
-    fill: black;
+    margin: 0px 0px 20px 0px;
 }
 
 .search-box {
@@ -85,13 +98,25 @@ body {
     outline: none;
 }
 
-#location-icon {
+#location-icon,
+#clear-icon {
     position: absolute;
     top: 18px;
     right: 70px;
     fill: rgb(102, 102, 102);
     cursor: pointer;
 }
+
+#location-icon:hover,
+#clear-icon:hover {
+    fill: black;
+}
+
+#clear-icon {
+    display: none;
+}
+
+
 
 .search-box button {
     background-color: rgb(42, 125, 249);
@@ -119,7 +144,10 @@ body {
     gap: 20px;
     flex-direction: column;
     margin-bottom: 50px;
+    transition: all 0.3s ease-in-out;
+    position: relative;
 }
+
 
 .results h3 {
     margin: 0 0 5px 0;
@@ -167,7 +195,7 @@ body {
         line-height: 1.5rem;
 
         .description {
-            font-weight: 700;
+            font-weight: 800;
         }
     }
 }
@@ -199,6 +227,7 @@ body {
     width: calc(100vw - 40px);
     white-space: nowrap;
     scrollbar-width: none;
+    box-shadow: 2px 2px 10px rgb(61, 115, 165, 0.2) inset, -2px -2px 10px rgba(62, 113, 161, 0.2) inset;
 }
 
 .hourly::-webkit-scrollbar {
@@ -298,6 +327,7 @@ footer {
 
 footer {
     font-size: 0.8rem;
+    z-index: 30;
 }
 
 @media (max-width: 1228px) {
