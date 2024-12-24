@@ -31,10 +31,11 @@ body {
 
 .error {
     width: 400px;
-    background: red;
+    background: rgb(248, 63, 63);
     font-weight: 600;
     color: white;
     text-align: center;
+    border-radius: 7px;
 }
 
 

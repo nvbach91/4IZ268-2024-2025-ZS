@@ -29,6 +29,10 @@ const fetchCoordinates = async (city) => {
     }
 }
 
+/////////////////////////////////////////////////////
+// RENDERING
+/////////////////////////////////////////////////////
+
 const renderWeatherData = (data) => {
     const currentHtml = `
         <div class="current">
@@ -99,6 +103,15 @@ const renderDailyContent = (dailyData) => {
     return html;
 }
 
+
+
+
+
+
+/////////////////////////////////////////////////////
+// UTILITIES
+/////////////////////////////////////////////////////
+
 const getDateTime = (unixDt) => {
     const dt = dayjs.unix(unixDt);
     const dateTime = {
@@ -144,6 +157,13 @@ const getIconName = (weatherCondition, dt, sunrise, sunset) => {
     }
 }
 
+
+
+
+/////////////////////////////////////////////////////
+// EVENT HANDLING
+/////////////////////////////////////////////////////
+
 const input = $('input');
 const overlay = $('.overlay')
 var editing = false
@@ -162,6 +182,11 @@ $('form').on('submit', async (e) => {
                 },
                 duration: 2000
             }).showToast();
+            input.trigger('focus');
+            // delete old weather results
+            $('.current-wrapper').empty();
+            $('.hourly-wrapper').empty();
+            $('.daily-wrapper').empty();
         } else {
             $('.search-wrapper').addClass('chosen');
             input.trigger('blur');
@@ -174,18 +199,22 @@ $('form').on('submit', async (e) => {
     }
 });
 
+// handle focus event on input element
 input.on('focus', (e) => {
+    console.log('executing focus editing is ' + editing);
     editing = true;
-    if (!$('.current-wrapper').is(':empty')) {
-        overlay.fadeIn('fast');
-        overlay.addClass('visible');
-    }
+
+    overlay.fadeIn('fast');
+    overlay.addClass('visible');
+
     $('#location-icon').css('display', 'none');
     $('#clear-icon').css('display', 'block');
 });
 
+// handle blur event on input element
 input.on('blur', (e) => {
     if (!editing) {
+        console.log('executing blur with editing = false');
         overlay.fadeOut('300');
         setTimeout(() => {
             overlay.removeClass('visible')
@@ -193,22 +222,29 @@ input.on('blur', (e) => {
         $('#location-icon').css('display', 'block');
         $('#clear-icon').css('display', 'none');
     } else {
+        console.log('executing blur with editing = true, setting editing = false');
         editing = false;
     }
 });
 
+// clear input value on clear icon click
 $('#clear-icon').on('click', (e) => {
-    input.trigger('focus', [true]);
+    input.trigger('focus');
     input.val('');
 });
 
+// trigger blur of input if click is outside of input element and the clear icon
 $(document).on('click', (e) => {
     if (!$(e.target).closest('input[name="location"], #clear-icon').length) {
-        input.trigger('blur', [false]);
+        console.log('calling blur when editing = ' + editing);
+        input.trigger('blur'); //calling blur when editing = false
     }
 });
 
+$('#location-icon').on('click', () => {
+
+})
+
 setInterval(() => {
     console.log(editing);
-
-}, 100);
+}, 300);
