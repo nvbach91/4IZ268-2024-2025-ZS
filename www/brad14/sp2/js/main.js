@@ -19,7 +19,7 @@ const fetchCoordinates = async (city) => {
     const reponse = await fetch(url);
     const data = await reponse.json();
     if (data.length === 0) {
-        return new Error('No city found');
+        return new Error('Location not found');
     } else {
         const coordinates = {
             'lat': data[0].lat,
