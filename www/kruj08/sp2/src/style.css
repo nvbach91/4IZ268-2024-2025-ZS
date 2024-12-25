@@ -1,0 +1,216 @@
+* {
+  font-family: 'Outfit';
+}
+
+body {
+  background: linear-gradient(to bottom, #2F2D93, #1F1B2E);
+  min-height: 100vh;
+  margin: 0;
+  color: white;
+}
+
+.custom-bg {
+  background-color: #1F1B2E;
+}
+
+.custom-btn {
+  border: none;
+}
+
+.nav-icon {
+  fill: #505050;
+  transition: fill 0.3s ease;
+}
+
+.nav-icon.active {
+  fill: #6F2BF6;
+}
+
+#nav-panel button {
+  border: none;
+}
+
+.custom-btn-submit-form {
+  background-color: #6F2BF6;
+  color: white;
+}
+
+.custom-btn-cancel-form {
+  background-color: #505050;
+  color: white;
+}
+
+.form-settings-input {
+  background-color: #505050;
+  border-color: #505050;
+  color: white;
+}
+
+.input-group-custom {
+  height: 50px;
+  border-radius: 30px;
+  color: #a6a6a6;
+  font-size: 1.2rem;
+  padding-left: 20px;
+}
+
+#login-form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-form-google {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.flexbox-centered {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+#timer p {
+  font-size: 1.2rem;
+}
+
+/* Viditelnost obrazovek defaultní */
+.hidden {
+  display: none !important;
+}
+
+/* Google sign in button */
+.gsi-material-button {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -webkit-appearance: none;
+  background-color: WHITE;
+  background-image: none;
+  border: 1px solid #747775;
+  -webkit-border-radius: 20px;
+  border-radius: 20px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  color: #1f1f1f;
+  cursor: pointer;
+  font-family: 'Roboto', arial, sans-serif;
+  font-size: 14px;
+  height: 40px;
+  letter-spacing: 0.25px;
+  outline: none;
+  overflow: hidden;
+  padding: 0 12px;
+  position: relative;
+  text-align: center;
+  -webkit-transition: background-color .218s, border-color .218s, box-shadow .218s;
+  transition: background-color .218s, border-color .218s, box-shadow .218s;
+  vertical-align: middle;
+  white-space: nowrap;
+  width: auto;
+  max-width: 400px;
+  min-width: min-content;
+}
+
+.gsi-material-button .gsi-material-button-icon {
+  height: 20px;
+  margin-right: 12px;
+  min-width: 20px;
+  width: 20px;
+}
+
+.gsi-material-button .gsi-material-button-content-wrapper {
+  -webkit-align-items: center;
+  align-items: center;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  height: 100%;
+  justify-content: space-between;
+  position: relative;
+  width: 100%;
+}
+
+.gsi-material-button .gsi-material-button-contents {
+  -webkit-flex-grow: 1;
+  flex-grow: 1;
+  font-family: 'Roboto', arial, sans-serif;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: top;
+}
+
+.gsi-material-button .gsi-material-button-state {
+  -webkit-transition: opacity .218s;
+  transition: opacity .218s;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.gsi-material-button:disabled {
+  cursor: default;
+  background-color: #ffffff61;
+  border-color: #1f1f1f1f;
+}
+
+.gsi-material-button:disabled .gsi-material-button-contents {
+  opacity: 38%;
+}
+
+.gsi-material-button:disabled .gsi-material-button-icon {
+  opacity: 38%;
+}
+
+.gsi-material-button:not(:disabled):active .gsi-material-button-state,
+.gsi-material-button:not(:disabled):focus .gsi-material-button-state {
+  background-color: #303030;
+  opacity: 12%;
+}
+
+.gsi-material-button:not(:disabled):hover {
+  -webkit-box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .30), 0 1px 3px 1px rgba(60, 64, 67, .15);
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .30), 0 1px 3px 1px rgba(60, 64, 67, .15);
+}
+
+.gsi-material-button:not(:disabled):hover .gsi-material-button-state {
+  background-color: #303030;
+  opacity: 8%;
+}
+
+
+@media (min-width: 1000px) {
+  #settings {
+      width: 40vw;
+  }
+
+  #nav-panel {
+      width: 40vw;
+  }
+
+  #timer {
+    width: 40vw;
+  }
+
+  #timer-display {
+    font-size: 3rem !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  :root {
+    font-size: 18px;
+  }
+}
