@@ -41,32 +41,43 @@ const pauseButton = document.getElementById("pause") as HTMLButtonElement;
 const stopButton = document.getElementById("stop") as HTMLButtonElement;
 
 // User authorization and access token handling
-let token: string;
+let token: string
+let client: google.accounts.oauth2.TokenClient;
 
-const client = google.accounts.oauth2.initTokenClient({
-  client_id: CLIENT_ID,
-  scope: SCOPES,
+function loadGoogleLibrary(callback: () => void) {
+  const script = document.createElement("script");
+  script.src = "https://accounts.google.com/gsi/client";
+  script.async = true;
+  script.defer = true;
+  script.onload = callback;
+  document.head.appendChild(script);
+}
 
-  callback: (response: any) => {
-    token = response.access_token;
-    saveToken(response.expires_in);
-    console.log("Token získán:" + token);
-    changeScreen([navPanel, timerSettings]);
-   
-    document.querySelectorAll("#nav-panel .nav-icon").forEach((icon) => {
-      icon.classList.remove("active");
-    });
+loadGoogleLibrary(() => {
+  console.log("Google Identity Services loaded");
+  client = google.accounts.oauth2.initTokenClient({
+    client_id: CLIENT_ID,
+    scope: SCOPES,
+    callback: (response: any) => {
+      token = response.access_token;
+      saveToken(response.expires_in);
+      console.log("Token získán:" + token);
+      changeScreen([navPanel, timerSettings]);
+    
+      document.querySelectorAll("#nav-panel .nav-icon").forEach((icon) => {
+        icon.classList.remove("active");
+      });
 
-    const icon = document.querySelector("#timerButton .nav-icon")
-    if (icon) {
-      icon.classList.add("active");
-    }
-  },
-});
+      const icon = document.querySelector("#timerButton .nav-icon")
+      if (icon) {
+        icon.classList.add("active");
+      }
+    },
+  });
 
-signinButton.addEventListener("click", () => {
-  console.log("Sign in button clicked!");
-  client.requestAccessToken({ prompt: "consent" });
+  signinButton.addEventListener("click", () => {
+    client.requestAccessToken({ prompt: "consent" });
+  });
 });
 
 function saveToken(expiresIn: number): void {
