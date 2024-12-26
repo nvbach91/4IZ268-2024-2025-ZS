@@ -1,6 +1,7 @@
 const API_KEY = '9202d14af4a6eb24073e146f205c50d6';
 const BASE_URL_DATA = 'https://api.openweathermap.org/data/3.0/onecall?';
-const BASE_URL_GEO = 'https://api.openweathermap.org/geo/1.0/direct?';
+const BASE_URL_GEO_DIRECT = 'https://api.openweathermap.org/geo/1.0/direct?';
+const BASE_URL_GEO_REVERSE = 'https://api.openweathermap.org/geo/1.0/reverse?';
 
 const constructUrl = (baseUrl, parameters) => {
     const url = `${baseUrl}${parameters}&appid=${API_KEY}`;
@@ -14,19 +15,23 @@ const fetchWeatherData = async (lat, lon) => {
     return data;
 }
 
-const fetchCoordinates = async (city) => {
-    const url = constructUrl(BASE_URL_GEO, `q=${city}&limit=1`);
-    const reponse = await fetch(url);
-    const data = await reponse.json();
+const fetchCoordinates = async (location) => {
+    const url = constructUrl(BASE_URL_GEO_DIRECT, `q=${location}&limit=3`);
+    const res = await fetch(url);
+    const data = await res.json();
     if (data.length === 0) {
         return new Error('Location not found');
     } else {
-        const coordinates = {
-            'lat': data[0].lat,
-            'lon': data[0].lon
-        };
-        return coordinates;
+        const coordinateData = data[0];
+        return coordinateData;
     }
+}
+
+const fetchLocationName = async (lat, lon) => {
+    const url = constructUrl(BASE_URL_GEO_REVERSE, `lat=${lat}&lon=${lon}&limit=1`);
+    const res = await fetch(url);
+    const data = await res.json();
+    return `${data[0].name}, ${data[0].country}`;
 }
 
 /////////////////////////////////////////////////////
@@ -144,6 +149,7 @@ const getIconName = (weatherCondition, dt, sunrise, sunset) => {
             switch (weatherCondition.description) {
                 case 'few clouds':
                 case 'scattered clouds':
+                case 'broken clouds':
                     if (dt > sunset) {
                         return 'scattered-clouds-night';
                     } else {
@@ -190,6 +196,7 @@ $('form').on('submit', async (e) => {
         } else {
             $('.search-wrapper').addClass('chosen');
             input.trigger('blur');
+            input.val(`${coordinates.name}, ${coordinates.country}`);
             const weatherData = await fetchWeatherData(coordinates.lat, coordinates.lon);
             renderWeatherData(weatherData);
             editing = false;
@@ -235,16 +242,43 @@ $('#clear-icon').on('click', (e) => {
 
 // trigger blur of input if click is outside of input element and the clear icon
 $(document).on('click', (e) => {
-    if (!$(e.target).closest('input[name="location"], #clear-icon').length) {
+    if (!$(e.target).closest('input[name="location"], #clear-icon, #location-icon').length) {
         console.log('calling blur when editing = ' + editing);
         input.trigger('blur'); //calling blur when editing = false
     }
 });
 
-$('#location-icon').on('click', () => {
 
-})
+const error = () => {
 
-setInterval(() => {
-    console.log(editing);
-}, 300);
+}
+
+
+//fetch 
+$('#location-icon').on('click', (e) => {
+    e.preventDefault();
+    $('#location-icon').css('display', 'none');
+    $('#spinner-icon').css('display', 'block');
+    navigator.geolocation.getCurrentPosition(async (position) => {
+        $('.search-wrapper').addClass('chosen');
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        const name = await fetchLocationName(lat, lon);
+        const weatherData = await fetchWeatherData(lat, lon);
+        renderWeatherData(weatherData);
+        input.val(name);
+        $('#spinner-icon').css('display', 'none');
+        $('#location-icon').css('display', 'block');
+    }, () => {
+        Toastify({
+            text: 'Unable to retrieve your location',
+            className: 'error',
+            offset: {
+                y: 5,
+            },
+            duration: 2000
+        }).showToast();
+        $('#spinner-icon').css('display', 'none');
+        $('#location-icon').css('display', 'block');
+    }, { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 });
+});
