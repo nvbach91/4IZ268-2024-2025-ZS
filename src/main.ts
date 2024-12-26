@@ -52,6 +52,15 @@ const client = google.accounts.oauth2.initTokenClient({
     saveToken(response.expires_in);
     console.log("Token získán:" + token);
     changeScreen([navPanel, timerSettings]);
+   
+    document.querySelectorAll("#nav-panel .nav-icon").forEach((icon) => {
+      icon.classList.remove("active");
+    });
+
+    const icon = document.querySelector("#timerButton .nav-icon")
+    if (icon) {
+      icon.classList.add("active");
+    }
   },
 });
 
