@@ -355,12 +355,20 @@ const removeLocationFromRecentSearches = (e, location) => {
  * @returns {string} The name of the icon representing the weather condition.
  */
 const getIconName = (weatherCondition, dt, sunrise, sunset) => {
+    const nextDaySunrise = dayjs.unix(sunrise).add(1, 'day');
+    const dtDayjs = dayjs.unix(dt);
+    const sunsetDayjs = dayjs.unix(sunset);
+    const nextDaySunset = sunsetDayjs.add(1, 'day');
+    console.log('nextDaySunrise:', nextDaySunrise);
+    console.log('dtDayjs:', dtDayjs);
+    console.log('sunsetDayjs:', sunsetDayjs);
+    console.log('nextDaySunset:', nextDaySunset);
     switch (weatherCondition.main) {
         case 'Clear':
-            if (dt > sunset) {
-                return 'clear-night';
-            } else {
+            if ((dtDayjs.isBefore(sunsetDayjs)) || (dtDayjs.isAfter(nextDaySunrise) && dtDayjs.isBefore(nextDaySunset))) {
                 return 'clear-day';
+            } else {
+                return 'clear-night';
             }
         case 'Snow':
             return 'snow';
@@ -375,10 +383,10 @@ const getIconName = (weatherCondition, dt, sunrise, sunset) => {
                 case 'few clouds':
                 case 'scattered clouds':
                 case 'broken clouds':
-                    if (dt > sunset) {
-                        return 'scattered-clouds-night';
-                    } else {
+                    if ((dtDayjs.isBefore(sunsetDayjs)) || (dtDayjs.isAfter(nextDaySunrise) && dtDayjs.isBefore(nextDaySunset))) {
                         return 'scattered-clouds-day';
+                    } else {
+                        return 'scattered-clouds-night';
                     }
                 default:
                     return 'overcast-clouds';

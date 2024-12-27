@@ -185,7 +185,7 @@ body {
     z-index: 50;
     scrollbar-gutter: stable;
     margin: 0px;
-    padding: 0px 5px 8px 10px;
+    padding: 0px 5px 0px 10px;
 
     .title {
         line-height: 1rem;
@@ -199,14 +199,8 @@ body {
     width: 5px;
 }
 
-.location-history:hover::-webkit-scrollbar-thumb {
-    opacity: 1;
-}
-
 .location-history::-webkit-scrollbar-thumb {
     background: rgb(200, 200, 200);
-    opacity: 0;
-    transition: opacity 0.3s;
 }
 
 .location {
@@ -221,6 +215,10 @@ body {
 
 .location:hover {
     background-color: rgb(230, 230, 230);
+}
+
+.locations {
+    margin-bottom: 8px;
 }
 
 #trash-icon {
