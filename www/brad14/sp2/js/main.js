@@ -295,7 +295,7 @@ const storeLocation = (location) => {
     locations = locations ? JSON.parse(locations) : [];
     const locationDuplicate = locations.reduce((acc, place) => acc || place === location, false);
     if (!locationDuplicate) {
-        locations.push(location);
+        locations = [location, ...locations];
     }
     // update locations array in localstorage
     storage.setItem('locations', JSON.stringify(locations));
