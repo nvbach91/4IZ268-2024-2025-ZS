@@ -129,6 +129,13 @@ const getDateTime = (unixDt) => {
     return dateTime;
 }
 
+const addLocationToSearchParam = (location) => {
+    const params = new URLSearchParams(window.location.search);
+    params.set('location', location);
+    const newUrl = `${window.location.pathname}?${params.toString()}`;
+    window.history.pushState({}, '', newUrl);
+}
+
 const getIconName = (weatherCondition, dt, sunrise, sunset) => {
     switch (weatherCondition.main) {
         case 'Clear':
@@ -197,6 +204,7 @@ $('form').on('submit', async (e) => {
             $('.search-wrapper').addClass('chosen');
             input.trigger('blur');
             input.val(`${coordinates.name}, ${coordinates.country}`);
+            addLocationToSearchParam(`${coordinates.name}, ${coordinates.country}`);
             const weatherData = await fetchWeatherData(coordinates.lat, coordinates.lon);
             renderWeatherData(weatherData);
             editing = false;
@@ -249,9 +257,6 @@ $(document).on('click', (e) => {
 });
 
 
-const error = () => {
-
-}
 
 
 //fetch 
@@ -264,6 +269,7 @@ $('#location-icon').on('click', (e) => {
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
         const name = await fetchLocationName(lat, lon);
+        addLocationToSearchParam(name);
         const weatherData = await fetchWeatherData(lat, lon);
         renderWeatherData(weatherData);
         input.val(name);
@@ -282,3 +288,28 @@ $('#location-icon').on('click', (e) => {
         $('#location-icon').css('display', 'block');
     }, { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 });
 });
+
+
+// // IIFE to fetch data from the searchparameters
+// (async () => {
+//     const params = new URLSearchParams(document.location.search);
+//     const location = params.get('location');
+//     if (location) {
+//         $('.search-wrapper').addClass('chosen');
+//         const coordinates = await fetchCoordinates(location);
+//         if (coordinates instanceof Error) {
+//             Toastify({
+//                 text: coordinates.message,
+//                 className: 'error',
+//                 offset: {
+//                     y: 5,
+//                 },
+//                 duration: 2000
+//             }).showToast();
+//         } else {
+//             input.val(`${coordinates.name}, ${coordinates.country}`);
+//             const weatherData = await fetchWeatherData(coordinates.lat, coordinates.lon);
+//             renderWeatherData(weatherData);
+//         }
+//     }
+// })();
