@@ -183,6 +183,9 @@ var editing = false
 
 $('form').on('submit', async (e) => {
     e.preventDefault();
+    // save text input
+    const searchLocation = input.val();
+    /// try fetching coordinates for the location
     try {
         const location = $('input[name="location"]').val();
         const coordinates = await fetchCoordinates(location);
@@ -195,11 +198,13 @@ $('form').on('submit', async (e) => {
                 },
                 duration: 2000
             }).showToast();
+            input.val(searchLocation);
             input.trigger('focus');
-            // delete old weather results
+            // delete old weather results and reset search wrapper location
             $('.current-wrapper').empty();
             $('.hourly-wrapper').empty();
             $('.daily-wrapper').empty();
+            $('.search-wrapper').removeClass('chosen');
         } else {
             $('.search-wrapper').addClass('chosen');
             input.trigger('blur');
@@ -214,14 +219,13 @@ $('form').on('submit', async (e) => {
     }
 });
 
+
 // handle focus event on input element
 input.on('focus', (e) => {
     console.log('executing focus editing is ' + editing);
     editing = true;
-
     overlay.fadeIn('fast');
     overlay.addClass('visible');
-
     $('#location-icon').css('display', 'none');
     $('#clear-icon').css('display', 'block');
 });
@@ -240,6 +244,9 @@ input.on('blur', (e) => {
         console.log('executing blur with editing = true, setting editing = false');
         editing = false;
     }
+
+
+
 });
 
 // clear input value on clear icon click
