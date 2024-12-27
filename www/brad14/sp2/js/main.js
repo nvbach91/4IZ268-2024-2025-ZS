@@ -290,26 +290,26 @@ $('#location-icon').on('click', (e) => {
 });
 
 
-// // IIFE to fetch data from the searchparameters
-// (async () => {
-//     const params = new URLSearchParams(document.location.search);
-//     const location = params.get('location');
-//     if (location) {
-//         $('.search-wrapper').addClass('chosen');
-//         const coordinates = await fetchCoordinates(location);
-//         if (coordinates instanceof Error) {
-//             Toastify({
-//                 text: coordinates.message,
-//                 className: 'error',
-//                 offset: {
-//                     y: 5,
-//                 },
-//                 duration: 2000
-//             }).showToast();
-//         } else {
-//             input.val(`${coordinates.name}, ${coordinates.country}`);
-//             const weatherData = await fetchWeatherData(coordinates.lat, coordinates.lon);
-//             renderWeatherData(weatherData);
-//         }
-//     }
-// })();
+// IIFE to fetch data from the searchparameters
+(async () => {
+    const params = new URLSearchParams(document.location.search);
+    const location = params.get('location');
+    if (location) {
+        $('.search-wrapper').addClass('chosen');
+        const coordinates = await fetchCoordinates(location);
+        if (coordinates instanceof Error) {
+            Toastify({
+                text: coordinates.message,
+                className: 'error',
+                offset: {
+                    y: 5,
+                },
+                duration: 2000
+            }).showToast();
+        } else {
+            input.val(`${coordinates.name}, ${coordinates.country}`);
+            const weatherData = await fetchWeatherData(coordinates.lat, coordinates.lon);
+            renderWeatherData(weatherData);
+        }
+    }
+})();
