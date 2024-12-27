@@ -3,11 +3,23 @@ const BASE_URL_DATA = 'https://api.openweathermap.org/data/3.0/onecall?';
 const BASE_URL_GEO_DIRECT = 'https://api.openweathermap.org/geo/1.0/direct?';
 const BASE_URL_GEO_REVERSE = 'https://api.openweathermap.org/geo/1.0/reverse?';
 
+/**
+ * Constructs a URL with the given base URL and parameters, appending the API key.
+ * @param {string} baseUrl - The base URL for the API endpoint.
+ * @param {string} parameters - The query parameters to append to the URL.
+ * @returns {string} The constructed URL with the API key.
+ */
 const constructUrl = (baseUrl, parameters) => {
     const url = `${baseUrl}${parameters}&appid=${API_KEY}`;
     return url;
 }
 
+/**
+ * Fetches weather data for the given latitude and longitude.
+ * @param {number} lat - The latitude of the location.
+ * @param {number} lon - The longitude of the location.
+ * @returns {Promise<Object>} The weather data for the location.
+ */
 const fetchWeatherData = async (lat, lon) => {
     const url = constructUrl(BASE_URL_DATA, `lat=${lat}&lon=${lon}&units=metric&exclude=minutely`);
     const res = await fetch(url);
@@ -15,6 +27,11 @@ const fetchWeatherData = async (lat, lon) => {
     return data;
 }
 
+/**
+ * Fetches coordinates for the given location name.
+ * @param {string} location - The name of the location.
+ * @returns {Promise<Object|Error>} The coordinates of the location or an error if not found.
+ */
 const fetchCoordinates = async (location) => {
     const url = constructUrl(BASE_URL_GEO_DIRECT, `q=${location}&limit=3`);
     const res = await fetch(url);
@@ -25,8 +42,17 @@ const fetchCoordinates = async (location) => {
         const coordinateData = data[0];
         return coordinateData;
     }
+    return coordinateData;
 }
 
+
+/**
+ * Fetches the location name based on latitude and longitude coordinates.
+ *
+ * @param {number} lat - The latitude coordinate.
+ * @param {number} lon - The longitude coordinate.
+ * @returns {Promise<string>} A promise that resolves to a string containing the location name and country.
+ */
 const fetchLocationName = async (lat, lon) => {
     const url = constructUrl(BASE_URL_GEO_REVERSE, `lat=${lat}&lon=${lon}&limit=1`);
     const res = await fetch(url);
@@ -38,6 +64,11 @@ const fetchLocationName = async (lat, lon) => {
 // RENDERING
 /////////////////////////////////////////////////////
 
+/**
+ * Renders the weather data into the HTML.
+ *
+ * @param {Object} data - The weather data object.
+ */
 const renderWeatherData = (data) => {
     const currentHtml = `
         <div class="current">
@@ -70,6 +101,14 @@ const renderWeatherData = (data) => {
     $('.daily-wrapper').empty().append(dailyHtml);
 }
 
+/**
+ * Renders the hourly weather content as HTML.
+ *
+ * @param {Array} hourlyData - Array of hourly weather data objects.
+ * @param {number} sunrise - The timestamp of the sunrise.
+ * @param {number} sunset - The timestamp of the sunset.
+ * @returns {string} The HTML string representing the hourly weather content.
+ */
 const renderHourlyContent = (hourlyData, sunrise, sunset) => {
     let html = ``;
     hourlyData.slice(0, 24).forEach((hour, index) => {
@@ -88,6 +127,12 @@ const renderHourlyContent = (hourlyData, sunrise, sunset) => {
     return html;
 }
 
+/**
+ * Renders the daily weather content as HTML.
+ *
+ * @param {Array} dailyData - An array of daily weather data objects.
+ * @returns {string} The HTML string representing the daily weather content.
+ */
 const renderDailyContent = (dailyData) => {
     let html = ``;
     dailyData.forEach((day, index) => {
@@ -108,7 +153,14 @@ const renderDailyContent = (dailyData) => {
     return html;
 }
 
-const showRecentSearches = () => {
+/**
+ * Updates the recent searches section in the UI.
+ * 
+ * This function generates the HTML content for the recent searches section,
+ * including a title and a list of recent search locations, and then updates
+ * the `.location-history` element with this content.
+ */
+const updateRecentSearches = () => {
     const html = `
         <p class="title">Recent searches:</p>
         <div class="locations">
@@ -118,25 +170,35 @@ const showRecentSearches = () => {
     $('.location-history').empty().append(html);
 }
 
+/**
+ * Generates HTML content for recent searches.
+ *
+ * This function retrieves a list of locations from the `getLocations` function,
+ * iterates over each location, and constructs HTML elements for each location.
+ * Each location is wrapped in an anchor tag with an onclick event to select the location.
+ * Additionally, each location has a trash icon with an onclick event to remove the location from recent searches.
+ *
+ * @returns {string} The generated HTML content for recent searches.
+ */
 const renderRecentSearchesContent = () => {
     let html = ``;
     const locations = getLocations();
     locations.forEach((location) => {
         const locationHtml = `
-            <a onclick="selectLocation('${location}')"><div class="location">${location}</div></a>
+            <a onclick="selectLocation('${location}')">
+                <div class="location">
+                    ${location}
+                    <svg id="trash-icon" onclick="removeLocationFromRecentSearches(event, '${location}')" xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 448 512">
+                        <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                        <path fill="" d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/>
+                    </svg>
+                </div>
+            </a>
         `;
         html += locationHtml;
     })
     return html;
 }
-
-// handles selection of location from recent searches
-const selectLocation = (location) => {
-    addLocationToSearchParam(location);
-    getResults();
-}
-
-
 
 
 
@@ -144,6 +206,11 @@ const selectLocation = (location) => {
 // UTILITIES
 /////////////////////////////////////////////////////
 
+/**
+ * Converts a Unix timestamp to a formatted date and time object.
+ *
+ * @param {number} unixDt - The Unix timestamp to convert.
+ */
 const getDateTime = (unixDt) => {
     const dt = dayjs.unix(unixDt);
     const dateTime = {
@@ -156,6 +223,14 @@ const getDateTime = (unixDt) => {
     return dateTime;
 }
 
+/**
+ * Updates the URL search parameters to include the specified location.
+ * 
+ * This function takes a location string, adds it to the current URL's search parameters,
+ * and updates the browser's history state with the new URL.
+ * 
+ * @param {string} location - The location to be added to the URL search parameters.
+ */
 const addLocationToSearchParam = (location) => {
     const params = new URLSearchParams(window.location.search);
     params.set('location', location);
@@ -163,6 +238,12 @@ const addLocationToSearchParam = (location) => {
     window.history.pushState({}, '', newUrl);
 }
 
+/**
+ * Fetches and displays weather data based on the location specified in the URL search parameters.
+ * If a location is found, it fetches the coordinates and then the weather data for that location.
+ * Renders the weather data UI.
+ * Displays an error message if fetching coordinates fails.
+ */
 const getResults = async () => {
     const params = new URLSearchParams(document.location.search);
     const location = params.get('location');
@@ -186,28 +267,12 @@ const getResults = async () => {
     }
 }
 
-const storeLocation = (location) => {
-    const storage = window.localStorage;
-    let locations = storage.getItem('locations');
-    if (!locations) {
-        locations = [];
-        locations.push(location);
-    } else {
-        locations = JSON.parse(locations);
-        let locationDuplicate = false;
-        locations.forEach((place) => {
-            if (place === location) {
-                locationDuplicate = true;
-            }
-        });
-        if (!locationDuplicate) {
-            locations.push(location);
-        }
-    }
-    // update locations array in localstorage
-    storage.setItem('locations', JSON.stringify(locations));
-}
 
+/**
+ * Retrieves the locations from the local storage.
+ *
+ * @returns {Array|null} An array of locations if they exist in local storage, otherwise null.
+ */
 const getLocations = () => {
     const storage = window.localStorage;
     let locations = storage.getItem('locations');
@@ -218,6 +283,77 @@ const getLocations = () => {
     }
 }
 
+
+/**
+ * Stores a given location in the browser's local storage if it is not already present.
+ *
+ * @param {string} location - The location to be stored.
+ */
+const storeLocation = (location) => {
+    const storage = window.localStorage;
+    let locations = storage.getItem('locations');
+    locations = locations ? JSON.parse(locations) : [];
+    const locationDuplicate = locations.reduce((acc, place) => acc || place === location, false);
+    if (!locationDuplicate) {
+        locations.push(location);
+    }
+    // update locations array in localstorage
+    storage.setItem('locations', JSON.stringify(locations));
+}
+
+
+/**
+ * Selects a location, adds it to the search parameters, and retrieves the results.
+ *
+ * @param {string} location - The location to be selected.
+ */
+const selectLocation = (location) => {
+    addLocationToSearchParam(location);
+    getResults();
+}
+
+
+/**
+ * Updates the locations by storing the given location, adding it to the search parameters,
+ * and updating the recent searches.
+ *
+ * @param {string} location - The location to be updated.
+ */
+const updateLocations = (location) => {
+    storeLocation(location);
+    addLocationToSearchParam(location);
+    updateRecentSearches();
+}
+
+
+/**
+ * Removes a specified location from the recent searches.
+ *
+ * @param {Event} e - The event object.
+ * @param {string} location - The location to be removed from recent searches.
+ */
+const removeLocationFromRecentSearches = (e, location) => {
+    e.stopPropagation();
+    const locations = getLocations();
+    const index = locations.indexOf(location);
+    if (index > -1) {
+        locations.splice(index, 1);
+        window.localStorage.setItem('locations', JSON.stringify(locations));
+        updateRecentSearches();
+    }
+}
+
+
+
+/**
+ * Returns the appropriate icon name based on the weather condition and time of day.
+ *
+ * @param {Object} weatherCondition - The weather condition object.
+ * @param {number} dt - The current timestamp in seconds.
+ * @param {number} sunrise - The sunrise timestamp in seconds.
+ * @param {number} sunset - The sunset timestamp in seconds.
+ * @returns {string} The name of the icon representing the weather condition.
+ */
 const getIconName = (weatherCondition, dt, sunrise, sunset) => {
     switch (weatherCondition.main) {
         case 'Clear':
@@ -252,13 +388,6 @@ const getIconName = (weatherCondition, dt, sunrise, sunset) => {
     }
 }
 
-const updateLocations = (location) => {
-    storeLocation(location);
-    addLocationToSearchParam(location);
-    showRecentSearches();
-}
-
-
 
 
 /////////////////////////////////////////////////////
@@ -269,6 +398,7 @@ const input = $('input');
 const overlay = $('.overlay')
 var editing = false
 
+// handle the submit event on the form element
 $('form').on('submit', async (e) => {
     e.preventDefault();
     // save text input
@@ -339,9 +469,6 @@ input.on('blur', (e) => {
         console.log('executing blur with editing = true, setting editing = false');
         editing = false;
     }
-
-
-
 });
 
 // clear input value on clear icon click
@@ -361,7 +488,7 @@ $(document).on('click', (e) => {
 
 
 
-//fetch 
+// fetch location according to user position and show results
 $('#location-icon').on('click', (e) => {
     e.preventDefault();
     $('#location-icon').css('display', 'none');
@@ -371,7 +498,7 @@ $('#location-icon').on('click', (e) => {
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
         const name = await fetchLocationName(lat, lon);
-        addLocationToSearchParam(name);
+        updateLocations(name);
         const weatherData = await fetchWeatherData(lat, lon);
         renderWeatherData(weatherData);
         input.val(name);
@@ -395,7 +522,7 @@ $('#location-icon').on('click', (e) => {
 // IIFE to fetch data from the searchparameters
 (() => {
     getResults();
-    showRecentSearches();
+    updateRecentSearches();
 })();
 
 window.addEventListener('popstate', () => {
