@@ -290,8 +290,7 @@ $('#location-icon').on('click', (e) => {
 });
 
 
-// IIFE to fetch data from the searchparameters
-(async () => {
+const getResults = async () => {
     const params = new URLSearchParams(document.location.search);
     const location = params.get('location');
     if (location) {
@@ -312,4 +311,13 @@ $('#location-icon').on('click', (e) => {
             renderWeatherData(weatherData);
         }
     }
+}
+
+// IIFE to fetch data from the searchparameters
+(() => {
+    getResults();
 })();
+
+window.addEventListener('popstate', () => {
+    getResults();
+})
