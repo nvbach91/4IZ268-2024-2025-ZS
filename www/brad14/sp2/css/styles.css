@@ -167,17 +167,25 @@ body {
 }
 
 
-.location-history {
+.location-history-wrapper {
+    border-radius: 10px;
+    overflow: hidden;
     position: absolute;
-    text-align: left;
-    width: 100%;
     top: 68px;
+    width: 100%;
+}
+
+.location-history {
+    text-align: left;
     background-color: white;
-    border-radius: 5px;
-    max-height: 60vh;
+    border-radius: 10px;
+    max-height: 20vh;
     display: none;
     overflow: auto;
     z-index: 50;
+    scrollbar-gutter: stable;
+    margin: 0px;
+    padding: 0px 5px 8px 10px;
 
     .title {
         line-height: 1rem;
@@ -187,9 +195,18 @@ body {
     }
 }
 
-.locations {
-    margin: 0px;
-    padding: 0px 10px 8px 10px;
+.location-history::-webkit-scrollbar {
+    width: 5px;
+}
+
+.location-history:hover::-webkit-scrollbar-thumb {
+    opacity: 1;
+}
+
+.location-history::-webkit-scrollbar-thumb {
+    background: rgb(200, 200, 200);
+    opacity: 0;
+    transition: opacity 0.3s;
 }
 
 .location {
@@ -315,7 +332,7 @@ body {
 .hour-box {
     height: 100%;
     border-radius: 10px;
-    width: 80px;
+    width: 70px;
     text-align: center;
     color: white;
     display: flex;
@@ -440,12 +457,12 @@ footer {
 
     .search-box,
     .current,
-    .location-history {
+    .location-history-wrapper {
         max-width: 600px;
     }
 
 
     .hourly {
-        gap: 15px;
+        gap: 10px;
     }
 }
