@@ -108,6 +108,33 @@ const renderDailyContent = (dailyData) => {
     return html;
 }
 
+const showRecentSearches = () => {
+    const html = `
+        <p class="title">Recent searches:</p>
+        <div class="locations">
+            ${renderRecentSearchesContent()}
+        </div>
+    `;
+    $('.location-history').empty().append(html);
+}
+
+const renderRecentSearchesContent = () => {
+    let html = ``;
+    const locations = getLocations();
+    locations.forEach((location) => {
+        const locationHtml = `
+            <a onclick="selectLocation('${location}')"><div class="location">${location}</div></a>
+        `;
+        html += locationHtml;
+    })
+    return html;
+}
+
+// handles selection of location from recent searches
+const selectLocation = (location) => {
+    addLocationToSearchParam(location);
+    getResults();
+}
 
 
 
@@ -134,6 +161,61 @@ const addLocationToSearchParam = (location) => {
     params.set('location', location);
     const newUrl = `${window.location.pathname}?${params.toString()}`;
     window.history.pushState({}, '', newUrl);
+}
+
+const getResults = async () => {
+    const params = new URLSearchParams(document.location.search);
+    const location = params.get('location');
+    if (location) {
+        $('.search-wrapper').addClass('chosen');
+        const coordinates = await fetchCoordinates(location);
+        if (coordinates instanceof Error) {
+            Toastify({
+                text: coordinates.message,
+                className: 'error',
+                offset: {
+                    y: 5,
+                },
+                duration: 2000
+            }).showToast();
+        } else {
+            input.val(`${coordinates.name}, ${coordinates.country}`);
+            const weatherData = await fetchWeatherData(coordinates.lat, coordinates.lon);
+            renderWeatherData(weatherData);
+        }
+    }
+}
+
+const storeLocation = (location) => {
+    const storage = window.localStorage;
+    let locations = storage.getItem('locations');
+    if (!locations) {
+        locations = [];
+        locations.push(location);
+    } else {
+        locations = JSON.parse(locations);
+        let locationDuplicate = false;
+        locations.forEach((place) => {
+            if (place === location) {
+                locationDuplicate = true;
+            }
+        });
+        if (!locationDuplicate) {
+            locations.push(location);
+        }
+    }
+    // update locations array in localstorage
+    storage.setItem('locations', JSON.stringify(locations));
+}
+
+const getLocations = () => {
+    const storage = window.localStorage;
+    let locations = storage.getItem('locations');
+    if (!locations) {
+        return null;
+    } else {
+        return JSON.parse(locations);
+    }
 }
 
 const getIconName = (weatherCondition, dt, sunrise, sunset) => {
@@ -168,6 +250,12 @@ const getIconName = (weatherCondition, dt, sunrise, sunset) => {
         default:
             return 'mist';
     }
+}
+
+const updateLocations = (location) => {
+    storeLocation(location);
+    addLocationToSearchParam(location);
+    showRecentSearches();
 }
 
 
@@ -208,8 +296,9 @@ $('form').on('submit', async (e) => {
         } else {
             $('.search-wrapper').addClass('chosen');
             input.trigger('blur');
-            input.val(`${coordinates.name}, ${coordinates.country}`);
-            addLocationToSearchParam(`${coordinates.name}, ${coordinates.country}`);
+            const locationName = `${coordinates.name}, ${coordinates.country}`;
+            input.val(locationName);
+            updateLocations(locationName);
             const weatherData = await fetchWeatherData(coordinates.lat, coordinates.lon);
             renderWeatherData(weatherData);
             editing = false;
@@ -228,6 +317,9 @@ input.on('focus', (e) => {
     overlay.addClass('visible');
     $('#location-icon').css('display', 'none');
     $('#clear-icon').css('display', 'block');
+    $('.location-history').slideDown({
+        duration: 200,
+    });
 });
 
 // handle blur event on input element
@@ -240,6 +332,9 @@ input.on('blur', (e) => {
         }, 300);
         $('#location-icon').css('display', 'block');
         $('#clear-icon').css('display', 'none');
+        $('.location-history').slideUp({
+            duration: 200,
+        });
     } else {
         console.log('executing blur with editing = true, setting editing = false');
         editing = false;
@@ -297,34 +392,12 @@ $('#location-icon').on('click', (e) => {
 });
 
 
-const getResults = async () => {
-    const params = new URLSearchParams(document.location.search);
-    const location = params.get('location');
-    if (location) {
-        $('.search-wrapper').addClass('chosen');
-        const coordinates = await fetchCoordinates(location);
-        if (coordinates instanceof Error) {
-            Toastify({
-                text: coordinates.message,
-                className: 'error',
-                offset: {
-                    y: 5,
-                },
-                duration: 2000
-            }).showToast();
-        } else {
-            input.val(`${coordinates.name}, ${coordinates.country}`);
-            const weatherData = await fetchWeatherData(coordinates.lat, coordinates.lon);
-            renderWeatherData(weatherData);
-        }
-    }
-}
-
 // IIFE to fetch data from the searchparameters
 (() => {
     getResults();
+    showRecentSearches();
 })();
 
 window.addEventListener('popstate', () => {
     getResults();
-})
+});
