@@ -464,3 +464,9 @@ footer {
         gap: 10px;
     }
 }
+
+@media (min-width: 600px) {
+    .location-history {
+        max-height: 40vh;
+    }
+}
