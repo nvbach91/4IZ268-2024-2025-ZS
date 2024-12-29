@@ -18,11 +18,14 @@ const constructUrl = (baseUrl, parameters) => {
  * Fetches weather data for the given latitude and longitude.
  * @param {number} lat - The latitude of the location.
  * @param {number} lon - The longitude of the location.
- * @returns {Promise<Object>} The weather data for the location.
+ * @returns {Promise<Object|Error>} The weather data for the location or an error if the request fails.
  */
 const fetchWeatherData = async (lat, lon) => {
     const url = constructUrl(BASE_URL_DATA, `lat=${lat}&lon=${lon}&units=metric&exclude=minutely`);
     const res = await fetch(url);
+    if (!res.ok) {
+        throw new Error('Failed to fetch weather data');
+    }
     const data = await res.json();
     return data;
 }
@@ -36,13 +39,14 @@ const fetchWeatherData = async (lat, lon) => {
 const fetchCoordinates = async (location) => {
     const url = constructUrl(BASE_URL_GEO_DIRECT, `q=${location}&limit=3`);
     const res = await fetch(url);
+    if (!res.ok) {
+        throw new Error('Failed to fetch coordinates');
+    }
     const data = await res.json();
     if (data.length === 0) {
-        return new Error('Location not found');
-    } else {
-        const coordinateData = data[0];
-        return coordinateData;
+        throw new Error('Location not found');
     }
+    return data[0];
 }
 
 
@@ -51,12 +55,18 @@ const fetchCoordinates = async (location) => {
  *
  * @param {number} lat - The latitude coordinate.
  * @param {number} lon - The longitude coordinate.
- * @returns {Promise<string>} A promise that resolves to a string containing the location name and country.
+ * @returns {Promise<string|Error>} A promise that resolves to a string containing the location name and country, or an error if the request fails.
  */
 const fetchLocationName = async (lat, lon) => {
     const url = constructUrl(BASE_URL_GEO_REVERSE, `lat=${lat}&lon=${lon}&limit=1`);
     const res = await fetch(url);
+    if (!res.ok) {
+        throw new Error('Failed to fetch location name');
+    }
     const data = await res.json();
+    if (data.length === 0) {
+        throw new Error('Location not found');
+    }
     return `${data[0].name}, ${data[0].country}`;
 }
 
@@ -263,8 +273,19 @@ const getResults = async () => {
             }).showToast();
         } else {
             input.val(`${coordinates.name}, ${coordinates.country}`);
-            const weatherData = await fetchWeatherData(coordinates.lat, coordinates.lon);
-            renderWeatherData(weatherData);
+            try {
+                const weatherData = await fetchWeatherData(coordinates.lat, coordinates.lon);
+                renderWeatherData(weatherData);
+            } catch (error) {
+                Toastify({
+                    text: error.message,
+                    className: 'error',
+                    offset: {
+                        y: 5,
+                    },
+                    duration: 2000
+                }).showToast();
+            }
         }
     }
 }
@@ -444,8 +465,15 @@ $('form').on('submit', async (e) => {
             renderWeatherData(weatherData);
             editing = false;
         }
-    } catch (e) {
-        console.error(e);
+    } catch (error) {
+        Toastify({
+            text: error.message,
+            className: 'error',
+            offset: {
+                y: 5,
+            },
+            duration: 2000
+        }).showToast();
     }
 });
 
@@ -479,7 +507,6 @@ input.on('blur', (e) => {
             duration: 200,
         });
         if (input.val() === '') {
-            console.log('setting name from blur');
             input.val(value);
         }
     } else {
@@ -509,20 +536,30 @@ $('#location-icon').on('click', (e) => {
     $('#location-icon').css('display', 'none');
     $('#spinner-icon').css('display', 'block');
     navigator.geolocation.getCurrentPosition(async (position) => {
-        $('.search-wrapper').addClass('chosen');
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
-        const name = await fetchLocationName(lat, lon);
-        updateLocations(name);
-        const weatherData = await fetchWeatherData(lat, lon);
-        renderWeatherData(weatherData);
-        console.log('setting name from location icon: ' + name);
-        input.val(name);
+        try {
+            $('.search-wrapper').addClass('chosen');
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            const name = await fetchLocationName(lat, lon);
+            updateLocations(name);
+            const weatherData = await fetchWeatherData(lat, lon);
+            renderWeatherData(weatherData);
+            input.val(name);
+        } catch (e) {
+            Toastify({
+                text: e.message,
+                className: 'error',
+                offset: {
+                    y: 5,
+                },
+                duration: 2000
+            }).showToast();
+        }
         $('#spinner-icon').css('display', 'none');
         $('#location-icon').css('display', 'block');
     }, () => {
         Toastify({
-            text: 'Unable to retrieve your location',
+            text: 'Unable to retrieve your position',
             className: 'error',
             offset: {
                 y: 5,
