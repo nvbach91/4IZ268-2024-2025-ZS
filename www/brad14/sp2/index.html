@@ -26,8 +26,8 @@
         <div class="center">
             <h1>Weather</h1>
             <div class="header-actions">
-                <div class="action"><a>Usage</a></div>
-                <div class="action"><a>About</a></div>
+                <div><a class="action" id="usage">Usage</a></div>
+                <div><a class="action" id="about">About</a></div>
             </div>
         </div>
     </header>
@@ -66,6 +66,47 @@
             <div class="current-wrapper"></div>
             <div class="hourly-wrapper"></div>
             <div class="daily-wrapper"></div>
+        </div>
+        <div class="dialogs">
+            <dialog id="usage-dialog" class="dialog">
+                <div class="dialog-title">
+                    <h3>Usage</h3>
+                    <a class="icon-wrapper" tabindex="0" autofocus>
+                        <svg id="close-dialog-icon" class="icon" xmlns="http://www.w3.org/2000/svg" height="25"
+                            width="25"
+                            viewBox="0 0 384 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                            <path
+                                d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
+                        </svg>
+                    </a>
+                </div>
+                <p>This is a guide on how to use this weather application.</p>
+                <h4>Search by location name:</h4>
+                <p>This is the simplest way how to search for weather, simply click in the white box and start typing!
+                </p>
+                <h4>Search by your current GPS position:</h4>
+                <p>Click on the location icon and just wait for the weather to appear.</p>
+            </dialog>
+            <dialog id="about-dialog" class="dialog">
+                <div class="dialog-title">
+                    <h3>About</h3>
+                    <a class="icon-wrapper" tabindex="0" autofocus>
+                        <svg id="close-dialog-icon" class="icon" xmlns="http://www.w3.org/2000/svg" height="25"
+                            width="25"
+                            viewBox="0 0 384 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                            <path
+                                d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
+                        </svg>
+                    </a>
+                </div>
+                <p>This weather app was created as a semestral project in the subject <a
+                        href="https://4iz268.github.io/">4IZ268</a> at the <a href="https://www.vse.cz/">University of
+                        Economics and Business
+                        in Prague</a>.</p>
+                <p>The weather data is provided by <a href="https://openweathermap.org/">OpenWeather</a>.</p>
+                <p>The author of this website is <a href="https://www.linkedin.com/in/david-brablc/">David Brablc</a>.
+                </p>
+            </dialog>
         </div>
     </main>
     <footer>

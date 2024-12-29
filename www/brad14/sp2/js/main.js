@@ -501,8 +501,6 @@ $(document).on('click', (e) => {
 });
 
 
-
-
 // fetch location according to user position and show results
 $('#location-icon').on('click', (e) => {
     e.preventDefault();
@@ -532,6 +530,51 @@ $('#location-icon').on('click', (e) => {
         $('#spinner-icon').css('display', 'none');
         $('#location-icon').css('display', 'block');
     }, { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 });
+});
+
+
+const showDialog = (id) => {
+    if (id === 'usage') {
+        const usageDialog = document.getElementById('usage-dialog');
+        if (usageDialog) {
+            usageDialog.showModal();
+        }
+    } else {
+        const aboutDialog = document.getElementById('about-dialog');
+        if (aboutDialog) {
+            aboutDialog.showModal();
+        }
+    }
+}
+const closeDialogs = () => {
+    const usageDialog = document.getElementById('usage-dialog');
+    const aboutDialog = document.getElementById('about-dialog');
+    usageDialog.close();
+    aboutDialog.close();
+}
+$('.icon-wrapper').on('click', () => {
+    closeDialogs();
+});
+
+$(document).on('keypress', (e) => {
+    if (e.key === 'Enter') {
+        closeDialogs();
+    }
+});
+
+
+window.addEventListener('click', (e) => {
+    const usageDialog = document.getElementById('usage-dialog');
+    const aboutDialog = document.getElementById('about-dialog');
+    if ((usageDialog && usageDialog.open && e.target === usageDialog) ||
+        (aboutDialog && aboutDialog.open && e.target === aboutDialog)) {
+        closeDialogs();
+    }
+});
+
+
+$('.action').on('click', (e) => {
+    showDialog(e.target.id);
 });
 
 

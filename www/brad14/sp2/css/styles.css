@@ -394,9 +394,113 @@ body {
 }
 
 
+dialog[open] {
+    opacity: 1;
+}
+
+dialog {
+    opacity: 0;
+    width: 600px;
+    max-width: 90vw;
+    outline: none;
+    border-radius: 15px;
+    top: -40vh;
+    padding: 2em;
+    border: 0px;
+    box-shadow: 2px 2px 40px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s allow-discrete;
+
+    p {
+        margin-top: 0;
+    }
+
+    p:last-of-type {
+        margin-bottom: 0;
+    }
+
+    .dialog-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 0em;
+        margin-bottom: 0.3em;
+    }
+
+    h3 {
+        margin: 0;
+    }
+
+    .icon-wrapper {
+        display: block;
+        width: 25px;
+        height: 25px;
+        border-radius: 100%;
+        cursor: pointer;
+    }
+
+    .icon-wrapper:hover {
+        background-color: #e7e7e7;
+
+        .icon {
+            fill: black;
+        }
+    }
+
+    .icon {
+        fill: rgb(146, 146, 146);
+    }
+
+    .icon:hover {
+        fill: black;
+    }
+
+    a {
+        all: unset;
+        cursor: pointer;
+        color: rgb(42, 125, 249);
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    h4 {
+        font-weight: 600;
+        margin-top: 0.5em;
+        margin-bottom: 0.3em;
+    }
+}
+
+
+@starting-style {
+    dialog[open] {
+        opacity: 0;
+    }
+}
+
+dialog::backdrop {
+    background: none;
+    backdrop-filter: blur(10px) opacity(0);
+    transition: all 0.4s allow-discrete;
+    transition: backdrop-filter 0.4s;
+}
+
+dialog[open]::backdrop {
+    backdrop-filter: blur(10px) opacity(1);
+}
+
+@starting-style {
+    dialog[open]::backdrop {
+        backdrop-filter: blur(10px) opacity(0);
+    }
+}
+
+
 
 footer {
     margin-bottom: 10px;
+    font-size: 0.8rem;
+    z-index: 30;
 }
 
 .footer-container {
@@ -416,11 +520,6 @@ footer {
     display: flex;
     gap: 20px;
     align-items: center;
-}
-
-footer {
-    font-size: 0.8rem;
-    z-index: 30;
 }
 
 @media (max-width: 1228px) {
@@ -449,6 +548,12 @@ footer {
     .location {
         padding: 13px;
     }
+
+    .dialog {
+        top: -20vh;
+        padding: 1em
+    }
+
 }
 
 @media (min-width: 400px) {
