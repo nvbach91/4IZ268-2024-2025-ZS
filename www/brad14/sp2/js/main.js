@@ -27,6 +27,7 @@ const fetchWeatherData = async (lat, lon) => {
     return data;
 }
 
+
 /**
  * Fetches coordinates for the given location name.
  * @param {string} location - The name of the location.
@@ -42,7 +43,6 @@ const fetchCoordinates = async (location) => {
         const coordinateData = data[0];
         return coordinateData;
     }
-    return coordinateData;
 }
 
 
@@ -89,7 +89,7 @@ const renderWeatherData = (data) => {
     `;
     const hourlyHtml = `
         <h3>Hourly forecast</h3>
-        <div class="hourly">${renderHourlyContent(data.hourly, data.current.sunrise, data.current.sunset)}</div>
+        <div class="hourly">${renderHourlyContent(data.hourly, data.timezone, data.current.sunrise, data.current.sunset)}</div>
     `;
     const dailyHtml = `
         <h3>Daily forecast</h3>
@@ -100,19 +100,19 @@ const renderWeatherData = (data) => {
     $('.hourly-wrapper').empty().append(hourlyHtml);
     $('.daily-wrapper').empty().append(dailyHtml);
 }
-
 /**
  * Renders the hourly weather content as HTML.
  *
  * @param {Array} hourlyData - Array of hourly weather data objects.
+ * @param {string} timezone - The timezone of the location.
  * @param {number} sunrise - The timestamp of the sunrise.
  * @param {number} sunset - The timestamp of the sunset.
  * @returns {string} The HTML string representing the hourly weather content.
  */
-const renderHourlyContent = (hourlyData, sunrise, sunset) => {
+const renderHourlyContent = (hourlyData, timezone, sunrise, sunset) => {
     let html = ``;
     hourlyData.slice(0, 24).forEach((hour, index) => {
-        const dateTime = getDateTime(hour.dt);
+        const dateTime = getDateTime(hour.dt, timezone);
         const hourHtml = `
             <div class="hour-box">
                 <p class="time">${index === 0 ? 'now' : dateTime.time}</p>
@@ -211,8 +211,9 @@ const renderRecentSearchesContent = () => {
  *
  * @param {number} unixDt - The Unix timestamp to convert.
  */
-const getDateTime = (unixDt) => {
-    const dt = dayjs.unix(unixDt);
+const getDateTime = (unixDt, timezone) => {
+    const localTime = dayjs.unix(unixDt);
+    const dt = dayjs.tz(localTime, timezone);
     const dateTime = {
         'time': dt.format('HH:mm'),
         'date': dt.format('DD/MM/YYYY'),
@@ -222,6 +223,7 @@ const getDateTime = (unixDt) => {
     };
     return dateTime;
 }
+
 
 /**
  * Updates the URL search parameters to include the specified location.
@@ -579,11 +581,12 @@ $('.action').on('click', (e) => {
 
 
 // IIFE to fetch data from the searchparameters
-(() => {
-    getResults();
-    updateRecentSearches();
-})();
+// (() => {
+//     getResults();
+//     updateRecentSearches();
+// })();
 
+// fetch results when user navigates in browser history
 window.addEventListener('popstate', () => {
     getResults();
 });

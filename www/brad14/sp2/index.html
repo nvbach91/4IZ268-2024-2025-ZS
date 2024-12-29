@@ -81,11 +81,15 @@
                     </a>
                 </div>
                 <p>This is a guide on how to use this weather application.</p>
-                <h4>Search by location name:</h4>
-                <p>This is the simplest way how to search for weather, simply click in the white box and start typing!
+                <img src="./images/usage/input.png" width="300" alt="">
+                <h4>1. Search by location name:</h4>
+                <p>
+                    This is the simplest way how to search for weather, simply click in the white box and start typing!
                 </p>
-                <h4>Search by your current GPS position:</h4>
-                <p>Click on the location icon and just wait for the weather to appear.</p>
+                <h4>2. Search by your current GPS position:</h4>
+                <p>Click on the position icon and just wait for the weather to appear.</p>
+                <h4>3. Submit:</h4>
+                <p>Submit your location by clicking the blue search button to show weather results.</p>
             </dialog>
             <dialog id="about-dialog" class="dialog">
                 <div class="dialog-title">
@@ -124,6 +128,12 @@
     </footer>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/utc.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/timezone.js"></script>
+    <script>
+        dayjs.extend(window.dayjs_plugin_utc);
+        dayjs.extend(window.dayjs_plugin_timezone);
+    </script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="js/main.js"></script>
 </body>

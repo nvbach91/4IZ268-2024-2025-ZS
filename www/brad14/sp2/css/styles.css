@@ -414,6 +414,14 @@ dialog {
         margin-top: 0;
     }
 
+    img {
+        display: block;
+        margin: 0 auto 20px auto;
+        box-shadow: 2px 2px 40px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+    }
+
+
     p:last-of-type {
         margin-bottom: 0;
     }
