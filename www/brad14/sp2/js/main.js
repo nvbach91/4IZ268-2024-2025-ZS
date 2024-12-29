@@ -581,10 +581,10 @@ $('.action').on('click', (e) => {
 
 
 // IIFE to fetch data from the searchparameters
-// (() => {
-//     getResults();
-//     updateRecentSearches();
-// })();
+(() => {
+    getResults();
+    updateRecentSearches();
+})();
 
 // fetch results when user navigates in browser history
 window.addEventListener('popstate', () => {
