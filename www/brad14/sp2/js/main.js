@@ -296,6 +296,10 @@ const storeLocation = (location) => {
     const locationDuplicate = locations.reduce((acc, place) => acc || place === location, false);
     if (!locationDuplicate) {
         locations = [location, ...locations];
+    } else {
+        const index = locations.indexOf(location);
+        locations.splice(index, 1);
+        locations = [location, ...locations];
     }
     // update locations array in localstorage
     storage.setItem('locations', JSON.stringify(locations));
@@ -308,7 +312,7 @@ const storeLocation = (location) => {
  * @param {string} location - The location to be selected.
  */
 const selectLocation = (location) => {
-    addLocationToSearchParam(location);
+    updateLocations(location);
     getResults();
 }
 
@@ -359,10 +363,6 @@ const getIconName = (weatherCondition, dt, sunrise, sunset) => {
     const dtDayjs = dayjs.unix(dt);
     const sunsetDayjs = dayjs.unix(sunset);
     const nextDaySunset = sunsetDayjs.add(1, 'day');
-    console.log('nextDaySunrise:', nextDaySunrise);
-    console.log('dtDayjs:', dtDayjs);
-    console.log('sunsetDayjs:', sunsetDayjs);
-    console.log('nextDaySunset:', nextDaySunset);
     switch (weatherCondition.main) {
         case 'Clear':
             if ((dtDayjs.isBefore(sunsetDayjs)) || (dtDayjs.isAfter(nextDaySunrise) && dtDayjs.isBefore(nextDaySunset))) {
@@ -403,8 +403,9 @@ const getIconName = (weatherCondition, dt, sunrise, sunset) => {
 /////////////////////////////////////////////////////
 
 const input = $('input');
-const overlay = $('.overlay')
-var editing = false
+const overlay = $('.overlay');
+var editing = false;
+var value = '';
 
 // handle the submit event on the form element
 $('form').on('submit', async (e) => {
@@ -449,6 +450,7 @@ $('form').on('submit', async (e) => {
 
 // handle focus event on input element
 input.on('focus', (e) => {
+    value = input.val();
     console.log('executing focus editing is ' + editing);
     editing = true;
     overlay.fadeIn('fast');
@@ -470,9 +472,14 @@ input.on('blur', (e) => {
         }, 300);
         $('#location-icon').css('display', 'block');
         $('#clear-icon').css('display', 'none');
+        $('.location-history').scrollTop(0);
         $('.location-history').slideUp({
             duration: 200,
         });
+        if (input.val() === '') {
+            console.log('setting name from blur');
+            input.val(value);
+        }
     } else {
         console.log('executing blur with editing = true, setting editing = false');
         editing = false;
@@ -509,6 +516,7 @@ $('#location-icon').on('click', (e) => {
         updateLocations(name);
         const weatherData = await fetchWeatherData(lat, lon);
         renderWeatherData(weatherData);
+        console.log('setting name from location icon: ' + name);
         input.val(name);
         $('#spinner-icon').css('display', 'none');
         $('#location-icon').css('display', 'block');
