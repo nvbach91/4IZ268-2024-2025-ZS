@@ -162,7 +162,7 @@ const renderDailyContent = (dailyData) => {
  */
 const updateRecentSearches = () => {
     const html = `
-        <p class="title">Recent searches:</p>
+        <p class="title">Recent locations:</p>
         <div class="locations">
             ${renderRecentSearchesContent()}
         </div>
@@ -535,6 +535,13 @@ $('#location-icon').on('click', (e) => {
 });
 
 
+/**
+ * Displays a dialog based on the provided ID.
+ *
+ * @param {string} id - The ID of the dialog to show. 
+ *                       If 'usage', shows the usage dialog. 
+ *                       Otherwise, shows the about dialog.
+ */
 const showDialog = (id) => {
     if (id === 'usage') {
         const usageDialog = document.getElementById('usage-dialog');
@@ -548,23 +555,29 @@ const showDialog = (id) => {
         }
     }
 }
+/**
+ * Closes the usage and about dialogs.
+ * This function selects the dialogs by their IDs ('usage-dialog' and 'about-dialog')
+ * and calls the close method on each of them to hide the dialogs.
+ */
 const closeDialogs = () => {
-    const usageDialog = document.getElementById('usage-dialog');
-    const aboutDialog = document.getElementById('about-dialog');
-    usageDialog.close();
-    aboutDialog.close();
+    const dialogs = document.querySelectorAll('#usage-dialog, #about-dialog');
+    dialogs.forEach(dialog => dialog.close());
 }
+
+// handles click on close icon in dialog, calls function to close dialogs
 $('.icon-wrapper').on('click', () => {
     closeDialogs();
 });
 
+// close dialog if close icon is focused and the enter key is pressed
 $(document).on('keypress', (e) => {
     if (e.key === 'Enter') {
         closeDialogs();
     }
 });
 
-
+// close dialog if the click is outside of it
 window.addEventListener('click', (e) => {
     const usageDialog = document.getElementById('usage-dialog');
     const aboutDialog = document.getElementById('about-dialog');
@@ -574,7 +587,7 @@ window.addEventListener('click', (e) => {
     }
 });
 
-
+// show dialog depending on if the usage or about button is clicked
 $('.action').on('click', (e) => {
     showDialog(e.target.id);
 });
