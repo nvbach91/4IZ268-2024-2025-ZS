@@ -15,6 +15,11 @@ body {
     height: 100dvh;
 }
 
+.center>a {
+    all: unset;
+    cursor: pointer;
+}
+
 .overlay {
     position: absolute;
     top: 100px;
@@ -404,7 +409,7 @@ dialog {
     max-width: 90vw;
     outline: none;
     border-radius: 15px;
-    top: -40vh;
+    margin-top: 200px;
     padding: 2em;
     border: 0px;
     box-shadow: 2px 2px 40px 10px rgba(0, 0, 0, 0.1);
@@ -489,7 +494,6 @@ dialog {
 dialog::backdrop {
     background: none;
     backdrop-filter: blur(10px) opacity(0);
-    transition: all 0.4s allow-discrete;
     transition: backdrop-filter 0.4s;
 }
 
@@ -558,7 +562,7 @@ footer {
     }
 
     .dialog {
-        top: -20vh;
+        margin-top: 100px;
         padding: 1em
     }
 
