@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather</title>
+    <link href="./assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header></header>
+        <main>
+            <div id="main-part">
+                <div class="map"></div>
+                <input type="text" id="city-input" placeholder="Zadejte město" />
+                <button id="get-weather" class="btn btn-primary mt-2">Zobrazit počasí</button>
+                <div id="weather-details" class="mt-4"></div>
+            </div>
+            <div id="favourite-cities">
+                <h4>Oblíbená města</h4>
+            <ul id="favorites-list">
+                <li>Prague</li>
+                <li>Berlin</li>
+                <li>London</li>
+            </ul>
+            </div>
+        </main>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="./assets/js/main.js"></script>
+</body>
+</html>
