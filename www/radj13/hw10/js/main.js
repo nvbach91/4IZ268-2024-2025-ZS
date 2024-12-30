@@ -55,6 +55,6 @@ $('#search-form').on('submit', async (e) => {
         displayRepositories(repositoriesResp);
     } catch (err) {
         console.error(err);
-        userProfileContainer.html('<p>User not found</p>');
+        userProfileContainer.html('<p class="error-message">Profile not found. Please try again with a valid GitHub username.</p>').show(); // Inform the user
     }
 });

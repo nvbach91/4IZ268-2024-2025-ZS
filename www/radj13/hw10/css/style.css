@@ -53,7 +53,6 @@ h1 {
 
 /* Uživatelský profil */
 #user-profile {
-    display: none;
     width: 100%;
     max-width: 600px;
     background: white;
@@ -120,4 +119,11 @@ h1 {
 #user-profile p {
     color: #e74c3c;
     font-weight: bold;
+}
+
+.error-message {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
 }
