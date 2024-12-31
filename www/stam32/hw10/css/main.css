@@ -1,0 +1,164 @@
+* {
+    box-sizing: border-box;
+    border-radius: 3px;
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+    background-color: #fdf6f5;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+main {
+    width: 100%;
+    max-width: 1400px;
+    background-color: #ffffff;
+    border: 1px solid #e5c4c2;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    margin: 20px 0;
+}
+hr {
+    border-style: solid;
+    border-color: #e5c4c2;
+}
+form {
+    background-color: #f7e1df;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    border: 1px solid #e5c4c2;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+form > * {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: none;
+}
+button, .btn, a.btn {
+    background-color: #b76e79;
+    cursor: pointer;
+    padding: 10px;
+    border: none;
+    color: white;
+    border-radius: 5px;
+}
+#user-profile {
+    max-width: 840px;
+    margin: 10px auto;
+    background-color: #fdf6f5;
+    border: 1px solid #e5c4c2;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+.basic-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(9, 42px);
+    grid-gap: 5px;
+}
+.basic-info > .bi-info {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 10px;
+    background-color: #f7e1df;
+}
+.bi-info > div:first-child {
+    width: 120px;
+    text-align: left;
+}
+.bi-info > div:nth-child(2) {
+    font-weight: bold;
+}
+.bi-name {
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    color: white;
+    text-align: left;
+    grid-column: 1/3;
+    grid-row: 1/2;
+    background-color: #b76e79;
+    border-radius: 5px 5px 0 0;
+}
+.bi-avatar {
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    grid-column: 1/2;
+    grid-row: 2/10;
+    border-radius: 5px;
+}
+a.bi-view {
+    grid-column: 1/2;
+    grid-row: 10/11;
+    padding: 10px;
+    text-decoration: none;
+    background-color: #b76e79;
+    color: white;
+    border-radius: 5px;
+}
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+.loader {
+    border: 5px solid #b76e79;
+    border-top: 5px solid #f7e1df;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: auto;
+}
+#repositories {
+    list-style: none;
+    padding: 0;
+    max-width: 840px;
+    margin: 0 auto;
+    background-color: #fdf6f5;
+    border: 1px solid #e5c4c2;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+.repository {
+    display: flex;
+    padding: 5px 10px;
+    background-color: #f7e1df;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+.repo-name {
+    width: 200px;
+    color: #b76e79;
+}
+.repo-url {
+    flex-grow: 1;
+    text-align: left;
+    color: #b76e79;
+}
+footer {
+    background-color: #b76e79;
+    padding: 20px 0;
+    color: white;
+    border-radius: 0 0 10px 10px;
+}
