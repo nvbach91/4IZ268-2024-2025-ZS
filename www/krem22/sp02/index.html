@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novinky</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body class="container py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h5 class="text-center mb-3">Vyhledávácí pole pro zadání klíčových slov</h5>
+            <input type="text" class="form-control mb-3" id="searchInput" placeholder="Zadejte klíčové slovo">
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <input type="text" class="form-control" placeholder="Seznam dostupných jazyků">
+        </div>
+        <div class="col-md-4">
+            <input type="text" class="form-control" placeholder="Zdroje">
+        </div>
+        <div class="col-md-4">
+            <input type="text" class="form-control" placeholder="Časové období">
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-6">
+            <button id="searchButton" class="btn btn-primary w-100">Vyhledat články</button>
+        </div>
+        <div class="col-6">
+            <button id="clearButton" class="btn btn-danger w-100">Vymazat filtry</button>
+        </div>
+    </div>
+
+
+    <div class="row" id="articlesContainer">
+
+        <!-- <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Název článku</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text"><strong>Autor:</strong> <span>Jméno autora</span></p>
+                    <p class="card-text"><strong>Datum vydání:</strong> <span>Datum</span></p>
+                    <p class="card-text">Popis článku...</p>
+                    <img src="placeholder.jpg" class="img-fluid mb-3" alt="Obrázek článku">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Název článku</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text"><strong>Autor:</strong> <span>Jméno autora</span></p>
+                    <p class="card-text"><strong>Datum vydání:</strong> <span>Datum</span></p>
+                    <p class="card-text">Popis článku...</p>
+                    <img src="placeholder.jpg" class="img-fluid mb-3" alt="Obrázek článku">
+                </div>
+            </div>
+        </div> -->
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+</html>
