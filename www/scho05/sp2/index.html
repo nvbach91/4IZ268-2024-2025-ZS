@@ -1,11 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>The Ultimate Joke Generator</title>
-</head>
-<body>
+    <meta
+      name="keywords"
+      content="joke generator, random jokes, dad jokes, funny jokes generator"
+    />
+    <meta name="author" content="Ondřej Schwarz" />
+    <meta
+      name="description"
+      content="Random joke generator containing hundreds of jokes which you can save for later."
+    />
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link
+      rel="shortcut icon"
+      href="https://cdn.jsdelivr.net/npm/twemoji@11.3.0/2/svg/1f602.svg"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
     <h1>Explore hundreds of jokes!</h1>
-</body>
+    <div id="jokeDisplay">Click "Show a Joke" to see one!</div>
+    <div>
+      <button id="btnShowJoke">Show a Joke</button>
+      <button id="btnAddFavorite">Add to Favorites</button>
+    </div>
+
+    <div class="search-section">
+      <h2>Search Jokes</h2>
+      <form id="searchForm" class="search-container">
+        <input
+          type="text"
+          id="searchInput"
+          name="searchTerm"
+          placeholder="Enter keyword to search jokes..."
+          required
+        />
+        <button type="submit">Search</button>
+      </form>
+      <div id="searchResultsCount"></div>
+      <div id="searchResults">
+        <ul id="searchResultsList"></ul>
+      </div>
+    </div>
+
+    <h2>Favorite Jokes</h2>
+    <div id="favoriteJokesList">
+      <ul></ul>
+    </div>
+    <script src="./js/main.js"></script>
+  </body>
 </html>
