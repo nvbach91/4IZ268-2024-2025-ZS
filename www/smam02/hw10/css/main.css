@@ -1,0 +1,112 @@
+* {
+    box-sizing: border-box;
+    padding: 10px;
+}
+body {
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+}
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+hr {
+    border-style: solid;
+    border-color: #eee;
+}
+@keyframes spin {
+    from {
+        transform: rotate(0deg)
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+#loader {
+    display: none;
+    border: 5px solid cadetblue;
+    border-top: 5px solid #ccc;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: auto;
+}
+
+footer {
+    background-color: cadetblue;
+    padding: 20px 0;
+}
+ul li {
+    list-style: none;
+}
+
+#search-form{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+#search-form button {
+    margin-top: 10px;
+    background-color: #7dbd71;
+    border: none;
+    cursor: pointer;
+    transition: background-color 300ms ease-in-out;
+}
+#search-form button:hover {
+    background-color: #48d62f;
+}
+
+#user-profile {
+    display: none;
+    flex-direction: row-reverse;
+    justify-content: center;
+    background-color: #adadac;
+    border-radius: 15px;
+}
+
+#user-profile img {
+    height: 500px;
+    width: 500px;
+}
+#user-profile ul {
+    width: 40%;
+}
+
+#user-profile ul li {
+    display: flex;
+    justify-content: center;
+    background-color: white;
+    margin: 10px;
+}
+
+#user-profile ul li p{
+    margin: 0;
+    padding: 0;
+}
+
+#user-profile ul li .property-value{
+    padding-left: 10px;
+}
+#user-profile ul li .property-key{
+    font-weight: bold;
+}
+#repositories{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#repositories li {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    background-color: #adadac;
+    margin: 10px;
+    border-radius: 15px;
+}
+#repositories li .repository-name {
+    font-weight: bold;
+}
