@@ -1,0 +1,62 @@
+*{
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Courier Prime", monospace;
+    margin: 0px;
+    padding: 0px;
+    background-color: gainsboro;
+    color: #2a2828;
+}
+
+#app {
+    max-width: 800px;
+    margin: auto;
+    background: white;
+    padding: 60px;
+}
+
+h1 {
+    text-align: center;
+    text-decoration: overline;
+}
+
+#profile{
+    display: flex;
+    flex-direction: column;
+}
+
+img.profile-picture {
+    margin: 32px auto 16px auto;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.profile-name{
+    text-align: center;
+}
+
+form {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    
+}
+
+form input {
+    width: 60%;
+    padding: 10px;
+    margin-right: 10px;
+    font-size: 18px;
+    font-family: "Courier Prime", monospace;
+}
+
+form button {
+    padding: 10px 20px;
+    font-family: "Courier Prime", monospace;
+}
+
+#user-profile, #repositories {
+    margin-top: 20px;
+}
+
