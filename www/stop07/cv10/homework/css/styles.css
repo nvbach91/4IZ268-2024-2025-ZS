@@ -1,0 +1,125 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+header {
+    background-color: #e63946;
+    color: #ffffff;
+    padding: 20px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 36px;
+}
+
+main {
+    padding: 40px 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+#search-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.search-box {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+.search-box p {
+    font-size: 18px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+#username {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 80%;
+    margin-bottom: 20px;
+}
+
+#search-button {
+    background-color: #e63946;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#search-button:hover {
+    background-color: #d62828;
+}
+
+#user-profile {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#user-profile img {
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+#user-profile h2 {
+    margin: 10px 0;
+    font-size: 22px;
+}
+
+#repositories {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#repositories h3 {
+    margin-bottom: 20px;
+}
+
+#repositories .repository {
+    background-color: #f9f9f9;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#repositories .repository a {
+    font-size: 18px;
+    color: #e63946;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#repositories .repository a:hover {
+    text-decoration: underline;
+}
+
+#repositories .repository p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #555;
+}
