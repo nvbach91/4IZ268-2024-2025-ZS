@@ -1,0 +1,169 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+    margin: 0;
+    background-color: #f5f5f5;
+}
+
+#app {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+hr {
+    border-style: solid;
+    border-color: #eee;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.loader {
+    border: 5px solid cadetblue;
+    border-top: 5px solid #ccc;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+header {
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 2em;
+    margin: 0;
+    color: #333;
+}
+
+p {
+    font-size: 14px;
+    color: #777;
+    margin: 5px 0 0;
+}
+
+#search-form {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+#search-input {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
+    flex-grow: 1;
+}
+
+button, .btn.view-profile { /* Combined button styles */
+    padding: 10px 15px;
+    border: none;
+    border-radius: 3px;
+    background-color: #2e8b57;
+    color: #fff;
+    cursor: pointer;
+}
+
+button {
+    margin-left: 5px;
+}
+
+.user-profile {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.user-avatar {
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    margin-right: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-avatar img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+.user-name {
+    font-size: 1.2em;
+    margin: 0 0 10px;
+    color: #333;
+    clear: both;
+}
+
+article {
+    align-items: flex-start;
+    overflow: hidden;
+}
+
+dl {
+    display: grid;
+    grid-template-columns: 150px auto;
+    grid-gap: 5px;
+    margin: 10px 0;
+}
+
+dt {
+    font-weight: bold;
+    color: #333;
+}
+
+dd {
+    color: #777;
+    margin: 0;
+}
+
+
+.btn.view-profile {
+  display: inline-block;
+  text-decoration: none;
+  margin-top: 10px;
+}
+
+#repositories {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.repository {
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    text-align: left;
+}
+
+.repo-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.repo-url {
+    color: #007bff;
+}
+
+footer {
+    background-color: cadetblue;
+    padding: 20px 0;
+    color: white;
+    margin-top: 20px;
+}
