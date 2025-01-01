@@ -1,0 +1,146 @@
+* {
+    box-sizing: border-box;
+
+}
+body {
+    font-family: 'Open Sans', sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    color: #333;
+    text-align: center;
+    padding: 0 15px;
+}
+
+/* Header Styles */
+header {
+    background-color: cadetblue;
+    color: white;
+    padding: 20px 0;
+    margin-bottom: 20px;
+}
+header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+header p {
+    font-size: 1.2em;
+    font-weight: 300;
+}
+
+/* Form Styles */
+form {
+    margin: 20px auto;
+    max-width: 500px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+form input {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid cadetblue;
+    border-radius: 5px;
+    font-size: 1em;
+}
+form button {
+    padding: 10px 20px;
+    background-color: cadetblue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+form button:hover {
+    background-color: #5a9ba5;
+}
+
+/* User Profile Styles */
+#user-profile {
+    margin: 20px auto;
+    max-width: 600px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+#user-profile h2 {
+    color: cadetblue;
+    margin-bottom: 10px;
+}
+#user-profile p {
+    margin-bottom: 8px;
+    font-size: 1em;
+    line-height: 1.5;
+}
+#user-profile a {
+    color: cadetblue;
+    text-decoration: none;
+    font-weight: bold;
+}
+#user-profile a:hover {
+    text-decoration: underline;
+}
+
+/* Repositories Styles */
+#repositories {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px auto;
+    max-width: 600px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+#repositories li {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+#repositories li:last-child {
+    border-bottom: none;
+}
+#repositories a {
+    color: cadetblue;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#repositories p {
+    margin-top: 5px;
+    font-size: 0.9em;
+    color: #555;
+}
+
+hr {
+    border-style: solid;
+    border-color: #eee;
+}
+@keyframes spin {
+    from {
+        transform: rotate(0deg)
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+.loader {
+    border: 5px solid cadetblue;
+    border-top: 5px solid #ccc;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: auto;
+}
+
+footer {
+    background-color: cadetblue;
+    padding: 20px 0;
+}
+
+
