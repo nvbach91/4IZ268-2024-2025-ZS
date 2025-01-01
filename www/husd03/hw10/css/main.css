@@ -1,0 +1,144 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    color: #333;
+}
+
+
+#github-form {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}
+
+#username {
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 5px 0 0 5px;
+    width: 300px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #d9534f;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #c9302c;
+}
+
+
+#user-profile {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 800px;
+    border-top: 5px solid #5bc0de;
+}
+
+.profile-container {
+    display: flex; 
+    flex-wrap: wrap;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.profile-left {
+    flex: 0 0 150px; 
+    text-align: center;
+}
+
+.profile-right {
+    flex: 1; 
+    margin-left: 20px;
+}
+
+#user-profile img {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    margin-bottom: 10px;
+}
+
+#user-profile h2 {
+    margin: 10px 0;
+    color: #d9534f;
+}
+
+#user-profile a {
+    display: inline-block;
+    text-decoration: none;
+    color: #fff;
+    background-color: #d9534f;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+#user-profile a:hover {
+    background-color: #c9302c;
+}
+
+.profile-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.profile-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.profile-table td:first-child {
+    font-weight: bold;
+    background-color: #5bc0de;
+    color: #fff;
+}
+
+#repositories {
+    margin-top: 20px;
+}
+
+.repository {
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #e1e1e1;
+    border-radius: 5px;
+}
+
+.repository a {
+    color: #0275d8;
+    text-decoration: none;
+}
+
+.repository a:hover {
+    text-decoration: underline;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #5bc0de;
+    color: #fff;
+    margin-top: 20px;
+    font-size: 14px;
+}
