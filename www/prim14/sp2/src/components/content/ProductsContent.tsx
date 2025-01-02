@@ -39,13 +39,21 @@ export default function ProductsContent({
     router.replace(`?${searchParams.toString()}`);
   };
 
+  const handleDisplayProductDetail = (id: string) => {
+    router.push(`?productId=${id}`);
+  };
+
   return (
     <div className="products-content">
       <h2>Produkty v nabídce</h2>
       <div className="products-content__list">
         {products && !loading
           ? products.map((p) => (
-              <Card key={p._id} className="product-card">
+              <Card
+                key={p._id}
+                className="product-card"
+                onClick={() => handleDisplayProductDetail(p._id!)}
+              >
                 <CardHeader>
                   <CardTitle className="text-md">{p.name}</CardTitle>
                   <CardDescription>{p.price} Kč</CardDescription>

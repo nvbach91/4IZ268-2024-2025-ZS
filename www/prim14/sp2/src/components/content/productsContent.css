@@ -7,7 +7,7 @@
 }
 
 .products-content .products-content__list .product-card {
-  @apply flex flex-col w-full min-w-[200px] sm:w-[42%] lg:w-1/4;
+  @apply flex flex-col w-full min-w-[200px] sm:w-[42%] lg:w-1/4 cursor-pointer;
 }
 
 .products-content
