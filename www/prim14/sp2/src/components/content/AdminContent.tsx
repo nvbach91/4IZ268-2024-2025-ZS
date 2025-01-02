@@ -12,9 +12,7 @@ import {
   TableBody,
   TableCell,
 } from "../ui/table";
-import { FaEdit, FaTrash } from "react-icons/fa";
-import useFetch from "@/hooks/useFetch";
-import { deleteProduct } from "@/services/productsService";
+import { FaEdit } from "react-icons/fa";
 import { Skeleton } from "../ui/skeleton";
 import {
   Pagination,
@@ -22,11 +20,12 @@ import {
   PaginationItem,
   PaginationLink,
 } from "../ui/pagination";
+import ProductDeleteDialogButton from "../shared/dialogs/productDeleteDialogButton";
 
 export default function AdminContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { sendAuditableRequest } = useFetch();
+
   const {
     products,
     refreshProducts,
@@ -35,13 +34,6 @@ export default function AdminContent() {
     pageSize,
     currentPage,
   } = useProducts(searchParams);
-
-  const handleDeleteProduct = async (id: string) => {
-    const res = await sendAuditableRequest(deleteProduct, id);
-    if (res.success) {
-      await refreshProducts();
-    }
-  };
 
   const handleChangePage = (page: number) => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -78,12 +70,10 @@ export default function AdminContent() {
                     >
                       <FaEdit />
                     </Button>
-                    <Button
-                      onClick={() => handleDeleteProduct(product._id!)}
-                      className="bg-red-500 hover:bg-red-600"
-                    >
-                      <FaTrash />
-                    </Button>
+                    <ProductDeleteDialogButton
+                      productId={product._id!}
+                      refreshProducts={refreshProducts}
+                    />
                   </TableCell>
                 </TableRow>
               ))
