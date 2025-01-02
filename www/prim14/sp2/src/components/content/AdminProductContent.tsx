@@ -198,7 +198,7 @@ export default function AdminProductContent() {
               <Button
                 type="button"
                 className="px-10"
-                onClick={() => router.push("../")}
+                onClick={() => router.back()}
               >
                 Zpět
               </Button>
