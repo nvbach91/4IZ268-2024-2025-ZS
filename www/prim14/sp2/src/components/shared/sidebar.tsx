@@ -5,6 +5,7 @@ import "./sidebar.css";
 import AvailabilitySelect from "./filters/availabilitySelect";
 import ConditionCheckboxes from "./filters/conditionCheckboxes";
 import ILookup from "@/models/ILookup";
+import Sorting from "./filters/sorting";
 
 export default function Sidebar({
   conditions,
@@ -22,6 +23,7 @@ export default function Sidebar({
         </div>
         <AvailabilitySelect availabilities={availabilities} />
         <ConditionCheckboxes conditions={conditions} />
+        <Sorting />
       </aside>
     </>
   );
