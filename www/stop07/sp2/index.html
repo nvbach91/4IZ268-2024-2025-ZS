@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simon Says</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Simon Says</h1>
+        <div id="score-board">
+            <p>Your Score: <span id="current-score">0</span></p>
+            <p>High Score: <span id="high-score">0</span></p>
+            <p>Your Time: <span id="your-time">00:00</span></p>
+            <p>Best Time: <span id="best-time">00:00</span></p>
+        </div>
+        <div id="game-board">
+            <div id="circle">
+                <button class="color-btn" id="yellow"></button>
+                <button class="color-btn" id="red"></button>
+                <button class="color-btn" id="blue"></button>
+                <button class="color-btn" id="green"></button>
+                <div id="start-button">Start</div>
+            </div>
+        </div>
+    </div>
+    <script src="js/main.js"></script>
+</body>
+</html>
