@@ -56,6 +56,8 @@ export default function ConditionCheckboxes({
       }))
     );
 
+    if (searchParams.get("page")) searchParams.delete("page");
+
     router.replace(`?${searchParams.toString()}`);
   };
 

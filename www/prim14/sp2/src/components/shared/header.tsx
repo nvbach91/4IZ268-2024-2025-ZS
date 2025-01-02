@@ -30,6 +30,8 @@ export default function Header({
       searchParams.delete("query");
     }
 
+    if (searchParams.get("page")) searchParams.delete("page");
+
     router.replace(`?${searchParams.toString()}`);
   };
 
