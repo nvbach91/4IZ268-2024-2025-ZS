@@ -1,0 +1,338 @@
+/* General styles */
+main {
+    flex: 1;
+}
+
+body {
+    background-color: rgba(241, 199, 68, 1);
+    color: #333; /* Dark gray text color for contrast */
+    font-family: 'Parkinsans', sans-serif; /* Apply new font */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0 20px; /* Add margin for spacing */
+    overflow-x: hidden; /* Prevent horizontal overflow */
+    font-weight: bold; /* Make all text bolder */
+}
+
+header, footer {
+    text-align: center;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-around; /* Spread items across the width */
+}
+
+nav ul li {
+    flex: 1; /* Make each list item take equal space */
+    text-align: center; /* Center align text */
+}
+
+nav ul li a {
+    display: block; /* Make the link fill the list item */
+    padding: 20px 0; /* Increase padding for larger touch target */
+    color: #333; /* Dark gray text color */
+    text-decoration: underline; /* Underline links */
+    font-size: 20px; /* Increase font size */
+}
+
+nav ul li a.active {
+    font-weight: bolder; /* Make active link text even bolder */
+}
+
+h1, h2 {
+    color: #333; /* Dark gray text color */
+    font-weight: bolder; /* Make headings even bolder */
+    font-family: 'Parkinsans', sans-serif; /* Apply new font */
+}
+
+h1 {
+    text-align: center;
+}
+
+/* Common styles for containers */
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 20px 0;
+    padding: 0 20px; /* Add padding for mobile responsiveness */
+}
+
+.left-column, .right-column {
+    width: 48%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow for depth effect */
+    background-color: #fff; /* White background for columns */
+    border: 1px solid #ffd700; /* Gold border */
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Common styles for forms */
+form {
+    width: 100%; /* Ensure form fits within the box */
+}
+
+form label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+form input, form textarea {
+    width: calc(100% - 24px); /* Adjust width to fit within padding */
+    padding: 12px; /* Increased padding for better touch target */
+    border: 1px solid #ccc;
+    border-radius: 8px; /* More rounded corners */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Inner shadow for depth */
+    transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition */
+}
+
+form input:focus, form textarea:focus {
+    border-color: #ffd700; /* Gold border on focus */
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.5); /* Glow effect on focus */
+    outline: none; /* Remove default outline */
+}
+
+form button {
+    background-color: #333; /* Dark gray background for button */
+    color: #fff; /* White text color */
+    padding: 12px 20px; /* Increased padding for better touch target */
+    border: none;
+    border-radius: 8px; /* More rounded corners */
+    cursor: pointer;
+    font-size: 16px; /* Larger font size */
+    transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+    display: block; /* Ensure button is on its own line */
+    margin: 10px auto; /* Center button */
+    font-weight: bolder; /* Make button text even bolder */
+}
+
+form button:hover {
+    background-color: #555; /* Slightly lighter gray on hover */
+    transform: translateY(-2px); /* Slight lift on hover */
+}
+
+form button:active {
+    background-color: #222; /* Darker gray on click */
+    transform: translateY(0); /* Reset lift on click */
+}
+
+/* Contact page styles */
+#kontakt .card, .left-column .card, .right-column .card {
+    display: flex;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #fff; /* White background for cards */
+    border: 1px solid #ffd700; /* Gold border */
+    border-radius: 8px; /* Rounded corners */
+    word-wrap: break-word; /* Ensure long words break to fit within the card */
+    overflow-wrap: break-word; /* Ensure long words break to fit within the card */
+}
+
+#kontakt .card-left img, .left-column .card-left img, .right-column .card-left img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+#kontakt .card-right h2, .left-column .card-right h2, .right-column .card-right h2 {
+    margin: 0;
+    color: #333; /* Dark gray text color */
+}
+
+p {
+    margin: 10px 0; /* Add margin for spacing */
+}
+
+.vertical-container {
+    flex-direction: column; /* Stack columns vertically */
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+/* Hamburger menu styles */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 10px;
+    margin-left: 10px;
+}
+
+.hamburger div {
+    width: 25px;
+    height: 3px;
+    background-color: #333;
+    margin: 4px 0;
+    transition: 0.4s;
+}
+
+/* Results table styles */
+.results {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.results th, .results td {
+    padding: 10px;
+}
+
+/* Styles for the registration button */
+.register-button {
+    display: block;
+    width: 200px;
+    margin: 20px auto;
+    padding: 15px;
+    text-align: center;
+    background-color: #333; /* Dark gray background */
+    color: #fff; /* White text */
+    text-decoration: none;
+    border-radius: 8px; /* Rounded corners */
+    font-size: 18px; /* Larger font size */
+    font-weight: bolder; /* Bold text */
+    transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+}
+
+.register-button:hover {
+    background-color: #555; /* Slightly lighter gray on hover */
+    transform: translateY(-2px); /* Slight lift on hover */
+}
+
+.register-button:active {
+    background-color: #222; /* Darker gray on click */
+    transform: translateY(0); /* Reset lift on click */
+}
+
+/* Responsive styles for smaller screens */
+@media (max-width: 768px) {
+    body {
+        margin: 0 10px; /* Adjust margin for smaller screens */
+    }
+
+    main {
+        margin: 0 10px; /* Add margin for spacing from the edges */
+    }
+
+    header, footer {
+        margin: 0 -20px; /* Adjust margin for smaller screens */
+        width: calc(100% + 40px); /* Ensure full width */
+    }
+
+    .container {
+        flex-direction: column; /* Stack columns vertically */
+        align-items: center; /* Center align items */
+        padding: 0; /* Remove padding */
+    }
+
+    .left-column, .right-column {
+        width: 100%; /* Full width for each column */
+        margin-bottom: 20px; /* Add space between columns */
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    nav ul {
+        flex-direction: column;
+        display: none;
+        width: 100%;
+        background-color: rgba(241, 199, 68, 1);
+    }
+
+    nav ul.show {
+        display: flex;
+    }
+
+    nav ul li {
+        text-align: left;
+        padding: 10px 20px;
+    }
+
+    nav ul li a {
+        padding: 10px 0;
+    }
+}
+
+/* Print styles */
+@media print {
+    body {
+        background-color: #fff; /* White background for print */
+        color: #000; /* Black text color for print */
+        font-family: sans-serif; /* Use a standard font for print */
+        margin: 0; /* Remove margin for print */
+    }
+
+    header, footer, .hamburger, nav ul, .register-button, .card-left img {
+        display: none; /* Hide elements that are not needed for print */
+    }
+
+    main {
+        margin: 0; /* Remove margin for print */
+        padding: 20px; /* Add padding for print */
+    }
+
+    .container, .left-column, .right-column, .vertical-container {
+        width: 100%; /* Full width for print */
+        margin: 0; /* Remove margin for print */
+        padding: 0; /* Remove padding for print */
+        box-shadow: none; /* Remove shadow for print */
+        border: none; /* Remove border for print */
+    }
+
+    h1, h2, p, ul, li, form, label, input, textarea, table, th, td {
+        color: #000; /* Black text color for print */
+        font-size: 12pt; /* Standard font size for print */
+    }
+
+    a {
+        color: #000; /* Black text color for links in print */
+        text-decoration: underline; /* Underline links in print */
+    }
+
+    .card-right {
+        display: block; /* Ensure card content is displayed for print */
+    }
+
+    .card-right h2, .card-right p {
+        margin: 0; /* Remove margin for print */
+    }
+
+    .results {
+        width: 100%; /* Full width for print */
+        border-collapse: collapse; /* Collapse borders for print */
+    }
+
+    .results th, .results td {
+        border: 1px solid #000; /* Black border for table cells in print */
+        padding: 5px; /* Add padding for table cells in print */
+    }
+
+    /* Add website identification on each printed page */
+    @page {
+        margin: 20mm; /* Add margin for print */
+    }
+
+    body::before {
+        content: "Plzeňská pivní míle - Oficiální stránky";
+        display: block;
+        text-align: center;
+        font-size: 14pt;
+        margin-bottom: 10mm;
+    }
+
+    body::after {
+        content: "Plzeňská pivní míle - Oficiální stránky";
+        display: block;
+        text-align: center;
+        font-size: 14pt;
+        margin-top: 10mm;
+    }
+}

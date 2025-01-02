@@ -1,0 +1,685 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: 'Outfit', sans-serif;
+    margin: auto;
+    color: rgb(50, 50, 50);
+}
+
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+h1,
+.home-contact h2 {
+    margin: 16px 0;
+    font-size: 40px;
+    font-weight: 500;
+}
+
+h2 {
+    font-size: 32px;
+}
+
+/* HEADER */
+
+#navigation {
+    display: flex;
+    align-items: center;
+    border-bottom: solid rgb(50, 50, 50);
+    border-width: 2px;
+    padding: 0 20px;
+    justify-content: space-between;
+}
+
+#logo-text {
+    display: flex;
+    align-items: center;
+    position: relative;
+    flex-shrink: 0;
+    gap: 16px;
+}
+
+nav a {
+    text-decoration: none;
+    color: rgb(50, 50, 50);
+    margin: 16px;
+    display: inline-block;
+    width: max-content;
+    text-align: center;
+    border-bottom: solid white;
+    transition: 0.25s;
+}
+
+nav a:hover {
+    border-bottom: solid #cca86c;
+}
+
+nav a.active {
+    border-bottom: solid #cca86c;
+    color: #897148;
+}
+
+/* END OF HEADER */
+
+/* FOOTER */
+
+footer {
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    background-color: #cca86c;
+    margin-top: auto;
+}
+
+footer div {
+    width: calc(100%/3);
+}
+
+.copyright,
+.e-mail {
+    color: rgb(50, 50, 50);
+}
+
+.e-mail {
+    text-align: center;
+}
+
+.socials {
+    display: flex;
+    gap: 16px;
+    justify-content: flex-end;
+}
+
+.socials a {
+    text-decoration: none;
+    color: rgb(50, 50, 50);
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+}
+
+.socials a::before {
+    content: "";
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: white;
+    transform: scale(0);
+    transform-origin: center;
+    transition: transform 0.5s ease;
+    z-index: 0;
+}
+
+.socials a i {
+    position: relative;
+    z-index: 1;
+    transition: color 0.5s ease;
+}
+
+.socials a:hover::before {
+    transform: scale(0.8);
+}
+
+/* END OF FOOTER */
+
+/* BACKGROUNDS */
+
+.paragraph-on-background {
+    font-size: 20px;
+    max-width: 520px;
+    font-style: italic;
+    margin: 40px 0;
+}
+
+#home-news-background,
+#home-contact-background,
+#blog-welcome-background {
+    background-position: center;
+    background-size: cover;
+    position: relative;
+}
+
+#home-news-background {
+    background-image: url('../img/news-background.webp');
+}
+
+#home-contact-background {
+    background-image: url('../img/carl-spitzweg.webp');
+    margin-top: 160px;
+}
+
+#blog-welcome-background {
+    background-image: url('../img/knihovna.webp');
+}
+
+#home-news-background::before,
+#home-contact-background::before,
+#blog-welcome-background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+.div-with-background {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: auto;
+    padding: 64px 24px;
+    color: white;
+}
+
+/* END OF BACKGROUNDS */
+
+/* BUTTONS */
+
+.button {
+    border: none;
+    background-color: #cca86c;
+    text-decoration: none;
+    color: rgb(50, 50, 50);
+    font-weight: bold;
+    font-size: 20px;
+    padding: 16px 24px;
+    transition: 0.5s;
+}
+
+.button:hover {
+    color: white;
+    background-color: #897148;
+}
+
+.button i {
+    padding-left: 8px;
+}
+
+.home-contact a {
+    border: solid #897148;
+    background-color: white;
+    color: rgb(50, 50, 50);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 16px 24px;
+}
+
+.home-contact a:hover {
+    background-color: #897148;
+}
+
+/* END OF BUTTONS*/
+
+/* COLUMNS COMMON*/
+
+.calendar-columns,
+.blog-columns {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+/* END OF COLUMNS COMMON */
+
+/* COLUMNS */
+
+.calendar-columns {
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.blog-columns {
+    gap: 64px;
+    margin: 40px 0;
+}
+
+.calendar-column,
+.blog-column {
+    width: calc(100%/3);
+}
+
+.blog-column {
+    position: relative;
+    overflow: hidden;
+}
+
+.blog-column a {
+    text-decoration: none;
+    color: rgb(50, 50, 50);
+}
+
+.blog-column h3 {
+    min-height: 47px;
+}
+
+/* END OF COLUMNS */
+
+/* IMAGES */
+
+.small-img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+}
+
+.medium-img {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+}
+
+.big-img {
+    width: 50%;
+    height: 600px;
+    object-fit: cover;
+}
+
+.blog-column img {
+    transition: transform 0.3s ease;
+}
+
+.blog-column:hover img {
+    transform: scale(1.1);
+}
+
+.calendar-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* END OF IMAGES */
+
+/* DOMŮ */
+
+.motto {
+    text-align: center;
+    margin-top: 40px;
+    font-weight: bold;
+}
+
+.motto h2 {
+    text-transform: uppercase;
+    padding: 0;
+    margin-bottom: 0;
+}
+
+.home-section {
+    margin-top: 160px;
+}
+
+/* END OF DOMŮ */
+
+/* KALENDÁŘ */
+
+.product-price {
+    font-weight: bold;
+    font-size: 20px;
+    margin: 0;
+}
+
+.delivery-price {
+    margin: 0;
+}
+
+.calendar-block {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 24px;
+    margin: 80px 0;
+}
+
+.calendar-photo,
+.calendar-info {
+    width: calc(100%/2);
+}
+
+.calendar-info a {
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.calendar-info ul li {
+    font-size: 12px;
+}
+
+.calendar-photos {
+    width: calc(100%/3);
+}
+
+.calendar-info .overal-price {
+    margin-bottom: 32px;
+}
+
+#delivery-time {
+    font-weight: bold;
+    margin-top: 32px;
+}
+
+/* END OF KALENDÁŘ */
+
+/* O NÁS */
+
+.about-us-row,
+.about-us-row-rev {
+    display: flex;
+    gap: 40px;
+    margin: 40px 0;
+    align-items: center;
+}
+
+.about-us-row-rev {
+    flex-direction: row-reverse;
+}
+
+.about-us-text {
+    width: 50%;
+}
+
+#about-us-contact {
+    text-align: center;
+}
+
+#about-us-contact div {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+/* END OF O NÁS */
+
+/* KONTAKT */
+
+#contact-page {
+    display: flex;
+    flex-direction: column;
+}
+
+#contact-info {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+}
+
+#contact-info span {
+    margin-bottom: 24px;
+}
+
+#contact-socials {
+    display: flex;
+    gap: 16px;
+    justify-content: flex-start;
+}
+
+#contact-socials a {
+    text-decoration: none;
+    color: rgb(50, 50, 50);
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+}
+
+#contact-socials a::before {
+    content: "";
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgb(50, 50, 50);
+    transform: scale(0);
+    transform-origin: center;
+    transition: transform 0.5s ease;
+    z-index: 0;
+}
+
+#contact-socials a i {
+    position: relative;
+    z-index: 1;
+    transition: color 0.5s ease;
+}
+
+#contact-socials a:hover::before {
+    transform: scale(0.8);
+}
+
+#contact-socials a:hover i {
+    color: white;
+}
+
+#contact-socials-for-print {
+    display: none;
+}
+
+/* END OF KONTAKT */
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+
+    main {
+        width: 100%;
+    }
+
+    #navigation {
+        border-bottom: solid rgb(50, 50, 50);
+        border-width: 2px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    nav {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    nav a {
+        width: 20%;
+        margin: 8px 0;
+    }
+
+    .calendar-columns,
+    .blog-columns {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .calendar-column,
+    .blog-column {
+        width: 100%;
+        margin-bottom: 24px;
+    }
+
+    .paragraph-on-background {
+        font-size: 16px;
+    }
+
+    .button {
+        display: block;
+        text-align: center;
+        font-size: 18px;
+        padding: 12px 16px;
+        width: 100%;
+    }
+
+    footer {
+        flex-direction: column-reverse;
+        align-items: center;
+        text-align: center;
+        padding-top: 16px;
+    }
+
+    footer div {
+        width: 100%;
+    }
+
+    .socials {
+        justify-content: center;
+    }
+
+    .main-section {
+        margin-top: 80px;
+        padding: 0 16px;
+    }
+
+    .blog-columns {
+        gap: 24px;
+    }
+
+    .product-card {
+        width: 100%;
+        margin: 0 0 24px;
+        margin-top: 24px;
+    }
+
+    .calendar-block {
+        flex-direction: column;
+        margin: 24px 0;
+    }
+
+    .calendar-info,
+    .calendar-photo,
+    .calendar-photos {
+        width: 100%;
+    }
+
+    .calendar-photos img {
+        height: auto;
+    }
+
+    .blog-post p {
+        font-size: 14px;
+    }
+
+    .about-us-row,
+    .about-us-row-rev {
+        flex-direction: column;
+    }
+
+    .about-us-row img,
+    .about-us-row-rev img {
+        width: 100%;
+        height: auto;
+    }
+
+    .about-us-text {
+        width: 100%;
+    }
+
+    #about-us-contact div {
+        flex-direction: column;
+    }
+
+    #contact-page {
+        flex-direction: column-reverse;
+    }
+
+    #contact-form-container,
+    #contact-info {
+        width: 100%;
+    }
+
+    #contact-page h2,
+    #contact-info {
+        text-align: center;
+    }
+
+    #contact-socials {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .button {
+        font-size: 16px;
+        padding: 10px 14px;
+    }
+
+    .motto p {
+        font-size: 14px;
+    }
+
+    footer {
+        font-size: 14px;
+    }
+}
+
+/* For printing */
+
+@media print {
+
+    .small-img,
+    .navigation,
+    .button,
+    .copyright,
+    .socials,
+    .big-img,
+    #contact-socials {
+        display: none;
+    }
+
+    #navigation {
+        border-bottom: none;
+    }
+
+    body {
+        color: black;
+    }
+
+    .div-with-background {
+        padding: 0;
+        color: black;
+    }
+
+    .motto,
+    .home-section,
+    #home-contact-background,
+    .blog-columns {
+        margin: 0;
+    }
+
+    #contact-socials-for-print {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        margin-top: 16px;
+    }
+
+    #contact-socials-for-print span {
+        margin-bottom: 24px;
+    }
+
+    .calendar-columns,
+    #calendar-block-for-printing {
+        flex-direction: row;
+    }
+
+    .calendar-column {
+        width: calc(100%/3);
+    }
+
+    .medium-img {
+        height: 260px;
+    }
+}

@@ -1,0 +1,86 @@
+/* Styles specific for login/registration pages */
+
+.intro-wrapper {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+.intro-wrapper .form-control {
+  border: 1px solid var(--main-primary-color);
+}
+
+.intro-wrapper .intro__main {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.intro-wrapper .intro__main h1 {
+  margin-left: 15px;
+}
+
+.intro-wrapper .intro__main .intro__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10%;
+}
+
+.intro-wrapper .intro__form .intro__form__content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 80%;
+}
+
+.intro-wrapper .intro__hero {
+  width: 40%;
+  background-color: var(--main-secondary-color);
+  margin-left: auto;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+
+.intro-wrapper .intro__hero img {
+  max-width: 75%;
+  height: auto;
+}
+
+.intro-wrapper .intro__ephemeral-message {
+  width: 100%;
+  padding: 16px;
+  margin: 5px 0;
+  background-color: var(--main-background-dark-color);
+  border-radius: 6px;
+  border-left: 7px solid var(--main-secondary-color);
+}
+
+@media (min-width: 480px) {
+  .intro-wrapper .intro__main h1 {
+    margin-left: 7%;
+  }
+
+  .intro-wrapper .intro__form .intro__form__content {
+    width: 450px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .intro-wrapper .intro__main .intro__form {
+    margin-top: 0;
+    height: 100%;
+  }
+}
+
+@media (min-width: 992px) {
+  .intro-wrapper .intro__hero {
+    display: flex;
+  }
+
+  .intro-wrapper .intro__main {
+    width: 60%;
+  }
+}

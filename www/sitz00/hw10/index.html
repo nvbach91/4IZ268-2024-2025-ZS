@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git The Hub</title>
+
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Git The Hub</h1>
+        <p>Enter a username to search a user on GitHub</p>
+    </header>
+
+    <main>
+        <form>
+            <input id="searchInput" name="search" placeholder="Search by username" class="form-control">
+            <button id="submit" class="btn btn-primary">Find user</button>
+        </form>
+
+        <div id="userData"></div>
+
+        <ul id="repoContainer"></ul>
+    </main>
+
+    <footer>
+        &copy; sitz00 2024
+    </footer>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="./js/main.js"></script>
+
+</body>
+
+</html>

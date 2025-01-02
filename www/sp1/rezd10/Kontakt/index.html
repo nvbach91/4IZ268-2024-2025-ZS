@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kontaktní informace na organizátory Plzeňské pivní míle.">
+    <title>Kontakt - Plzeňská pivní míle</title>
+    <link rel="stylesheet" href="../Assets/css/style.css">
+    <link rel="icon" href="../Assets/img/favicon.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Parkinsans:wght@300..800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="hamburger" onclick="toggleMenu()">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <ul id="nav-links">
+                <li><a href="../">Domů</a></li>
+                <li><a href="../About/">O nás</a></li>
+                <li><a href="../SignUp/">Registrace</a></li>
+                <li><a href="../Rules/">Pravidla</a></li>
+                <li><a href="../Results/">Výsledky</a></li>
+                <li><a href="../Kontakt/" class="active">Kontakt</a></li>
+                <li><a href="https://www.facebook.com/beermileclubpilsen/" target="_blank">Facebook</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <div id="kontakt">
+            <h1>Kontakt na organizátory</h1>
+            <div class="container">
+                <div class="left-column">
+                    <div class="card">
+                        <div class="card-left">
+                            <img src="../Assets/img/simon.jpg" alt="Šimon Smrček">
+                        </div>
+                        <div class="card-right">
+                            <h2>Šimon Smrček</h2>
+                            <p>Telefon: <a href="tel:+420123456789">+420 123 456 789</a></p>
+                            <p>Email: <a href="mailto:simon.smrcek@example.com">simon.smrcek@example.com</a></p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-left">
+                            <img src="../Assets/img/tomas.jpg" alt="Tomáš Kroužecký">
+                        </div>
+                        <div class="card-right">
+                            <h2>Tomáš Kroužecký</h2>
+                            <p>Telefon: <a href="tel:+420987654321">+420 987 654 321</a></p>
+                            <p>Email: <a href="mailto:tomas.krouzecky@example.com">tomas.krouzecky@example.com</a></p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-left">
+                            <img src="../Assets/img/dominik.jpg" alt="Dominik Řezáč">
+                        </div>
+                        <div class="card-right">
+                            <h2>Dominik Řezáč</h2>
+                            <p>Telefon: <a href="tel:+420555666777">+420 555 666 777</a></p>
+                            <p>Email: <a href="mailto:dominik.rezac@example.com">dominik.rezac@example.com</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="right-column">
+                    <h2>Zeptejte se nás</h2>
+                    <form action="#" method="post">
+                        <label for="jmeno">Jméno:</label>
+                        <input type="text" id="jmeno" name="jmeno" required><br><br>
+                        
+                        <label for="email">E-mail:</label>
+                        <input type="email" id="email" name="email" required><br><br>
+
+                        <label for="predmet">Předmět:</label>
+                        <input type="text" id="predmet" name="predmet" required><br><br>
+                        
+                        <label for="zprava">Vaše zpráva:</label><br>
+                        <textarea id="zprava" name="zprava" rows="5" required></textarea><br><br>
+                        
+                        <button type="submit">Odeslat</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 Plzeňská pivní míle. Všechna práva vyhrazena.</p>
+    </footer>
+    <script src="./Assets/js/main.js"></script>
+</body>
+</html>

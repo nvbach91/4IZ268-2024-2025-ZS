@@ -1,0 +1,677 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0 auto;
+    padding: 0;
+    background-color: #F7F7F7;
+    max-width: 1200px;
+    color: #213b53;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+}
+
+header .logo {
+    background-image: url('../img/vienna-icon-min.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    text-indent: 35px;
+    color: #325779;
+    padding: 10px;
+    margin: 3px;
+}
+
+header nav a {
+    text-decoration: none;
+    color: #325779;
+    padding: 13px 20px;
+    display: inline-block;
+    transition: background-color 0.3s linear, color 0.3s linear;
+}
+
+header a:hover,
+.active-menu,
+.more-information a,
+.event-box h2,
+.event-information a,
+.anchor:hover,
+.food-places h2,
+.ticket-table td,
+th,
+footer {
+    background-color: #325779;
+    color: #F7F7F7;
+}
+
+.headline,
+.culture-box,
+.card {
+    background-position: center;
+    background-size: cover;
+}
+
+.headline,
+.discount div,
+.anchor {
+    display: flex;
+    justify-content: center;
+}
+
+.headline {
+    align-items: flex-end;
+    height: 450px;
+    margin-bottom: 80px;
+}
+
+.headline h1 {
+    font-size: 120px;
+    padding: 5px 20px;
+    font-weight: 400;
+    background-color: rgba(234, 234, 234, 0.85);
+    margin: 0;
+}
+
+.vienna {
+    background-image: url('../img/headline-Vienna-min.png');
+
+}
+
+.trips {
+    background-image: url('../img/trips-min.png');
+}
+
+.food {
+    background-image: url('../img/headline-food-min.png');
+
+}
+
+.transport {
+    background-image: url('../img/transport-min.png');
+}
+
+.sights {
+    background-image: url('../img/sights-min.png');
+}
+
+.culture {
+    background-image: url('../img/culture-min.png');
+}
+
+.events {
+    background-image: url('../img/event-min.png');
+}
+
+.trips,
+.transport,
+.culture {
+    background-position: bottom;
+}
+
+.homepage-division nav {
+    gap: 30px;
+    padding: 20px;
+}
+
+.homepage-division nav,
+.box-information,
+.business,
+.ticket-information,
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+a {
+    color: #213b53;
+}
+
+.card,
+.more-information a,
+.event-container a,
+.event-container a:active,
+.event-information a,
+.anchors a,
+footer a {
+    text-decoration: none;
+}
+
+.card,
+.discount h3,
+.introduction,
+.transport-plan,
+.ticket-table td,
+th,
+h2,
+footer {
+    text-align: center;
+}
+
+.card {
+    padding: 60px;
+    border-radius: 10px;
+}
+
+.card-item {
+    font-weight: 700;
+    font-size: 24px;
+    background-color: rgba(234, 234, 234, 0.85);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.map {
+    margin: 80px 40px;
+    padding-top: 0;
+}
+
+.map iframe,
+.discount-passes,
+.sights-photo img,
+.culture-item,
+.event-box,
+.food-photo img,
+.app-icon img {
+    width: 100%;
+    height: 100%;
+}
+
+.map iframe {
+    height: 600px;
+}
+
+.discount-passes,
+.anchors {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.discount-passes,
+.ticket-information {
+    gap: 20px;
+}
+
+.discount-passes {
+    padding: 40px;
+    margin-bottom: 20px;
+    background-color: #bdbdbd61;
+}
+
+.discount {
+    background-color: #f7f7f7ef;
+    padding: 30px;
+}
+
+.discount h2 {
+    padding: 5px;
+    margin: 0;
+    border-bottom: 2px solid #6096c9;
+}
+
+li {
+    padding: 2px;
+}
+
+.discount button:hover,
+.more-information a:hover {
+    background-color: #6096c9;
+}
+
+.box {
+    margin: 90px 0;
+}
+
+.box h2,
+.anchor,
+.transport-types h2,
+.apps {
+    border-bottom: 3px solid #325779;
+}
+
+.box h2 {
+    margin: 0;
+    padding: 5px;
+    margin-right: 35%;
+    text-align: left;
+}
+
+.information-text {
+    grid-column: span 2;
+    padding: 20px;
+}
+
+.information-text p {
+    margin: 0;
+}
+
+.more-information a {
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s linear;
+}
+
+.sights-photo img {
+    grid-column: span 1;
+    height: auto;
+    padding: 20px;
+    padding-left: 0;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.culture-box {
+    min-height: 540px;
+}
+
+.box1 {
+    background-image: url('../../assets/img/kunsthistorisches-museum-min.jpg');
+
+}
+
+.box2 {
+    background-image: url('../../assets/img/naturhistorischesmuseum-min.jpeg');
+}
+
+.box3 {
+    background-image: url('../../assets/img/prater-min.png');
+}
+
+.box4 {
+    background-image: url('../../assets/img/albertinamodern-min.jpg');
+}
+
+.box5 {
+    background-image: url('../../assets/img/Hundertwasserhaus-min.JPG');
+}
+
+.box6 {
+    background-image: url('../../assets/img/museumsquare-min.jpg');
+}
+
+.box7 {
+    background-image: url('../../assets/img/opera-min.jpg');
+}
+
+.culture-item {
+    background-color: rgba(206, 206, 206, 0.9);
+    transition: background-color 0.2s linear;
+}
+
+.culture-item p,
+.culture-item div,
+.culture-item h3 {
+    padding: 10px 0;
+    margin: 0;
+}
+
+.culture-item:hover {
+    background-color: rgba(206, 206, 206, 0.965);
+}
+
+.event-container {
+    margin: 80px;
+    gap: 40px;
+}
+
+.event-box {
+    transition: color 0.1s linear, background-color 0.1s linear;
+    border: 3px solid #325779;
+}
+
+.event-box:hover {
+    border: 3px solid #6096c9;
+    color: #F7F7F7;
+    background-color: #6096c9;
+    transform: scale(1.1);
+}
+
+.event-box h2 {
+    padding: 10px 20px;
+    margin: 0;
+    transition: background-color 0.1s linear, color 0.1s linear;
+
+}
+
+.event-box:hover h2 {
+    color: #6096c9;
+    background-color: #F7F7F7;
+}
+
+.event-information {
+    padding: 20px;
+}
+
+.event-information p {
+    margin-top: 0;
+}
+
+.event-information b {
+    padding: 5px;
+    padding-bottom: 20px;
+}
+
+
+.event-information a {
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.event-information a:hover {
+    padding: 7px 13px;
+    font-size: 18px;
+}
+
+.anchors {
+    margin: 60px 0;
+    margin-bottom: 100px;
+}
+
+.anchor {
+    margin: 0 140px;
+}
+
+.anchor span {
+    padding: 20px;
+    padding-left: 0;
+    font-size: 30px;
+}
+
+.food-places h2 {
+    padding: 10px;
+    font-size: 32px;
+    margin: 50px 0;
+}
+
+.business {
+    margin: 40px 60px;
+    gap: 80px;
+}
+
+.business-item {
+    max-width: 340px;
+    border: 5px solid #325779;
+}
+
+.business-item:hover {
+    border: 3px solid #6096c9;
+    transform: scale(1.1);
+}
+
+.food-information {
+    padding: 20px;
+}
+
+.food-information h3 {
+    margin: 0;
+}
+
+.business p {
+    margin: 10px 0;
+}
+
+.food-photo {
+    height: 180px;
+}
+
+.introduction {
+    padding: 60px;
+    padding-top: 20px;
+}
+
+.transport-types {
+    padding: 5px;
+}
+
+.transport-types h2 {
+    margin-right: 77%;
+    padding-bottom: 5px;
+}
+
+.transport-types h2,
+.apps {
+    text-align: left;
+}
+
+.transport-information {
+    background-color: #bdbdbd61;
+    padding: 20px;
+}
+
+.apps {
+    margin: 0;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+}
+
+.apps-information {
+    grid-column: span 2;
+    margin: 10px;
+}
+
+.apps-information p {
+    margin-top: 0;
+}
+
+.app-icon {
+    width: 200px;
+    height: 200px;
+}
+
+.transport-plan img {
+    width: 75%;
+    height: 75%;
+    padding: 60px;
+}
+
+.ticket-table {
+    margin-top: 20px;
+}
+
+.ticket-table table {
+    margin: auto;
+    margin-bottom: 50px;
+}
+
+.ticket-table td,
+.ticket-table th {
+    padding: 20px 140px;
+    border-radius: 5px;
+    font-size: 20px;
+}
+
+.ticket-table td {
+    background-color: #325779d3;
+}
+
+footer {
+    margin-top: 40px;
+    padding: 5px;
+}
+
+.footer-content {
+    justify-items: center;
+    padding-top: 10px;
+}
+
+.footer-content a {
+    padding: 3px;
+    text-decoration: underline;
+}
+
+footer img {
+    width: 120px;
+    height: 120px;
+}
+
+footer {
+    color: #f7f7f7ae;
+}
+
+footer a {
+    display: block;
+    color: #f7f7f7ae;
+    text-align: left;
+}
+
+@media print {
+    body {
+        background-color: white;
+    }
+
+    header,
+    footer {
+        display: none;
+    }
+
+    .business {
+        width: 100%;
+        gap: 40px;
+        margin: 0;
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .business-item,
+    .discount-passes,
+    .culture-item,
+    .event-box,
+    .ticket-table,
+    .box {
+        page-break-inside: avoid;
+    }
+
+    .map iframe {
+        height: 400px;
+    }
+}
+
+@media screen and (max-width: 720px) {
+    .headline {
+        height: 300px;
+    }
+
+    .headline h1 {
+        font-size: 80px;
+    }
+
+    .card {
+        padding: 20px;
+    }
+
+    .card-item {
+        padding: 10px;
+        font-size: 18px;
+    }
+
+    .homepage-division nav {
+        gap: 20px;
+        padding: 15px;
+    }
+
+    .event-container {
+        grid-template-columns: repeat(2, 1fr);
+        margin: 40px;
+        gap: 20px;
+    }
+
+    .event-container {
+        font-size: 70%;
+    }
+
+    .anchor {
+        margin: 0 20px;
+        font-size: 85%;
+    }
+
+    .business {
+        grid-template-columns: repeat(2, 1fr);
+        margin: 30px;
+        gap: 40px;
+    }
+
+    .food-information {
+        padding: 10px;
+    }
+
+    .transport-plan img {
+        padding: 30px;
+    }
+
+    .ticket-table td,
+    .ticket-table th {
+        padding: 20px 70px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .headline {
+        height: 200px;
+    }
+
+    .headline h1 {
+        font-size: 50px;
+    }
+
+    .card {
+        padding: 10px;
+    }
+
+    .card-item {
+        padding: 5px;
+        font-size: 14px;
+    }
+
+    .homepage-division nav {
+        gap: 15px;
+        padding: 10px;
+    }
+
+    .discount-passes {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .event-container {
+        margin: 20px;
+        gap: 10px;
+    }
+
+    .event-container {
+        font-size: 60%;
+    }
+
+    .business {
+        grid-template-columns: repeat(2, 1fr);
+        margin: 10px;
+        gap: 10px;
+    }
+
+    .food-information div {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .transport-types h2 {
+        margin-right: 60%;
+    }
+
+    .transport-plan img {
+        padding: 20px;
+    }
+
+    .apps-information div {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .ticket-table td,
+    .ticket-table th {
+        padding: 20px 40px;
+    }
+}

@@ -1,0 +1,727 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/* text */
+.space-mono-regular {
+    font-family: "Space Mono", monospace;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  .space-mono-bold {
+    font-family: "Space Mono", monospace;
+    font-weight: 700;
+    font-style: normal;
+  }
+  
+  .space-mono-regular-italic {
+    font-family: "Space Mono", monospace;
+    font-weight: 400;
+    font-style: italic;
+  }
+  
+  .space-mono-bold-italic {
+    font-family: "Space Mono", monospace;
+    font-weight: 700;
+    font-style: italic;
+  }
+  
+/* Body */
+body {
+    font-family: 'Space Mono', monospace;
+    color: #333;
+}
+
+/* Header */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: #fff;
+    border-bottom: 1px solid #000;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px; 
+    background-color: #fff;
+}
+
+.logo img {
+    width: 130px;
+    height: auto;
+}
+
+/* Navigace */
+nav ul {
+    display: flex;
+    gap: 60px; 
+    list-style: none;
+}
+
+nav a {
+    text-decoration: none;
+    color: #000; 
+    font-weight: 500;
+    font-size: 16px;
+    transition: transform 0.3s ease; 
+}
+
+nav a:hover {
+    transform: scale(1.1);
+    text-decoration: underline;
+}
+
+nav a.active {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.header-icons img {
+    width: 22px; 
+    margin-left: 20px; 
+}
+
+/* Hero Section */
+.hero {
+    position: relative;
+    text-align: center;
+}
+
+.hero img {
+    width: 100%;
+    height: auto;
+}
+
+.hero-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+}
+
+.hero-text h1 {
+    font-size: 48px;
+}
+
+.hero-text button {
+    padding: 15px 30px; 
+    background-color: transparent; 
+    border: 2px solid rgba(255, 255, 255, 0.8); 
+    color: rgba(255, 255, 255, 0.9); 
+    font-size: 18px; 
+    font-family: 'Space Mono', monospace; 
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+/* Hover efekt pro tlačítko */
+.hero-text button:hover {
+    background-color: rgba(255, 255, 255, 0.1); 
+    border-color: #fff; 
+    color: #fff; 
+}
+/* Product Section */
+/* Produktový kontejner */
+.product-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 40px auto;
+    gap: 40px;
+    align-items: flex-start;
+}
+/* Obrázková galerie */
+.image-gallery {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Hlavní obrázek */
+.main-image {
+    width: 500px; 
+    height: 500px; 
+    background-color: #ffffff; 
+    border: 1px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; 
+}
+
+.main-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+}
+
+/* Náhledové obrázky */
+.thumbnail-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.thumbnail {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    cursor: pointer;
+    border: 1px solid #000;
+    transition: transform 0.3s ease;
+}
+
+.thumbnail:hover {
+    transform: scale(1.1);
+}
+
+/* Popis produktu */
+.product-info {
+    max-width: 600px;
+    font-family: 'Space Mono', monospace;
+}
+.product-info h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.product-info h3 {
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+.product-info p {
+    margin-bottom: 15px;
+}
+
+
+.add-to-cart {
+    padding: 15px 30px;
+    background-color: transparent;
+    border: 2px solid #000;
+    color: #000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%; 
+    box-sizing: border-box; 
+}
+
+
+.add-to-cart:hover {
+    background-color: #000;
+    color: #fff;
+}
+/* Spodní obrázek */
+.bottom-image {
+    text-align: center;
+    margin: 40px auto;
+}
+
+.bottom-image img {
+    max-width: 300px;
+    width: 100%;
+}
+
+/* Sekce videa */
+.video-section {
+    width: 100%;
+    height: 600px;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Stylizace videa */
+#crop-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: auto;
+    min-height: 300px;
+}
+
+/* Sekce Our Mission */
+.our-mission {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000; 
+    padding: 120px 20px;
+    color: #fff; 
+    max-width: auto;
+    margin: 0 auto;
+    gap: 80px; 
+}
+
+/* Obrázek v sekci Our Mission */
+.mission-image img {
+    height: 500px; 
+    width: auto; 
+}
+
+/* Text v sekci Our Mission */
+.mission-text {
+    max-width: 600px; 
+    font-family: 'Space Mono', monospace;
+    text-transform: uppercase;
+}
+
+.mission-text h2 {
+    font-size: 28px;
+    margin-bottom: 80px;
+}
+
+.mission-text p {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+
+/* Footer */
+footer {
+    background-color: #000;
+    color: #fff;
+    padding: 40px 20px;
+    font-family: 'Space Mono', monospace;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 20px;
+}
+
+.footer-column {
+    flex: 1;
+}
+
+.footer-column h4 {
+    text-transform: uppercase;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-column ul li {
+    margin-bottom: 10px;
+}
+
+.footer-column ul li a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-column ul li a:hover {
+    color: #ccc;
+}
+
+.newsletter-input {
+    display: flex;
+}
+
+.newsletter input {
+    flex: 1;
+    padding: 15px;
+    border: 1px solid #fff;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+.newsletter button {
+    padding: 15px 30px;
+    background-color: #fff;
+    color: #000;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.newsletter button:hover {
+    background-color: #ccc;
+}
+
+/* Sociální ikony */
+.social-icons {
+    margin-top: 20px;
+}
+
+.social-icons img {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.social-icons img:hover {
+    transform: scale(1.1);
+}
+
+/* Platební ikony */
+.payment-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+    gap: 15px;
+    border-top: 1px solid #444;
+    margin-top: 20px;
+}
+
+.payment-icons img {
+    width: 40px;
+    height: auto;
+}
+
+/* Our Task Section */
+.our-task {
+    background-color: #000; 
+    padding: 60px 20px;
+    color: #fff; 
+    text-align: right;
+}
+
+.task-content {
+    max-width: 1200px;
+    margin: 50px auto; 
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    justify-content: center; 
+}
+
+.task-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.task-image img {
+    max-width: 100%;
+    height: auto;
+    width: 400px;
+}
+
+.task-text {
+    flex: 1;
+    max-width: 600px;
+    margin-top: 40px; 
+    text-transform: uppercase; 
+    font-family: 'Space Mono', monospace;
+    text-align: right;
+}
+.task-text h1 {
+    font-size: 5em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+
+}
+/* Our Team Section */
+.our-team {
+    padding: 60px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 60px;
+}
+
+.team-content {
+    max-width: 1200px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.team-text {
+    max-width: 600px;
+    text-align: left;
+    font-family: 'Space Mono', monospace;
+}
+
+.team-text h2 {
+    font-size: 5em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.team-image img {
+    max-width: 400px;
+    height: auto;
+    object-fit: cover;
+}
+
+/* Contact Section */
+.contact {
+    padding: 100px 20px;
+    text-align: center;
+}
+
+.contact h1 {
+    font-size: 32px;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+    font-family: 'Space Mono', monospace;
+}
+
+.contact-form {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #000;
+    font-family: 'Space Mono', monospace;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.contact-form textarea {
+    height: 150px;
+    resize: none;
+}
+
+.contact-form button {
+    padding: 15px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    text-transform: uppercase;
+    font-family: 'Space Mono', monospace;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.contact-form button:hover {
+    background-color: #333;
+}
+
+
+/* Blog Section */
+.blog {
+    padding: 100px 20px;
+    text-align: center;
+}
+
+.blog h1 {
+    font-size: 3em;
+    margin-bottom: 40px;
+}
+
+.blog-items {
+    display: flex;
+    gap: 60px;
+    overflow-x: hidden;
+    padding-bottom: 20px;
+}
+
+.blog-item {
+    cursor: pointer;
+    flex: 0 0 auto;
+    width: 320px;
+    height: 320px;
+}
+
+.blog-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.follow-us {
+    margin-top: 80px;
+    padding: 30px 300px;
+    background-color: #000;
+    font-size: 7em;
+    color: #fff;
+    border: 2px solid #000;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.follow-us:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+
+
+@media (max-width: 800px) {
+    body {
+        font-size: 14px; 
+    }
+
+    .header-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .blog-items, .product-container {
+        flex-direction: column;
+    }
+
+    .product-info, .task-text, .team-text {
+        max-width: 100%; 
+    }
+    
+    .hero img {
+        width: 100%; 
+    }
+
+    .add-to-cart, .follow-us {
+        width: 100%; 
+    }
+}
+
+
+@media print {
+    /* Styl pro tisk */
+    .header, .footer {
+        display: none; 
+    }
+    .content {
+        width: 100%; 
+    }
+}
+/* Mobile-specific enhancements */
+@media (max-width: 600px) {
+    /* General body adjustments for mobile */
+    body {
+        font-size: 12px;
+    }
+
+    /* Header navigation (hamburger menu) */
+    .header-container nav {
+        display: none;
+        flex-direction: column;
+        background-color: #fff;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        z-index: 999;
+    }
+
+    .header-container nav.active {
+        display: flex;
+    }
+
+    .hamburger-menu {
+        display: block;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        position: relative;
+        z-index: 1000;
+    }
+
+    .hamburger-menu span {
+        display: block;
+        width: 100%;
+        height: 4px;
+        background-color: #000;
+        margin: 5px 0;
+        transition: 0.3s;
+    }
+
+    .hero img {
+        height: auto;
+    }
+
+    .product-container {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .main-image img, .thumbnail {
+        width: 100%;
+        height: auto;
+    }
+
+    .add-to-cart, .follow-us {
+        width: 100%;
+    }
+
+    footer {
+        text-align: center;
+        padding: 20px;
+    }
+
+    .footer-container {
+        flex-direction: column;
+    }
+
+    .footer-column {
+        margin-bottom: 20px;
+    }
+}
+
+/* Specific adjustments for iPhone 12 Pro (390px width) */
+@media (max-width: 390px) {
+    body {
+        font-size: 14px;
+    }
+
+    header {
+        padding: 10px;
+    }
+
+    .hero img {
+        height: auto;
+        object-fit: cover;
+    }
+
+    .product-container, .blog-items, .footer-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .product-info h2, .product-info h3 {
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .product-info p, .add-to-cart {
+        font-size: 16px;
+    }
+
+    .footer-column {
+        margin-bottom: 20px;
+    }
+
+    .newsletter input, .newsletter button {
+        width: 100%;
+    }
+
+    .task-text h1, .team-text h2 {
+        font-size: 3em;
+        text-align: center;
+    }
+
+    .follow-us {
+        padding: 20px;
+        font-size: 1.5em;
+    }
+}

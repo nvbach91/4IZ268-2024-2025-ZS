@@ -1,0 +1,307 @@
+header {
+  background-color: var(--main-white-color);
+  position: relative;
+}
+
+header h1 {
+  font-size: 1.6rem;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-left: 1rem;
+}
+
+.nav .nav__item {
+  text-decoration: none;
+  color: var(--main-text-inactive-color);
+  fill: var(--main-text-inactive-color);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 5px 5px 0 0;
+  border-bottom: 2px solid var(--main-text-inactive-color);
+  font-size: 1.1rem;
+  gap: 7px;
+  transition: color 0.3s, border-bottom 0.1s;
+}
+
+.nav .nav__item path {
+  transition: fill 0.1s;
+}
+
+.nav .nav__left {
+  height: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 30px;
+  display: none;
+}
+
+.nav .nav__right {
+  margin-left: auto;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.nav .nav__menu-button label {
+  cursor: pointer;
+}
+
+.nav .nav__menu-button input[type="checkbox"] {
+  display: none;
+}
+
+.nav .nav__company-name {
+  display: none;
+  white-space: nowrap;
+}
+
+.nav .nav__item.active,
+.nav .nav__item:hover,
+.nav .nav__item.active path {
+  color: var(--main-primary-color);
+  fill: var(--main-primary-color);
+  border-bottom: 2px solid var(--main-primary-color);
+}
+
+.main__wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.main__wrapper main {
+  width: 100%;
+  padding: 30px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.main__wrapper main.main__full {
+  width: 100%;
+}
+
+.main__wrapper aside {
+  width: 100%;
+  padding: 30px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.main__wrapper aside .aside__button-pannel {
+  display: flex;
+  gap: 15px;
+}
+
+.card.card__settings-card {
+  width: 300px;
+  cursor: pointer;
+}
+
+.card .card__overview-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0.5rem;
+}
+
+.card .card__overview-content .card__overview-content__value {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.card .card__overview-content .card__overview-content__sub {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  margin-top: 0.2rem;
+}
+
+.card
+  .card__overview-content
+  .card__overview-content__sub
+  .card__overview-content__sub__value {
+  margin-left: auto;
+}
+
+.card .card__invoice-form {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  padding: 2rem 1rem 0.5rem 1rem;
+}
+
+.card .card__invoice-form .card__invoice-form__upper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.card
+  .card__invoice-form
+  .card__invoice-form__upper
+  .card__invoice-form__upper__left {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0;
+}
+
+.card
+  .card__invoice-form
+  .card__invoice-form__upper
+  .card__invoice-form__upper__right {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0;
+}
+
+.main__wrapper input,
+.main__wrapper textarea {
+  background-color: var(--main-white-color);
+}
+
+.main__wrapper input:focus-visible,
+.main__wrapper textarea:focus-visible {
+  border-color: var(--main-primary-color);
+  outline: none;
+}
+
+.card__overview-content__sub__value.positive {
+  color: var(--main-success-color);
+}
+
+.card__overview-content__sub__value.negative {
+  color: var(--main-danger-color);
+}
+
+.invoice-form__items button {
+  max-width: 200px;
+}
+
+.invoice-form__items__header,
+.invoice-form__items__body {
+  display: flex;
+  width: 100%;
+  padding: 0.7rem 2rem;
+  gap: 20px;
+}
+
+.invoice-form__items__header {
+  border-radius: 7px;
+  background-color: var(--main-background-color);
+}
+
+.invoice-form__items__body .invoice-form__items__body__price {
+  display: flex;
+  align-items: center;
+}
+
+.invoice-form__summary {
+  display: flex;
+  gap: 15px;
+  width: 100%;
+  padding: 0.7rem 2rem;
+  justify-content: end;
+  align-items: end;
+}
+
+.invoice-form__summary .invoice-form__summary__price {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.payment-dot {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.payment-dot.paid {
+  background-color: var(--main-success-color);
+}
+
+.payment-dot.unpaid {
+  background-color: var(--main-text-inactive-color);
+}
+
+@media screen and (min-width: 768px) {
+  header h1 {
+    font-size: 1.8rem;
+  }
+
+  .nav {
+    margin-left: 3rem;
+  }
+
+  .nav .nav__menu-button {
+    display: none;
+  }
+
+  .nav .nav__left {
+    height: 100%;
+    display: flex;
+  }
+
+  .card .card__invoice-form .card__invoice-form__upper {
+    flex-direction: row;
+  }
+
+  .card
+    .card__invoice-form
+    .card__invoice-form__upper
+    .card__invoice-form__upper__left {
+    width: 50%;
+    padding: 0;
+  }
+
+  .card
+    .card__invoice-form
+    .card__invoice-form__upper
+    .card__invoice-form__upper__right {
+    width: 50%;
+    padding: 0 0 0 1.5rem;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .nav:has(.nav__menu-button input[type="checkbox"]:checked) .nav__left {
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--main-white-color);
+    padding: 40px 0;
+  }
+}
+
+@media (min-width: 992px) {
+  .nav .nav__company-name {
+    display: block;
+  }
+
+  .main__wrapper {
+    flex-direction: row;
+  }
+
+  .main__wrapper main {
+    width: 66%;
+  }
+
+  .main__wrapper aside {
+    width: 34%;
+  }
+}

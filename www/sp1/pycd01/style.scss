@@ -1,0 +1,142 @@
+@use 'base';
+
+$green: oklch(0.7 0.3 165);
+$dark_green: oklch(0.65 0.3 165);
+$light_green: oklch(0.75 0.3 165);
+
+
+main {
+  .flex-row {
+    display: flex;
+    gap: 10px;
+  }
+
+  nav {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+
+
+
+    .name {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+
+      h2 {
+        display: inline-block;
+        margin: 0;
+        font-size: 30px;
+      }
+
+      img {
+        display: inline-block;
+        width: 50px;
+      }
+    }
+
+    .timetable {
+      .today {
+        margin-top: 10px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+
+        p {
+          font-size: 20px;
+          margin: 0;
+        }
+
+        .classes {
+          display: flex;
+          gap: 10px;
+          overflow-x: auto;
+          width: 100%;
+
+          .class {
+            background-color: $dark_green;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 150px;
+            width: 200px;
+            box-shadow: 2px 4px 4px 0 rgba(0, 0, 0, 0.2) inset;
+
+            p {
+              padding: 15px;
+            }
+          }
+        }
+      }
+    }
+
+    .exams {
+      display: flex;
+      gap: 10px;
+      flex-direction: column;
+
+      .current-exam {
+        display: block;
+        width: 100%;
+        height: 100%;
+        max-width: 400px;
+        min-width: 250px;
+        min-height: 150px;
+        background-color: $dark_green;
+        border-radius: 10px;
+        box-shadow: 2px 4px 4px 0 rgba(0, 0, 0, 0.4);
+        padding: 10px;
+        box-sizing: border-box;
+
+        p, u {
+          margin: 2px;
+          font-size: 20px;
+        }
+      }
+    }
+
+    .link-grid {
+      width: 100%;
+      display: grid;
+      gap: 20px;
+      grid-template-columns: 1fr 1fr;
+    }
+
+
+
+    .current-exam:hover {
+      background-color: $green;
+      box-shadow: 2px 4px 4px 0 rgba(0, 0, 0, 0.4) inset;
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+   main nav .timetable {
+    .today {
+      flex-direction: column;
+      .classes {
+        flex-direction: column;
+        .class {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  main nav .link-grid {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  main .flex-row {
+    flex-direction: column;
+  }
+}

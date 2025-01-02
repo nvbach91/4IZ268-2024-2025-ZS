@@ -1,0 +1,45 @@
+@use '../base';
+
+$green: oklch(0.7 0.3 165);
+$dark_green: oklch(0.65 0.3 165);
+$light_green: oklch(0.75 0.3 165);
+
+.tests-container {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+
+  p {
+    margin-block: 5px;
+  }
+
+
+  .current-tests {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+
+    .test-card {
+      min-width: 250px;
+      width: 275px;
+    }
+  }
+
+  .past-tests {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+
+    .test-card {
+      background-color: oklch(0.6 0.1 165);
+      min-width: 250px;
+      width: 275px;
+      padding: 20px;
+      border-radius: 10px;
+      border: black solid 1px;
+      cursor: default;
+      box-shadow: 4px 8px 8px 0 rgba(0, 0, 0, 0.4) inset;
+    }
+  }
+}

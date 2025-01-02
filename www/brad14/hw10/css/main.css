@@ -1,0 +1,183 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    padding: 0;
+    background-color: rgb(21, 24, 30);
+    color: rgb(201, 201, 201);
+    font-family: "Afacad Flux", sans-serif;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+    margin: 0 auto;
+    max-width: 1200px;
+    height: 100dvh;
+    font-size: 1.5rem;
+}
+
+
+h1 {
+    text-align: center;
+    margin-top: 60px;
+    font-size: 4rem;
+}
+
+form {
+    display: flex;
+    justify-content: center;
+}
+
+form div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    max-width: 800px;
+    width: 100%;
+}
+
+input,
+button,
+a {
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    outline: none;
+    box-shadow: none;
+    text-decoration: none;
+}
+
+input {
+    background-color: rgb(35, 35, 35);
+    padding: 10px;
+    padding-left: 15px;
+    border-radius: 10px;
+    flex-grow: 1;
+}
+
+button {
+    cursor: pointer;
+    flex-grow: 0;
+}
+
+button:hover {
+    color: white;
+}
+
+#user-profile {
+    text-align: center;
+    margin-top: 40px;
+
+    .user-box {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    img {
+        border-radius: 100%;
+    }
+
+    table {
+        width: 100%;
+        margin-top: 20px;
+
+        th {
+            text-align: left;
+        }
+
+        tr {
+            height: 40px;
+        }
+
+        td {
+            text-align: right;
+        }
+    }
+
+    button {
+        background-color: rgb(191, 191, 191);
+        border-radius: 5px;
+        width: 100%;
+        margin-top: 20px;
+        color: black;
+        font-weight: 600;
+    }
+
+    button:hover {
+        background-color: #fff;
+    }
+
+    a {
+        padding: 5px;
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+}
+
+.repo-wrapper {
+    margin: 0 auto 40px;
+    width: 100%;
+}
+
+.repositories {
+
+    .title {
+        width: 100%;
+        margin-top: 40px;
+    }
+
+    a {
+        cursor: pointer;
+        color: white;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    h2,
+    h3,
+    p {
+        margin: 0;
+    }
+
+    .repository {
+        border-radius: 10px;
+        margin-top: 10px;
+        background-color: rgb(57, 57, 57);
+        padding: 15px 25px;
+        margin-bottom: 15px;
+    }
+}
+
+
+
+@media (min-width: 400px) {
+
+    input {
+        max-width: 600px;
+    }
+
+    .user-box table,
+    .user-box button {
+        max-width: 600px;
+    }
+
+    .repo-wrapper {
+        max-width: 800px;
+    }
+}
+
+
+@media (max-width: 1228px) {
+    body {
+        margin: 0 20px;
+    }
+}

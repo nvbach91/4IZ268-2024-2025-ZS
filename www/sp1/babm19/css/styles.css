@@ -1,0 +1,271 @@
+body {
+    font-family: "Roboto", sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: grey;
+    width: 100%;
+    padding: 10px 0;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo {
+    width: auto;
+    height: 60px; 
+    margin: 0 20px; 
+    transform: translateY(-5px); 
+}
+
+.intro-text {
+    background-color: rgb(109, 108, 108);
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    padding: 20px 40px; 
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+nav a {
+    color: black;
+    text-decoration: none;
+    padding: 10px 20px;
+    display: inline-block;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 5px;
+}
+
+nav a i {
+    margin-right: 8px; 
+}
+
+nav a:hover {
+    background-color: black;
+    color: yellow; 
+}
+
+nav a.active {
+    background-color: yellow; 
+    color: black; 
+    font-weight: bold; 
+}
+
+h1, h2, h3 {
+    color: #333;
+    text-align: center;
+    font-family: "Oswald", sans-serif;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    border: 2px solid yellow;
+}
+
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+th {
+    background-color: #333;
+    color: white;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+#players:hover {
+    color: black;
+    text-decoration: underline;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: inherit;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    padding: 5px 0;
+}
+
+ul li a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+ul li a:hover {
+    text-decoration: underline;
+}
+
+body.team-page .container {
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+body.team-page .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+body.team-page .section {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+body.team-page .section h3 {
+    background-color: #333;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+body.team-page #players:hover {
+    color: black;
+    text-decoration: underline;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+footer {
+    background-color: grey;
+    color: white;
+    text-align: center;
+    padding: 5px 0;
+    font-size: 12px;
+    position: relative;
+    width: 100%;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+footer a {
+    color: yellow;
+    text-decoration: none;
+    margin-left: 5px;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+.back-to-top {
+    display: block;
+    width: 200px;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: grey;
+    color: white;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.back-to-top:hover {
+    background-color: black;
+    color: white;
+}
+table img {
+    height: 16px; 
+    vertical-align: middle; 
+}
+@media print {
+    body {
+        background-color: white;
+        color: black;
+    }
+
+    header, footer, .back-to-top {
+        display: none; 
+    }
+
+    .container {
+        width: 100%;
+        border: none;
+        box-shadow: none;
+    }
+
+    nav a {
+        color: black;
+    }
+
+    nav a:hover {
+        background-color: transparent;
+        color: black;
+    }
+
+    table {
+        width: 100%;
+        box-shadow: none;
+    }
+
+    th, td {
+        border: 1px solid #000;
+    }
+}
+@media screen and (max-width: 800px) and (max-height: 600px) {
+    .container {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .intro-text {
+        font-size: 24px;
+        padding: 10px 20px;
+    }
+
+    nav a {
+        padding: 5px 10px;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    th, td {
+        padding: 5px;
+    }
+}

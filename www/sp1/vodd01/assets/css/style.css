@@ -1,0 +1,389 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    padding: 0;
+    line-height: 1.6;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex-grow: 1;
+}
+
+header {
+    background: #004165;
+    color: #fff;
+    padding: 10px 0;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+header h1 a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 44px;
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+header nav ul li {
+    margin-left: 40px;
+}
+
+header nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 24px;
+}
+
+header nav ul li a:hover {
+    color: lightblue;
+}
+
+.hero {
+    background: url("../img/hero.jfif") no-repeat center center/cover;
+    color: #004165;
+    text-align: center;
+    padding: 100px 20px;
+}
+
+.hero h2, .hero p {
+    background-color: rgba(233, 233, 233, 0.6); 
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 80%;
+    margin: 0 auto 30px;
+}
+
+.hero h2 {
+    font-size: 42px;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 28px;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+.hero .cta-button {
+    background: #ff6b00;
+    color: #fff;
+    padding: 15px 40px;
+    font-size: 22px;
+    text-decoration: none;
+    border-radius: 8px; 
+    display: inline-block; 
+    font-weight: bold;
+}
+
+.hero .cta-button:hover {
+    background: red; 
+}
+
+.services-overview .container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    grid-template-rows: auto 1fr;
+    grid-gap: 20px; 
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center; 
+}
+
+.services-overview h2 {
+    grid-column: span 3; 
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    color: #004165;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.service-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: space-between; 
+    text-align: center;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    height: 100%; 
+}
+
+.service-item img {
+    max-width: 100%;
+    height: 200px; 
+    object-fit: cover; 
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.service-item h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #004165;
+}
+
+.service-item p {
+    font-size: 24px;
+    color: #555;
+    margin-top: auto;
+}
+
+.about-us .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.about-us h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.about-us p {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.about-us .cta-link {
+    color: #fff;
+    text-decoration: none;
+    background: #004165;
+    padding: 15px 40px;
+    font-size: 18px;
+    text-decoration: none;
+    border-radius: 8px; 
+    display: inline-block; 
+    font-weight: bold;
+}
+
+.about-us-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: space-between; 
+    text-align: center;
+    background-color: #f0f0f0; 
+    border: 2px solid #004165; 
+    padding: 20px; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    margin-bottom: 30px; 
+}
+
+.about-us-item img {
+    width: 800px;
+    height: 400px; 
+    object-fit: cover; 
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.about-us-services {
+    background: #004165; 
+    color: #fff; 
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.about-us-services h2 {
+    font-size: 36px; 
+    color: #fff; 
+    margin-bottom: 20px; 
+    font-weight: bold; 
+}
+
+.about-us-services p {
+    font-size: 22px; 
+    color: #fff; 
+    line-height: 1.6;
+    max-width: 800px; 
+    margin: 0 auto 30px; 
+}
+
+.about-us-services .cta-button {
+    color: #fff; 
+    background: #333;
+    padding: 15px 40px; 
+    font-size: 18px; 
+    text-decoration: none;
+    border-radius: 8px;
+    display: inline-block;
+    font-weight: bold;
+}
+
+.services-details {
+    background-color: #f4f4f4;
+    padding: 50px 20px;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.services-details h2 {
+    font-size: 36px;
+    color: #004165;
+    margin-bottom: 30px;
+}
+
+.services-details p {
+    font-size: 22px;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.services-details ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 30px;
+}
+
+.services-details ul li {
+    font-size: 22px;
+    color: #333;
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+.team-members {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.team-members h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #004165;
+}
+
+.team-member {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.team-member img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
+
+.team-member h3 {
+    font-size: 28px;
+    color: #004165;
+    margin-bottom: 10px;
+}
+
+.team-member p {
+    font-size: 24px;
+    color: #555;
+    line-height: 1.6;
+    font-weight: bold;
+}
+
+.contact {
+    display: flex;
+    justify-content: center; /* Vycentrování obsahu */
+    align-items: center; /* Vertikální vycentrování */
+    gap: 40px; /* Mezera mezi textem a obrázkem */
+    padding: 50px 20px;
+    text-align: center; /* Zarovnání textu do středu */
+}
+
+.contact-info {
+    max-width: 600px; /* Maximální šířka pro text */
+}
+
+.contact-info h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #004165;
+}
+
+.contact-info p {
+    font-size: 20px;
+    margin: 10px 0;
+}
+
+.contact-info a {
+    color: #004165;
+    text-decoration: none;
+}
+
+.contact-info a:hover {
+    text-decoration: underline;
+}
+
+.contact-image img {
+    width: 100%;
+    max-width: 500px; 
+    height: 400px;
+    border-radius: 8px;
+}
+
+footer {
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+}
+
+footer p {
+    margin: 0;
+}
+
+footer {
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+}
+
+footer p {
+    margin: 0;
+}
+
+@media screen and (max-width: 768px) {
+    header .container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero {
+        padding: 50px 20px;
+    }
+}

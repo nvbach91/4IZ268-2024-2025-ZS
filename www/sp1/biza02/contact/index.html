@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kontaktní informace organizace Letokruh.">
+    <title>Kontakt - Letokruh</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="icon" href="../assets/img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</head>
+
+<body>
+    <div id="spinner" class="spinner"></div>
+    <header>
+        <div class="header-container">
+            <img src="https://letokruh.eu/wp-content/themes/letokruh/static/media/Logo.7d85441e.svg" alt="Logo Letokruh">
+            <nav>
+                <nav>
+                    <ul>
+                        <li><a href="../index.html" class="btn btn-small">Úvod</a></li>
+                        <li><a href="../about/index.html" class="btn btn-small">O nás</a></li>
+                        <li><a href="../events/upcoming-events.html" class="btn btn-small">Události</a></li>
+                        <li><a href="../news/index.html" class="btn btn-small">Aktuality</a></li>
+                        <li><a href="../contact/index.html" class="btn btn-small active">Kontakt</a></li>
+                    </ul>
+                </nav>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="contact-info fade-in">
+            <h1 class="gradient-title">Kontakt</h1>
+            <p>Máte otázky nebo zájem se zapojit? Kontaktujte nás prostřednictvím níže uvedených údajů nebo vyplňte formulář.</p>
+            <address>
+                <strong>Letokruh, z.ú.</strong><br>
+                Michelská 21/61<br>
+                141 00 Praha 4<br>
+                <strong>Telefon:</strong> <a href="tel:+420123456789">+420 123 456 789</a><br>
+                <strong>Email:</strong> <a href="mailto:info@letokruh.eu">info@letokruh.eu</a>
+            </address>
+        </section>
+
+        <section class="contact-map fade-in">
+            <h2 class="gradient-title">Kde nás najdete:</h2>
+            <div id="map"></div>
+        </section>
+
+        <section class="contact-form fade-in">
+            <h2 class="gradient-title">Kontaktní formulář</h2>
+            <form id="contactForm" action="/contact" method="POST">
+                <label for="name">Jméno:</label>
+                <input type="text" id="name" name="name" required placeholder="Vaše jméno">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required placeholder="Váš email">
+                <label for="message">Zpráva:</label>
+                <textarea id="message" name="message" rows="5" required placeholder="Vaše zpráva"></textarea>
+                <button type="submit" class="btn btn-primary">Odeslat</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Letokruh. Všechna práva vyhrazena.</p>
+        <nav>
+            <ul>
+                <li><a href="contact/index.html">Kontakt</a></li>
+                <li><a href="about/index.html">O nás</a></li>
+                <li><a href="become-volunteer.html">Staňte se dobrovolníkem</a></li>
+                <li><a href="https://letokruh.eu/wp-content/uploads/2021/06/GDPR-pro-web.pdf" target="_blank" rel="noopener noreferrer">GDPR</a></li>
+            </ul>
+        </nav>
+        <div>
+            <a href="#top">Zpět na začátek</a>
+        </div>
+    </footer>
+
+    <script src="../contact/js/script.js"></script>
+</body>
+
+</html>

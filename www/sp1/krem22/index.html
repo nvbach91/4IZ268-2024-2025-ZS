@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orodent</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="./assets/media/img/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="./assets/media/img/favicon.svg" />
+    <link rel="shortcut icon" href="./assets/media/img/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/media/img/apple-touch-icon.png" />
+    <link rel="manifest" href="./assets/media/img/site.webmanifest" />
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="./assets/media/img/ms-icon-144x144.png">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script>
+        (function () {
+            emailjs.init("-dVvcBqbE5I2DeHwO");
+        })();
+    </script>
+</head>
+
+<body>
+    <header class="navbar">
+        <nav class="nav-container">
+            <div class="logo">
+                <a href="./">
+                    <span class="logo-text">Oro</span><span class="logo-highlight">dent</span>
+                </a>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/800px-Hamburger_icon.svg.png"
+                    alt="Menu">
+            </div>
+            <div class="nav-links" id="nav-links">
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <div class="nav-div nav-active">
+                            <a href="./" class="nav-link active-ahref">
+                                <div class="nav-block">Domů</div>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <div class="nav-div">
+                            <a href="./Services/" class="nav-link">
+                                <div class="nav-block">Služby</div>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <div class="nav-div">
+                            <a href="./Pricing/" class="nav-link">
+                                <div class="nav-block">Ceník</div>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <div class="nav-div">
+                            <a href="./Contact/" class="nav-link">
+                                <div class="nav-block">Kontakt</div>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="main-container">
+        <video src="./assets/media/videos/main.mp4" autoplay loop muted></video>
+        <div class="video-overlay">
+            <h1 class="hero-title">Vítejte v Orodent</h1>
+            <p class="hero-subtitle">Váš úsměv je naší prioritou. Objednejte se ještě dnes!</p>
+            <a href="#contact-form-link" class="btn-light">Kontaktujte nás</a>
+        </div>
+    </div>
+
+    <section class="services-section">
+        <div class="services-intro">
+            <h2>Naše služby</h2>
+            <p class="section-description">Váš úsměv je naší prioritou. Poskytujeme komplexní zubní péči s využitím
+                nejmodernějších technologií.</p>
+        </div>
+
+        <div class="services-layout">
+            <div class="services-image-container">
+                <img src="https://surprisepd.com/wp-content/uploads/2021/12/Depositphotos_831890.jpg"
+                    alt="Moderní zubní ordinace">
+            </div>
+
+            <div class="services-grid">
+                <a href="#" class="service-card">
+                    <h3>Vstupní vyšetření</h3>
+                    <p>Komplexní vyšetření včetně 3D rentgenu a sestavení individuálního léčebného plánu. Během první
+                        návštěvy provedeme důkladnou diagnostiku, seznámíme vás s aktuálním stavem vašeho chrupu a
+                        společně naplánujeme další postup léčby.</p>
+                </a>
+
+                <a href="#" class="service-card">
+                    <h3>Zubní péče</h3>
+                    <p>Špičková péče od běžných výplní po implantáty. Používáme nejkvalitnější materiály a nejmodernější
+                        postupy. Nabízíme širokou škálu ošetření včetně estetické stomatologie, endodoncie, protetiky a
+                        péče o děti. Klademe důraz na prevenci a dlouhodobou životnost všech zákroků.</p>
+                </a>
+
+                <a href="./Services/Chirurgie/" class="service-card">
+                    <h3>Chirurgické zákroky</h3>
+                    <p>Provádíme všechny typy chirurgických zákroků včetně extrakce zubů moudrosti, implantologie a
+                        augmentace kostí. Používáme šetrné postupy s minimální pooperační bolestivostí. Díky modernímu
+                        vybavení a zkušenostem našeho týmu zajistíme maximální komfort během výkonu.</p>
+                </a>
+
+                <a href="./Services/Hygiena/" class="service-card">
+                    <h3>Dentální hygiena</h3>
+                    <p>Profesionální čištění, air flow a kompletní péče o zdraví vašeho chrupu. Naše hygienistky vás
+                        naučí správnou techniku čištění a pomohou vám vybrat vhodné pomůcky. Pravidelná dentální hygiena
+                        je klíčem k prevenci zubního kazu a parodontózy. Používáme nejmodernější přístroje pro efektivní
+                        a šetrné odstranění zubního kamene.</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="why-choose-us">
+        <div class="why-choose-content">
+            <h2>Proč si vybrat Orodent?</h2>
+            <div class="why-choose-grid">
+                <div class="why-choose-text">
+                    <p class="lead-text">Jsme moderní zubní klinika s osobním přístupem a dlouholetými zkušenostmi.
+                        Naším cílem je poskytovat tu nejlepší péči v příjemném prostředí.</p>
+                    <ul class="benefits-list">
+                        <li>Nejmodernější vybavení a technologie</li>
+                        <li>Tým zkušených specialistů</li>
+                        <li>Příjemné prostředí a osobní přístup</li>
+                        <li>Flexibilní ordinační hodiny</li>
+                    </ul>
+                </div>
+                <div class="why-choose-image">
+                    <img src="https://img.freepik.com/premium-photo/team-colleagues-dentists-portrait-doctors-looking-camera-dental-office-staff-medicine-dentistry-health-care_116407-11401.jpg"
+                        alt="Náš dentální tým">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <h2>Co říkají naši pacienti</h2>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <div class="rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="date">3. října 2022</span>
+                    </div>
+                    <p>"K doktoru Konopkovi chodím kolem 30 let, začal jsem v době, kdy měl ordinaci na jiném místě
+                        tohoto sídliště (přízemí nějakého paneláku). Odrostly zde také moje 4 děti. Má to tu ráda celá
+                        naše rodina, jsme spokojeni s profesionálním přístupem a nám dávno dospělým zcela vymizel strach
+                        ze "zubaře", přičemž naše děti ho nikdy nikdy nepoznaly, tedy ten strach, nikoli pana doktora."
+                    </p>
+                    <div class="testimonial-author">
+                        <h4>Filip Kaštánek</h4>
+                        <a href="https://www.google.com/search?sa=X&sca_esv=3295fc5adb7ee0bf&biw=2133&bih=1027&tbm=lcl&q=konopka%20karel%20mudr.%20reviews&rflfq=1&num=20&stick=H4sIAAAAAAAAAONgkxIxNDKzNDOzNDS3NDIzNzE2tLQ0s9jAyPiKUTo7Py-_IDtRITuxKDVHIbc0pUhPoSi1LDO1vHgRKz5ZAFHrfdBXAAAA&rldimm=12696691792674319968&hl=en-CZ&ved=0CAcQ5foLahcKEwiot6Lx75aKAxUAAAAAHQAAAAAQCQ#lkt=LocalPoiReviews"
+                            target="_blank" class="review-link OA1nbd">Ověřená recenze Google</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <div class="rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="date">31. května 2014</span>
+                    </div>
+                    <p>"Karla Konopku navštevuji ±30let, mám k němu i celému jeho týmu naprostou důvěru. Do té doby
+                        strach z dentistů mi od tehdy zcela zmizel. Působí na mě všichni v jeho centru jako lidé, kteří
+                        ví, co dělají, a co víc, drží krok s vývojem v oboru. A baví je to!
+                        <br>Pep"
+                    </p>
+                    <div class="testimonial-author">
+                        <h4>Josef Kadleček</h4>
+                        <a href="https://www.google.com/search?sa=X&sca_esv=3295fc5adb7ee0bf&biw=2133&bih=1027&tbm=lcl&q=konopka%20karel%20mudr.%20reviews&rflfq=1&num=20&stick=H4sIAAAAAAAAAONgkxIxNDKzNDOzNDS3NDIzNzE2tLQ0s9jAyPiKUTo7Py-_IDtRITuxKDVHIbc0pUhPoSi1LDO1vHgRKz5ZAFHrfdBXAAAA&rldimm=12696691792674319968&hl=en-CZ&ved=0CAcQ5foLahcKEwiot6Lx75aKAxUAAAAAHQAAAAAQCQ#lkt=LocalPoiReviews"
+                            target="_blank" class="review-link">Ověřená recenze Google</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <div class="rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="date">11. srpna 2021</span>
+                    </div>
+                    <p>Doktora Konopku navštěvuji coby lékaře více než 25 let a je to pro mě příklad skutečného
+                        profesionála. A to nejen z pohledu léčby, ale i přístupu. Nikde jinde v našem zdravotnictví jsem
+                        se nesetkal s tím, že by byl skutečně dodržen čas ne který jsem objednán. Vždy jsem dopředu
+                        seznámen s diagnózou, způsobem léčby a s tím, kolik budu za zákrok platit. To vše platí nejen u
+                        něho , ale i u ostatních lékařů jeho ordinace.</p>
+                    <div class="testimonial-author">
+                        <h4>Tomáš Hlubuček</h4>
+                        <a href="https://www.znamylekar.cz/karel-konopka/zubar/praha#o-620068" target="_blank"
+                            class="review-link">Ověřená recenze znamylekar.cz</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section" id="contact-form-link">
+        <div class="section-header">
+            <h2 class="section-title">V případě zájmu nás neváhejte kontaktovat</h2>
+            <p class="section-description">Rádi zodpovíme všechny Vaše dotazy</p>
+        </div>
+        <div class="cta-container">
+            <div class="contact-info">
+                <div class="company-info">
+                    <h2><span class="logo-text">Oro</span><span class="logo-highlight">dent</span> s.r.o.</h2>
+                    <span class="ico">IČO: 04635019</span>
+                </div>
+
+                <ul class="contact-list">
+                    <li>
+                        <i class="fas fa-phone"></i>
+                        <span>Telefon: </span>
+                        <a href="tel:+420555123456">+420 555 123 456</a>
+                    </li>
+                    <li>
+                        <i class="fas fa-envelope"></i>
+                        <span>E-mail: </span>
+                        <a href="mailto:info@orodent.cz">info@orodent.cz</a>
+                    </li>
+                    <li>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Adresa: </span>
+                        <address>
+                            Bernolákova 2008/1<br>
+                            142 00 Praha 4 - Krč<br>
+                            1. patro
+                        </address>
+                    </li>
+                </ul>
+
+                <div class="map">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2562.0576844658197!2d14.450923776812744!3d50.02641647151633!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470b93e04fd660f5%3A0xb033b5ea5cf86e60!2sBernol%C3%A1kova%202008%2F1%2C%20142%2000%20Praha%204-Kr%C4%8D!5e0!3m2!1scs!2scz!4v1710425163099!5m2!1scs!2scz"
+                        loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+
+            <div class="contact-form">
+                <form id="contactForm" onsubmit="return sendEmail(event)">
+                    <div class="form-group">
+                        <label for="fullName">Jméno</label>
+                        <input type="text" id="fullName" name="fullName" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Mobil</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="isClient">Jste již naším klientem</label>
+                            <select id="isClient" name="isClient" required>
+                                <option value="" disabled selected>Prosím vyberte</option>
+                                <option value="Ano">Ano</option>
+                                <option value="Ne">Ne</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Poznámka</label>
+                        <textarea id="message" name="message" rows="6" required></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <span>Odeslat zprávu</span>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Orodent</h4>
+                <p>Moderní zubní ordinace poskytující komplexní stomatologickou péči pro celou rodinu.</p>
+                <!-- <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div> -->
+            </div>
+            <div class="footer-section">
+                <h4>Menu</h4>
+                <ul>
+                    <li><a href="./">Domů</a></li>
+                    <li><a href="./Services/">Služby</a></li>
+                    <li><a href="./Pricing/">Ceník</a></li>
+                    <li><a href="./Contact/">Kontakt</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Kontakt</h4>
+                <ul>
+                    <li>Bernolákova 2008, 142 00 Praha 4 - Krč</li>
+                    <li>+420 555 123 456</li>
+                    <li>info@orodent.cz</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Ordinační hodiny</h4>
+                <ul>
+                    <li>Pondělí - Čtvrtek: 8:00 - 18:00</li>
+                    <li>Pátek: 8:00 - 15:00</li>
+                    <li>Víkendy: Zavřeno</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Orodent s.r.o. Všechna práva vyhrazena.</p>
+        </div>
+    </footer>
+
+    <script src="./assets/js/main.js"></script>
+</body>
+
+</html>

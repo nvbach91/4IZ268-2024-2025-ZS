@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naše pečivo - Antonínovo pekařsrví</title>
+    <link rel="icon" type="image/x-icon" href="../assets/img/favicon.ico">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="main">
+        <header>
+            <nav class="nav">
+                <a href="../" id="logo-link">
+                    <img src="../assets/img/logo.png" width="120" alt="Antonínovo pekařství logo">
+                </a>
+                <button id="nav-toggle" class="nav-toggle"><svg xmlns="http://www.w3.org/2000/svg" width="30"
+                        height="30"
+                        viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                        <path fill="#000000"
+                            d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z" />
+                    </svg>
+                </button>
+                <ul class="nav-menu">
+                    <li>
+                        <a href="../">Hlavní strana</a>
+                    </li>
+                    <li>
+                        <a href="../o-autoninove-pekarstvi/">O nás</a>
+                    </li>
+                    <li>
+                        <a href="../tydenni-nabidka/">Týdenní nabídka</a>
+                    </li>
+                    <li>
+                        <a class="active" href="./">Naše pečivo</a>
+                    </li>
+                    <li>
+                        <a href="../hledame-pekare/">Hledáme pekaře</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="info" id="info-button">
+                <svg xmlns="http://www.w3.org/2000/svg" height="30" width="7.25"
+                    viewBox="0 0 192 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                    <path fill="#000000"
+                        d="M48 80a48 48 0 1 1 96 0A48 48 0 1 1 48 80zM0 224c0-17.7 14.3-32 32-32l64 0c17.7 0 32 14.3 32 32l0 224 32 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 512c-17.7 0-32-14.3-32-32s14.3-32 32-32l32 0 0-192-32 0c-17.7 0-32-14.3-32-32z" />
+                </svg>
+            </div>
+            <div class="dialog-overlay" id="dialog-overlay">
+                <div class="dialog">
+                    <h2>Upozornění</h2>
+                    <p>Tato stránka není oficiální stránkou Antonínova pekařství.</p>
+                    <button id="close-dialog">Zavřít</button>
+                </div>
+            </div>
+        </header>
+        <div class="content-wrapper">
+            <main>
+                <div class="title-outer-wrapper">
+                    <div class="title-inner-wrapper h1-baked-goods">
+                        <h1>Naše pečivo</h1>
+                    </div>
+                </div>
+                <div class="content-container story">
+                    <h2>Naše nabídka pečiva</h2>
+                    <p class="offers-inner-container">V Antonínově pekařství nabízíme širokou škálu čerstvého pečiva,
+                        které je pečeno každý den s láskou a péčí. Od tradičních rohlíků až po speciální sladkosti, naše
+                        pečivo je ideální volbou pro každý den. Každý kousek je vyroben z kvalitních surovin, které
+                        zaručují tu nejlepší chuť.</p>
+                </div>
+                <section class="content-container">
+                    <h2>Nejprodávanější pečivo</h2>
+                    <p>Objevte naše nejoblíbenější pečivo, které si naši zákazníci zamilovali pro jeho čerstvost a
+                        jedinečnou chuť.</p>
+                    <div class="featured-products">
+                        <div class="product-item">
+                            <img src="../assets/img/nase-pecivo/croissant.png" alt="Croissant">
+                            <h3>Máslový croissant</h3>
+                            <p>Jemný a křupavý máslový croissant pro sladké a nadýchané potěšení.</p>
+                            <p class="price">Cena: 30 Kč</p>
+                        </div>
+                        <div class="product-item">
+                            <img src="../assets/img/nase-pecivo/bageta.png" alt="Bageta">
+                            <h3>Čerstvá bageta</h3>
+                            <p>Chrupavá bageta s čerstvým, nadýchaným vnitřkem, perfektní k polévce nebo sýrům.</p>
+                            <p class="price">Cena: 25 Kč</p>
+                        </div>
+                        <div class="product-item">
+                            <img src="../assets/img/nase-pecivo/svestkove-kolace.png" alt="Kynuté švestkové koláče">
+                            <h3>Kynuté švestkové koláče</h3>
+                            <p>Tradiční kynuté koláče s bohatou náplní z čerstvých švestek, doplněné jemnou drobenkou.
+                            </p>
+                            <p class="price">Cena: 35 Kč</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="content-container categories">
+                    <h2>Naše nabídka pečiva</h2>
+                    <div class="category-list shadow">
+                        <div class="category-items">
+                            <div class="category-item active" id="chleby">
+                                <h3>Chleby</h3>
+                            </div>
+                            <div class="category-item" id="housky">
+                                <h3>Housky</h3>
+                            </div>
+                            <div class="category-item" id="kolace">
+                                <h3>Koláče</h3>
+                            </div>
+                            <div class="category-item" id="dezerty">
+                                <h3>Dezerty</h3>
+                            </div>
+                        </div>
+                        <div class="category-content">
+                            <div class="chleby">
+                                <ul>
+                                    <li>
+                                        <strong>Tradiční žitný chléb</strong>
+                                        <p>Alergeny: 1, 6</p>
+                                    </li>
+                                    <li>
+                                        <strong>Vícezrnný chléb</strong>
+                                        <p>Alergeny: 1, 6, 11</p>
+                                    </li>
+                                    <li>
+                                        <strong>Celozrnný špaldový chléb</strong>
+                                        <p>Alergeny: 1, 6</p>
+                                    </li>
+                                    <li>
+                                        <strong>Chléb s ořechy</strong>
+                                        <p>Alergeny: 1, 6, 8</p>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="housky">
+                                <ul>
+                                    <li>
+                                        <strong>Klasická houska</strong>
+                                        <p>Alergeny: 1, 6</p>
+                                    </li>
+                                    <li>
+                                        <strong>Sezamová houska</strong>
+                                        <p>Alergeny: 1, 6, 11</p>
+                                    </li>
+                                    <li>
+                                        <strong>Máslová houska</strong>
+                                        <p>Alergeny: 1, 3, 7</p>
+                                    </li>
+                                    <li>
+                                        <strong>Bramborová houska</strong>
+                                        <p>Alergeny: 1, 6</p>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="kolace">
+                                <ul>
+                                    <li>
+                                        <strong>Makový koláč</strong>
+                                        <p>Alergeny: 1, 3, 7</p>
+                                    </li>
+                                    <li>
+                                        <strong>Tvarohový koláč</strong>
+                                        <p>Alergeny: 1, 3, 7</p>
+                                    </li>
+                                    <li>
+                                        <strong>Povidlový koláč</strong>
+                                        <p>Alergeny: 1, 3, 7</p>
+                                    </li>
+                                    <li>
+                                        <strong>Borůvkový koláč</strong>
+                                        <p>Alergeny: 1, 3, 7</p>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="dezerty">
+                                <ul>
+                                    <li>
+                                        <strong>Čokoládový dortík</strong>
+                                        <p>Alergeny: 1, 3, 7</p>
+                                    </li>
+                                    <li>
+                                        <strong>Makronky</strong>
+                                        <p>Alergeny: 3, 7, 8</p>
+                                    </li>
+                                    <li>
+                                        <strong>Tiramisu</strong>
+                                        <p>Alergeny: 1, 3, 7</p>
+                                    </li>
+                                    <li>
+                                        <strong>Citronový cheesecake</strong>
+                                        <p>Alergeny: 1, 3, 7</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="content-container testimonials">
+                    <h2>Co říkají naši zákazníci</h2>
+                    <div class="testimonial-item">
+                        <p>"Nejlepší croissanty..." - Jana K.</p>
+                    </div>
+                    <div class="testimonial-item">
+                        <p>"Chleba z Antonínova pekařství je vždy čerstvý a chutný, skvělá kvalita." - Pavel M.</p>
+                    </div>
+                    <div class="testimonial-item">
+                        <p>"Milujeme jejich makové koláče, vždy si je kupujeme k nedělní snídani." - Petra V.</p>
+                    </div>
+                    <div class="hidable-testimonials">
+                        <div class="testimonial-item">
+                            <p>"Profesionální obsluha a skvělé pečivo, které dělá každý den o něco lepší." - Tomáš L.
+                            </p>
+                        </div>
+                        <div class="testimonial-item">
+                            <p>"Dezerty zde jsou vynikající! Doporučuji ochutnat jejich tiramisu." - Veronika S.</p>
+                        </div>
+                        <div class="testimonial-item">
+                            <p>"Vždy se těším na jejich sezamové housky. Perfektní ke každému jídlu." - Martin D.</p>
+                        </div>
+                        <div class="testimonial-item">
+                            <p>"Široký výběr a vše je pečeno s láskou. Antonínovo pekařství je moje první volba." -
+                                Lucie H.
+                            </p>
+                        </div>
+                        <div class="testimonial-item">
+                            <p>"Skvělá atmosféra a vždy přátelský personál. Je to naše oblíbená pekárna." - David N.</p>
+                        </div>
+                        <div class="testimonial-item">
+                            <p>"Nic se nevyrovná jejich kváskovému chlebu, dokonalá chuť a textura." - Eva R.</p>
+                        </div>
+                        <div class="testimonial-item">
+                            <p>"Jejich sladké rolky jsou dokonalé. Každý den se těším na novou várku!" - Klára B.</p>
+                        </div>
+                    </div>
+                    <button class="btn" id="show-more">Ukázat více hodnocení</button>
+                </section>
+            </main>
+            <div class="footer-wrapper">
+                <footer>
+                    <section>
+                        <h3>Otevírací doba</h3>
+                        <div class="footer-container">
+                            <p>PONDĚLÍ - NEDĚLE<br>7:00 – 19:30</p>
+                            <p>Přijďte si k nám vychutnat čerstvé pečivo,
+                                lahodné snídaně nebo si odpočiňte u šálku kávy.
+                                Těšíme se na vaši návštěvu!</p>
+                        </div>
+                    </section>
+                    <section>
+                        <div>
+                            <h3>Ozvěte se nám</h3>
+                            <div class="footer-container">
+                                <p>Informace o provozu
+                                    všech pekařství
+                                    <a href="mailto:info@antoninovopekarstvi.cz">info@antoninovopekarstvi.cz</a>
+                                    <a href="tel:+420605977291">+420 605 977 291</a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="last-footer">
+                            <h3>Jsme i na socálních sítích</h3>
+                            <ul class="footer-container">
+                                <li>
+                                    <a href="https://www.instagram.com/antoninovopekarstvi/">Instagram</a>
+                                </li>
+                                <li>
+                                    <a href="https://www.facebook.com/AntoninovoPekarstvi/">Facebook</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+                    <button id="back-to-top-button" class="back-to-top-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="15"
+                            viewBox="0 0 320 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                            <path fill="#000000"
+                                d="M318 177.5c3.8-8.8 2-19-4.6-26l-136-144C172.9 2.7 166.6 0 160 0s-12.9 2.7-17.4 7.5l-136 144c-6.6 7-8.4 17.2-4.6 26S14.4 192 24 192l72 0 0 288c0 17.7 14.3 32 32 32l64 0c17.7 0 32-14.3 32-32l0-288 72 0c9.6 0 18.2-5.7 22-14.5z" />
+                        </svg>
+                    </button>
+                    <p class="copyright">Copyright &#169; 2024 David Brablc | School project for 4IZ268 subject</p>
+                </footer>
+            </div>
+        </div>
+    </div>
+    <div id="overlay" class="overlay"></div>
+    <script type="module" src="../assets/js/main.js"></script>
+    <script type="module" src="../assets/js/nase-pecivo/script.js"></script>
+</body>
+
+</html>

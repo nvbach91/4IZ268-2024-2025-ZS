@@ -1,0 +1,613 @@
+* {
+    box-sizing: border-box;
+    font-family: "Roboto", serif;
+}
+
+body {
+    margin: 0;
+}
+
+.top-banner {
+    background-color: #aeff04;
+    height: 150px;
+}
+.top-banner img {
+    width: 150px;
+    height: 150px;
+}
+
+.top-banner img {
+    height: 150px;
+}
+
+.navigation ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+.navigation ul li a {
+    text-decoration: none;
+    color: #171f72;
+    width: 100%;
+    height: 100%;
+    display: block;
+    padding: 26px 50px;
+    transition: background-color 300ms ease-out 1ms;
+    border-bottom: 1px solid gray;
+}
+
+.navigation ul li .active {
+    background-color: #171f72;
+    color: white;
+}
+
+.navigation ul li a:hover {
+    background-color: #171f72;
+    cursor: pointer;
+    color: white;
+}
+
+.home-container {
+    width: 100%;
+    padding: 30px 20%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.home-container h1 {
+    width: 100%;
+}
+
+.home-container article {
+    width: 49%;
+    border: solid 1px gray;
+    border-radius: 2%;
+    padding: 10px;
+    margin: 25px 0 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.home-container article h2 {
+    margin-top: 0px;
+}
+
+.default-btn {
+    align-self: flex-end;
+    text-decoration: none;
+    font-size: 13px;
+    margin-top: auto;
+    padding: 10px 10px;
+    background-color: #171f72;
+    color: white;
+    border: none;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.default-btn:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+.home-container article button {
+    margin-right: 20px;
+}
+
+.home-container article:nth-child(4) {
+    width: 100%;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    background-color: #171f72;
+    color: white;
+}
+
+.matches-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.matches {
+    width: 80%;
+    padding-top: 30px;
+}
+
+.matches h1 {
+    margin-left: 5%;
+}
+
+.matches .match {
+    width: 70%;
+    border: solid 1px gray;
+    border-radius: 10px;
+    padding: 15px 0;
+    display: flex;
+    margin-left: 5%;
+    margin-bottom: 3%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.matches .match div {
+    height: 30px;
+    width: 80%;
+    margin-left: 5%;
+    display: flex; 
+    align-items: center;
+    justify-content: space-around;
+}
+
+.matches .match div img {
+    height: 30px;
+    width: 30px;
+}
+
+.matches .match div:nth-child(2) {
+    font-weight: bold;
+}
+
+.matches .match div button {
+    margin-right: 5px;
+    align-self: flex-end;
+}
+
+.pitch-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.pitch-container .pitch {
+    background-image: url("../img/pitch.jpg");
+    background-repeat:no-repeat;
+    background-size:cover;
+    display: flex;
+    width: 700px;
+    height: 500px;
+}
+
+.pitch-container .pitch .home-team {
+    height: 100%;
+    width: 50%;
+    display: flex;
+}
+
+.pitch-container .pitch .gk{
+    display: flex;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    width: 25%;
+    padding-left: 30px;
+}
+.pitch-container .pitch .row{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    text-align: center;
+    height: 100%;
+    width: 25%;
+}
+.pitch-container .pitch .att-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+    width: 25%;
+}
+.pitch-container .pitch .att-row div:nth-child(2) {
+    margin-top: 30px;
+}
+
+.pitch-container .pitch .away-team-match-detail {
+    height: 100%;
+    width: 50%;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    color: #e4041f;
+}
+
+.pitch-container .pitch .away-team-match-detail .gk {
+    padding-left: 0;
+    padding-right: 30px;
+}
+
+.standings {
+    width: 20%;
+    padding-top: 30px;
+}
+.standings h3 {
+    text-align: center;
+}
+
+.match-detail-container {
+    padding: 30px 20%;
+}
+
+.match-detail-container .score {
+    padding-top: 30px;
+    display: flex;
+    justify-content: space-around;
+}
+.match-detail-container .score .home-team, .away-team {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.match-detail-container .score .result{
+    font-size: 50px;
+    margin-bottom: auto;
+    margin-top: 2%;
+}
+
+.match-detail-container .score .kickoff{
+    width: 60%;
+    font-size: 20px;
+    margin-bottom: auto;
+    margin-top: 2%;
+    text-align: center;
+}
+
+.match-detail-container .score .kickoff div:nth-child(2) {
+    margin-top: 20px;
+    font-size: 15px;
+}
+
+.match-detail-container .score .match-history {
+    width: 60%;
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+}
+
+.match-detail-container .score .match-history img{
+    width: 20px;
+    height: 20px;
+    margin-left: 2%;
+    margin-right: 3%;
+}
+
+.match-detail-container .score .match-history p{
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+.match-detail-container .score .home-team .match-history p {
+    padding-left: 30%;
+}
+.match-detail-container .score .away-team .match-history p{
+    padding-left: 36%;
+}
+.match-detail-container .score .match-history p span{
+    color: grey;
+    margin-left: 3%;
+}
+
+.match-detail-container .betting-banner {
+    margin-top: 50px;
+}
+
+.match-detail-container .betting-banner .betting-row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid grey;
+    border-radius: 20px;
+    margin-top: 10px;
+}
+
+.match-detail-container .betting-banner .betting-row img {
+    border-radius: 20px;
+}
+
+.match-detail-container .betting-banner .betting-row div {
+    display: flex;
+    align-items: center;
+    width: 50%;
+}
+
+.match-detail-container .betting-banner .betting-row .odds-div {
+    display: block;
+    text-align: center;
+}
+.match-detail-container .betting-banner .betting-row .odds-div span:nth-child(1){
+    color: #171f72;
+    font-weight: bold;
+}
+
+.standings-container {
+    width: 100%;
+    padding: 30px 15%;
+    display: flex;
+    flex-direction: column;
+}
+
+.team-standings .team {
+    display: flex;
+    padding: 20px 0;
+    height: 30px;
+    justify-content: space-between;
+}
+
+.left-side {
+    display: flex;
+    align-items: center;
+}
+
+.team-standings .team .right-side {
+    display: flex;
+    align-items: center;
+    width: 70%;
+    justify-content: space-between;
+}
+
+.team-standings .team .left-side .team-logo {
+    margin: 0 22px;
+}
+
+.team-standings .team .left-side .team-logo img{
+    height: 30px;
+}
+
+.team-standings .team .left-side .team-logo .placeholder-logo {
+    width:  30px;
+}
+
+.team-standings .team .right-side .statistics {
+    display: flex;
+}
+
+.team-standings .team .right-side .statistics div{
+    margin-left: 50px;
+}
+
+.team-standings .team .right-side .form {
+    display: flex;
+}
+
+.team-standings .team .right-side .form div {
+    margin-right: 5%;
+}
+
+.team-standings .team .right-side .form .win{
+    background-color: #01a83f;
+    color: white;
+    padding: 4px 6px;
+}
+
+.team-standings .team .right-side .form .lose{
+    background-color: red;
+    color: white;
+    padding: 4px 6px;
+}
+
+.team-standings .team .right-side .form .draw{
+    background-color: #f3a000;
+    color: white;
+    padding: 4px 6px;
+}
+
+.top-scorers-container {
+    width: 100%;
+    padding: 30px 15%;
+    display: flex;
+    flex-direction: column;
+}
+
+.top-scorers-container .player {
+    display: flex;
+    padding: 25px 10px;
+    height: 30px;
+    justify-content: space-between;
+}
+
+.top-scorers-container .player:nth-of-type(even) {
+    background-color: lightblue;
+    border-radius: 10px;
+}
+
+.top-scorers-container .player .left-side {
+    width: 100%;
+}
+
+.top-scorers-container .player .left-side .placeholder-flag{
+    height: 10px;
+    width: 15px;
+    margin-left: 1%;
+}
+
+.top-scorers-container .player .left-side .player-flag {
+    margin-left: 1%;
+    margin-bottom: 0.4%;
+}
+
+.top-scorers-container .player .left-side .player-name{
+    margin-left: 1%;
+}
+
+.top-scorers-container .player .left-side .player-flag img{
+    height: 10px;
+    width: 15px;
+}
+
+.top-scorers-container .player .right-side {
+    display: flex;
+    align-items: center;
+    width: 50%;
+}
+
+.top-scorers-container .player .right-side .statistics {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.top-scorers-container .player .right-side .statistics .player-team {
+    margin-right: auto;
+}
+.top-scorers-container .player .right-side .statistics .player-goals {
+    margin-right: 20%;
+}
+
+
+@media screen and (max-width: 1102px) {
+    .standings-container {
+        padding: 30px 5%;
+    }
+}
+
+@media screen and (max-width: 1033px) {
+    .navigation ul {
+        justify-content: center;
+    }
+    .navigation ul {
+        padding-left: 0px;
+    }
+    .navigation ul li {
+        width: 20%;
+    }
+
+    .navigation ul li a{
+        padding: 50px 0px;
+        border-bottom: none;
+        font-size: 15px;
+        text-align: center;
+    }
+
+    .home-container {
+        padding: 15px 5%;
+    }
+
+    .matches-container {
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+    .matches {
+        width: 100%;
+    }
+    .matches h1 {
+        margin-left: 0;
+        text-align: center;
+    }
+    .matches .match {
+        width: 100%;
+        margin-left: 0;
+    }
+    .standings{
+        width: 100%;
+    }
+    .standings table {
+        width: 100%;
+    }
+    .standings th{
+        width: 25%;
+    }
+}
+
+@media screen and (max-width: 862px) {
+    .team-standings .team .right-side .form {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .navigation ul {
+        padding-left: 0;
+        justify-content: space-between;
+    }
+
+    .navigation ul li {
+        font-size: 15px;
+    }
+    .navigation ul li a{
+        padding: 0;
+        height: 90px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .home-container article {
+        width: 100%;
+    }
+    .team-standings .team .right-side {
+        width: 50%;
+    }
+    .team-standings .team .right-side .win-amount {
+        display: none;
+    }
+    .team-standings .team .right-side .draw-amount {
+        display: none;
+    }
+    .team-standings .team .right-side .lose-amount {
+        display: none;
+    }
+    .team-standings .team .right-side .statistics div{
+        margin-left: 30px;
+    }
+    .top-scorers-container {
+        padding: 30px 5%;
+    }
+    .default-btn {
+        padding: 10px 0;
+    }
+
+}
+
+@media print{
+    print-color-adjust: exact;
+    .top-banner {
+        display: none;
+    }
+    .top-banner img{
+        display: none;
+    }
+
+    .navigation {
+        display: none;
+    }
+    .standings {
+        display: none;
+    }
+    .default-btn {
+        display: none;
+    }
+    .matches {
+        margin-top: 0;
+        padding-top: 0;
+        width: 100%;
+        margin-left: 30px;
+    }
+    .matches .match {
+        width: 90%;
+    }
+    footer {
+        display: none;
+    }
+    .pitch-container {
+        margin-top: 150px;
+        -webkit-print-color-adjust: exact;
+    }
+    .home-container {
+        padding: 0;
+    }
+    .standings-container{
+        padding: 0;
+    }
+
+}

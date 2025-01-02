@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O nás - Antonínovo pekařsrví</title>
+    <link rel="icon" type="image/x-icon" href="../assets/img/favicon.ico">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="main">
+        <header>
+            <nav class="nav">
+                <a href="../" id="logo-link">
+                    <img src="../assets/img/logo.png" width="120" alt="Antonínovo pekařství logo">
+                </a>
+                <button id="nav-toggle" class="nav-toggle"><svg xmlns="http://www.w3.org/2000/svg" width="30"
+                        height="30"
+                        viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                        <path fill="#000000"
+                            d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z" />
+                    </svg>
+                </button>
+                <ul class="nav-menu">
+                    <li>
+                        <a href="../">Hlavní strana</a>
+                    </li>
+                    <li>
+                        <a class="active" href="./">O nás</a>
+                    </li>
+                    <li>
+                        <a href="../tydenni-nabidka/">Týdenní nabídka</a>
+                    </li>
+                    <li>
+                        <a href="../nase-pecivo/">Naše pečivo</a>
+                    </li>
+                    <li>
+                        <a href="../hledame-pekare/">Hledáme pekaře</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="info" id="info-button">
+                <svg xmlns="http://www.w3.org/2000/svg" height="30" width="7.25"
+                    viewBox="0 0 192 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                    <path fill="#000000"
+                        d="M48 80a48 48 0 1 1 96 0A48 48 0 1 1 48 80zM0 224c0-17.7 14.3-32 32-32l64 0c17.7 0 32 14.3 32 32l0 224 32 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 512c-17.7 0-32-14.3-32-32s14.3-32 32-32l32 0 0-192-32 0c-17.7 0-32-14.3-32-32z" />
+                </svg>
+            </div>
+            <div class="dialog-overlay" id="dialog-overlay">
+                <div class="dialog">
+                    <h2>Upozornění</h2>
+                    <p>Tato stránka není oficiální stránkou Antonínova pekařství.</p>
+                    <button id="close-dialog">Zavřít</button>
+                </div>
+            </div>
+        </header>
+        <div class="content-wrapper">
+            <main>
+                <div class="title-outer-wrapper">
+                    <div class="title-inner-wrapper h1-about">
+                        <h1>Naše cesta za poctivým pečivem.</h1>
+                    </div>
+                </div>
+                <div class="content-container story">
+                    <h2>Příběh naší pekárny</h2>
+                    <p class="story-inner-container">Naše pekárna se zrodila v srdci Vinohrad před více než 8 lety.
+                        Založili ji dva nadšení přátelé,
+                        kteří chtěli obnovit tradiční řemeslné pečení. Od té doby jsme vyrostli, ale naše hodnoty
+                        zůstaly stejné — poctivost, kvalita a láska k pečení.</p>
+                </div>
+                <div class="content-container team">
+                    <h2>Setkejte se s našimi mistry pekaři</h2>
+                    <p class="team-description">
+                        Náš tým tvoří zkušení pekaři, kteří své řemeslo ovládají do posledního detailu.
+                    </p>
+                    <div class="team-grid">
+                        <div class="team-member">
+                            <img src="../assets/img/o-nas/jan-novak.png" alt="Pekař Jan Novák" class="member-photo">
+                            <h3>Jan Novák</h3>
+                            <p>Specialista na křupavé bagety a tradiční české housky.</p>
+                        </div>
+
+                        <div class="team-member">
+                            <img src="../assets/img/o-nas/marie-dvorakova.png" alt="Pekařka Marie Dvořáková"
+                                class="member-photo">
+                            <h3>Marie Dvořáková</h3>
+                            <p>Expertka na sladké pečivo, jako jsou koblihy a vánočky.</p>
+                        </div>
+
+                        <div class="team-member">
+                            <img src="../assets/img/o-nas/petr-svoboda.png" alt="Pekař Petr Svoboda"
+                                class="member-photo">
+                            <h3>Petr Svoboda</h3>
+                            <p>Mistr kváskového chleba, který zraje po dobu 24 hodin.</p>
+                        </div>
+
+                        <div class="team-member">
+                            <img src="../assets/img/o-nas/anna-kralova.png" alt="Pekařka Anna Králová"
+                                class="member-photo">
+                            <h3>Anna Králová</h3>
+                            <p>Tvůrkyně sezónních specialit, jako jsou makronky a ovocné koláče.</p>
+                        </div>
+                    </div>
+                    <div class="content-container values">
+                        <h2>Naše hodnoty</h2>
+                        <div class="values-list">
+                            <div class="value-item">
+                                <div class="value-icon">🥖</div>
+                                <h3>Řemeslná kvalita</h3>
+                                <p>Každý kousek pečiva připravujeme ručně, s důrazem na detail a pečlivost.</p>
+                            </div>
+                            <div class="value-item">
+                                <div class="value-icon">🌾</div>
+                                <h3>Lokální suroviny</h3>
+                                <p>Používáme pouze čerstvé a lokální suroviny od prověřených farmářů a dodavatelů.</p>
+                            </div>
+                            <div class="value-item">
+                                <div class="value-icon">♻️</div>
+                                <h3>Udržitelnost</h3>
+                                <p>Naše pekárna dbá na minimalizaci odpadu a využívání ekologických obalů.</p>
+                            </div>
+                            <div class="value-item">
+                                <div class="value-icon">🤝</div>
+                                <h3>Komunita</h3>
+                                <p>Podporujeme místní komunitu a pravidelně se zapojujeme do charitativních akcí.</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="content-container awards shadow">
+                        <h2>Ocenění a certifikáty</h2>
+
+                        <div class="awards-list">
+                            <div class="award-item shadow">
+                                <img src="../assets/img/o-nas/champion.png" alt="Ocenění ikona" class="award-icon">
+                                <p>Jsme hrdí na to, že naše pekárna byla oceněna jako nejlepší lokální pekárna roku
+                                    2023.
+                                </p>
+                            </div>
+                            <div class="award-item shadow">
+                                <img src="../assets/img/o-nas/certificate.png" alt="Certifikát ikona"
+                                    class="award-icon">
+                                <p>Certifikát kvality potravin od České asociace pekařů.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <div class="footer-wrapper">
+                <footer>
+                    <section>
+                        <h3>Otevírací doba</h3>
+                        <div class="footer-container">
+                            <p>PONDĚLÍ - NEDĚLE<br>7:00 – 19:30</p>
+                            <p>Zajděte k nám na snídani,
+                                polévku k obědu
+                                nebo se stavte
+                                pro čerstvé pečivo
+                                cestou z práce...</p>
+                        </div>
+                    </section>
+                    <section>
+                        <div>
+                            <h3>Ozvěte se nám</h3>
+                            <div class="footer-container">
+                                <p>Informace o provozu
+                                    všech pekařství
+                                    <a href="mailto:info@antoninovopekarstvi.cz">info@antoninovopekarstvi.cz</a>
+                                    <a href="tel:+420605977291">+420 605 977 291</a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="last-footer">
+                            <h3>Jsme i na socálních sítích</h3>
+                            <ul class="footer-container">
+                                <li>
+                                    <a href="https://www.instagram.com/antoninovopekarstvi/">Instagram</a>
+                                </li>
+                                <li>
+                                    <a href="https://www.facebook.com/AntoninovoPekarstvi/">Facebook</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+                    <button id="back-to-top-button" class="back-to-top-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="15"
+                            viewBox="0 0 320 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                            <path fill="#000000"
+                                d="M318 177.5c3.8-8.8 2-19-4.6-26l-136-144C172.9 2.7 166.6 0 160 0s-12.9 2.7-17.4 7.5l-136 144c-6.6 7-8.4 17.2-4.6 26S14.4 192 24 192l72 0 0 288c0 17.7 14.3 32 32 32l64 0c17.7 0 32-14.3 32-32l0-288 72 0c9.6 0 18.2-5.7 22-14.5z" />
+                        </svg>
+                    </button>
+                    <p class="copyright">Copyright &#169; 2024 David Brablc | School project for 4IZ268 subject</p>
+                </footer>
+            </div>
+        </div>
+    </div>
+    <div id="overlay" class="overlay"></div>
+    <script type="module" src="../assets/js/main.js"></script>
+</body>
+
+</html>

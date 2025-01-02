@@ -1,0 +1,180 @@
+* {
+  font-family: "Inter SansSerif", Arial, sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+body {
+  background-color: black;
+}
+
+.pri-button,
+.sec-button {
+  border: rgba(0, 0, 0, 0) solid 1px;
+  cursor: pointer;
+  font-weight: 900;
+  font-size: 16px;
+  padding: 8px 25px;
+}
+
+a.pri-button,
+a.sec-button {
+  width: 50px;
+  text-align: center;
+  display: inline-block;
+}
+
+.pri-button:hover,
+.sec-button:hover {
+  background: linear-gradient(40deg in oklab, oklch(75% 0.3 165deg) 0%, oklch(75% 0.2 160deg) 25%, oklch(70% 0.3 165deg) 60%, oklch(65% 0.3 180deg) 100%);
+  border: white solid 1px;
+  animation: buttonAni 0.4s ease-in-out 0s 2 normal none;
+}
+
+.pri-button:active,
+.sec-button:active {
+  transform: scale(0.8);
+}
+
+.pri-button {
+  background-color: oklch(70% 0.3 165deg);
+}
+
+.sec-button {
+  background-color: aquamarine;
+}
+
+@keyframes buttonAni {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.sec-name {
+  color: white;
+  font-weight: normal;
+  font-size: 32px;
+}
+
+.bg {
+  top: -100px;
+  left: 0;
+  width: 100%;
+  height: 400px;
+  position: absolute;
+  background: black;
+  background: linear-gradient(185deg in oklab, oklch(75% 0.3 165deg) 0%, black 80% 100%);
+}
+
+main {
+  top: 150px;
+  left: 0;
+  position: absolute;
+  width: 100%;
+}
+main #logo {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
+  color: white;
+  margin-bottom: 50px;
+}
+main #logo h1 {
+  display: inline;
+  font-weight: 100;
+  color: white;
+  font-size: 128px;
+  margin-right: 20px;
+}
+main #logo h2 {
+  display: inline;
+  font-weight: 100;
+  color: white;
+  font-size: 48px;
+}
+main .box {
+  background: oklch(70% 0.3 165deg);
+  border-radius: 10px;
+  padding: 20px;
+  border: rgba(0, 0, 0, 0) solid 1px;
+  cursor: pointer;
+}
+main .box:hover {
+  background: linear-gradient(40deg in oklab, oklch(75% 0.3 165deg) 0%, oklch(75% 0.2 160deg) 25%, oklch(70% 0.3 165deg) 60%, oklch(65% 0.3 180deg) 100%);
+  border: white solid 1px;
+  animation: hoverAni 0.4s ease-in-out 0s 2 normal none;
+}
+
+@keyframes hoverAni {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.98);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@media screen and (max-width: 450px) {
+  main #logo h1 {
+    font-size: 80px;
+  }
+}
+.table-container {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  overflow-x: auto;
+}
+.table-container table {
+  color: black;
+  border-collapse: collapse;
+  width: 100%;
+}
+.table-container table td, .table-container table th {
+  border-radius: 12px;
+  background-color: oklch(70% 0.3 165deg);
+  margin: 5px;
+  border: black solid 8px;
+  padding: 10px;
+  min-width: 100px;
+  width: 200px;
+  text-align: center;
+  height: 40px;
+}
+.table-container .lecture {
+  background-color: oklch(70% 0.2 30deg);
+}
+.table-container .seminar {
+  background-color: oklch(70% 0.3 180deg);
+}
+.table-container .legend {
+  color: white;
+  margin: 10px;
+}
+.table-container .legend .legend-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+.table-container .legend p {
+  display: inline-block;
+  margin: 12px;
+}
+.table-container .pri-button,
+.table-container .sec-button {
+  margin-left: 10px;
+}
+
+/*# sourceMappingURL=style.css.map */

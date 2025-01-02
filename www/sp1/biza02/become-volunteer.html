@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Staň se dobrovolníkem v organizaci Letokruh.">
+    <title>Staň se dobrovolníkem - Letokruh</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="spinner" class="spinner"></div>
+    <header>
+        <div class="header-container">
+            <img class="imglogo_desktop" src="https://letokruh.eu/wp-content/themes/letokruh/static/media/Logo.7d85441e.svg" alt="Logo organizace Letokruh">
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="btn btn-small">Úvod</a></li>
+                    <li><a href="about/index.html" class="btn btn-small">O nás</a></li>
+                    <li><a href="events/upcoming-events.html" class="btn btn-small">Události</a></li>
+                    <li><a href="news/index.html" class="btn btn-small">Aktuality</a></li>
+                    <li><a href="contact/index.html" class="btn btn-small">Kontakt</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <section class="volunteer-form fade-in">
+            <h1 class="gradient-title">Staň se dobrovolníkem!</h1>
+            <p class="highlight-text">Chcete pomáhat a stát se součástí Letokruhu? Vyplňte tento formulář a my se vám ozveme!</p>
+            <form id="volunteerForm" class="styled-form fade-in fade-in-delay" novalidate>
+                <div class="form-group">
+                    <label for="name">Jméno a příjmení <span class="required">*</span>:</label>
+                    <input type="text" id="name" name="name" required placeholder="Vaše celé jméno">
+                    <small class="error-message">Toto pole je povinné.</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email <span class="required">*</span>:</label>
+                    <input type="email" id="email" name="email" required placeholder="např. váš@email.cz">
+                    <small class="error-message">Zadejte platnou emailovou adresu.</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Telefon:</label>
+                    <input type="tel" id="phone" name="phone" placeholder="např. +420 123 456 789">
+                    <small class="info-message">Telefon je volitelný, ale usnadní nám komunikaci.</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Proč chcete být dobrovolníkem? <span class="required">*</span>:</label>
+                    <textarea id="message" name="message" rows="5" required placeholder="Vaše motivace, zkušenosti nebo zájmy"></textarea>
+                    <small class="error-message">Toto pole je povinné.</small>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Odeslat</button>
+            </form>
+        </section>
+    </main>   
+<footer>
+    <p>&copy; 2024 Letokruh. Všechna práva vyhrazena.</p>
+    <nav>
+        <ul>
+            <li><a href="contact/index.html">Kontakt</a></li>
+            <li><a href="about/index.html">O nás</a></li>
+            <li><a href="become-volunteer.html">Staňte se dobrovolníkem</a></li>
+            <li><a href="https://letokruh.eu/wp-content/uploads/2021/06/GDPR-pro-web.pdf" target="_blank" rel="noopener noreferrer">GDPR</a></li>
+        </ul>
+    </nav>
+    <div>
+        <a href="#top">Zpět na začátek</a>
+    </div>
+</footer>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

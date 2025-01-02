@@ -1,0 +1,162 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    text-align: center;
+    padding: 20px;
+    background-color: #333;
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+header p {
+    margin-top: 5px;
+    font-size: 16px;
+    color: #ddd;
+}
+
+main {
+    flex: 1;
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+form {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+input {
+    padding: 10px;
+    font-size: 16px;
+    width: 70%;
+    border: 2px solid #ddd;
+    border-radius: 4px 0 0 4px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    background-color: #d9534f;
+    color: white;
+    cursor: pointer;
+    border-radius: 0 4px 4px 0;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #c9302c;
+}
+
+.profile {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.profile img {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    border: 2px solid #ddd;
+}
+
+.profile h2 {
+    margin-bottom: 10px;
+    font-size: 28px;
+    text-transform: uppercase;
+    color: #333;
+}
+
+.profile p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #555;
+}
+
+.profile a {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #d9534f;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.profile a:hover {
+    background-color: #c9302c;
+}
+
+.repositories {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.repositories h2 {
+    margin-bottom: 20px;
+    font-size: 22px;
+    color: #333;
+}
+
+.repository {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: background-color 0.2s;
+}
+
+.repository:hover {
+    background-color: #f1f1f1;
+}
+
+.repository a {
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #007bff;
+}
+
+.repository a:hover {
+    text-decoration: underline;
+}
+
+.repository p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #333;
+    color: white;
+    font-size: 14px;
+}

@@ -1,0 +1,307 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'IBM Plex Sans', sans-serif;
+    height: fit-content;
+    background-color: white;
+}
+
+h1,
+h2 {
+    text-transform: uppercase;
+    font-weight: 900;
+    margin: 0;
+}
+
+h4 {
+    font-weight: 500;
+}
+
+h4,
+h6,
+h5 {
+    margin: 0;
+}
+
+h6,
+h5,
+h3 {
+    font-weight: 400;
+}
+
+header {
+    width: 90vw;
+    height: 100px;
+    margin: 0 auto 0 auto;
+    /* border: 1px solid red; */
+    display: flex;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: white;
+}
+
+footer {
+    width: 90vw;
+    margin: 0 auto 0 auto;
+    height: 300px;
+    border-top: 1px solid #8b0000;
+    padding-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+footer div.footer-left {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+footer form {
+    margin-bottom: 100px;
+    border-bottom: 1px solid #8b0000;
+}
+
+footer form input[type=email] {
+    border: none;
+    width: 400px;
+    padding: 10px 10px 10px 0;
+    font-size: 1.17em;
+    /* border-bottom: 1px solid black; */
+}
+
+footer form input[type=email]:focus {
+    background-color: white;
+    outline: none;
+}
+
+footer form button[type=submit] {
+    border: none;
+    background-color: white;
+    font-weight: 400;
+    font-size: 1.7em;
+}
+
+footer form button[type=submit]:hover {
+    cursor: pointer;
+}
+
+div.logo-wrapper {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    color: #8b0000;
+    font-size: 12px;
+}
+
+header nav {
+    height: 100%;
+}
+
+nav.site-navigation>ul {
+    display: flex;
+    height: 100%;
+    gap: 20px;
+    list-style: none;
+    justify-content: end;
+    align-items: center;
+    margin: 0;
+    text-transform: lowercase;
+    padding: 0 20px 0 20px;
+}
+
+footer ul {
+    display: flex;
+    gap: 20px;
+    height: 90%;
+    flex-direction: column;
+    list-style: none;
+    align-items: center;
+    margin: 0;
+    text-transform: lowercase;
+    padding: 20px 20px 0 20px;
+}
+
+.site-navigation a,
+h1 a#author,
+footer a {
+    text-decoration: none;
+    color: black;
+    position: relative;
+    padding-bottom: 5px;
+}
+
+.site-navigation a::after,
+a.grid-item h4::after,
+a.grid-item h1::after,
+h1 a#author::after,
+footer a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    width: 0;
+    left: 0;
+    height: 1px;
+    /* Thickness of the underline */
+    background-color: #8b0000;
+    /* Underline color */
+    transition: width 0.2s ease-in-out, left 0.2s ease-in-out;
+}
+
+.site-navigation a:hover::after,
+a.grid-item:hover h4::after,
+a.grid-item:hover h1::after,
+h1 a#author:hover::after,
+footer a:hover::after {
+    cursor: pointer;
+    width: 100%;
+}
+
+a.current-page::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    height: 1px;
+    /* Thickness of the underline */
+    background-color: #8b0000;
+    /* Underline color */
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    width: 90vw;
+    margin: 0 auto 50px auto;
+}
+
+main div.heading-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 50px 0 50px 0;
+    width: 100%;
+}
+
+div.content-left,
+div.content-right {
+    flex: 1;
+    /* border: 1px solid red; */
+    height: 700px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+div.heading-wrapper h2 {
+    font-size: 48px
+}
+
+.grid-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    /* gap: 20px; */
+}
+
+.grid-wrapper .column {
+    display: flex;
+    flex-direction: column;
+    width: 33%;
+    max-width: fit-content;
+    flex-wrap: wrap;
+}
+
+.grid-item {
+    margin-bottom: 20px;
+    color: black;
+    text-decoration: none;
+    max-width: 500px;
+}
+
+a.grid-item:hover {
+    cursor: pointer;
+}
+
+a.grid-item h4,
+a.grid-item h1 {
+    position: relative;
+    padding-bottom: 3px;
+    width: fit-content;
+}
+
+a.grid-item img {
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+#detail-image,
+#detail-content {
+    flex-direction: row;
+    align-items: center;
+}
+
+.heading-wrapper#detail-wrapper img {
+    height: 100%;
+}
+
+div.main-content-wrapper h3 {
+    width: fit-content;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #8b0000;
+    margin-bottom: 10px;
+}
+
+main div.heading-wrapper #detail-content {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+main div.heading-wrapper #detail-image {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+@media screen and (max-width: 500px) {
+    header {
+        position: initial;
+    }
+
+    div#detail-image img {
+        width: 100%;
+    }
+
+    div.content-left,
+    div.content-right {
+        flex: auto;
+        height: fit-content;
+    }
+
+    .grid-wrapper .column {
+        width: 100%;
+    }
+
+    footer {
+        gap: 50px;
+        height: fit-content;
+    }
+
+    footer form {
+        margin-bottom: 0;
+    }
+
+    footer .footer-left,
+    .footer-right,
+    .footer-center {
+        width: 100%;
+    }
+
+    footer form input[type=email] {
+        width: 80%;
+    }
+}

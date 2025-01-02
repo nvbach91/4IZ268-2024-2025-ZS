@@ -1,0 +1,65 @@
+@use '../base';
+
+$green: oklch(0.7 0.3 165);
+$dark_green: oklch(0.65 0.3 165);
+$light_green: oklch(0.75 0.3 165);
+
+.table-container {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  overflow-x: auto;
+
+  table {
+    color: black;
+    border-collapse: collapse;
+    width: 100%;
+
+    td, th {
+      border-radius: 12px;
+      background-color: $green;
+      margin: 5px;
+      border: black solid 8px;
+      padding: 10px;
+      min-width: 100px;
+      width: 200px;
+      text-align: center;
+      height: 40px;
+    }
+
+    thead {
+
+    }
+
+    tbody {
+
+    }
+  }
+
+  .lecture {
+    background-color: oklch(0.7 0.2 30);
+  }
+
+  .seminar {
+    background-color: oklch(0.7 0.3 180);
+  }
+  .legend {
+    color: white;
+    margin: 10px;
+    .legend-icon {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+    }
+
+    p {
+      display: inline-block;
+      margin: 12px;
+    }
+  }
+  .pri-button,
+  .sec-button {
+    margin-left: 10px;
+  }
+}

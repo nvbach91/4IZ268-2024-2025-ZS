@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="author" content="David YoloSuicider Mikula" />
+      <meta name="description" content="About me ysdm" />
+      <meta name="keywords" content="ysdm, yolosuicider, me, my website, personal website, david, mikula" />
+
+      <link rel="icon" type="image/x-icon" href="imgs/logo.jpg" />
+      <title>YSDM</title>
+
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" />
+      <link rel="stylesheet" href="index.css" />
+      <link rel="stylesheet" href="scrollbar.css" />
+      <link rel="stylesheet" href="me.css" />
+      <link rel="stylesheet" href="contacts.css" />
+      <link rel="stylesheet" href="scrollbar.css" />
+      <link
+         rel="stylesheet"
+         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      />
+      <link rel="stylesheet" href="print.css" />
+      <script src="text.js" defer></script>
+      <script src="me.js" type="module"></script>
+   </head>
+   <body>
+      <main>
+         <nav class="custom-select">
+            <select id="lng">
+               <option value="cs">Čeština</option>
+               <option value="de">Deutsch</option>
+               <option value="en">English</option>
+            </select>
+         </nav>
+         <section id="profile">
+            <div id="overlay"></div>
+            <div id="profilePic"><img src="imgs/logo.jpg" alt="ysdm logo" /></div>
+            <div class="personalDetails" data-content="Jméno" data-text="name">Bc. David Mikula</div>
+            <div class="personalDetails" data-content="Státní příslušnost" data-text="nationality">
+               <span data-text="cr">Česká Republika</span>
+            </div>
+            <div id="age" class="personalDetails" data-content="Věk" data-text="age"></div>
+            <div id="driversLicence" class="personalDetails" data-content="Řidičský průkaz" data-text="driving_licence">
+               B
+            </div>
+            <div class="personalDetails" data-content="Jazyky" data-text="lang">
+               <div data-text="cs">Čeština</div>
+               <div id="cz" class="js-progressBar" data-percent="100"></div>
+               <div data-text="de">Němčina</div>
+               <div id="de" class="js-progressBar" data-percent="95"></div>
+               <div data-text="en">Angličtina</div>
+               <div id="en" class="js-progressBar" data-percent="95"></div>
+               <div data-text="vn">Vietnamština</div>
+               <div id="vn" class="js-progressBar" data-percent="65"></div>
+            </div>
+         </section>
+         <section id="info">
+            <nav>
+               <div id="menu">
+                  <a href="index.html"><div>🏠</div></a>
+                  <a href="education.html" class="js-active"> <div data-text="education">Vzdělání</div></a>
+                  <a href="work.html"> <div data-text="work">Zaměstnání</div></a>
+                  <a href="skills.html"> <div data-text="skills">Dovednosti</div></a>
+                  <a href="projects.html"> <div data-text="projects">Projekty</div></a>
+                  <a href="contact.html"> <div data-text="contacts">Kontakty</div></a>
+               </div>
+               <div id="popMenu">
+                  <button id="popMenuBtn">
+                     <span class="bar1"></span>
+                     <span class="bar2"></span>
+                     <span class="bar3"></span>
+                  </button>
+                  <div id="popMenuLinks">
+                     <a href="index.html"><div>🏠</div></a>
+                     <a href="education.html" class="js-active"><div data-text="education">Vzdělání</div></a>
+                     <a href="work.html"> <div data-text="work">Zaměstnání</div></a>
+                     <a href="skills.html"> <div data-text="skills">Dovednosti</div></a>
+                     <a href="projects.html"> <div data-text="projects">Projekty</div></a>
+                     <a href="contact.html"> <div data-text="contacts">Kontakty</div></a>
+                  </div>
+               </div>
+            </nav>
+            <div id="cv" class="js-showSection">
+               <div id="education">
+                  <h2 data-text="education">Vzdělání</h2>
+                  <div>
+                     <div class="school">
+                        <h3>Vysoká škola ekonomická v Praze</h3>
+                        <div class="schoolYear">2024-...</div>
+                        <div class="schoolInfo" data-text="vse_schoolInfo2">
+                           Magisterský program Znalostní a webové technologie na Fakultě informatiky a statistiky.
+                        </div>
+                     </div>
+                     <div class="school">
+                        <h3>Vysoká škola ekonomická v Praze</h3>
+                        <div class="schoolYear">2021-2024</div>
+                        <div class="schoolInfo" data-text="vse_schoolInfo">
+                           Bakalářský program Aplikovaná informatika na Fakultě informatiky a statistiky.
+                        </div>
+                     </div>
+                     <div class="school">
+                        <h3>Gymnázium Cheb, příspěvková organizace</h3>
+                        <div class="schoolYear">2017-2021</div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </section>
+      </main>
+   </body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Týdenní nabídka - Antonínovo pekařsrví</title>
+    <link rel="icon" type="image/x-icon" href="../assets/img/favicon.ico">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="main">
+        <header>
+            <nav class="nav">
+                <a href="../" id="logo-link">
+                    <img src="../assets/img/logo.png" width="120" alt="Antonínovo pekařství logo">
+                </a>
+                <button id="nav-toggle" class="nav-toggle"><svg xmlns="http://www.w3.org/2000/svg" width="30"
+                        height="30"
+                        viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                        <path fill="#000000"
+                            d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z" />
+                    </svg>
+                </button>
+                <ul class="nav-menu">
+                    <li>
+                        <a href="../">Hlavní strana</a>
+                    </li>
+                    <li>
+                        <a href="../o-autoninove-pekarstvi/">O nás</a>
+                    </li>
+                    <li>
+                        <a class="active" href="./">Týdenní nabídka</a>
+                    </li>
+                    <li>
+                        <a href="../nase-pecivo/">Naše pečivo</a>
+                    </li>
+                    <li>
+                        <a href="../hledame-pekare/">Hledáme pekaře</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="info" id="info-button">
+                <svg xmlns="http://www.w3.org/2000/svg" height="30" width="7.25"
+                    viewBox="0 0 192 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                    <path fill="#000000"
+                        d="M48 80a48 48 0 1 1 96 0A48 48 0 1 1 48 80zM0 224c0-17.7 14.3-32 32-32l64 0c17.7 0 32 14.3 32 32l0 224 32 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 512c-17.7 0-32-14.3-32-32s14.3-32 32-32l32 0 0-192-32 0c-17.7 0-32-14.3-32-32z" />
+                </svg>
+            </div>
+            <div class="dialog-overlay" id="dialog-overlay">
+                <div class="dialog">
+                    <h2>Upozornění</h2>
+                    <p>Tato stránka není oficiální stránkou Antonínova pekařství.</p>
+                    <button id="close-dialog">Zavřít</button>
+                </div>
+            </div>
+        </header>
+        <div class="content-wrapper">
+
+            <main>
+                <div class="title-outer-wrapper">
+                    <div class="title-inner-wrapper h1-offers">
+                        <h1>Týdenní nabídka</h1>
+                    </div>
+                </div>
+
+                <div class="content-container story">
+                    <h2>Naše týdenní nabídka</h2>
+                    <p class="offers-inner-container">Každý týden pro vás připravujeme mimo pečiva i teplé polévky,
+                        které odpovídají aktuálním
+                        sezónním trendům a našim
+                        kvalitním řemeslným standardům. Přijďte ochutnat naše nové a oblíbené polévky – pro tento týden
+                        jsme pro vás připravili...</p>
+                </div>
+                <div class="soups">
+                    <div class="soup-list">
+                        <section class="soup-item">
+                            <div class="soup-description">
+                                <h3>Krémová dýňová polévka</h3>
+                                <p>Naše krémová dýňová polévka je ideální volbou na podzim.
+                                    Vyrobená z čerstvých dýní a ochucená špetkou muškátového oříšku.</p>
+                                <p class="soup-price">Cena: 75 Kč</p>
+                            </div>
+                            <img src="../assets/img/tydenni-nabidka/pumpkin-soup.png" alt="">
+                        </section>
+
+                        <section class="soup-item">
+                            <div class="soup-description">
+                                <h3>Polévka z čerstvých rajčat</h3>
+                                <p class="soup-description">Lehká, svěží polévka s čerstvými rajčaty, bazalkou a trochou
+                                    česneku. Skvělá volba pro teplé podzimní dny.</p>
+                                <p class="soup-price">Cena: 70 Kč</p>
+                            </div>
+                            <img src="../assets/img/tydenni-nabidka/tomato-soup.png" alt="">
+                        </section>
+
+                        <section class="soup-item">
+                            <div class="soup-description">
+                                <h3>Kuřecí vývar s nudlemi</h3>
+                                <p class="soup-description">Tradiční kuřecí vývar s domácími nudlemi a čerstvými
+                                    bylinkami. Ideální pro zahřátí při chladném počasí.</p>
+                                <p class="soup-price">Cena: 80 Kč</p>
+                            </div>
+                            <img src="../assets/img/tydenni-nabidka/chicken-soup.png" alt="">
+                        </section>
+
+                        <section class="soup-item">
+                            <div class="soup-description">
+                                <h3>Hrachová polévka</h3>
+                                <p class="soup-description">Výživná a chutná hrachová polévka s kousky uzeného masa a
+                                    čerstvě opečeným chlebem.</p>
+                                <p class="soup-price">Cena: 75 Kč</p>
+                            </div>
+                            <img src="../assets/img/tydenni-nabidka/pea-soup.png" alt="">
+                        </section>
+                    </div>
+
+                </div>
+            </main>
+            <div class="footer-wrapper">
+                <footer>
+                    <section>
+                        <h3>Otevírací doba</h3>
+                        <div class="footer-container">
+                            <p>PONDĚLÍ - NEDĚLE<br>7:00 – 19:30</p>
+                            <p>Zajděte k nám na snídani,
+                                polévku k obědu
+                                nebo se stavte
+                                pro čerstvé pečivo
+                                cestou z práce...</p>
+                        </div>
+                    </section>
+                    <section>
+                        <div>
+                            <h3>Ozvěte se nám</h3>
+                            <div class="footer-container">
+                                <p>Informace o provozu
+                                    všech pekařství
+                                    <a href="mailto:info@antoninovopekarstvi.cz">info@antoninovopekarstvi.cz</a>
+                                    <a href="tel:+420605977291">+420 605 977 291</a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="last-footer">
+                            <h3>Jsme i na socálních sítích</h3>
+                            <ul class="footer-container">
+                                <li>
+                                    <a href="https://www.instagram.com/antoninovopekarstvi/">Instagram</a>
+                                </li>
+                                <li>
+                                    <a href="https://www.facebook.com/AntoninovoPekarstvi/">Facebook</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+                    <button id="back-to-top-button" class="back-to-top-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="15"
+                            viewBox="0 0 320 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                            <path fill="#000000"
+                                d="M318 177.5c3.8-8.8 2-19-4.6-26l-136-144C172.9 2.7 166.6 0 160 0s-12.9 2.7-17.4 7.5l-136 144c-6.6 7-8.4 17.2-4.6 26S14.4 192 24 192l72 0 0 288c0 17.7 14.3 32 32 32l64 0c17.7 0 32-14.3 32-32l0-288 72 0c9.6 0 18.2-5.7 22-14.5z" />
+                        </svg>
+                    </button>
+                    <p class="copyright">Copyright &#169; 2024 David Brablc | School project for 4IZ268 subject</p>
+                </footer>
+            </div>
+        </div>
+    </div>
+    <div id="overlay" class="overlay"></div>
+    <script type="module" src="../assets/js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,143 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+}
+
+html,body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    background-color: rgb(158, 234, 255);
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    align-items: center;
+}
+
+footer {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-evenly;
+    background-color: black;
+    padding: 20px;
+    width: 100%;
+    color: rgb(158, 234, 255);
+}
+
+h1 {
+    text-align: center;
+    background-color: black;
+    padding: 20px;
+    color: rgb(158, 234, 255);
+    width: 100%;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    min-height: auto;
+}
+
+.container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    width: 100%;
+}
+#userName {
+    width: 100%;
+    border: none;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: black;
+    color: white;
+}
+
+input:focus {
+    outline: none;
+    border: none;
+}
+
+#input-button {
+    cursor: pointer;
+    margin-top:20px;
+    margin-bottom: 20px;
+    border:none;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: black;
+    color:rgb(158, 234, 255);
+    transition: 1s;
+}
+
+
+
+h2{
+    background-color: black;
+    border:none;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: black;
+    color:rgb(158, 234, 255);
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#user-profile {
+    width: 100%;
+}
+#user-profile p{
+    padding: 10px;
+    border-radius: 10px;
+    background-color: black;
+    color:rgb(158, 234, 255);
+    text-align: center;
+}
+
+.info {
+    list-style: none;
+    padding-left: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.info img {
+    border-radius: 50%;
+    width: 20%;
+    margin-bottom: 20px;
+}
+
+.info li {
+    width: 100%;
+    background-color: black;
+    color: rgb(158, 234, 255);
+    margin-bottom: 10px;
+    text-align: center;
+    border: none;
+    padding:5px;
+    border-radius: 10px;
+}
+
+.repo {
+    padding: 5px;
+    border: 2px solid black;
+    text-align: center;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    border-radius: 10px;
+    word-wrap: break-word;
+}
+
+.repo a {
+    text-decoration: none;
+}

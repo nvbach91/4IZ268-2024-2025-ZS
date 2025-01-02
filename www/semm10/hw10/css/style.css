@@ -1,0 +1,207 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    padding: 0;
+    background-color: rgb(30, 34, 45);
+    color: rgb(220, 220, 220);
+    font-family: "Roboto", sans-serif;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+    margin: 0 auto;
+    max-width: 1200px;
+    height: 100dvh;
+    font-size: 1.5rem;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 60px;
+    font-size: 4rem;
+    color: rgb(245, 203, 92);
+    font-family: "Merriweather", serif;
+}
+
+form {
+    display: flex;
+    justify-content: center;
+}
+
+form div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    max-width: 800px;
+    width: 100%;
+}
+
+input,
+button,
+a {
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    outline: none;
+    box-shadow: none;
+    text-decoration: none;
+}
+
+input {
+    padding: 10px;
+    margin: 5px;
+    font-size: 16px;
+    border-radius: 3px;
+    background-color: aliceblue;
+}
+
+input:focus {
+    border-color: rgb(92, 203, 245);
+}
+
+button {
+    cursor: pointer;
+    flex-grow: 0;
+    background-color: rgb(66, 135, 245);
+    color: white;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-family: "Roboto", sans-serif;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: rgb(92, 203, 245);
+    color: rgb(30, 34, 45);
+}
+
+#user-profile {
+    text-align: center;
+    margin-top: 40px;
+}
+
+#user-profile .user-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+#user-profile img {
+    border-radius: 100%;
+    border: 3px solid rgb(245, 203, 92);
+}
+
+#user-profile table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+#user-profile th {
+    text-align: left;
+    color: rgb(245, 203, 92);
+}
+
+#user-profile tr {
+    height: 40px;
+    background-color: rgb(40, 40, 50);
+}
+
+#user-profile td {
+    text-align: right;
+    padding: 5px;
+}
+
+#user-profile button {
+    background-color: rgb(245, 203, 92);
+    border-radius: 5px;
+    width: 100%;
+    margin-top: 20px;
+    color: rgb(30, 34, 45);
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+#user-profile button:hover {
+    background-color: rgb(255, 223, 113);
+}
+
+#user-profile a {
+    padding: 5px;
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.repo-wrapper {
+    margin: 0 auto 40px;
+    width: 100%;
+}
+
+.repositories .title {
+    width: 100%;
+    margin-top: 40px;
+    color: rgb(92, 203, 245);
+}
+
+.repositories a {
+    cursor: pointer;
+    color: rgb(245, 203, 92);
+    transition: color 0.3s;
+}
+
+.repositories a:hover {
+    text-decoration: underline;
+    color: rgb(92, 203, 245);
+}
+
+.repositories h2,
+.repositories h3,
+.repositories p {
+    margin: 0;
+}
+
+.repositories .repository {
+    border-radius: 10px;
+    margin-top: 10px;
+    background-color: rgb(50, 50, 65);
+    padding: 15px 25px;
+    margin-bottom: 15px;
+    color: rgb(220, 220, 220);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.repositories .repository:hover {
+    transform: translateY(-5px);
+    background-color: rgb(60, 60, 75);
+}
+
+@media (min-width: 400px) {
+    input {
+        max-width: 600px;
+    }
+
+    .user-box table,
+    .user-box button {
+        max-width: 600px;
+    }
+
+    .repo-wrapper {
+        max-width: 800px;
+    }
+}
+
+@media (max-width: 1228px) {
+    body {
+        margin: 0 20px;
+    }
+}

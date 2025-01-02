@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="author" content="David YoloSuicider Mikula" />
+      <meta name="description" content="About me ysdm" />
+      <meta name="keywords" content="ysdm, yolosuicider, me, my website, personal website, david, mikula" />
+
+      <link rel="icon" type="image/x-icon" href="imgs/logo.jpg" />
+      <title>YSDM</title>
+
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" />
+      <link rel="stylesheet" href="index.css" />
+      <link rel="stylesheet" href="scrollbar.css" />
+      <link rel="stylesheet" href="me.css" />
+      <link rel="stylesheet" href="contacts.css" />
+      <link rel="stylesheet" href="scrollbar.css" />
+      <link
+         rel="stylesheet"
+         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      />
+      <link rel="stylesheet" href="print.css" />
+      <script src="text.js" defer></script>
+      <script src="me.js" type="module"></script>
+   </head>
+   <body>
+      <main>
+         <nav class="custom-select">
+            <select id="lng">
+               <option value="cs">Čeština</option>
+               <option value="de">Deutsch</option>
+               <option value="en">English</option>
+            </select>
+         </nav>
+         <section id="profile">
+            <div id="overlay"></div>
+            <div id="profilePic"><img src="imgs/logo.jpg" alt="ysdm logo" /></div>
+            <div class="personalDetails" data-content="Jméno" data-text="name">Bc. David Mikula</div>
+            <div class="personalDetails" data-content="Státní příslušnost" data-text="nationality">
+               <span data-text="cr">Česká Republika</span>
+            </div>
+            <div id="age" class="personalDetails" data-content="Věk" data-text="age"></div>
+            <div id="driversLicence" class="personalDetails" data-content="Řidičský průkaz" data-text="driving_licence">
+               B
+            </div>
+            <div class="personalDetails" data-content="Jazyky" data-text="lang">
+               <div data-text="cs">Čeština</div>
+               <div id="cz" class="js-progressBar" data-percent="100"></div>
+               <div data-text="de">Němčina</div>
+               <div id="de" class="js-progressBar" data-percent="95"></div>
+               <div data-text="en">Angličtina</div>
+               <div id="en" class="js-progressBar" data-percent="95"></div>
+               <div data-text="vn">Vietnamština</div>
+               <div id="vn" class="js-progressBar" data-percent="65"></div>
+            </div>
+         </section>
+         <section id="info">
+            <nav>
+               <div id="menu">
+                  <a href="index.html"><div>🏠</div></a>
+                  <a href="education.html"> <div data-text="education">Vzdělání</div></a>
+                  <a href="work.html" class="js-active"> <div data-text="work">Zaměstnání</div></a>
+                  <a href="skills.html"> <div data-text="skills">Dovednosti</div></a>
+                  <a href="projects.html"> <div data-text="projects">Projekty</div></a>
+                  <a href="contact.html"> <div data-text="contacts">Kontakty</div></a>
+               </div>
+               <div id="popMenu">
+                  <button id="popMenuBtn">
+                     <span class="bar1"></span>
+                     <span class="bar2"></span>
+                     <span class="bar3"></span>
+                  </button>
+                  <div id="popMenuLinks">
+                     <a href="index.html"><div>🏠</div></a>
+                     <a href="education.html"><div data-text="education">Vzdělání</div></a>
+                     <a href="work.html" class="js-active"> <div data-text="work">Zaměstnání</div></a>
+                     <a href="skills.html"> <div data-text="skills">Dovednosti</div></a>
+                     <a href="projects.html"> <div data-text="projects">Projekty</div></a>
+                     <a href="contact.html"> <div data-text="contacts">Kontakty</div></a>
+                  </div>
+               </div>
+            </nav>
+            <div id="cv" class="js-showSection">
+               <div id="work">
+                  <h2 data-text="work">Zaměstnání</h2>
+                  <div>
+                     <span data-text="searching">Hledám</span>
+                     <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        x="0px"
+                        y="0px"
+                        width="20"
+                        height="20"
+                        fill="white"
+                        viewBox="0 0 50 50"
+                     >
+                        <path
+                           d="M 21 3 C 11.621094 3 4 10.621094 4 20 C 4 29.378906 11.621094 37 21 37 C 24.710938 37 28.140625 35.804688 30.9375 33.78125 L 44.09375 46.90625 L 46.90625 44.09375 L 33.90625 31.0625 C 36.460938 28.085938 38 24.222656 38 20 C 38 10.621094 30.378906 3 21 3 Z M 21 5 C 29.296875 5 36 11.703125 36 20 C 36 28.296875 29.296875 35 21 35 C 12.703125 35 6 28.296875 6 20 C 6 11.703125 12.703125 5 21 5 Z"
+                        ></path>
+                     </svg>
+                  </div>
+               </div>
+            </div>
+         </section>
+      </main>
+   </body>
+</html>
