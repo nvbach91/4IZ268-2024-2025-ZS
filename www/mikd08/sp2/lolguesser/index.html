@@ -5,23 +5,23 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>LoLGuesser</title>
 
-      <link rel="stylesheet" href="index.css" />
-      <link rel="stylesheet" href="/me/scrollbar.css">
+      <link rel="stylesheet" href="css/index.css" />
 
       <link rel="icon" type="image/x-icon" href="ysdm_icon.jpg">
 
-      <script src="index.js" defer></script>
+      <script src="js/index.js" defer></script>
    </head>
    <body>
       <img
-         src="ysdm_icon.jpg"
+         src="img/ysdm_icon.jpg"
          id="trademark"
-         alt=""
+         alt="ysdm logo"
          style="width: 50px; height: 50px; position: absolute; top: 0; left: 0"
       />
 
       <div id="lolguesser">
-         <img id="splashArt" src="" alt="" />
+
+         <img id="splashArt" src="" alt="splashArt" />
 
          <div>
             Streak: <span id="streakCount"></span>
@@ -36,12 +36,21 @@
             <div id="form">
                <input type="text" name="guess" id="guess" autocomplete="off"/>
                <div id="champList"></div>
-               <button type="submit" onclick="checkAnswer()" id="guessBtn" class="button-85" role="button">Guess</button>
+               <button type="submit" id="guessBtn" class="button-85" role="button">Guess</button>
             </div>
             <p id="error"></p>
          </div>
    
-         <button id="random" onclick="random()" class="button-85" role="button">Random</button>
+         <button id="random" class="button-85" role="button">Random</button>
+
+         <div id="guessedListContainer">
+            <h2>Guessed List</h2>
+            <div style="margin-left: 10px;">
+               <button id="clear" class="button-85" role="button">Clear</button>
+            </div>
+            <div id="guessedList">
+            </div>
+         </div>
       </div>
       <div id="randomPick" class="displayNone">
          <div></div>
