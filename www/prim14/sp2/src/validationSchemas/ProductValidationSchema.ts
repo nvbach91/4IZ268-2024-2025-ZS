@@ -3,6 +3,7 @@ import * as Yup from "yup";
 const productValidationSchema = Yup.object().shape({
   name: Yup.string()
     .max(255, "Název je příliš dlouhý")
+    .trim()
     .required("Zadejte název produktu"),
   price: Yup.number()
     .typeError("Cena musí být číslo")

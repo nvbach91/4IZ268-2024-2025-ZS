@@ -26,12 +26,16 @@ import {
   getProductById,
   updateProduct,
 } from "@/services/productsService";
+import { Spinner } from "../shared/spinner";
 
 export default function AdminProductContent() {
   const searchParams = useSearchParams();
 
   const [title, setTitle] = useState("");
   const [product, setProduct] = useState<IProduct>();
+  const [loading, setIsLoading] = useState(
+    searchParams.get("id") ? true : false
+  );
 
   const router = useRouter();
   const { sendRequest, sendAuditableRequest } = useFetch();
@@ -51,7 +55,7 @@ export default function AdminProductContent() {
 
     const res = await sendAuditableRequest(request, values);
     if (res.success) {
-      router.push("../");
+      router.push("/admin");
     }
   };
 
@@ -67,6 +71,7 @@ export default function AdminProductContent() {
         condition: res.data.condition,
       });
       setTitle(`Úprava produktu ${res.data.name}`);
+      setIsLoading(false);
     }
   };
 
@@ -78,6 +83,10 @@ export default function AdminProductContent() {
       setTitle("Nový produkt");
     }
   }, [searchParams, conditions, availabilities]);
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <div className="admin-product">

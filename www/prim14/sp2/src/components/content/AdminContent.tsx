@@ -44,7 +44,7 @@ export default function AdminContent() {
   return (
     <div className="admin-overview">
       <div className="w-full flex justify-end">
-        <Button onClick={() => router.push("?isProductForm=1")}>
+        <Button onClick={() => router.push("/admin/product")}>
           Přidat produkt
         </Button>
       </div>
@@ -65,7 +65,7 @@ export default function AdminContent() {
                   <TableCell className="flex gap-2 justify-end">
                     <Button
                       onClick={() =>
-                        router.push("?isProductForm=1&id=" + product._id)
+                        router.push("/admin/product?id=" + product._id)
                       }
                     >
                       <FaEdit />

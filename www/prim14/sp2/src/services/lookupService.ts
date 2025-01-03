@@ -7,13 +7,17 @@ const path = "/lookup";
 export const getAvailabilityLookups = async () => {
   return await fetchAuthorized<ApiResponse<ILookup[]>>(
     "GET",
-    `${path}?type=availability`
+    `${path}?type=availability`,
+    undefined,
+    true
   );
 };
 
 export const getConditionLookups = async () => {
   return await fetchAuthorized<ApiResponse<ILookup[]>>(
     "GET",
-    `${path}?type=condition`
+    `${path}?type=condition`,
+    undefined,
+    true
   );
 };

@@ -5,6 +5,7 @@ import ILookup from "@/models/ILookup";
 import { Skeleton } from "../ui/skeleton";
 import Image from "next/image";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
+import "./productsContent.css";
 
 export default function SingleProductContent({
   availabilities,

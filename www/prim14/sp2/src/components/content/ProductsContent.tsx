@@ -40,7 +40,7 @@ export default function ProductsContent({
   };
 
   const handleDisplayProductDetail = (id: string) => {
-    router.push(`?productId=${id}`);
+    router.push(`./product?productId=${id}`);
   };
 
   return (
