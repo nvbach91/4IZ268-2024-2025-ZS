@@ -12,6 +12,7 @@ var nextDeck = parseInt(localStorage.getItem('next')) || 1;
 var cardData = JSON.parse(localStorage.getItem('cardData')) || {};
 var searchStatus = null;
 var currentCard = null;
+var currentDeck = null;
 
 
 const createSpinner = () => {
@@ -28,8 +29,12 @@ const update = () => {
     localStorage.setItem('decks', JSON.stringify(decks));
     localStorage.setItem('cardData', JSON.stringify(cardData));
     if (searchStatus !== null && searchStatus !== 's') {
-        displayDeck(searchStatus);
-    }
+        if (searchStatus==='p'){
+            previewDeck(currentDeck);
+        }else {
+            displayDeck(searchStatus);
+        }
+    } 
     displayDecks();
     if (currentCard !== null) {
         displayCard();
@@ -167,7 +172,7 @@ const displayDeck = (deckId) => {
             moveDown = 'disabled';
         }
         html += `<div id="${card.id}">
-                    <button class="selected-card default-button" data-id="${card.id}">${card.name} <img src="${card.imageUrl}"></button>
+                    <button class="selected-card default-button" data-id="${card.id}">${card.name} <img src="${card.imageUrl}" alt="${card.name}"></button>
                     <div class="card-buttons" id="${card.id}-delete">
                         <button class="selected-card-delete" data-id="${card.id}">Remove from deck</button>
                         <button class="move-upwards ${moveUp}" data-id="${card.id}">upwards</button>
@@ -236,10 +241,29 @@ deckMenu.on('click', '#new-deck', (e) => {
     update();
 });
 
+deckMenu.on('click', '.preview-button', (e) => {
+    e.preventDefault();
+    const deckId = $(e.target).data('id');
+    currentDeck=deckId;
+    previewDeck(deckId);
+});
+
+const previewDeck = (deckId) => {
+    searchStatus='p';
+    const cards = decks[deckId].content;
+    var cardHtml = ``;
+    cards.forEach(cardId =>{
+        const card = cardData[cardId];
+        cardHtml += `<img src="${card.imageUrl}" title="${card.name}" alt="${card.name}">`
+    })
+    const html = `<div class="deck-preview">${cardHtml}</div>`
+    searchContainer.empty().append(html);
+}
+
 const displayDecks = () => {
     var html = ``;
     decks.forEach((deck, index) => {
-        html += `<button class="deck-display default-button" data-id="${index}"> ${deck.name} / cards: ${deck.content.length} </button>`;
+        html += `<div class="deck-item"><button class="deck-display" data-id="${index}"> ${deck.name} / cards: ${deck.content.length} </button><button class="preview-button" data-id="${index}">Preview</button></div>`;
     });
 
     html += `<button id="new-deck" class="default-button">Create new deck</button>`;
@@ -270,8 +294,8 @@ const displayCard = async () => {
     displayContainer.empty().append(`<h2>${card.name}</h2>
         <img src="${card.imageUrl}" alt="${card.name}">
         <div class="card-info">
-            <p>Quote: ${card.flavor}</p>
-            <p>Description: ${card.text}</p>
+            <p>Quote: ${card.flavor||"Not available"}</p>
+            <p>Description: ${card.text||"Not available"}</p>
     </div>
     <div id="deck-status">Add or remove from deck</div>
     <p>Add to deck</p><div>${notInDeck}</div>
@@ -298,7 +322,11 @@ const checkImage = async (card) => {
 
 cardInput.on('submit', async (e) => {
     e.preventDefault();
-    const cardName = cardInput.find('input').val();
+    var cardName = cardInput.find('input').val();
+    cardName = cardName.trim();
+    if (cardName===""){
+        return;
+    }
     createSpinner();
     try {
         const data = await fetchCard(cardName);
@@ -328,8 +356,7 @@ const displaySearch = (cards) => {
     cards.forEach(card => {
         cardStorage[card.id] = card;
     });
-    const cards_html = cards.map(card => `<div><button class="searched-card default-button" data-id="${card.id}">${card.name}</button></div>`).join('');
-
+    const cards_html = cards.map(card => `<div><button class="searched-card default-button" data-id="${card.id}">${card.name} | ${card.type}</button></div>`).join('');
     const html = `<p class="search-info">Number of cards found: ${cards.length}</p><div>${cards_html}</div>`;
     searchContainer.empty().append(html);
 };

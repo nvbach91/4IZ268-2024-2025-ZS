@@ -19,6 +19,10 @@ img {
     object-fit: cover;
 }
 
+.selected-card img {
+    pointer-events: none;
+}
+
 p {
     word-wrap: break-word;
     overflow-wrap: break-word;
@@ -107,6 +111,11 @@ header form {
     width: 18%;
     max-width: 18%;
     margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
     background-color: black;
     padding: 10px;
     border: none;
@@ -133,6 +142,37 @@ header form {
     width: 100%;
     text-overflow: ellipsis;
     margin: 5px 0;
+}
+
+.deck-item {
+    width: 100%;
+    height: 50px;
+    margin-top: 10px;
+}
+
+.deck-item button {
+    background-color: rgb(170, 170, 170);
+    border: 2px solid black;
+    border-radius: 5px;
+    transition: 1s;
+}
+
+.deck-item button:hover {
+    background-color: rgba(255, 50, 50, 0.5);
+}
+
+.deck-display {
+    width: 60%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.preview-button {
+    width: 40%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 .default-button:hover {
@@ -206,8 +246,8 @@ img {
     margin-top: 10px;
     margin-bottom: 10px;
     background-color: rgb(170, 170, 170);
-    border: 2px solid red;
-    color: red;
+    border: 2px solid rgb(161, 0, 0);
+    color: rgb(161, 0, 0);
     border-radius: 5px;
     padding: 5px;
     cursor: pointer;
@@ -215,6 +255,7 @@ img {
 }
 
 #delete-button:hover {
+    border-color: red;
     background-color: red;
     color: black;
 }
@@ -274,13 +315,14 @@ img {
 
 .selected-card-delete {
     background-color: rgb(170, 170, 170);
-    border: 2px solid red;
-    color: red;
+    border: 2px solid rgb(161, 0, 0);
+    color: rgb(161, 0, 0);
     border-radius: 5px;
     transition: 1s;
 }
 
 .selected-card-delete:hover {
+    border-color: red;
     background-color: red;
     color: black;
 }
@@ -312,6 +354,18 @@ img {
 
 .remove-card-from-deck p {
     width: 100%;
+}
+
+.deck-preview {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 0;
+}
+
+.deck-preview img {
+    width: 20%;
+    margin: 0;
 }
 
 
