@@ -1,0 +1,43 @@
+body {
+    margin: 0;
+    padding: 50px;
+    color: rgba(255, 255, 255, 0.87);
+    background-color: #1c172e;
+}
+
+#app {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#app #phaser-container {
+    flex: 3;
+    align-items: bottom;
+}
+
+#app .input {
+    max-height: 30px;
+    margin: 10px;
+}
+
+#app div {
+    flex: 1;
+}
+
+#resetScoreboard {
+    margin: 40px;
+    background-color: purple;
+    color: white;
+    width: 150px;
+    height: 40px;
+    border: white 1px solid;
+}
+
+#resetScoreboard:hover {
+    background-color: violet;
+    color: black;
+    border: none;
+}
