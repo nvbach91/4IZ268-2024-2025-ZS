@@ -1,21 +1,24 @@
 <!doctype html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/png" href="/favicon.png" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Phaser - Template</title>
+        <link rel="stylesheet" href="/style.css" />
+    </head>
 
-<head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Phaser - PONG</title>
-    <link rel="stylesheet" href="/style.css">
-</head>
-
-<body>
-    <div id="app">
-        <div id="phaser-container">
-            
+    <body>
+        <div id="app">
+            <div id="phaser-container"></div>
+            <div class="input" id="nicknameContainer">
+                <label
+                    >Enter your nickname here:
+                    <input id="nickname" type="text" maxlength="10" />
+                </label>
+            </div>
+            <div class="scoreboard" id="scoreboard"><h3>SCOREBOARD</h3></div>
         </div>
-    </div>
-    <script type="module" src="/src/main.js"></script>
-</body>
-
+        <script type="module" src="/src/main.js"></script>
+    </body>
 </html>
