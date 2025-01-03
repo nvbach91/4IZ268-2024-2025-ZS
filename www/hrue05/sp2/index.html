@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="icon" href="./img/magic_logo.svg">
+    <meta name="keywords" content="gathering, arena, card game, mtg, magic the gathering">
+    <meta name="author" content="Hrubošová Eliška">
+    <meta name="description" content="An app that helps you build MTG decks.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Economica:ital,wght@0,400;0,700;1,400;1,700&family=Red+Rose:wght@300..700&family=Tiny5&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <form id="card-request">
+            <input id="card-input" name="cardName" type="text" required placeholder="Enter a card name">
+            <button type="submit" id="card-button">Gather!</button>
+        </form>
+    </header>
+
+    <div class="work-space">
+        <div id="deck-menu"></div>
+        <div id="search-container"></div>
+        <div id="display-container"></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.slim.min.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,381 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Red Rose';
+    margin: 0;
+}
+
+
+body {
+    background-color: rgb(170, 170, 170);
+    overflow: hidden;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+}
+
+img {
+    width: 200px;
+    height: 300px;
+    object-fit: cover;
+}
+
+.selected-card img {
+    pointer-events: none;
+}
+
+p {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+button {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    cursor: pointer;
+}
+
+
+header {
+    display: flex;
+    width: 100%;
+    height: 60px;
+    background-color: black;
+    padding: 10px;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 10px;
+}
+
+#decks-button {
+    width: 50%;
+    border: 2px solid rgb(170, 170, 170);
+    border-radius: 5px;
+    color: white;
+    background-color: black;
+    padding: 5px;
+    cursor: pointer;
+    transition: 1s;
+}
+
+header form {
+    display: flex;
+    width: 50%;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+#card-request input {
+    width: 70%;
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+#card-request button {
+    width: 30%;
+    background-color: white;
+    border: 2px solid rgb(170, 170, 170);
+    border-radius: 5px;
+    color: white;
+    background-color: black;
+    padding: 5px;
+    cursor: pointer;
+    transition: 1s;
+}
+
+#decks-button:hover,
+#card-request button:hover {
+    background-color: rgb(192, 32, 32);
+}
+
+.work-space {
+    display: flex;
+    flex: 1;
+    justify-content: space-around;
+    overflow: hidden;
+}
+
+#search-container,
+#display-container {
+    width: 38%;
+    margin-top: 10px;
+    background-color: rgb(170, 170, 170);
+    padding: 10px;
+    border: 5px solid black;
+    border-radius: 5px;
+    overflow-y: auto;
+    height: calc(100% - 20px);
+}
+
+#deck-menu {
+    width: 18%;
+    max-width: 18%;
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    background-color: black;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    overflow-y: auto;
+    height: calc(100% - 20px);
+}
+
+.search-info {
+    color: black;
+    text-align: center;
+}
+
+.default-button {
+    max-width: 100%;
+    color: black;
+    background-color: rgb(170, 170, 170);
+    border: 2px solid black;
+    border-radius: 5px;
+    margin: 2px;
+    transition: 1s;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    text-overflow: ellipsis;
+    margin: 5px 0;
+}
+
+.deck-item {
+    width: 100%;
+    height: 50px;
+    margin-top: 10px;
+}
+
+.deck-item button {
+    background-color: rgb(170, 170, 170);
+    border: 2px solid black;
+    border-radius: 5px;
+    transition: 1s;
+}
+
+.deck-item button:hover {
+    background-color: rgba(255, 50, 50, 0.5);
+}
+
+.deck-display {
+    width: 60%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.preview-button {
+    width: 40%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.default-button:hover {
+    background-color: rgba(255, 50, 50, 0.5);
+
+}
+
+h2 {
+    width: 100%;
+    text-align: center;
+    color: black;
+}
+
+img {
+    display: block;
+    margin: 10px auto;
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.card-info {
+    color: black;
+    width: 70%;
+    margin: 10px auto;
+}
+
+.card-info p {
+    padding: 10px;
+    margin: 10px;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+.yes-no {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.yes-no button {
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+#yes-remove,
+#yes-delete-deck {
+    background-color: greenyellow;
+}
+
+#no-remove,
+#no-delete-deck {
+    background-color: red;
+}
+
+#deck-status {
+    text-align: center;
+}
+
+#search-container p {
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+#delete-button {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: rgb(170, 170, 170);
+    border: 2px solid rgb(161, 0, 0);
+    color: rgb(161, 0, 0);
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    transition: 1s;
+}
+
+#delete-button:hover {
+    border-color: red;
+    background-color: red;
+    color: black;
+}
+
+.spinner {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background-image: url(../img/magic_logo.svg);
+    background-position: center;
+    background-size: cover;
+    animation: spinning 1s ease infinite;
+    position: fixed;
+    top: 40%;
+    left: 40%;
+}
+
+#rename-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+#deck-rename-form {
+    display: flex;
+    justify-content: space-around;
+    width: 68%;
+}
+
+#deck-name-input {
+    width: 58%;
+    border: none;
+    border-radius: 2px;
+}
+
+#deck-rename-button {
+    width: 38%;
+    border: none;
+    border-radius: 2px;
+    background-color: greenyellow;
+}
+
+#cancel-rename {
+    width: 28%;
+    border: none;
+    border-radius: 2px;
+    background-color: red;
+}
+
+.card-buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
+.card-buttons button {
+    width: 32%;
+}
+
+.selected-card-delete {
+    background-color: rgb(170, 170, 170);
+    border: 2px solid rgb(161, 0, 0);
+    color: rgb(161, 0, 0);
+    border-radius: 5px;
+    transition: 1s;
+}
+
+.selected-card-delete:hover {
+    border-color: red;
+    background-color: red;
+    color: black;
+}
+
+.move-upwards,
+.move-downwards {
+    background-color: rgb(170, 170, 170);
+    border: 2px solid black;
+    color: black;
+    border-radius: 5px;
+    transition: 1s;
+
+}
+
+.move-upwards:hover,
+.move-downwards:hover {
+    background-color: rgba(255, 50, 50, 0.5);
+}
+
+.disabled {
+    display: none;
+}
+
+.remove-card-from-deck {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.remove-card-from-deck p {
+    width: 100%;
+}
+
+.deck-preview {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 0;
+}
+
+.deck-preview img {
+    width: 20%;
+    margin: 0;
+}
+
+
+
+@keyframes spinning {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
