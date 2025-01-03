@@ -1,14 +1,12 @@
 body {
     margin: 0;
-    padding: 0;
+    padding: 50px;
     color: rgba(255, 255, 255, 0.87);
     background-color: #1c172e;
 }
 
 #app {
     width: 100%;
-    height: 100vh;
-    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,4 +25,19 @@ body {
 
 #app div {
     flex: 1;
+}
+
+#resetScoreboard {
+    margin: 40px;
+    background-color: purple;
+    color: white;
+    width: 150px;
+    height: 40px;
+    border: white 1px solid;
+}
+
+#resetScoreboard:hover {
+    background-color: violet;
+    color: black;
+    border: none;
 }

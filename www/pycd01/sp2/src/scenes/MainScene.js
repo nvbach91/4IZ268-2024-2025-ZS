@@ -20,6 +20,8 @@ export class MainScene extends Scene {
   S_pressed = false;
   heightText;
 
+  player_nickname = "";
+
   constructor() {
     super("MainScene");
   }
@@ -28,6 +30,7 @@ export class MainScene extends Scene {
     this.cameras.main.fadeIn(1000, 0, 0, 0);
     this.points = 0;
     this.activeAvatarName = data.activeAvatar;
+    this.player_nickname = data.nickname;
     let nicknameContainerElem = document.querySelector("#nicknameContainer");
     nicknameContainerElem.style.display = "none";
   }
@@ -153,6 +156,8 @@ export class MainScene extends Scene {
     let score = `${this.player_score.toString()} - ${this.enemy_score.toString()}`;
     if (this.player_score >= WIN_SCORE) {
       console.log("player won");
+      let highscoreMan = new HighScoreManager();
+      highscoreMan.setPlayerHighscore(this.player_nickname, this.points, score);
       this.reset();
       this.scene.start("GameOverScene", {
         message: "YOU WON",
@@ -162,6 +167,8 @@ export class MainScene extends Scene {
     }
     if (this.enemy_score >= WIN_SCORE) {
       console.log("enemy won");
+      let highscoreMan = new HighScoreManager();
+      highscoreMan.setPlayerHighscore(this.player_nickname, this.points, score);
       this.reset();
       this.scene.start("GameOverScene", {
         message: "YOU LOST",
@@ -193,5 +200,7 @@ export class MainScene extends Scene {
     this.player_score = 0;
     this.scene.get("MenuScene").resetAvatar();
     this.scene.stop("HudScene");
+    let nicknameContainerElem = document.querySelector("#nicknameContainer");
+    nicknameContainerElem.style.display = "block";
   }
 }

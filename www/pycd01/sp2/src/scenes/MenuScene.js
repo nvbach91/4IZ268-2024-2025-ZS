@@ -49,7 +49,9 @@ export class MenuScene extends Scene {
     this.alreadyLoaded = true;
 
     let highScoreManager = new HighScoreManager();
+    highScoreManager.showHighscore();
     this.nicknameElem = highScoreManager.getNicknameElem();
+    highScoreManager.start();
     this.riley = await addImageToScene(
       "Riley",
       "https://api.dicebear.com/9.x/lorelei/svg?seed=Riley",
@@ -57,16 +59,18 @@ export class MenuScene extends Scene {
       80,
       this,
     );
-    let nicknameContainerElem = document.querySelector("#nicknameContainer");
-    nicknameContainerElem.style.display = "block";
+  }
+  getNickname(nicknameElem) {
+    let nickname = this.nicknameElem.value;
+    if (nickname === "") {
+      nickname = "User" + this.randomUserId;
+    }
+    return nickname;
   }
 
   update() {
     if (this.nickname_msg !== undefined && this.nicknameElem !== undefined) {
-      let nickname = this.nicknameElem.value;
-      if (nickname === "") {
-        nickname = "User" + this.randomUserId;
-      }
+      let nickname = this.getNickname(this.nicknameElem);
       this.nickname_msg.text = "Your nickname: " + nickname;
     }
   }
@@ -120,6 +124,7 @@ export class MenuScene extends Scene {
       if (pointer.y > 150) {
         this.scene.start("MainScene", {
           activeAvatar: this.activeAvatar,
+          nickname: this.getNickname(this.nicknameElem),
         });
       }
     });
