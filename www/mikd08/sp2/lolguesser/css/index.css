@@ -1,0 +1,334 @@
+html {
+  color: white;
+}
+
+#trademark {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+body {
+  background-color: #3a3a3a;
+  margin: 0;
+  font-family: sans-serif;
+}
+
+#lolguesser {
+    height: 100vh;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    background-color: #3a3a3a;
+}
+
+body.victory::before {
+    display: block;
+    opacity: 1;
+    z-index: 100000;
+}
+
+body.defeat::after {
+    display: block;
+    opacity: 1;
+}
+
+
+#imgContainer {
+    text-align: center;
+    width: var(--size);
+    height: var(--size);
+}
+
+#guess {
+    font-size: 1.5em;
+    flex-grow: 1;
+}
+
+canvas {
+    max-width: 500px;
+    width: 100%;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    box-shadow: 0 0 100px 10px black;
+    transition: box-shadow 100ms ease-in-out;
+}
+
+div:has(> input) {
+    display: flex;
+    gap: 10px;
+}
+
+#splashArt {
+    display: none;
+    animation: imgGone 2s ease-in-out;
+    &.show {
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      translate: -50% -50%;
+      z-index: 1000000;
+      max-width: 1215px;
+      width: 95%;
+    }
+}
+
+@keyframes imgGone{
+  from {
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+#error {
+    color: red;
+}
+
+#form {
+  position: relative;
+}
+
+button {
+    width: fit-content;
+    padding: 10px;
+    
+}
+
+#random {
+    padding: 2em 2em;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+.displayNone {
+  display: none !important;
+}
+
+
+
+/* CSS */
+.button-85, #guess, #champList {
+  padding: 0.6em 2em;
+  border: none;
+  outline: none;
+  color: rgb(255, 255, 255);
+  background: #111;
+  position: relative;
+  z-index: 0;
+  border-radius: 10px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+#champList {
+  position: absolute;
+  box-sizing: border-box;
+  width: 388px;
+  height: 250px;
+  top: 57px;
+  display: flex;
+  flex-direction: column;
+  z-index: 500;
+  overflow: auto;
+  gap: 10px;
+  display: none;
+}
+
+#champList.show {
+  display: flex;
+}
+
+.champ {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  &:hover {
+    background-color: #3a3a3a;
+  }
+}
+
+.champ img {
+  width: 50px;
+}
+
+.champ span {
+  text-transform: capitalize;
+}
+
+.button-85 {
+  cursor: pointer;
+  transition: scale 200ms ease-in-out;
+
+  &:hover {
+    scale: 1.1;
+  }
+}
+
+.button-85::before{
+  content: "";
+  background: linear-gradient(
+    45deg,
+    #ff0000,
+    #ff7300,
+    #fffb00,
+    #48ff00,
+    #00ffd5,
+    #002bff,
+    #7a00ff,
+    #ff00c8,
+    #ff0000
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(5px);
+  -webkit-filter: blur(5px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing-button-85 20s linear infinite;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 10px;
+}
+
+@keyframes glowing-button-85 {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.button-85:after {
+  z-index: -1;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #222;
+  left: 0;
+  top: 0;
+  border-radius: 10px;
+}
+
+#random, canvas, div:has(> #streakCount) {
+    justify-self: center;
+}
+
+.canvasContainer {
+  position: relative;
+}
+
+#loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  display: none;
+}
+
+#loader.load {
+  display: block;
+  animation: spin 2s linear infinite;
+}
+
+#guessedListContainer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100dvh;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.guessedChamp {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.guessedChamp .close {
+  cursor: pointer;
+  color: red;
+  margin-left: 10px;
+}
+
+@keyframes spin {
+  0% { 
+    transform: rotate(0deg);
+    border-top-color: #3498db;
+  }
+  50% { 
+    border-top-color: #f1c40f;
+    transform: rotate(180deg);
+  }
+  100% { 
+    border-top-color: #db3434;
+    transform: rotate(360deg);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  #lolguesser {
+    justify-items: center;
+  }
+
+  .canvasContainer {
+    width: 90%;
+    display: flex;
+    justify-content: center;
+  }
+
+  div:has(> input) {
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 20px;
+  }
+
+  #guess {
+    box-sizing: border-box;
+    width: 95%;
+  }
+
+  #guessBtn {
+    height: 50px;
+  }
+
+  #random {
+    font-size: medium;
+  }
+  
+  #champList {
+    top: 126px;
+    width: 95%;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  #guessedListContainer {
+    position: unset;
+    height: auto;
+  }
+}

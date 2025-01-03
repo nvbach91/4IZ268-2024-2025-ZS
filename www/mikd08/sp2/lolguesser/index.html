@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>LoLGuesser</title>
+
+      <link rel="stylesheet" href="css/index.css" />
+
+      <link rel="icon" type="image/x-icon" href="ysdm_icon.jpg">
+
+      <script src="js/index.js" defer></script>
+   </head>
+   <body>
+      <img
+         src="img/ysdm_icon.jpg"
+         id="trademark"
+         alt="ysdm logo"
+         style="width: 50px; height: 50px; position: absolute; top: 0; left: 0"
+      />
+
+      <div id="lolguesser">
+
+         <img id="splashArt" src="" alt="splashArt" />
+
+         <div>
+            Streak: <span id="streakCount"></span>
+         </div>
+
+         <div class="canvasContainer">
+            <canvas width="150" height="150"></canvas>
+            <div id="loader" class="load"></div>
+         </div>
+   
+         <div>
+            <div id="form">
+               <input type="text" name="guess" id="guess" autocomplete="off"/>
+               <div id="champList"></div>
+               <button type="submit" id="guessBtn" class="button-85" role="button">Guess</button>
+            </div>
+            <p id="error"></p>
+         </div>
+   
+         <button id="random" class="button-85" role="button">Random</button>
+
+         <div id="guessedListContainer">
+            <h2>Guessed List</h2>
+            <div style="margin-left: 10px;">
+               <button id="clear" class="button-85" role="button">Clear</button>
+            </div>
+            <div id="guessedList">
+            </div>
+         </div>
+      </div>
+      <div id="randomPick" class="displayNone">
+         <div></div>
+         <div></div>
+      </div>
+   </body>
+</html>
