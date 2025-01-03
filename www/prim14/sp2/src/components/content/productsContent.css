@@ -1,0 +1,22 @@
+.products-content {
+  @apply flex-1 flex flex-col items-center py-8 px-4 sm:px-10 gap-10;
+}
+
+.products-content .products-content__list {
+  @apply w-full flex flex-wrap gap-3 lg:gap-8 justify-around;
+}
+
+.products-content .products-content__list .product-card {
+  @apply flex flex-col w-full min-w-[200px] sm:w-[42%] lg:w-1/4 cursor-pointer;
+}
+
+.products-content
+  .products-content__list
+  .product-card
+  .product-card__image-wrapper {
+  @apply w-full mt-auto;
+}
+
+.products-content .products-content__list .product-card img {
+  @apply max-h-[150px] w-full object-contain;
+}
