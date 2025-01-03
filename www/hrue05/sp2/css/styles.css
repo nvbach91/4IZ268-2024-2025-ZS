@@ -13,14 +13,32 @@ body {
     flex-direction: column;
 }
 
+img {
+    width: 200px;
+    height: 300px;
+    object-fit: cover;
+}
+
+p {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+button {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    cursor: pointer;
+}
+
+
 header {
     display: flex;
     width: 100%;
     height: 60px;
     background-color: black;
     padding: 10px;
-    justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
+    justify-content: center;
     gap: 10px;
 }
 
@@ -75,11 +93,23 @@ header form {
 
 #search-container,
 #display-container {
+    width: 38%;
     margin-top: 10px;
-    width: 48%;
     background-color: rgb(170, 170, 170);
     padding: 10px;
     border: 5px solid black;
+    border-radius: 5px;
+    overflow-y: auto;
+    height: calc(100% - 20px);
+}
+
+#deck-menu {
+    width: 18%;
+    max-width: 18%;
+    margin-top: 10px;
+    background-color: black;
+    padding: 10px;
+    border: none;
     border-radius: 5px;
     overflow-y: auto;
     height: calc(100% - 20px);
@@ -91,7 +121,7 @@ header form {
 }
 
 .default-button {
-    width: 100%;
+    max-width: 100%;
     color: black;
     background-color: rgb(170, 170, 170);
     border: 2px solid black;
@@ -99,6 +129,10 @@ header form {
     margin: 2px;
     transition: 1s;
     cursor: pointer;
+    display: block;
+    width: 100%;
+    text-overflow: ellipsis;
+    margin: 5px 0;
 }
 
 .default-button:hover {
@@ -133,25 +167,27 @@ img {
     border-radius: 5px;
 }
 
-#yes-no {
+.yes-no {
     display: flex;
     justify-content: space-around;
     margin-top: 10px;
     margin-bottom: 10px;
 }
 
-#yes-no button {
+.yes-no button {
     border: none;
     border-radius: 5px;
     padding: 5px;
     cursor: pointer;
 }
 
-#yes-remove {
+#yes-remove,
+#yes-delete-deck {
     background-color: greenyellow;
 }
 
-#no-remove {
+#no-remove,
+#no-delete-deck {
     background-color: red;
 }
 
@@ -195,6 +231,90 @@ img {
     top: 40%;
     left: 40%;
 }
+
+#rename-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+#deck-rename-form {
+    display: flex;
+    justify-content: space-around;
+    width: 68%;
+}
+
+#deck-name-input {
+    width: 58%;
+    border: none;
+    border-radius: 2px;
+}
+
+#deck-rename-button {
+    width: 38%;
+    border: none;
+    border-radius: 2px;
+    background-color: greenyellow;
+}
+
+#cancel-rename {
+    width: 28%;
+    border: none;
+    border-radius: 2px;
+    background-color: red;
+}
+
+.card-buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
+.card-buttons button {
+    width: 32%;
+}
+
+.selected-card-delete {
+    background-color: rgb(170, 170, 170);
+    border: 2px solid red;
+    color: red;
+    border-radius: 5px;
+    transition: 1s;
+}
+
+.selected-card-delete:hover {
+    background-color: red;
+    color: black;
+}
+
+.move-upwards,
+.move-downwards {
+    background-color: rgb(170, 170, 170);
+    border: 2px solid black;
+    color: black;
+    border-radius: 5px;
+    transition: 1s;
+
+}
+
+.move-upwards:hover,
+.move-downwards:hover {
+    background-color: rgba(255, 50, 50, 0.5);
+}
+
+.disabled {
+    display: none;
+}
+
+.remove-card-from-deck {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.remove-card-from-deck p {
+    width: 100%;
+}
+
+
 
 @keyframes spinning {
     from {
