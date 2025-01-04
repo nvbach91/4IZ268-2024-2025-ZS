@@ -1,4 +1,8 @@
 const apiKey = '056ff1984d25f1a99e505722ede9a1ef';
+document.addEventListener('DOMContentLoaded', () => {
+    changeBackground('Clear');
+});
+
 
 function fetchWeather(city) {
     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`)
@@ -18,7 +22,6 @@ function fetchWeather(city) {
         });
 }
 
-// Get weather by geolocation
 function fetchWeatherByLocation(lat, lon) {
     fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`)
         .then(response => {
@@ -37,19 +40,22 @@ function fetchWeatherByLocation(lat, lon) {
         });
 }
 
-// Display weather data
 function displayWeather(data) {
     const cityWeather = `
         <div class="weather-card">
             <h3>${data.name}</h3>
+            <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="${data.weather[0].description}">
             <p>Temperature: ${data.main.temp}°C</p>
             <p>Feels Like: ${data.main.feels_like}°C</p>
             <p>Humidity: ${data.main.humidity}%</p>
             <p>Wind: ${data.wind.speed} m/s</p>
-            <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="${data.weather[0].description}">
         </div>`;
-    $('#weather-container').html(cityWeather); // Replace content to show only one result
+    $('#weather-container').html(cityWeather); 
 }
+
+
+
+
 function fetchForecast(city) {
     fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`)
         .then(response => {
@@ -81,12 +87,19 @@ function fetchForecastByLocation(lat, lon) {
             console.error('Error fetching forecast:', error);
         });
 }
+let forecastChartInstance = null; 
+
 function displayForecastChart(data) {
-    const labels = data.list.map(item => moment(item.dt_txt).format('MMM D, hA'));
+    const labels = data.list.map(item => moment(item.dt_txt).format('HH:mm'));
     const temperatures = data.list.map(item => item.main.temp);
 
     const ctx = document.getElementById('forecastChart').getContext('2d');
-    new Chart(ctx, {
+
+    if (forecastChartInstance) {
+        forecastChartInstance.destroy();
+    }
+
+    forecastChartInstance = new Chart(ctx, {
         type: 'line',
         data: {
             labels: labels,
@@ -94,7 +107,7 @@ function displayForecastChart(data) {
                 label: 'Temperature (°C)',
                 data: temperatures,
                 borderColor: 'rgba(75, 192, 192, 1)',
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)', 
                 borderWidth: 1,
                 fill: true
             }]
@@ -122,31 +135,37 @@ function displayForecastChart(data) {
             }
         }
     });
+
+    document.getElementById('forecastChart').style.background = 'white';
+}
+
+function hideForecastChart() {
+    document.getElementById('forecastChart').style.background = 'transparent'; // Nastavení průhledného pozadí
 }
 
 
-// Change background based on weather
 function changeBackground(weatherMain) {
     const weatherBackgrounds = {
-        Clear: 'url(https://upload.wikimedia.org/wikipedia/commons/0/07/Clear_Sky.jpg)',
-        Clouds: 'url(https://t3.ftcdn.net/jpg/03/02/03/70/360_F_302037028_WgdzBqp7MCTF0iITajUUVryCKJsyjOE6.jpg)',
-        Rain: 'url(https://static.wikia.nocookie.net/dotw/images/1/14/Rain.jpg/revision/latest/scale-to-width-down/1000?cb=20140506044435)',
-        Snow: 'url(https://wallpapers.com/images/hd/snowing-background-9niw1aqyiqkifd8u.jpg)',
-        Thunderstorm: 'url(https://media.13newsnow.com/assets/WVEC/images/e23dc125-7f4c-4783-8b28-925ec0d61d6f/e23dc125-7f4c-4783-8b28-925ec0d61d6f_750x422.jpg)',
-        Drizzle: 'url(https://www.fastweather.com/images/education/drizzle.jpg)',
-        Mist: 'url(https://images.unsplash.com/photo-1542826522-beb53da5f648?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fG1pc3R8ZW58MHx8MHx8fDA%3D)',
+        Clear: './image/clear.jpg', 
+        Clouds: './image/clouds.jpg', 
+        Rain: './image/rain.jpg', 
+        Snow: './image/snow.jpg', 
+        Thunderstorm: './image/thunderstorm.jpg', 
+        Drizzle: './image/drizzle.jpg', 
+        Mist: './image/mist.jpg', 
     };
 
-    const background = weatherBackgrounds[weatherMain] || 'url(default-weather.jpg)';
-    document.body.style.backgroundImage = background;
-    document.body.style.backgroundSize = 'cover';
-    document.body.style.backgroundRepeat = 'no-repeat';
-    document.body.style.backgroundPosition = 'center';
-    document.body.style.height = '100vh';
-document.body.style.margin = '0';
+    const background = weatherBackgrounds[weatherMain] || weatherBackgrounds.Clear;
+
+    document.body.style.backgroundImage = `url(${background})`;
+    document.body.style.backgroundSize = 'cover'; 
+    document.body.style.backgroundRepeat = 'no-repeat'; 
+    document.body.style.backgroundPosition = 'center'; 
+    document.body.style.height = '100vh'; 
+    document.body.style.margin = '0'; 
+    document.body.style.overflow = 'hidden'; 
 }
 
-// Get geolocation
 function getLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(position => {
@@ -159,7 +178,6 @@ function getLocation() {
     }
 }
 
-// Event listeners
 $(document).ready(function() {
     $('#search-btn').on('click', function() {
         const city = $('#city-input').val();
