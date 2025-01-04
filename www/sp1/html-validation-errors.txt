@@ -1,0 +1,864 @@
+
+   Config loaded: .htmlhintrc
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\babm19/index.html
+      L135 |    <button class="back-to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">Zpět na za...
+                                           ^ Inline script [  onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" ] cannot be used. (inline-script-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\krem22/index.html
+      L255 |                <form id="contactForm" onsubmit="return sendEmail(event)">
+                                                  ^ Inline script [  onsubmit="return sendEmail(event)" ] cannot be used. (inline-script-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\lech00/index.html
+      L57 |                <img class="benefit-img  image1" src="./assets/images/centralised.webp"
+                               ^ The attributes of [ class ] must be separated by only one space. (attr-whitespace)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\mald16/diskografie.html
+      L21 |   <div class="page-subtitle" style="margin-bottom: 20px">
+                                        ^ Inline style [  style="margin-bottom: 20px" ] cannot be used. (inline-style-disabled)
+      L25 |   <div class="align-center" style="margin-bottom: 50px">
+                                       ^ Inline style [  style="margin-bottom: 50px" ] cannot be used. (inline-style-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\mald16/galerie.html
+      L26 |     <img src="./assets/img/gallery/DSC04607.jpg" />
+                    ^ An alt attribute must be present on <img> elements. (alt-require)
+      L27 |     <img src="./assets/img/gallery/WOHULTO-241.jpg" />
+                    ^ An alt attribute must be present on <img> elements. (alt-require)
+      L28 |     <img src="./assets/img/gallery/WOHULTO-271.jpg" />
+                    ^ An alt attribute must be present on <img> elements. (alt-require)
+      L29 |     <img src="./assets/img/gallery/WOHULTO-351.jpg" />
+                    ^ An alt attribute must be present on <img> elements. (alt-require)
+      L32 |     <img src="./assets/img/gallery/DSC04650.jpg" />
+                    ^ An alt attribute must be present on <img> elements. (alt-require)
+      L33 |     <img src="./assets/img/gallery/WOHULTO-246.jpg" />
+                    ^ An alt attribute must be present on <img> elements. (alt-require)
+      L34 |     <img src="./assets/img/gallery/WOHULTO-278.jpg" />
+                    ^ An alt attribute must be present on <img> elements. (alt-require)
+      L37 |     <img src="./assets/img/gallery/DSC04702.jpg" />
+                    ^ An alt attribute must be present on <img> elements. (alt-require)
+      L38 |     <img src="./assets/img/gallery/WOHULTO-250.jpg" />
+                    ^ An alt attribute must be present on <img> elements. (alt-require)
+      L39 |     <img src="./assets/img/gallery/WOHULTO-318.jpg" />
+                    ^ An alt attribute must be present on <img> elements. (alt-require)
+      L42 |     <img src="./assets/img/gallery/DSC04768.jpg" />
+                    ^ An alt attribute must be present on <img> elements. (alt-require)
+      L43 |     <img src="./assets/img/gallery/WOHULTO-260.jpg" />
+                    ^ An alt attribute must be present on <img> elements. (alt-require)
+      L44 |     <img src="./assets/img/gallery/WOHULTO-341.jpg" />
+                    ^ An alt attribute must be present on <img> elements. (alt-require)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\mald16/o-nas.html
+      L21 |   <div class="page-subtitle" style="margin-bottom: 20px">
+                                        ^ Inline style [  style="margin-bottom: 20px" ] cannot be used. (inline-style-disabled)
+      L24 |   <div class="align-center" style="margin-bottom: 50px">
+                                       ^ Inline style [  style="margin-bottom: 50px" ] cannot be used. (inline-style-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\leva06/index.html
+      L55 |..." src="images/prod1.jpg" alt="Obrázek 1" onmouseover="changeImage(this)" onmouseout="resetImage()">
+                                                      ^ Inline script [  onmouseover="changeImage(this)" ] cannot be used. (inline-script-disabled)
+      L55 |...rázek 1" onmouseover="changeImage(this)" onmouseout="resetImage()">
+                                                      ^ Inline script [  onmouseout="resetImage()" ] cannot be used. (inline-script-disabled)
+      L56 |..." src="images/prod2.jpg" alt="Obrázek 2" onmouseover="changeImage(this)" onmouseout="resetImage()">
+                                                      ^ Inline script [  onmouseover="changeImage(this)" ] cannot be used. (inline-script-disabled)
+      L56 |...rázek 2" onmouseover="changeImage(this)" onmouseout="resetImage()">
+                                                      ^ Inline script [  onmouseout="resetImage()" ] cannot be used. (inline-script-disabled)
+      L57 |..." src="images/prod3.jpg" alt="Obrázek 3" onmouseover="changeImage(this)" onmouseout="resetImage()">
+                                                      ^ Inline script [  onmouseover="changeImage(this)" ] cannot be used. (inline-script-disabled)
+      L57 |...rázek 3" onmouseover="changeImage(this)" onmouseout="resetImage()">
+                                                      ^ Inline script [  onmouseout="resetImage()" ] cannot be used. (inline-script-disabled)
+      L58 |..." src="images/prod4.jpg" alt="Obrázek 4" onmouseover="changeImage(this)" onmouseout="resetImage()">
+                                                      ^ Inline script [  onmouseover="changeImage(this)" ] cannot be used. (inline-script-disabled)
+      L58 |...rázek 4" onmouseover="changeImage(this)" onmouseout="resetImage()">
+                                                      ^ Inline script [  onmouseout="resetImage()" ] cannot be used. (inline-script-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\leva06/shop.html
+      L38 |    <div class="product-container" style="margin-top: 100px;">
+                                             ^ Inline style [  style="margin-top: 100px;" ] cannot be used. (inline-style-disabled)
+      L44 |..." src="images/prod1.jpg" alt="Obrázek 1" onmouseover="changeImage(this)" onmouseout="resetImage()">
+                                                      ^ Inline script [  onmouseover="changeImage(this)" ] cannot be used. (inline-script-disabled)
+      L44 |...rázek 1" onmouseover="changeImage(this)" onmouseout="resetImage()">
+                                                      ^ Inline script [  onmouseout="resetImage()" ] cannot be used. (inline-script-disabled)
+      L45 |..." src="images/prod2.jpg" alt="Obrázek 2" onmouseover="changeImage(this)" onmouseout="resetImage()">
+                                                      ^ Inline script [  onmouseover="changeImage(this)" ] cannot be used. (inline-script-disabled)
+      L45 |...rázek 2" onmouseover="changeImage(this)" onmouseout="resetImage()">
+                                                      ^ Inline script [  onmouseout="resetImage()" ] cannot be used. (inline-script-disabled)
+      L46 |..." src="images/prod3.jpg" alt="Obrázek 3" onmouseover="changeImage(this)" onmouseout="resetImage()">
+                                                      ^ Inline script [  onmouseover="changeImage(this)" ] cannot be used. (inline-script-disabled)
+      L46 |...rázek 3" onmouseover="changeImage(this)" onmouseout="resetImage()">
+                                                      ^ Inline script [  onmouseout="resetImage()" ] cannot be used. (inline-script-disabled)
+      L47 |..." src="images/prod4.jpg" alt="Obrázek 4" onmouseover="changeImage(this)" onmouseout="resetImage()">
+                                                      ^ Inline script [  onmouseover="changeImage(this)" ] cannot be used. (inline-script-disabled)
+      L47 |...rázek 4" onmouseover="changeImage(this)" onmouseout="resetImage()">
+                                                      ^ Inline script [  onmouseout="resetImage()" ] cannot be used. (inline-script-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\monj06/index.html
+      L40 |                </ul>
+                           ^ Tag must be paired, missing: [ </li> ], start tag match failed [ <li class="dropdown"> ] on line 29. (tag-pair)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\mera06/contact.html
+      L25 |... alt="Profilový obrázek Andreas Merhaut" style="width:200px;height:auto;border-radius:50%;">
+                                                      ^ Inline style [  style="width:200px;height:auto;border-radius:50%;" ] cannot be used. (inline-style-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\mera06/gallery.html
+      L8 |    <style>
+              ^ The <style> tag cannot be used. (style-disabled)
+      L65 |...="img/gallery/obr_1.png" alt="Obrázek 1" onclick="showPopup(this.src)" />
+                                                      ^ Inline script [  onclick="showPopup(this.src)" ] cannot be used. (inline-script-disabled)
+      L66 |...="img/gallery/obr_2.png" alt="Obrázek 2" onclick="showPopup(this.src)" />
+                                                      ^ Inline script [  onclick="showPopup(this.src)" ] cannot be used. (inline-script-disabled)
+      L67 |...="img/gallery/obr_3.png" alt="Obrázek 3" onclick="showPopup(this.src)" />
+                                                      ^ Inline script [  onclick="showPopup(this.src)" ] cannot be used. (inline-script-disabled)
+      L68 |...="img/gallery/obr_5.png" alt="Obrázek 5" onclick="showPopup(this.src)" />
+                                                      ^ Inline script [  onclick="showPopup(this.src)" ] cannot be used. (inline-script-disabled)
+      L69 |...="img/gallery/obr_6.png" alt="Obrázek 6" onclick="showPopup(this.src)" />
+                                                      ^ Inline script [  onclick="showPopup(this.src)" ] cannot be used. (inline-script-disabled)
+      L70 |...="img/gallery/obr_7.png" alt="Obrázek 7" onclick="showPopup(this.src)" />
+                                                      ^ Inline script [  onclick="showPopup(this.src)" ] cannot be used. (inline-script-disabled)
+      L71 |...="img/gallery/obr_8.png" alt="Obrázek 8" onclick="showPopup(this.src)" />
+                                                      ^ Inline script [  onclick="showPopup(this.src)" ] cannot be used. (inline-script-disabled)
+      L72 |...="img/gallery/obr_9.png" alt="Obrázek 9" onclick="showPopup(this.src)" />
+                                                      ^ Inline script [  onclick="showPopup(this.src)" ] cannot be used. (inline-script-disabled)
+      L73 |...img/gallery/obr_10.png" alt="Obrázek 10" onclick="showPopup(this.src)" />
+                                                      ^ Inline script [  onclick="showPopup(this.src)" ] cannot be used. (inline-script-disabled)
+      L74 |...img/gallery/obr_11.png" alt="Obrázek 11" onclick="showPopup(this.src)" />
+                                                      ^ Inline script [  onclick="showPopup(this.src)" ] cannot be used. (inline-script-disabled)
+      L78 |            <button class="popup-close" onclick="closePopup()">&times;</button>
+                                                  ^ Inline script [  onclick="closePopup()" ] cannot be used. (inline-script-disabled)
+      L79 |            <img src="" alt="Popup Obrázek" id="popupImage" />
+                           ^ The attribute [ src ] of the tag [ img ] must have a value. (src-not-empty)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\neme06/index.html
+      L85 |                        <h1>></h1>
+                                       ^ Special characters must be escaped : [ > ]. (spec-char-escape)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\rezd10/index.html
+      L17 |            <div class="hamburger" onclick="toggleMenu()">
+                                             ^ Inline script [  onclick="toggleMenu()" ] cannot be used. (inline-script-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\rezv06/index.html
+      L16 |            <div class="logo"><img style="text-align: center;" src="./img/Profile.jpg" alt="VR"></div...
+                                             ^ Inline style [  style="text-align: center;" ] cannot be used. (inline-style-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\scho05/index.html
+      L56 |              & more.<br />
+                        ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\seyv00/index.html
+      L73 |            <img id="tim-burton-quote" src="./img/Tim_Burton_quote.png " alt="Tim Burton quote">
+                                                 ^ The attributes of [ src ] must not have leading or trailing whitespace. (attr-whitespace)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\semm10/discography.html
+      L77 |...y and resilience in the face of chaos./p>
+                                                      ^ Special characters must be escaped : [ > ]. (spec-char-escape)
+      L79 |            </article>
+                       ^ Tag must be paired, missing: [ </p> ], start tag match failed [ <p> ] on line 77. (tag-pair)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\stop07/index.html
+      L29 |...u-item"><a href="./tips-and-tricks">Tips & Tricks</a></div>
+                                                      ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+      L74 |...u-item"><a href="./tips-and-tricks">Tips & Tricks</a></div>
+                                                      ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\vodd01/index.html
+      L11 |    <title>Dun & Bradstreet - Domovská stránka</title>
+                         ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+      L16 |            <h1><a href="./">Dun & Bradstreet</a></h1>
+                                           ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+      L70 |            <p>&copy; 2024 Dun & Bradstreet. Autor: Daniel Vodička</p>
+                                         ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\babm19/vysledky/index.html
+      L244 |    <button class="back-to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">Zpět na za...
+                                           ^ Inline script [  onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" ] cannot be used. (inline-script-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\babm19/statistiky/index.html
+      L54 |                <td id="players">Tomáš Mikšovský</td>
+                              ^ The id value [ players ] must be unique. (id-unique)
+      L60 |                <td id="players">Vojtěch Zoubek</td>
+                              ^ The id value [ players ] must be unique. (id-unique)
+      L66 |                <td id="players">Lukáš Sauer</td>
+                              ^ The id value [ players ] must be unique. (id-unique)
+      L72 |                <td id="players">Dominik Barták</td>
+                              ^ The id value [ players ] must be unique. (id-unique)
+      L78 |                <td id="players">Michal Androník</td>
+                              ^ The id value [ players ] must be unique. (id-unique)
+      L84 |                <td id="players">Jan Januš</td>
+                              ^ The id value [ players ] must be unique. (id-unique)
+      L90 |                <td id="players">Adam Kopřiva</td>
+                              ^ The id value [ players ] must be unique. (id-unique)
+      L96 |                <td id="players">Adam Choc</td>
+                              ^ The id value [ players ] must be unique. (id-unique)
+      L102 |                <td id="players">Ondřej Koníř</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L109 |    <button class="back-to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">Zpět na za...
+                                           ^ Inline script [  onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" ] cannot be used. (inline-script-disabled)
+      L122 |                <td id="players">Vít Stráda</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L128 |                <td id="players">Adam Janko</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L134 |                <td id="players">Matyáš Matušinský</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L140 |                <td id="players">Kryštof Kejval</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L146 |                <td id="players">Štěpán Bartáček</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L152 |                <td id="players">Tomáš Novák</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L158 |                <td id="players">Metoděj Puk</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L164 |                <td id="players">Lukáš Lhotský</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L170 |                <td id="players">Quido Friedrich</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L176 |                <td id="players">Daniel Koňarčík</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L182 |                <td id="players">Vojtěch Stráda</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L188 |                <td id="players">Tadeáš Přáda</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L194 |                <td id="players">Hugo Friedrich</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L200 |                <td id="players">Daniel Ludwig</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L206 |                <td id="players">David Lintymer</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L212 |                <td id="players">Tomáš Gončár</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L218 |                <td id="players">Jáchym Novotný</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L224 |                <td id="players">Samuel Koňarčík</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L230 |                <td id="players">Matouš Veselý</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L236 |                <td id="players">Dominik Turoň</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L242 |                <td id="players">Jakub Křenek</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L248 |                <td id="players">Jiří Zelenka</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L254 |                <td id="players">Karel Líška</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L260 |                <td id="players">Robert Skalický</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L266 |                <td id="players">Ondřej Smetík</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L273 |    <button class="back-to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">Zpět na za...
+                                           ^ Inline script [  onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" ] cannot be used. (inline-script-disabled)
+      L288 |                <td id="players">Ludwig Daniel (Starší žáci)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L295 |                <td id="players">Koňařík Daniel (Mladší dorost)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L302 |                <td id="players">Lhotský Lukáš (Mladší dorost)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L309 |                <td id="players">Fišer Kryštof (Starší žáci)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L316 |                <td id="players">Novák Tomáš (Starší žáci)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L323 |                <td id="players">Koníř Ondřej (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L330 |                <td id="players">Kejval Kryštof (Mladší dorost)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L337 |                <td id="players">Janko Adam (Mladší dorost)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L344 |                <td id="players">Friedrich Hugo (Starší žáci)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L351 |                <td id="players">Křenek Jakub (Starší žáci)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L358 |                <td id="players">Valeš Jakub (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L365 |                <td id="players">Medenčevič Erol (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L372 |                <td id="players">Faltejsek Tomáš (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L379 |                <td id="players">Komár Daniel (Mladší dorost)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L386 |                <td id="players">Sauer Lukáš (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L393 |                <td id="players">Kulhánek Jakub (Mladší žáci)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L400 |                <td id="players">Kopřiva Adam (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L408 |    <button class="back-to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">Zpět na za...
+                                           ^ Inline script [  onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" ] cannot be used. (inline-script-disabled)
+      L419 |                <td id="players">Bittman Jiří (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L423 |                <td id="players">Brožek Jan (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L427 |                <td id="players">Jašek Jakub (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L431 |                <td id="players">Barták Dominik (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L435 |                <td id="players">Kváš Jan (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L439 |                <td id="players">Postelt Patrik (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L443 |                <td id="players">Křeček Jan (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L447 |                <td id="players">Andel Dmytro (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L451 |                <td id="players">König Pavel (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L455 |                <td id="players">Řežábek Martin (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L459 |                <td id="players">Medenčević Erol (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L463 |                <td id="players">Novák Tomáš (Starší žáci)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L467 |                <td id="players">Januš Jan (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L471 |                <td id="players">Humpolec Martin (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L475 |                <td id="players">Janko Adam (Mladší dorost)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L479 |                <td id="players">Strada Vít (Mladší dorost)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L483 |                <td id="players">Matějka Lukáš (Starší dorost)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L487 |                <td id="players">Flaška Pavel (Mladší dorost)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L491 |                <td id="players">Posejpal Martin (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L495 |                <td id="players">Kysel Adam (Mladší dorost)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L499 |                <td id="players">Smahel Josef (Starší žáci)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L503 |                <td id="players">Kopřiva Adam (Starší žáci)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L507 |                <td id="players">Bartoš Filip (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L511 |                <td id="players">Křenek Jakub (Starší žáci)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L515 |                <td id="players">Mikulášek David (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L519 |                <td id="players">Novák Ondřej (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L523 |                <td id="players">Sauer Lukáš (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L527 |                <td id="players">Šmejkal Karel (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L531 |                <td id="players">Andronik Michal (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L535 |                <td id="players">Stráda Vojtěch (Mladší dorost)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L539 |                <td id="players">Faltejsek Tomáš (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L543 |                <td id="players">Fišer Kryštof (Starší žáci)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L547 |                <td id="players">Kubalík Antonín (Starší žáci)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L551 |                <td id="players">Zajíc Karel (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L555 |                <td id="players">Ludwig Daniel (Starší žáci)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L559 |                <td id="players">Zelenka Ondřej (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L563 |                <td id="players">Koňařík Daniel (Starší dorost)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L567 |                <td id="players">Peňhařt Emanuel (Starší dorost)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L571 |                <td id="players">Šchoffer Jiří (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L575 |                <td id="players">Pavelka Šimon (Mladší dorost)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L579 |                <td id="players">Hackl Lukáš (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L583 |                <td id="players">Matúšinský Matyáš (Mladší dorost)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L587 |                <td id="players">Přáda Tadeáš (Mladší dorost)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L591 |                <td id="players">Cibulka Petr (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L595 |                <td id="players">Munzar Tomáš (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L599 |                <td id="players">Humbatov David (Starší žáci)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L603 |                <td id="players">Mrázek David (Muži)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L607 |                <td id="players">Veselý Matouš (Starší žáci)</td>
+                               ^ The id value [ players ] must be unique. (id-unique)
+      L612 |    <button class="back-to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">Zpět na za...
+                                           ^ Inline script [  onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" ] cannot be used. (inline-script-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\babm19/muzstva/index.html
+      L44 |                    <li id="players">Milan Kotrč</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L45 |                    <li id="players">Vladislav Bittman</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L47 |                    <li id="players">Ondřej Androník</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L48 |                    <li id="players">Michal Babka</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L49 |                    <li id="players">Karel Ďopan</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L50 |                    <li id="players">Petr Hostaša</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L52 |                    <li id="players">Dominik Barták</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L53 |                    <li id="players">Tomáš Faltejsek</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L54 |                    <li id="players">Jan Januš</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L55 |                    <li id="players">Ondřej Koníř</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L56 |                    <li id="players">Erol Medenčevič</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L57 |                    <li id="players">Tomáš Mikšovský</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L58 |                    <li id="players">Lukáš Sauer</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L59 |                    <li id="players">Karel Šmejkal</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L60 |                    <li id="players">Antonín-Šimon Stárka</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L61 |                    <li id="players">Jakub Valeš</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L62 |                    <li id="players">Vojtěch Zoubek</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L64 |                    <li id="players">Petr Cibulka </li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L65 |                    <li id="players">Adam Kopřiva</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L66 |                    <li id="players">Karel Líbal</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L68 |                    <li id="players">Michal Androník</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L69 |                    <li id="players">Filip Bartoš</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L70 |                    <li id="players">Adam Choc</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L71 |                    <li id="players">Ondřej Malý</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L72 |                    <li id="players">David Mikulášek</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L73 |                    <li id="players">Martin Posejpal</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L74 |                    <li id="players">Matyáš Rajtr</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L81 |                    <li id="players">Tomáš Munzar</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L82 |                    <li id="players">Ondřej Novák</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L84 |                    <li id="players">Vladislav Bittman</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L85 |                    <li id="players">Martin Kruncl</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L86 |                    <li id="players">Ondřej Pleva</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L88 |                    <li id="players">Jiří Bittman</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L89 |                    <li id="players">Jan Brožek</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L90 |                    <li id="players">Jan Kváš</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L91 |                    <li id="players">Ondřej Novák</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L93 |                    <li id="players">Tomáš Munzar</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L94 |                    <li id="players">Jakub Tůma</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L96 |                    <li id="players">Jan Bursa</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L97 |                    <li id="players">Martin Humpolec</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L98 |                    <li id="players">Jan Křeček</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L99 |                    <li id="players">Jiří Schoffer</li>
+                                  ^ The id value [ players ] must be unique. (id-unique)
+      L100 |                    <li id="players">Mik Vangelovski</li>
+                                   ^ The id value [ players ] must be unique. (id-unique)
+      L101 |                    <li id="players">Martin Vokatý</li>
+                                   ^ The id value [ players ] must be unique. (id-unique)
+      L108 |                    <li id="players">Pavel König ml.</li>
+                                   ^ The id value [ players ] must be unique. (id-unique)
+      L109 |                    <li id="players">Martin Šetelík</li>
+                                   ^ The id value [ players ] must be unique. (id-unique)
+      L110 |                    <li id="players">Lukáš Svoboda</li>
+                                   ^ The id value [ players ] must be unique. (id-unique)
+      L112 |                    <li id="players">Robert Skalický</li>
+                                   ^ The id value [ players ] must be unique. (id-unique)
+      L114 |                    <li id="players">Štěpán Bartáček</li>
+                                   ^ The id value [ players ] must be unique. (id-unique)
+      L115 |                    <li id="players">Hugo Friedrich</li>
+                                   ^ The id value [ players ] must be unique. (id-unique)
+      L116 |                    <li id="players">Adam Janko</li>
+                                   ^ The id value [ players ] must be unique. (id-unique)
+      L117 |                    <li id="players">Kryštof Kejval</li>
+                                   ^ The id value [ players ] must be unique. (id-unique)
+      L118 |                    <li id="players">Matyáš Matušinský</li>
+                                   ^ The id value [ players ] must be unique. (id-unique)
+      L119 |                    <li id="players">Jáchym Novotný</li>
+                                   ^ The id value [ players ] must be unique. (id-unique)
+      L120 |                    <li id="players">Ondřej Smetík</li>
+                                   ^ The id value [ players ] must be unique. (id-unique)
+      L121 |                    <li id="players">Vít Stráda</li>
+                                   ^ The id value [ players ] must be unique. (id-unique)
+      L123 |                    <li id="players">Lukáš Lhotský</li>
+                                   ^ The id value [ players ] must be unique. (id-unique)
+      L124 |                    <li id="players">David Lintymer</li>
+                                   ^ The id value [ players ] must be unique. (id-unique)
+      L126 |                    <li id="players">Quido Friedrich</li>
+                                   ^ The id value [ players ] must be unique. (id-unique)
+      L127 |                    <li id="players">Tomáš Gončár</li>
+                                   ^ The id value [ players ] must be unique. (id-unique)
+      L128 |                    <li id="players">Daniel Koňarčík</li>
+                                   ^ The id value [ players ] must be unique. (id-unique)
+      L129 |                    <li id="players">Tadeáš Přáda</li>
+                                   ^ The id value [ players ] must be unique. (id-unique)
+      L130 |                    <li id="players">Metoděj Puk</li>
+                                   ^ The id value [ players ] must be unique. (id-unique)
+      L131 |                    <li id="players">Vojtěch Stráda</li>
+                                   ^ The id value [ players ] must be unique. (id-unique)
+      L132 |                    <li id="players">Jiří Zelenka</li>
+                                   ^ The id value [ players ] must be unique. (id-unique)
+      L137 |    <button class="back-to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">Zpět na za...
+                                           ^ Inline script [  onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" ] cannot be used. (inline-script-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\babm19/zapasy/index.html
+      L238 |    <button class="back-to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">Zpět na za...
+                                           ^ Inline script [  onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" ] cannot be used. (inline-script-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\dlah01/islands/index.html
+      L50 |...                width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy"
+                                                      ^ Inline style [  style="border:0;" ] cannot be used. (inline-style-disabled)
+      L66 |...                width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy"
+                                                      ^ Inline style [  style="border:0;" ] cannot be used. (inline-style-disabled)
+      L79 |...                width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy"
+                                                      ^ Inline style [  style="border:0;" ] cannot be used. (inline-style-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\hree01/o-nas/index.html
+      L86 |                ASPM & Janem Spáleným…
+                               ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\hoza01/food/index.html
+      L233 |                                <a href=" https://www.palmenhaus.at/en/">Menu</a>
+                                              ^ The attributes of [ href ] must not have leading or trailing whitespace. (attr-whitespace)
+      L275 |                                    href=" https://cafecentral.wien/wp-content/uploads/cafe-central-s...
+            ^ The attributes of [ href ] must not have leading or trailing whitespace. (attr-whitespace)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\krem22/Contact/index.html
+      L115 |                <form id="contactForm" onsubmit="return sendEmail(event)">
+                                                  ^ Inline script [  onsubmit="return sendEmail(event)" ] cannot be used. (inline-script-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\kruj08/about/index.html
+      L22 |        <a href="../home/" class="logo" style="text-decoration: none; color: inherit;">
+                                                  ^ Inline style [  style="text-decoration: none; color: inherit;" ] cannot be used. (inline-style-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\kruj08/contact/index.html
+      L22 |        <a href="../home/" class="logo" style="text-decoration: none; color: inherit;">
+                                                  ^ Inline style [  style="text-decoration: none; color: inherit;" ] cannot be used. (inline-style-disabled)
+      L49 |...v class="section-solutions fly-in-right" style="display: flex; flex-direction: column; align-items: c...
+                                                      ^ Inline style [  style="display: flex; flex-direction: column; align-items: center;" ] cannot be used. (inline-style-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\kruj08/pricing/index.html
+      L22 |        <a href="../home/" class="logo" style="text-decoration: none; color: inherit;">
+                                                  ^ Inline style [  style="text-decoration: none; color: inherit;" ] cannot be used. (inline-style-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\kruj08/home/index.html
+      L22 |        <a href="../home/" class="logo" style="text-decoration: none; color: inherit;">
+                                                  ^ Inline style [  style="text-decoration: none; color: inherit;" ] cannot be used. (inline-style-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\kruj08/solutions/index.html
+      L22 |        <a href="../home/" class="logo" style="text-decoration: none; color: inherit;">
+                                                  ^ Inline style [  style="text-decoration: none; color: inherit;" ] cannot be used. (inline-style-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\mast06/trades/index.html
+      L55 |                </div>
+                           ^ Tag must be paired, missing: [ </p> ], start tag match failed [ <p> ] on line 51. (tag-pair)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\monj06/AboutUs/index.html
+      L40 |                </ul>
+                           ^ Tag must be paired, missing: [ </li> ], start tag match failed [ <li class="dropdown"> ] on line 29. (tag-pair)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\monj06/Contact/index.html
+      L40 |                </ul>
+                           ^ Tag must be paired, missing: [ </li> ], start tag match failed [ <li class="dropdown"> ] on line 29. (tag-pair)
+      L67 |...                width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                                                      ^ Inline style [  style="border:0;" ] cannot be used. (inline-style-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\monj06/Gallery/index.html
+      L40 |                </ul>
+                           ^ Tag must be paired, missing: [ </li> ], start tag match failed [ <li class="dropdown"> ] on line 29. (tag-pair)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\monj06/News/index.html
+      L40 |                </ul>
+                           ^ Tag must be paired, missing: [ </li> ], start tag match failed [ <li class="dropdown"> ] on line 29. (tag-pair)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\monj06/Partners/index.html
+      L40 |                </ul>
+                           ^ Tag must be paired, missing: [ </li> ], start tag match failed [ <li class="dropdown"> ] on line 29. (tag-pair)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\monj06/Public/index.html
+      L40 |                </ul>
+                           ^ Tag must be paired, missing: [ </li> ], start tag match failed [ <li class="dropdown"> ] on line 29. (tag-pair)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\monj06/Results/index.html
+      L40 |                </ul>
+                           ^ Tag must be paired, missing: [ </li> ], start tag match failed [ <li class="dropdown"> ] on line 29. (tag-pair)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\neme06/about-us/index.html
+      L76 |</body>
+                  ^ Tag must be paired, missing: [ </html> ], open tag match failed [ <html lang="en"> ] on line 2. (tag-pair)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\nguv18/places-to-go/index.html
+      L132 |... between 1899 and 1902 by France's Daydé & Pillé company and designed by Gustave Eiffel, Long
+                                                       ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\plul01/coachingStaff/index.html
+      L22 |    <a href="./ " class="activeNav">Coaching staff</a>
+                 ^ The attributes of [ href ] must not have leading or trailing whitespace. (attr-whitespace)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\pokv03/mix/index.html
+      L96 |...               <h4>Sidechain Compression</h3>
+                                                      ^ Tag must be paired, no start tag: [ </h3> ] (tag-pair)
+      L99 |                        </div>
+                                   ^ Tag must be paired, missing: [ </h4> ], start tag match failed [ <h4> ] on line 96. (tag-pair)
+      L102 |...                   <h4>EQ (Equalization)</h3>
+                                                       ^ Tag must be paired, no start tag: [ </h3> ] (tag-pair)
+      L105 |                        </div>
+                                    ^ Tag must be paired, missing: [ </h4> ], start tag match failed [ <h4> ] on line 102. (tag-pair)
+      L108 |...                    <h4>Reverb and Delay</h3>
+                                                       ^ Tag must be paired, no start tag: [ </h3> ] (tag-pair)
+      L111 |                        </div>
+                                    ^ Tag must be paired, missing: [ </h4> ], start tag match failed [ <h4> ] on line 108. (tag-pair)
+      L114 |...                <h4>Parallel Compression</h3>
+                                                       ^ Tag must be paired, no start tag: [ </h3> ] (tag-pair)
+      L117 |                        </div>
+                                    ^ Tag must be paired, missing: [ </h4> ], start tag match failed [ <h4> ] on line 114. (tag-pair)
+      L120 |...                 <h4>High-Pass Filtering</h3>
+                                                       ^ Tag must be paired, no start tag: [ </h3> ] (tag-pair)
+      L123 |                        </div>
+                                    ^ Tag must be paired, missing: [ </h4> ], start tag match failed [ <h4> ] on line 120. (tag-pair)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\pycd01/e-tests/index.html
+      L70 |</main>
+                  ^ Tag must be paired, missing: [ </body></html> ], open tag match failed [ <body> ] on line 13. (tag-pair)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\rezd10/About/index.html
+      L17 |            <div class="hamburger" onclick="toggleMenu()">
+                                             ^ Inline script [  onclick="toggleMenu()" ] cannot be used. (inline-script-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\rezd10/Kontakt/index.html
+      L17 |            <div class="hamburger" onclick="toggleMenu()">
+                                             ^ Inline script [  onclick="toggleMenu()" ] cannot be used. (inline-script-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\rezd10/Results/index.html
+      L17 |            <div class="hamburger" onclick="toggleMenu()">
+                                             ^ Inline script [  onclick="toggleMenu()" ] cannot be used. (inline-script-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\rezd10/Rules/index.html
+      L17 |            <div class="hamburger" onclick="toggleMenu()">
+                                             ^ Inline script [  onclick="toggleMenu()" ] cannot be used. (inline-script-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\rezd10/SignUp/index.html
+      L17 |            <div class="hamburger" onclick="toggleMenu()">
+                                             ^ Inline script [  onclick="toggleMenu()" ] cannot be used. (inline-script-disabled)
+      L39 |                    <h2 style="text-align: center;">Registrace jednotlivců</h2>
+                                  ^ Inline style [  style="text-align: center;" ] cannot be used. (inline-style-disabled)
+      L59 |...button type="submit" class="form-button" style="display: block; margin: 0 auto;">Registrovat se</butt...
+                                                      ^ Inline style [  style="display: block; margin: 0 auto;" ] cannot be used. (inline-style-disabled)
+      L63 |                    <h2 style="text-align: center;">Registrace štafet</h2>
+                                  ^ Inline style [  style="text-align: center;" ] cannot be used. (inline-style-disabled)
+      L80 |...button type="submit" class="form-button" style="display: block; margin: 0 auto;">Registrovat štafetu<...
+                                                      ^ Inline style [  style="display: block; margin: 0 auto;" ] cannot be used. (inline-style-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\rezv06/cv/index.html
+      L16 |            <div class="logo"><img style="text-align: center;" src="../img/Profile.jpg" alt="VR"></di...
+                                             ^ Inline style [  style="text-align: center;" ] cannot be used. (inline-style-disabled)
+      L69 |                        <span style="width: 90%;"></span>
+                                        ^ Inline style [  style="width: 90%;" ] cannot be used. (inline-style-disabled)
+      L75 |                        <span style="width: 85%;"></span>
+                                        ^ Inline style [  style="width: 85%;" ] cannot be used. (inline-style-disabled)
+      L81 |                        <span style="width: 80%;"></span>
+                                        ^ Inline style [  style="width: 80%;" ] cannot be used. (inline-style-disabled)
+      L85 |                    <strong>HTML & CSS</strong>
+                                           ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+      L87 |                        <span style="width: 70%;"></span>
+                                        ^ Inline style [  style="width: 70%;" ] cannot be used. (inline-style-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\rezv06/portfolio/index.html
+      L16 |            <div class="logo"><img style="text-align: center;" src="../img/Profile.jpg" alt="VR"></di...
+                                             ^ Inline style [  style="text-align: center;" ] cannot be used. (inline-style-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\rezv06/services/index.html
+      L17 |            <div class="logo"><img style="text-align: center;" src="../img/Profile.jpg" alt="VR"></di...
+                                             ^ Inline style [  style="text-align: center;" ] cannot be used. (inline-style-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\skop08/upcoming/index.html
+      L50 |...                   <div class="progress" style="width: 70%;"></div>
+                                                      ^ Inline style [  style="width: 70%;" ] cannot be used. (inline-style-disabled)
+      L60 |...                   <div class="progress" style="width: 40%;"></div>
+                                                      ^ Inline style [  style="width: 40%;" ] cannot be used. (inline-style-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\smam02/finished-matches/index.html
+      L37 |                <table style="text-align: center">
+                                 ^ Inline style [  style="text-align: center" ] cannot be used. (inline-style-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\smam02/planned-matches/index.html
+      L38 |                <table style="text-align: center">
+                                 ^ Inline style [  style="text-align: center" ] cannot be used. (inline-style-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\stop07/skills/index.html
+      L63 |                        style="border: 0;" allowfullscreen>
+           ^ Inline style [ 
+                        style="border: 0;" ] cannot be used. (inline-style-disabled)
+      L81 |                        style="border: 0;" allowfullscreen>
+           ^ Inline style [ 
+                        style="border: 0;" ] cannot be used. (inline-style-disabled)
+      L102 |                        style="border: 0;" allowfullscreen>
+            ^ Inline style [ 
+                        style="border: 0;" ] cannot be used. (inline-style-disabled)
+      L119 |                        style="border: 0;" allowfullscreen>
+            ^ Inline style [ 
+                        style="border: 0;" ] cannot be used. (inline-style-disabled)
+      L142 |                        style="border: 0;" allowfullscreen>
+            ^ Inline style [ 
+                        style="border: 0;" ] cannot be used. (inline-style-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\stop07/tips-and-tricks/index.html
+      L28 |...-tips-and-tricks"></i> <a href="./">Tips & Tricks</a>
+                                                      ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\trpj00/AboutMe/index.html
+      L83 |              <strong>Tools & Platforms:</strong> Git, Docker, AWS
+                                      ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\trpj00/References/index.html
+      L37 |          </li>
+                     ^ Tag must be paired, no start tag: [ </li> ] (tag-pair)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\valp07/blog/index.html
+      L56 |        </article>
+                   ^ Tag must be paired, missing: [ </p></p> ], start tag match failed [ <p> ] on line 51. (tag-pair)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\vodd01/about-us/index.html
+      L11 |    <title>Dun & Bradstreet - O nás</title>
+                         ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+      L16 |            <h1><a href="../">Dun & Bradstreet</a></h1>
+                                            ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+      L33 |...                       <p>Společnost Dun & Bradstreet již téměř 200 let využívá sílu dat, analytickýc...
+                                                       ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+      L35 |                    </div>
+                               ^ Tag must be paired, missing: [ </p></p> ], start tag match failed [ <p> ] on line 33. (tag-pair)
+      L36 |        </section>
+                   ^ Tag must be paired, missing: [ </div> ], start tag match failed [ <div class="container"> ] on line 30. (tag-pair)
+      L48 |            <p>&copy; 2024 Dun & Bradstreet. Autor: Daniel Vodička</p>
+                                         ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\vodd01/contact/index.html
+      L11 |    <title>Dun & Bradstreet - Kontakt</title>
+                         ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+      L16 |            <h1><a href="../">Dun & Bradstreet</a></h1>
+                                            ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+      L41 |...         <p><a href="../about-us/">O Dun & Bradstreet</a></p>
+                                                      ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+      L50 |            <p>&copy; 2024 Dun & Bradstreet. Autor: Daniel Vodička</p>
+                                         ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\vodd01/services/index.html
+      L11 |    <title>Dun & Bradstreet - Služby</title>
+                         ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+      L16 |            <h1><a href="../">Dun & Bradstreet</a></h1>
+                                            ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+      L64 |            <p>&copy; 2024 Dun & Bradstreet. Autor: Daniel Vodička</p>
+                                         ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\vodd01/team/index.html
+      L9 |    <title>Dun & Bradstreet - Tým</title>
+                        ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+      L14 |            <h1><a href="../">Dun & Bradstreet</a></h1>
+                                            ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+      L33 |... zkušeností v oblasti analýzy dat. V Dun & Bradstreet vede tým analytiků a zajišťuje, že naše data js...
+                                                       ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+      L51 |            <p>&copy; 2024 Dun & Bradstreet. Autor: Daniel Vodička</p>
+                                         ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\dlah01/islands/rhodos/index.html
+      L56 |                        <div class=" image-container">
+                                       ^ The attributes of [ class ] must not have leading or trailing whitespace. (attr-whitespace)
+      L79 |                        <div class=" image-container">
+                                       ^ The attributes of [ class ] must not have leading or trailing whitespace. (attr-whitespace)
+      L103 |                        <div class=" image-container">
+                                        ^ The attributes of [ class ] must not have leading or trailing whitespace. (attr-whitespace)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\hoza01/trips/culture/index.html
+      L199 |                        <a href=" https://www.mqw.at/en/institutions">Více info</a>
+                                      ^ The attributes of [ href ] must not have leading or trailing whitespace. (attr-whitespace)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\hoza01/trips/sights/index.html
+      L260 |                                <a href=" https://www.onb.ac.at/en/museums">Rakouskou národní knihovn...
+                                              ^ The attributes of [ href ] must not have leading or trailing whitespace. (attr-whitespace)
+      L269 |                                    href=" https://www.kaiserliche-schatzkammer.at/en/visit/visitors-...
+            ^ The attributes of [ href ] must not have leading or trailing whitespace. (attr-whitespace)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\lech00/characters/Bailu/index.html
+      L154 |...              Substats:SPD (breakpoint) > HP% > EFF RES% = DEF%
+                                                       ^ Special characters must be escaped : [ > ]. (spec-char-escape)
+      L154 |...        Substats:SPD (breakpoint) > HP% > EFF RES% = DEF%
+                                                       ^ Special characters must be escaped : [ > ]. (spec-char-escape)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\lech00/news/news1/index.html
+      L46 |                <h2>🌀 New Characters & Banners</h2>
+                                                  ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+      L52 |...              <h2>🎉 Limited-Time Events & Rewards</h2>
+                                                        ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+      L57 |                <h2>⚙️ Gameplay Changes & Quality of Life Updates</h2>
+                                                    ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+      L62 |                <h2>🗺️ New Areas & Story Expansion</h2>
+                                               ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+      L67 |                <h2>📜 Patch Notes & Bug Fixes</h2>
+                                               ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\lech00/news/news2/index.html
+      L63 |                <h2>⚙️ Key Abilities & How to Use Them</h2>
+                                                 ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+      L85 |                <h2>📜 Advanced Tips & Tricks</h2>
+                                                 ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\lech00/news/news4/index.html
+      L53 |                <h2>🎉 Key Abilities & Skills</h2>
+                                                 ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+      L75 |                <h2>📜 Pro Tips & Advanced Strategies</h2>
+                                            ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\lech00/news/news3/index.html
+      L85 |                <h2>📜 Rewards & Exclusive Drops</h2>
+                                           ^ Special characters must be escaped : [  &  ]. (spec-char-escape)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\lyso01/About/FAQs/index.html
+      L70 |</html>
+           ^ Tag must be paired, missing: [ </body> ], start tag match failed [ <body> ] on line 14. (tag-pair)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\mikd08/sp1/tilt/index.html
+      L16 |         <a href="" class="active" data-js-activeContent="tilt">tilt</a>
+                                             ^ The attribute name of [ data-js-activeContent ] must be in lowercase. (attr-lowercase)
+      L17 |         <a href="" data-js-activeContent="eyes">eyes</a>
+                              ^ The attribute name of [ data-js-activeContent ] must be in lowercase. (attr-lowercase)
+      L18 |         <a href="" data-js-activeContent="btnRun">running button</a>
+                              ^ The attribute name of [ data-js-activeContent ] must be in lowercase. (attr-lowercase)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\mikd08/sp1/me/contact.html
+      L98 |                           style="width: 16px" /></span
+           ^ Inline style [ 
+                           style="width: 16px" ] cannot be used. (inline-style-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\mikd08/sp1/me/index.html
+      L52 |            <h1 style="display: none">DAVID MIKULA</h1>
+                          ^ Inline style [  style="display: none" ] cannot be used. (inline-style-disabled)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\neme06/content/authors/index.html
+      L108 |</body>
+                   ^ Tag must be paired, missing: [ </html> ], open tag match failed [ <html lang="en"> ] on line 2. (tag-pair)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\neme06/content/works/index.html
+      L80 |</body>
+                  ^ Tag must be paired, missing: [ </html> ], open tag match failed [ <html lang="en"> ] on line 2. (tag-pair)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\pycd01/e-tests/test/index.html
+      L59 |</main>
+                  ^ Tag must be paired, missing: [ </body></html> ], open tag match failed [ <body> ] on line 13. (tag-pair)
+
+   C:\dev\4IZ268-2024-2025-ZS\www\sp1\rumj04/about/team/index.html
+      L53 |                alt="Vlastníci bytových jednotek Nad Obcí I 1416 ">
+           ^ The attributes of [ alt ] must not have leading or trailing whitespace. (attr-whitespace)
+
+Scanned 414 files, found 346 errors in 81 files (4054 ms)
