@@ -7,24 +7,24 @@
     <link rel="stylesheet" href="styles.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="container">
         <header>
-            <div>
+            <form>
                 <input type="text" placeholder="Zadejte město" id="search">
                 <button id="search-btn">Hledat</button>
-            </div>
+            </form>
             <button id="location-btn">Zjistit polohu</button>
-            <h1 class="city-name"></h1>
         </header>
         
         <div class="content">
             <aside class="left-panel">
                 <h3>Naposledy vyhledané</h3>
             </aside>
-            <div class="workspace-container">
-            </div>
+            <main class="workspace-container">
+            </main>
         </div>
     </div>
     <script src="main.js"></script>
