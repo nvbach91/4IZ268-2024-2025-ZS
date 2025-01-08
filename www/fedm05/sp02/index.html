@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Route Planner</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="container">
+        <aside class="left-panel">
+            <h1>Route Planner</h1>
+            <h3>Routes</h3>
+            <nav class="route-list">
+                <div class="route add-route-button"><i class="fa fa-plus-circle"></i></div>
+            </nav>
+            <div class="labels">
+                <span>Location</span>
+                <span>Arrival</span>
+                <span>Departure</span>
+            </div>
+
+            <div class="route-controls">
+                <input type="text" class="location-input" id="location" placeholder="Enter Location">
+                <input type="text" class="date-input" id="arrival" placeholder="Select Date">
+                <input type="text" class="date-input" id="departure" placeholder="Select Date">
+                <div class="results-container"></div>
+                <button class="add-route-segment-button">Add to route</button>
+            </div>
+            <div class="route-info">
+            </div>
+        </aside>
+    </div>
+    <main id="map"></main>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
