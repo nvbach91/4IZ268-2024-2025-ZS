@@ -1,33 +1,91 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simon Says</title>
+    <meta name="description"
+        content="Simon Says je zábavná hra na procvičení paměti. Vyzkoušejte si svou schopnost zapamatovat si sled barev!">
+    <meta name="keywords" content="Simon Says, paměťová hra, zábava, hry, logická hra, barvy">
+    <link rel="icon" type="image/png" href="photos/circlephoto.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900&family=Sintony:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
-    <div class="container">
+    <header>
         <h1>Simon Says</h1>
-        <div id="score-board">
-            <p>Your Score: <span id="current-score">0</span></p>
-            <p>High Score: <span id="high-score">0</span></p>
-            <p>Your Time: <span id="your-time">00:00</span></p>
-            <p>Best Time: <span id="best-time">00:00</span></p>
-        </div>
-        <div id="game-board">
-            <div id="circle">
-                <button class="color-btn" id="yellow"></button>
-                <button class="color-btn" id="red"></button>
-                <button class="color-btn" id="blue"></button>
-                <button class="color-btn" id="green"></button>
-                <div id="start-button">Start</div>
+    </header>
+
+    <main>
+        <section id="game-over-modal" class="modal">
+            <div class="modal-content">
+                <h2>Game Over</h2>
+                <p>Your Current Score: <span id="final-score"></span></p>
+                <p>Your Highest Score: <span id="best-score-modal"></span></p>
+                <p>Your Current Time: <span id="final-time"></span></p>
+                <p>Your Best Time: <span id="best-time-modal"></span></p>
+                <button id="restart-game" class="modal-btn">Restart Game</button>
+                <button id="close-modal" class="modal-btn">Close</button>
             </div>
-        </div>
-    </div>
+        </section>
+
+        <section id="score-board">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Your Current Score</td>
+                        <td><span id="current-score">0</span></td>
+                    </tr>
+                    <tr>
+                        <td>Your Highest Score</td>
+                        <td><span id="highest-score">0</span></td>
+                    </tr>
+                    <tr>
+                        <td>Your Current Time</td>
+                        <td><span id="your-time">00:00</span></td>
+                    </tr>
+                    <tr>
+                        <td>Your Best Time</td>
+                        <td><span id="best-time">00:00</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="game-circle">
+            <div id="circle">
+                <button class="color-button" id="yellow"></button>
+                <button class="color-button" id="red"></button>
+                <button class="color-button" id="blue"></button>
+                <button class="color-button" id="green"></button>
+            </div>
+            <div id="start-button" class="btn btn-primary">
+                <span>Start</span>
+            </div>
+        </section>
+
+        <button id="restart" class="btn btn-secondary">
+            <i class="bi bi-arrow-clockwise"></i> Restart
+        </button>
+        <div id="spinner" class="spinner" style="display:none;"></div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Petra Štolfová</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://momentjs.com/downloads/moment.min.js"></script>
     <script src="js/main.js"></script>
 </body>
+
 </html>
