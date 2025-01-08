@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon Guessing Game</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="./style/style.css">
+</head>
+
+<body>
+    <div class="game-container">
+        <h1 style="text-align: center;">Pokémon Guessing Game</h1>
+
+        <div id="nickname-section" class="input-section">
+            <input type="text" id="nickname-input" placeholder="Enter your nickname">
+            <button id="start-button">Start Game</button>
+        </div>
+
+        <div id="game-section" style="display: none;">
+            <div class="score-display">
+                Score: <span id="score">0</span>
+            </div>
+
+            <div class="pokemon-display">
+                <img id="pokemon-image" class="pokemon-image" src="" alt="Pokemon silhouette">
+            </div>
+
+            <div class="input-section">
+                <input type="text" id="guess-input" placeholder="Enter your guess" autocomplete="off">
+                <button id="submit-guess">Submit Guess</button>
+            </div>
+
+        </div>
+        <div id="message" class="message"></div>
+    </div>
+
+    <div class="leaderboard">
+        <h2>Leaderboard - Best Scores</h2>
+        <div id="leaderboard-list"></div>
+    </div>
+
+    <script src="./js/main.js"></script>
+</body>
+
+</html>
