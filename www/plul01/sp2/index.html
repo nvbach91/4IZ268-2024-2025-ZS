@@ -8,28 +8,50 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="./style/style.css">
 </head>
-
 <body>
     <div class="game-container">
+        <button id="back-button">Back</button>
         <h1 style="text-align: center;">Pokémon Guessing Game</h1>
-
+        
         <div id="nickname-section" class="input-section">
-            <input type="text" id="nickname-input" placeholder="Enter your nickname">
-            <button id="start-button">Start Game</button>
+            <form id="nickname-form">
+                <input type="text" id="nickname-input" placeholder="Enter your nickname">
+                <button type="submit" id="start-button">Start Game</button>
+            </form>
+            
+            <div id="generation-section">
+                
+            </div>
         </div>
 
         <div id="game-section" style="display: none;">
+            
+
+            <div class="current-player-display" id="current-player"></div>
+
             <div class="score-display">
                 Score: <span id="score">0</span>
             </div>
-
+            
             <div class="pokemon-display">
-                <img id="pokemon-image" class="pokemon-image" src="" alt="Pokemon silhouette">
+                <div>
+                    <img id="pokemon-image-front" class="pokemon-image" src="" alt="Pokemon silhouette front">
+                    <p><b>Front</b></p>
+                </div>
+                <div id="pokemon-with-anotation-back">
+                    <img id="pokemon-image-back" class="pokemon-image" src="" alt="Pokemon silhouette back">
+                    <p><b>Back</b></p>
+                </div>
             </div>
 
             <div class="input-section">
-                <input type="text" id="guess-input" placeholder="Enter your guess" autocomplete="off">
-                <button id="submit-guess">Submit Guess</button>
+                <form>
+                    <input type="text" id="guess-input" placeholder="Enter your guess" autocomplete="off" autofocus>
+                    <div>
+                        <button id="submit-guess">Submit Guess</button>
+                        <button id="skip-guess">Skip</button>
+                    </div>
+                </form>
             </div>
 
         </div>
@@ -43,5 +65,4 @@
 
     <script src="./js/main.js"></script>
 </body>
-
 </html>
