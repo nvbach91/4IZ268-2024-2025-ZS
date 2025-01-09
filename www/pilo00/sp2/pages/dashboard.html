@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Tabletop Game Planner</title>
+  <link rel="icon" href="../img/icons/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../css/styles.css">
+  <script type="module" src="../js/firebase-config.js"></script>
+  <script type="module" src="../js/dashboard.js"></script>
+  <script src="../libs/daypilot/daypilot-all.min.js"></script>
+
+</head>
+
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <h1>Tabletop Game Planner</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="profile.html">Profile</a></li>
+        <li><a href="#" id="logoutBtn">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Dashboard Section -->
+  <main class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2>Your Groups</h2>
+      <ul id="groupList">
+        <!-- Groups will be populated here dynamically -->
+      </ul>
+      <button id="addGroupBtn">+ Add Group</button>
+    </aside>
+
+    <!-- Main Content -->
+    <section class="main-content">
+      <h2 id="groupTitle">Select a Group</h2>
+
+      <!-- Calendar Section -->
+      <div class="calendar-navigation">
+        <button id="prevWeekBtn">Previous Week</button>
+        <button id="currentWeekBtn">Current Week</button>
+        <button id="nextWeekBtn">Next Week</button>
+    </div>
+    <div id="calendarContainer">
+        <!-- Calendar will be rendered here -->
+    </div>
+    
+      
+
+      <!-- Upcoming Events -->
+      <section class="upcoming-events">
+        <h3>Upcoming Events</h3>
+        <ul id="upcomingEvents">
+          <!-- Event list will be dynamically populated -->
+        </ul>
+      </section>
+
+      <!-- Add Event Button -->
+      <button id="addEventBtn">+ Add Event</button>
+    </section>
+
+    <!-- Modal Container -->
+    <div class="modal">
+      <!-- Modal Content -->
+      <div class="modal-content">
+        <span id="closeModal" class="close">&times;</span>
+        <h3>Add Event</h3>
+        <form id="eventForm">
+          <div>
+            <label for="eventTitle">Event Title:</label>
+            <input type="text" id="eventTitle" placeholder="Enter event title" required />
+          </div>
+          <div>
+            <label for="startTime">Start Time:</label>
+            <input type="datetime-local" id="startTime" required />
+          </div>
+          <div>
+            <label for="duration">Duration (hours):</label>
+            <input type="number" id="duration" placeholder="Enter duration in hours" min="0" step="0.5" required />
+          </div>
+          <div>
+            <button type="submit">Add Event</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Add Group Modal -->
+  <div id="addGroupModal" class="modal">
+    <div class="modal-content">
+      <span id="closeGroupModal" class="close">&times;</span>
+      <h3>Add New Group</h3>
+      <form id="addGroupForm">
+        <label for="groupName">Group Name:</label>
+        <input type="text" id="groupName" placeholder="Enter group name" required>
+        <button type="submit">Add Group</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Edit Group Modal -->
+<div id="editGroupModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="document.getElementById('editGroupModal').classList.remove('active')">&times;</span>
+    <h3>Edit Group</h3>
+    <input type="text" id="editGroupNameInput" placeholder="Enter new group name" />
+    <button id="saveGroupNameBtn">Save</button>
+  </div>
+</div>
+
+<!-- Delete Group Modal -->
+<div id="deleteGroupModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="document.getElementById('deleteGroupModal').classList.remove('active')">&times;</span>
+    <h3>Are you sure you want to delete this group?</h3>
+    <button id="confirmDeleteGroupBtn" style="background-color: red; color: white;">Delete</button>
+    <button onclick="document.getElementById('deleteGroupModal').classList.remove('active')">Cancel</button>
+  </div>
+</div>
+
+
+    
+    
+
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2024 Tabletop Game Planner. All rights reserved.</p>
+    <div class="social-links">
+      <a href="#">Contact</a> |
+      <a href="#">Privacy Policy</a> |
+      <a href="#">Terms of Service</a>
+    </div>
+  </footer>
+</body>
+
+</html>
