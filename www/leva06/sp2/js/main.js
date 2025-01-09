@@ -6,60 +6,86 @@ import Score from "./score.js";
 
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
+const nicknameForm = document.getElementById("nickname-form");
+const nicknameInput = document.getElementById("nickname-input");
 
 // Game Constants
 const GAME_WIDTH = 800;
 const GAME_HEIGHT = 400;
-const GAME_SPEED_START = 1;
-const CANDY_COUNT = 3; // Number of candies on screen
+const GAME_SPEED_START = 0.5;
+const CANDY_COUNT = 3;
+const TREE_COUNT = 3;
 const CANDY_IMAGE_SRC = "images/candy.png";
-const PLAYER_JUMP_STRENGTH = -12; // Fixed jump strength
-const PLAYER_GRAVITY = 0.5; // Fixed gravity
+const PLAYER_JUMP_STRENGTH = 12;
+const PLAYER_GRAVITY = 0.5;
 const API_URL = "https://675468d036bcd1eec851143c.mockapi.io/scores/Scores";
 
 canvas.width = GAME_WIDTH;
 canvas.height = GAME_HEIGHT;
 
 // Game Variables
-let gameSpeed = GAME_SPEED_START;
 let player = null;
 let ground = null;
-let tree = null;
+let trees = [];
 let candies = [];
 let score = null;
 let backgroundImage = null;
 let gameOver = false;
 let waitingToStart = true;
 let previousTime = null;
-
+let nickname = "";
+let gameSpeed = GAME_SPEED_START; 
+let gameLoopHandle = null; 
+let highScoresLoaded = false; 
 
 // Initialize Game Objects
-async function initializeGame() {
+function initializeGame() {
   const scaleRatio = 1;
 
-  player = new Player(ctx, 50, 50, scaleRatio, PLAYER_JUMP_STRENGTH, PLAYER_GRAVITY); // Kitten
-  ground = new Ground(ctx, GAME_WIDTH, 50, 2, scaleRatio); // Snowy ground
-  tree = new Tree(ctx, GAME_WIDTH, GAME_HEIGHT - 100, 50, 100, "images/tree.png"); // Tree obstacle
-  score = new Score(ctx, scaleRatio); // Score tracker
+  player = new Player(ctx, 50, 50, scaleRatio, PLAYER_JUMP_STRENGTH, PLAYER_GRAVITY);
+  ground = new Ground(ctx, GAME_WIDTH, 50, 2, scaleRatio);
 
-  backgroundImage = new Image();
-  backgroundImage.src = "images/sky.png"; // Background image
-
+  initializeTrees();
   initializeCandies();
 
-  // Load high scores at start
-  const highScores = await loadHighScores();
-  console.log("Loaded high scores:", highScores);
+  score = new Score(ctx, scaleRatio);
+
+  backgroundImage = new Image();
+  backgroundImage.src = "images/sky.png";
+
+  if (!highScoresLoaded) {
+    loadHighScores();
+    highScoresLoaded = true;
+  }
+}
+
+function initializeTrees() {
+  trees = [];
+  let previousX = GAME_WIDTH;
+
+  for (let i = 0; i < TREE_COUNT; i++) {
+    const minDistance = 500;
+    const maxDistance = 1200;
+
+    const randomDistance = Math.random() * (maxDistance - minDistance) + minDistance;
+    const newTreeX = previousX + randomDistance;
+
+    const newTree = new Tree(ctx, newTreeX, GAME_HEIGHT - 100, 50, 100, "images/tree.png");
+    trees.push(newTree);
+
+    previousX = newTreeX;
+  }
 }
 
 function initializeCandies() {
+  candies = [];
   for (let i = 0; i < CANDY_COUNT; i++) {
     const candy = new Candy(
       ctx,
-      GAME_WIDTH + i * 200, // Spaced out along X
-      GAME_HEIGHT - 130, // Place candies near the ground, above the trees
-      30, // Candy width
-      30, // Candy height
+      GAME_WIDTH + i * 200,
+      GAME_HEIGHT - 130,
+      30,
+      30,
       CANDY_IMAGE_SRC
     );
     candies.push(candy);
@@ -70,7 +96,7 @@ function initializeCandies() {
 function gameLoop(currentTime) {
   if (!previousTime) {
     previousTime = currentTime;
-    requestAnimationFrame(gameLoop);
+    gameLoopHandle = requestAnimationFrame(gameLoop);
     return;
   }
 
@@ -80,7 +106,6 @@ function gameLoop(currentTime) {
   ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
 
   if (waitingToStart) {
-    // Display black screen with Merry Christmas message
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
     ctx.font = "40px Arial";
@@ -93,32 +118,32 @@ function gameLoop(currentTime) {
 
     player.update(deltaTime);
     ground.update(gameSpeed, deltaTime);
-    tree.update(gameSpeed, deltaTime);
 
-    // Update and draw candies
+    trees.forEach((tree) => {
+      tree.update(gameSpeed, deltaTime);
+      tree.draw();
+
+      if (tree.collideWith(player)) {
+        gameOver = true;
+        saveScoreToServer(score.score);
+        score.setHighScore();
+      }
+    });
+
     candies.forEach((candy) => {
       candy.update(gameSpeed, deltaTime);
       candy.draw();
 
-      // Check for candy collection
       if (candy.collideWith(player)) {
-        score.incrementBy(10); // Add 10 to score
-        candy.x = canvas.width; // Reset candy position
-        candy.y = GAME_HEIGHT - 130; // Keep candies near the ground
+        score.incrementBy(10);
+        candy.x = canvas.width;
       }
     });
 
     score.update(deltaTime);
 
-    if (tree.collideWith(player)) {
-      gameOver = true;
-      saveScoreToServer(score.currentScore); // Save score to server
-      score.setHighScore();
-    }
-
     player.draw();
     ground.draw();
-    tree.draw();
     score.draw();
   } else {
     ctx.fillStyle = "black";
@@ -126,27 +151,31 @@ function gameLoop(currentTime) {
     ctx.font = "30px Arial";
     ctx.fillStyle = "red";
     ctx.textAlign = "center";
-    ctx.fillText("Game Over! Press R to Restart", GAME_WIDTH / 2, GAME_HEIGHT / 2);
+    ctx.fillText(`Game Over! Score: ${Math.floor(score.score)}`, GAME_WIDTH / 2, GAME_HEIGHT / 2 - 20);
+    ctx.fillText("Press R to Restart", GAME_WIDTH / 2, GAME_HEIGHT / 2 + 20);
   }
 
-  requestAnimationFrame(gameLoop);
+  gameLoopHandle = requestAnimationFrame(gameLoop);
 }
 
 // Restart Game
 function restartGame() {
   if (gameOver) {
     gameOver = false;
-    gameSpeed = GAME_SPEED_START;
-    candies = [];
-    initializeGame();
+    waitingToStart = true;
     previousTime = null;
-    requestAnimationFrame(gameLoop);
+    gameSpeed = GAME_SPEED_START; 
+
+    cancelAnimationFrame(gameLoopHandle); 
+    initializeGame(); 
+    gameLoopHandle = requestAnimationFrame(gameLoop); 
   }
 }
 
+// Save Score to Server
 async function saveScoreToServer(score) {
   const timestamp = new Date().toISOString();
-  console.log("Sending score to API:", { score, timestamp });
+  console.log("Sending score to API:", { nickname, score, timestamp });
   try {
     const response = await fetch(API_URL, {
       method: "POST",
@@ -154,6 +183,7 @@ async function saveScoreToServer(score) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        nickname,
         score,
         timestamp,
         gameInfo: { level: 1, player: "Kitten" },
@@ -177,7 +207,7 @@ async function loadHighScores() {
     const response = await fetch(API_URL);
     if (response.ok) {
       const scores = await response.json();
-      return scores;
+      console.log("High scores loaded:", scores);
     } else {
       console.error("Failed to load scores:", response.statusText);
     }
@@ -186,11 +216,17 @@ async function loadHighScores() {
   }
 }
 
-// Display Loader
-function displayLoader(show) {
-  const loader = document.getElementById("loader");
-  if (loader) loader.style.display = show ? "block" : "none";
-}
+// Handle Nickname Submission
+nicknameForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  nickname = nicknameInput.value.trim();
+  if (nickname) {
+    nicknameForm.style.display = "none";
+    waitingToStart = true;
+    initializeGame();
+    gameLoopHandle = requestAnimationFrame(gameLoop);
+  }
+});
 
 // Event Listeners
 window.addEventListener("keydown", (e) => {
@@ -205,7 +241,3 @@ window.addEventListener("keydown", (e) => {
     restartGame();
   }
 });
-
-// Initialize and Start the Game
-initializeGame();
-requestAnimationFrame(gameLoop);
