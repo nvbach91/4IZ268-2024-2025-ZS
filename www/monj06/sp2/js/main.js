@@ -1,27 +1,55 @@
-//Authorization link
-//https://www.strava.com/oauth/authorize?client_id=141939&response_type=code&redirect_uri=http://localhost/exchange_token&approval_prompt=force&scope=activity:read_all
-//https://www.strava.com/oauth/authorize?client_id=141939&response_type=code&redirect_uri=http://127.0.0.1:5500/SP2/index.html&approval_prompt=force&scope=activity:read_all,read_all
-//const API_KEY = '92dbc163c956536ae66e02d4a6167e15e71535a7';
-//const REFRESH_KEY_activityReadAll = `6bfcd2e883920e688615f9a736794ed9ea57e6e3`;
-//const gpx_link = `https://www.strava.com/activities/12518418319/export_gpx`;
-//const REFRESH_KEY = `bdd8f1d219e1278fee016853c68718db874bd895`;
 const auth_link = `https://www.strava.com/oauth/token`;
 const activities_link = `https://www.strava.com/api/v3/athlete/activities`;
+const user_link = `https://www.strava.com/api/v3/athlete`;
+const base_link = `https://www.strava.com/api/v3/`;
 const searchResultsContainer = document.querySelector('#search-results');
+const activityDetailsContainer = document.querySelector('#activity-details');
 const authButton = document.querySelector('#auth_button');
+const searchForm = document.querySelector('#search-form');
 
+//calls strava api to get activities using access token passed as parameter
 const getActivities = async (accessToken) => {
   const res = await fetch(activities_link, {
-    method: "GET",
     headers: {
       'Authorization': `Bearer ${accessToken}`,
       'Accept': 'application/json'
     }
   });
+  if (res.status !== 200) {
+    throw new Error(res.status);
+  }
   const data = await res.json();
   return data;
 };
-
+//calls strava api to get specific activity using access token and id both passed as parameters
+const getActivity = async (accessToken, activityId) => {
+  const res = await fetch(`${base_link}/activities/${activityId}`, {
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+      'Accept': 'application/json'
+    }
+  });
+  if (res.status !== 200) {
+    throw new Error(res.status);
+  }
+  const data = await res.json();
+  return data;
+};
+//calls strava api to get athlete info using access token passed as parameter
+const getAthlete = async (accessToken) => {
+  const res = await fetch(user_link, {
+    method: "GET",
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+    },
+  });
+  if (res.status !== 200) {
+    throw new Error(res.status);
+  }
+  const data = await res.json();
+  return data;
+};
+//calls strava api to get activity streams using access token, id, keys(stream type) and keybytype(Must be true) passed as parameter
 const getActivityStreams = async (accessToken, activityId, keys = '', keyByType) => {
   const streamLink = `https://www.strava.com/api/v3/activities/${activityId}/streams?keys=${keys}&key_by_type=${keyByType}`;
   const res = await fetch(streamLink, {
@@ -34,7 +62,7 @@ const getActivityStreams = async (accessToken, activityId, keys = '', keyByType)
   const data = await res.json();
   return data;
 };
-
+//uses authorization code to get access token and refresh token
 const useAuthorizationCode = async (code) => {
   if (code === null) {
     console.log("No code");
@@ -58,48 +86,33 @@ const useAuthorizationCode = async (code) => {
     return data;
   }
 };
-
-const reAuthorize = async (auth_link, Connect_Data) => {
-  const res = await fetch(auth_link, {
-    method: "POST",
-    headers: {
-      'Accept': 'application/json, text/plain, */*',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      client_id: '141939',
-      client_secret: 'a44c3c0d9468c1b78f4b918968f2f10a56446da8',
-      refresh_token: `${Connect_Data.refresh_token}`,
-      grant_type: 'refresh_token'
-    })
-  });
-  const data = await res.json();
-  return data;
-};
-const downloadGPX = async (accessToken) => {
-  const link = document.createElement("a");
-  link.href = `${gpx_link}`;
-  link.download = "activity.gpx";
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-};
-
-
-const renderMovieSearchResults = (results) => {
-  const activities = results.map((result) => {
-    const activity = document.createElement('li');
-    activity.textContent = result.name;
-    /*activity.addEventListener('click', async () => {
-        const movieDetailsData = await fetchMovieDetails(result.id);
-        renderMovieDetails(movieDetailsData);
-    });*/
-    return activity;
-  });
-  searchResultsContainer.innerHTML = '';
-  searchResultsContainer.append(...activities);
-};
-
+//stores access token and refresh token in cookies
+const storeTokens = async (accessToken, refreshToken) => {
+  document.cookie = `access_token=${accessToken};path=/; max-age=60*60*24*30`;
+  document.cookie = `refresh_token=${refreshToken};path=/; max-age=60*60*24*30`;
+}
+//gets cookie value by name
+function getCookie(cname) {
+  let name = cname + "=";
+  //remove special characters 
+  let decodedCookie = decodeURIComponent(document.cookie);
+  //split cookie on ;
+  let ca = decodedCookie.split(';');
+  //loop through ca array
+  for (let i = 0; i < ca.length; i++) {
+    //stores first value from array
+    let c = ca[i];
+    //removes spaces
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return null;
+}
+//--------------------MAP--------------------
 const API_KEY = 'Vhu6awCwPFON-b8zzwSjwNcTdgyKBX73hDTCJjFdMq0';
 
 /*
@@ -144,78 +157,279 @@ const LogoControl = L.Control.extend({
 
 // finally we add our LogoControl to the map
 new LogoControl().addTo(map);
+//--------------------MAP--------------------
+//renders user info based on data passed as parameter
+const renderUser = async (data) => {
+  data = await getAthlete(getCookie('access_token'));
+  const userContainer = document.getElementById('user-info');
+  const html = `
 
-// Zpracování nahraného GPX souboru
-document.getElementById('gpxFile').addEventListener('change', function (event) {
-  const file = event.target.files[0];
+    <div class="card-body p-3">
+      <div class="d-flex align-items-center gap-3">
+        <div class="user-profile-picture">
+          <img class="rounded-circle border shadow-sm" 
+               width="50" 
+               height="50" 
+               src="${data.profile}" 
+               alt="${data.username}'s profile picture"
+               style="object-fit: cover;"
+          >
+        </div>
+        <div class="text-start">
+          <div class="fw-bold">${data.username}</div>
+          <small class="text-muted">Strava Athlete</small>
+        </div>
+      </div>
+    </div>`;
+  userContainer.innerHTML = html;
+};
+//renders activites based on data(from search) passed as parameter
+const renderActivitySearchResults = (results) => {
+  const activities = results.map((result) => {
+    const html = `<a href="#" class="list-group-item list-group-item-action">${result.name}</a>`;
+    const activityContainer = document.createElement('div');
+    activityContainer.innerHTML = html;
 
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      const gpxData = e.target.result;
+    const activityElement = activityContainer.firstElementChild;
+    activityElement.addEventListener('click', async (e) => {
+      e.preventDefault();
+      searchResultsContainer.querySelectorAll('.list-group-item').forEach(item => {
+        item.classList.remove('active');
+      });
+      activityElement.classList.add('active');
 
-      // Načtení a vykreslení GPX dat pomocí leaflet-gpx
-      const gpxLayer = new L.GPX(gpxData, {
-        async: true,
-        marker_options: {
-          startIconUrl: 'https://leafletjs.com/examples/custom-icons/leaf-green.png',
-          endIconUrl: 'https://leafletjs.com/examples/custom-icons/leaf-red.png',
-          shadowUrl: 'https://leafletjs.com/examples/custom-icons/leaf-shadow.png',
-        },
-      }).on('loaded', function (e) {
-        map.fitBounds(e.target.getBounds());
-      }).addTo(map);
-    };
+      renderActivityDetails(result);
 
-    reader.readAsText(file);
+      const streams = await getActivityStreams(getCookie('access_token'), result.id, 'time,distance,latlng', true);
+      if (streams && streams.latlng && streams.latlng.data) {
+        // Clear existing polylines
+        map.eachLayer((layer) => {
+          if (layer instanceof L.Polyline) {
+            map.removeLayer(layer);
+          }
+        });
+        // Add new polyline
+        const polyline = L.polyline(streams.latlng.data, { color: 'red' }).addTo(map);
+        map.fitBounds(polyline.getBounds());
+      }
+      else {
+        // remove polyline
+        map.eachLayer((layer) => {
+          if (layer instanceof L.Polyline) {
+            map.removeLayer(layer);
+          }
+        });
+      }
+    });
+
+    return activityElement;
+  });
+
+  searchResultsContainer.innerHTML = '';
+  searchResultsContainer.append(...activities);
+};
+const formatTime = (seconds) => {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const remainingSeconds = seconds % 60;
+
+  const parts = [];
+  if (hours > 0) parts.push(`${hours}h`);
+  if (minutes > 0) parts.push(`${minutes}m`);
+  if (remainingSeconds > 0) parts.push(`${remainingSeconds}s`);
+
+  return parts.join(' ');
+};
+//renders activity details based on data passed as parameter
+const renderActivityDetails = (data) => {
+  const activityDetailsContainer = document.getElementById('activity-details');
+
+  const dom = `
+    <div class="card-body">
+      <h5 class="card-title">${data.name}</h5>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h6 class="card-subtitle mb-2 text-muted">Heart Rate</h6>
+              <div class="d-flex justify-content-between">
+                <div>
+                  <small class="text-muted">Average</small>
+                  <div class="h4 mb-0">${data.average_heartrate} <small>bpm</small></div>
+                </div>
+                <div>
+                  <small class="text-muted">Max</small>
+                  <div class="h4 mb-0">${data.max_heartrate} <small>bpm</small></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h6 class="card-subtitle mb-2 text-muted">Speed</h6>
+              <div class="d-flex justify-content-between">
+                <div>
+                  <small class="text-muted">Average</small>
+                  <div class="h4 mb-0">${data.average_speed * 3.6} <small>km/h</small></div>
+                </div>
+                <div>
+                  <small class="text-muted">Max</small>
+                  <div class="h4 mb-0">${data.max_speed * 3.6} <small>km/h</small></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h6 class="card-subtitle mb-2 text-muted">Distance</h6>
+              <div class="h4 mb-0">${data.distance / 1000} <small>km</small></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h6 class="card-subtitle mb-2 text-muted">Duration</h6>
+              <div class="h4 mb-0">${formatTime(data.moving_time)}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  activityDetailsContainer.innerHTML = dom;
+};
+//reauthorizes user using refresh token
+const reAuthorize = async (auth_link, Connect_Data) => {
+  const res = await fetch(auth_link, {
+    method: "POST",
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      client_id: '141939',
+      client_secret: 'a44c3c0d9468c1b78f4b918968f2f10a56446da8',
+      refresh_token: `${Connect_Data}`,
+      grant_type: 'refresh_token'
+    })
+  });
+  const data = await res.json();
+  return data;
+};
+
+// Load user activities using stored tokens
+const loadUserActivities = async () => {
+  const accessToken = getCookie('access_token');
+
+  if (!accessToken) {
+    console.log('No access token available');
+    return;
   }
-});
 
+  try {
+    const activities = await getActivities(accessToken);
+    console.log(activities);
+    if (activities.message !== "Authorization Error" && activities !== null) {
+      renderActivitySearchResults(activities);
 
-// Function to extract the code parameter
-const extractCodeAfterRedirect = () => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const code = urlParams.get('code');
-  if (code) {
-    console.log("Authorization code:", code);
-    return code;
-  } else {
-    console.log("No authorization code found in the URL.");
-    return null;
+      if (activities.length > 0) {
+        // Load and display the first activity
+        const firstActivityId = activities[0].id;
+        const streams = await getActivityStreams(accessToken, firstActivityId, 'time,distance,latlng', true);
+
+        if (streams && streams.latlng) {
+          const polyline = L.polyline(streams.latlng.data, { color: 'red' }).addTo(map);
+          map.fitBounds(polyline.getBounds());
+        }
+      }
+    }
+  } catch (error) {
+    console.error('Error loading activities: ' + error);
+    if (error.message === '401') {
+      const refreshToken = getCookie('refresh_token');
+      //try to get new token
+      if (refreshToken !== null && refreshToken !== "undefined") {
+        try {
+          const newAuthData = await reAuthorize(auth_link, refreshToken);
+          await storeTokens(newAuthData.access_token, newAuthData.refresh_token);
+          // Try to load activities again
+          await loadUserActivities();
+        } catch (refreshError) {
+          console.error('Error refreshing token: ' + refreshError);
+        }
+      }
+    }
   }
 };
 
+// Handle the entire authentication flow
+const handleAuthentication = async () => {
+  // Check if code is in the URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const code = urlParams.get('code');
 
-//TODO
-//vymazat z asress baru ten kod (jako do dělá ten ind při ouath od google)
-(async () => {
-  //Extrakce kodu z url
-  let code = extractCodeAfterRedirect();
-  //Použití kodu na volání typu POST na získání refresh a access tokenu pro uživatele (potřeba někam tokeny uložit aby se nemuselo autorizovat pořád)
-  let connect_Data = await useAuthorizationCode(code);
+  if (code) {
+    try {
+      // Exchange the code for tokens
+      const connectData = await useAuthorizationCode(code);
 
-  //Získání nového access tokenu
-  const authResponse = await reAuthorize(auth_link, connect_Data);
-  //Získíní aktivit uživatele
-  const activities = await getActivities(authResponse.access_token);
-  console.log(activities);
+      if (connectData && connectData.access_token) {
+        // Store tokens
+        await storeTokens(connectData.access_token, connectData.refresh_token);
 
-  //Test odpovědi
-  console.log("access_token: " + authResponse.access_token);
-  console.log("refresh_token: " + connect_Data.refresh_token);
-  renderMovieSearchResults(activities);
+        // Clean up the URL
+        window.history.replaceState({}, document.title, window.location.pathname);
 
-  //vykreslení první aktivity na mapě
-  const firstActivityId = activities[1].id;
-  const streams = await getActivityStreams(authResponse.access_token, firstActivityId, 'time,distance,latlng', true);
+      }
+    } catch (error) {
+      console.error('Error during token exchange:', error);
+    }
+  }
+};
 
-  console.log(`Streams for activity ${firstActivityId}:`, streams.latlng.data);
+searchForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const formData = new FormData(searchForm);
+  const { searchValue } = Object.fromEntries(formData);
 
-  // create a red polyline from an array of LatLng points
-  var latlngs = streams.latlng.data;
+  const activityDetailsContainer = document.getElementById('activity-details');
 
-  var polyline = L.polyline(latlngs, { color: 'red' }).addTo(map);
+  try {
+    let result = await getActivity(getCookie('access_token'), searchValue);
+    renderActivityDetails(result);
+  } catch (error) {
+    activityDetailsContainer.innerHTML = `
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        Activity with ID: ${searchValue} was not found.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    `;
+    console.error('Search error:', error);
+  }
+});
 
-  // zoom the map to the polyline
-  map.fitBounds(polyline.getBounds());
-})();
+document.addEventListener('DOMContentLoaded', async () => {
+  handleAuthentication();
+  // Gets user activities and renders them
+  await loadUserActivities();
+  //Render user info
+  renderUser();
+
+  // Authorization button event
+  const authButton = document.getElementById('auth_button');
+  if (authButton) {
+    authButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.location.href = `https://www.strava.com/oauth/authorize?client_id=141939&response_type=code&redirect_uri=http://127.0.0.1:5500/SP2/index.html&approval_prompt=force&scope=activity:read_all,read_all`;
+    });
+  }
+});
