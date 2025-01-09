@@ -4,47 +4,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Genshin Character Finder - Core</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Genshin Impact Character Search, view info about your favorite characters">
+    <meta name="keywords" content="Genshin, Genshin Impact, Character, Characters, Find, Finder">
+    <meta name="author" content="Le Chi Thanh">
+    <title>Genshin Character Finder</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <!-- Local CSS -->
     <link rel="stylesheet" href="./css/main.css">
+    <!-- SweeatAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.15.3/dist/sweetalert2.min.css">
 </head>
 
 <body class="d-flex flex-column min-vh-100">
     <header>
-        <h1>Genshin Character Finder</h1>
+        <a href=".">
+            <h1>Genshin Character Finder</h1>
+        </a>
     </header>
 
-    <main class="container my-4">
-        <!-- Search Section -->
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" id="searchInput" placeholder="Type character name here...">
-                    <button class="btn btn-dark" id="searchButton">
-                        <i class="fas fa-search"></i> Search
+    <main>
+        <!-- Loader -->
+        <div id="loader" class="justify-content-center align-items-center">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+
+        <div class="container my-4">
+            <!-- Search Section -->
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="searchInput"
+                            placeholder="Type character name here...">
+                        <button class="btn btn-dark" id="searchButton">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                    </div>
+                    <!-- Error message in case of invalid input -->
+                    <p id="errorMessage" class="text-danger mt-2"></p>
+                </div>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="row justify-content-center align-items-center mb-4">
+                <div class="col-auto">
+                    <button class="btn btn-outline-dark" id="showAllCharacters">
+                        <i class="fas fa-list"></i> All
+                    </button>
+                    <button class="btn btn-outline-dark" data-element="pyro">
+                        <i class="fas fa-fire"></i>
+                    </button>
+                    <button class="btn btn-outline-dark" data-element="hydro">
+                        <i class="fas fa-tint"></i>
+                    </button>
+                    <button class="btn btn-outline-dark" data-element="anemo">
+                        <i class="fas fa-wind"></i>
+                    </button>
+                    <button class="btn btn-outline-dark" data-element="electro">
+                        <i class="fas fa-bolt"></i>
+                    </button>
+                    <button class="btn btn-outline-dark" data-element="dendro">
+                        <i class="fas fa-seedling"></i>
+                    </button>
+                    <button class="btn btn-outline-dark" data-element="cryo">
+                        <i class="fas fa-snowflake"></i>
+                    </button>
+                    <button class="btn btn-outline-dark" data-element="geo">
+                        <i class="fas fa-mountain"></i>
                     </button>
                 </div>
-                <p id="errorMessage" class="text-danger mt-2"></p>
+                <div class="col-auto">
+                    <button class="btn btn-primary ms-3" id="showSavedCharacters">
+                        <i class="fas fa-bookmark"></i> Show Saved Characters
+                    </button>
+                </div>
             </div>
-        </div>
 
-        <!-- Character Cards Section -->
-        <div class="row" id="characterCards">
-            <!-- Dynamically added character cards will go here -->
-        </div>
 
-        <!-- Character Detail Section -->
-        <div class="row mt-4" id="characterDetail">
-            <div class="col-md-4">
-                <img id="characterImage" src="." alt="Character Image" class="img-fluid">
+
+            <!-- Character Cards Section -->
+            <div class="row" id="characterCards">
+                <!-- Dynamically added character cards will go here -->
             </div>
-            <div class="col-md-8">
-                <h2 id="characterName">Placeholder</h2>
-                <p id="characterTitles">Character Title/Titles</p>
-                <p><strong>Vision:</strong> <span id="characterVision"></span></p>
-                <p><strong>Weapon:</strong> <span id="characterWeapon"></span></p>
+
+            <!-- Character Detail Section -->
+            <div class="row mt-4" id="characterDetail">
+                <div class="col-md-4">
+                    <img id="characterImage" src="." alt="Character Image" class="img-fluid">
+                </div>
+                <div class="col-md-8">
+                    <h2 id="characterName">Placeholder</h2>
+                    <div id="characterRarity"></div>
+                    <p id="characterTitles">Character Title/Titles</p>
+                    <p><strong>Vision:</strong> <span id="characterVision"></span></p>
+                    <p><strong>Weapon:</strong> <span id="characterWeapon"></span></p>
+                    <p><strong>Region:</strong> <span id="characterRegion">Unknown region</span></p>
+                    <p><strong>Affiliation:</strong> <span id="characterAffiliation">No affiliation</span></p>
+                    <p><strong>Special Dish:</strong> <span id="characterDish">Unknown dish</span></p>
+                    <p><strong>Birthday:</strong> <span id="characterBirthday">Unknown birthday</span></p>
+                    <p><strong>How to Obtain:</strong></p>
+                    <ul id="characterObtainMethods">
+                        <li>Unknown methods</li>
+                    </ul>
+
+                    <button class="btn btn-success" id="saveCharacterButton">
+                        <i class="fas fa-save"></i> Save Character
+                    </button>
+                    <button class="btn btn-danger" id="removeCharacterButton">
+                        <i class="fas fa-trash-alt"></i> Remove from Saved List
+                    </button>
+                </div>
             </div>
         </div>
     </main>
@@ -56,6 +130,7 @@
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="./js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.15.3/dist/sweetalert2.all.min.js"></script>
 </body>
 
 </html>

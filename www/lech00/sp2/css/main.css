@@ -1,10 +1,8 @@
-/* General Styles */
 h1 {
     text-align: center;
-    color: #004d85;
 }
 
-/* Card Image Styles */
+/* Styles for card images */
 .card img {
     width: 100%;
     height: 300px;
@@ -12,40 +10,60 @@ h1 {
     border-radius: 8px;
 }
 
-/* Character Detail Image */
+/* Styles for character detail image */
 #characterImage {
     width: 100%;
     max-width: 400px;
-    height: auto;
+    height: 300px;
+    object-fit: cover;
     border-radius: 10px;
 }
 
-/* Hidden Character Detail Section */
-#characterDetail {
+#characterDetail,
+#removeCharacterButton {
     display: none;
-    margin-top: 20px;
 }
 
-/* Error Message */
+#characterRarity {
+    margin-bottom: 10px;
+}
+
+#characterTitles {
+    font-style: italic;
+}
+
+#loader {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    z-index: 1050;
+}
+
 #errorMessage {
     display: none;
-    color: #e74c3c;
-    font-size: 0.9rem;
-    margin-top: 5px;
 }
 
-/* Footer Styles */
+header a {
+    text-decoration: none;
+    color: #121212;
+}
+
+header {
+    background-color: #004d85;
+}
+
+h1 {
+    color: #ebebeb;
+}
+
 footer {
     text-align: center;
     background-color: #004d85;
-    color: white;
-    padding: 10px 0;
-    margin-top: auto;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    #characterImage {
-        max-width: 100%;
-    }
+    height: 48px;
+    line-height: 48px;
+    color: #ebebeb;
 }
