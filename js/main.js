@@ -318,7 +318,7 @@ const reAuthorize = async (auth_link, Connect_Data) => {
     body: JSON.stringify({
       client_id: '141939',
       client_secret: 'a44c3c0d9468c1b78f4b918968f2f10a56446da8',
-      refresh_token: `${Connect_Data.refresh_token}`,
+      refresh_token: `${Connect_Data}`,
       grant_type: 'refresh_token'
     })
   });
@@ -359,7 +359,7 @@ const loadUserActivities = async () => {
       //try to get new token
       if (refreshToken !== null && refreshToken !== "undefined") {
         try {
-          const newAuthData = await reAuthorize(AUTH_CONFIG.tokenUrl, refreshToken);
+          const newAuthData = await reAuthorize(auth_link, refreshToken);
           await storeTokens(newAuthData.access_token, newAuthData.refresh_token);
           // Try to load activities again
           await loadUserActivities();
