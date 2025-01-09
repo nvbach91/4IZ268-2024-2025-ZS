@@ -1,7 +1,7 @@
 $(document).ready(function () {
     const colors = ["yellow", "red", "blue", "green"];
     const bestScoreApiUrl = "https://api.jsonbin.io/v3/b/6754296cad19ca34f8d71b1d";
-    const bestScoreApiKey = "$2a$10$Yh9lWBvp/39veIfIDGsxWO5ZBbBlmqdeSSV3KAXUE5/pkYeFiFeeSy";
+    const bestScoreApiKey = "$2a$10$Yh9lWBvp/39veIfIDGsxWO5ZBbBlmqdeSSV3KAXUE5/pkYeFiFeeS";
 
     let gameState = {
         gameSequence: [],
@@ -32,12 +32,24 @@ $(document).ready(function () {
     const $startButton = $("#start-button");
     const $closeModalButton = $("#close-modal");
     const $restartGameButton = $("#restart-game");
+    const $confirmRestartModal = $("#confirm-restart-modal");
+    const $confirmRestartYes = $("#confirm-restart-yes");
+    const $confirmRestartNo = $("#confirm-restart-no");
 
     $restartButton.hide();
 
     let currentSound = null;
+    let hasInteracted = false;
+
+    $(document).one('click', function () {
+        hasInteracted = true;
+    });
 
     const playClickSound = () => {
+        if (!hasInteracted) {
+            return;
+        }
+
         if (currentSound && !currentSound.paused) {
             currentSound.playbackRate = 2;
         }
@@ -179,8 +191,62 @@ $(document).ready(function () {
         saveGameState();
     };
 
+    const showReplayButton = () => {
+        $("#replay-sequence-btn").show();
+    };
+
+    const hideReplayButton = () => {
+        $("#replay-sequence-btn").hide();
+    };
+
+    $("#replay-sequence-btn").click(function (event) {
+        event.preventDefault();
+
+        if (gameState.currentScore > 0) {
+            gameState.currentScore--;
+            $currentScore.text(gameState.currentScore);
+        }
+
+        gameState.playerSequence = [];
+        animateSequence();
+
+        hideReplayButton();
+
+        startTimer(true);
+    });
+
+    $restartButton.click(function (event) {
+        stopTimer();
+        stopSequence();
+        event.preventDefault();
+        $confirmRestartModal.show();
+        hideReplayButton();
+    });
+
+    $confirmRestartYes.click(function (event) {
+        event.preventDefault();
+        $confirmRestartModal.hide();
+        resetGame();
+    });
+
+    $confirmRestartNo.click(function (event) {
+        event.preventDefault();
+        $confirmRestartModal.hide();
+
+        if (!gameState.gameCompleted) {
+            gameState.isPlayerTurn = false;
+            animateSequence();
+            startTimer(true);
+        }
+    });
+
+    const stopSequence = () => {
+        clearInterval(gameState.sequenceInterval);
+        $colorButtons.prop("disabled", false);
+    };
+
     const resetGame = () => {
-        clearInterval(gameState.timerInterval);
+        $colorButtons.prop("disabled", true);
         gameState.gameSequence = [];
         gameState.playerSequence = [];
         gameState.currentScore = 0;
@@ -188,17 +254,18 @@ $(document).ready(function () {
 
         $currentScore.text(gameState.currentScore);
         $yourTime.text("00:00");
+
         $startButton.show();
         $restartButton.hide();
-        $colorButtons.prop("disabled", true);
 
         gameState.gameCompleted = true;
+        hideReplayButton();
         saveGameState();
     };
 
     const startTimer = (isResume = false) => {
         if (!gameState.gameStarted || gameState.gameCompleted) return;
-        
+
         if (!isResume) {
             gameState.gameStartTime = moment();
             gameState.pausedTime = 0;
@@ -253,21 +320,33 @@ $(document).ready(function () {
             }
         });
     };
+    /*MOHLO BÝT POUŽITO TOHLE
+    const nextSequence = () => {
+    const randomNumber = Math.floor(Math.random() * 4);  
+    const randomColor = colors[randomNumber];  
+    gameState.gameSequence.push(randomColor);
+    animateSequence();
+    saveGameState();
+};*/
 
     const animateSequence = () => {
         let index = 0;
         $colorButtons.prop("disabled", true);
-        const intervalId = setInterval(() => {
+        hideReplayButton();
+
+        gameState.sequenceInterval = setInterval(() => {
             if (index < gameState.gameSequence.length) {
                 flashColor(gameState.gameSequence[index]);
                 index++;
             } else {
-                clearInterval(intervalId);
+                clearInterval(gameState.sequenceInterval);
                 $colorButtons.prop("disabled", false);
                 gameState.isPlayerTurn = true;
+                showReplayButton();
             }
         }, 700);
     };
+
 
     const flashColor = (color) => {
         $(`#${color}`).addClass("active");
@@ -299,12 +378,14 @@ $(document).ready(function () {
     };
 
     const endGame = () => {
-        $finalScore.text(gameState.currentScore);  
-        $bestScoreModal.text(gameState.bestScore);  
-        $finalTime.text($yourTime.text());  
-        $bestTimeModal.text(gameState.bestTime);  
+        $finalScore.text(gameState.currentScore);
+        $bestScoreModal.text(gameState.bestScore);
+        $finalTime.text($yourTime.text());
+        $bestTimeModal.text(gameState.bestTime);
 
-        $gameOverModal.show();  
+        saveGameProgress();
+
+        $gameOverModal.show();
 
         playGameOverSound();
         stopTimer();
@@ -312,31 +393,26 @@ $(document).ready(function () {
     };
 
     $closeModalButton.click((event) => {
-        event.preventDefault();  
+        event.preventDefault();
         $gameOverModal.hide();
     });
 
     $restartGameButton.click((event) => {
-        event.preventDefault();  
+        event.preventDefault();
         $gameOverModal.hide();
         startGame();
     });
 
     $colorButtons.click(function (event) {
-        event.preventDefault();  
+        event.preventDefault();
         const clickedColor = $(this).attr("id");
         if (!gameState.gameStarted || !gameState.isPlayerTurn || $(this).prop("disabled")) return;
         checkPlayerInput(clickedColor);
     });
 
     $startButton.click((event) => {
-        event.preventDefault(); 
+        event.preventDefault();
         startGame();
-    });
-
-    $restartButton.click((event) => {
-        event.preventDefault();  
-        resetGame();
     });
 
     loadBestScore().then(() => {
@@ -345,11 +421,64 @@ $(document).ready(function () {
 
     document.addEventListener("visibilitychange", function () {
         if (document.hidden) {
-            stopTimer(); 
+            stopTimer();
         } else {
             if (gameState.gameStarted && !gameState.gameCompleted) {
-                startTimer(true); 
+                startTimer(true);
             }
         }
+    });
+    const saveGameProgress = () => {
+        const gameProgress = JSON.parse(localStorage.getItem("gameProgress")) || [];
+        const newGameRecord = {
+            score: gameState.currentScore,
+            date: moment().format("YYYY-MM-DD HH:mm:ss"),
+        };
+        gameProgress.push(newGameRecord);
+        localStorage.setItem("gameProgress", JSON.stringify(gameProgress));
+    };
+
+    const loadGameProgress = () => {
+        const gameProgress = JSON.parse(localStorage.getItem("gameProgress")) || [];
+        const $progressTableBody = $("#progress-table tbody");
+        $progressTableBody.empty();
+
+        gameProgress.forEach((record, index) => {
+            const row = `<tr>
+                            <td>${index + 1}</td>
+                            <td>${record.score}</td>
+                            <td>${record.date}</td>
+                        </tr>`;
+            $progressTableBody.append(row);
+        });
+    };
+
+    const openProgressModal = () => {
+        loadGameProgress();
+        $("#progress-modal").show();
+    };
+
+    const closeProgressModal = () => {
+        $("#progress-modal").hide();
+    };
+
+    $("#view-progress-btn").click(function () {
+        stopTimer();  // Stop the game timer
+        stopSequence();  // Stop any ongoing sequence animation
+        openProgressModal();  // Open the progress modal
+    });
+
+    $("#progress-modal .modal-btn").click(function () {
+        closeProgressModal();
+        if (gameState.gameStarted && !gameState.gameCompleted) {
+            startTimer(true);  // Resume the game timer
+            if (gameState.gameSequence.length > 0 && gameState.playerSequence.length === 0) {
+                animateSequence();  // Resume the sequence if needed
+            }
+        }
+    });
+
+    $("#close-progress-modal-btn").click(() => {
+        closeProgressModal();
     });
 });

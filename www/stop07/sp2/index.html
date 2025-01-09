@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simon Says</title>
     <meta name="description"
-        content="Simon Says je zábavná hra na procvičení paměti. Vyzkoušejte si svou schopnost zapamatovat si sled barev!">
-    <meta name="keywords" content="Simon Says, paměťová hra, zábava, hry, logická hra, barvy">
+        content="Simon Says is a fun game to test your memory. Try your ability to remember the sequence of colors!">
+    <meta name="keywords" content="Simon Says, memory game, fun, games, logic game, colors">
     <link rel="icon" type="image/png" href="photos/circlephoto.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -75,6 +75,36 @@
         <button id="restart" class="btn btn-secondary">
             <i class="bi bi-arrow-clockwise"></i> Restart
         </button>
+
+        <div id="confirm-restart-modal" class="modal">
+            <div class="modal-content">
+                <h2>Do you really want to restart the game?</h2>
+                <button id="confirm-restart-yes" class="modal-btn">Yes</button>
+                <button id="confirm-restart-no" class="modal-btn">No</button>
+            </div>
+        </div>
+
+        <button id="replay-sequence-btn" style="display: none;">Replay Sequence (-1 point)</button>
+        <button id="view-progress-btn">View Progress</button>
+
+        <div id="progress-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <h2>Game Progress</h2>
+                <table id="progress-table">
+                    <thead>
+                        <tr>
+                            <th>Game</th>
+                            <th>Score</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <button class="modal-btn" id="close-progress-modal-btn">Close</button>
+            </div>
+        </div>
+
         <div id="spinner" class="spinner" style="display:none;"></div>
     </main>
 
