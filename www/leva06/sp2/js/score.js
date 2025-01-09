@@ -45,8 +45,4 @@ export default class Score {
       this.ctx.fillText(scoreText, scoreX, y);
       this.ctx.fillText(highScoreText, highScoreX, y);
     }
-  }
-
-  
- 
-  
+  }  
