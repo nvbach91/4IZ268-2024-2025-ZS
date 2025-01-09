@@ -167,8 +167,8 @@ function updateWorkspace(workspace, data) {
                 <div class="day-box">
                     <div class="day-date">${day.date}</div>
                     <div class="day-temps">
-                        <span class="day-max temp">Max: ${currentUnit == 2 ? convertToF(day.day.maxtemp_c) + " °F" : day.day.maxtemp_c + " °C"} </span>
-                        <span class="day-min temp">Min: ${currentUnit == 2 ? convertToF(day.day.mintemp_c) + " °F" : day.day.mintemp_c + " °C"} </span>
+                        <span class="day-max">Max: <span class="temp">${currentUnit == 2 ? convertToF(day.day.maxtemp_c) + " °F" : day.day.maxtemp_c + " °C"} </span></span>
+                        <span class="day-min">Min: <span class="temp">${currentUnit == 2 ? convertToF(day.day.mintemp_c) + " °F" : day.day.mintemp_c + " °C"} </span></span>
                     </div>
                     <div class="day-condition">
                         <img src="https:${day.day.condition.icon}" alt="Ikona počasí">
