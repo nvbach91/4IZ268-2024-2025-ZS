@@ -1,0 +1,308 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+header {
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+    background-color: #7fb3d5;
+    align-items:center;
+    justify-content: start;
+    position: fixed;
+    z-index: 1000;
+    width: 100%;
+}
+header h1{
+    margin-left: 10px;
+}
+header input {
+    width: 300px;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    margin-right: 10px;
+    outline: none;
+    font-size: 1rem;
+}
+
+header button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 20px;
+    background-color: #5499c7;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+header button:hover {
+    background-color: #2980b9;
+}
+
+.content {
+    display: flex;
+    flex: 1;
+    padding: 20px;
+    gap: 20px;
+    justify-content: space-evenly;
+    margin-top: 60px;
+    overflow: visible;
+}
+
+.left-panel {
+    background-color: #fefefe;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 20%;
+    position: sticky;
+    top: 80px; 
+    height: fit-content; 
+}
+.left-panel ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.left-panel li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+}
+
+.left-panel li:hover {
+    background-color: #f1f5f9;
+}
+
+.center-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 50%;
+}
+
+.icon-weather, .current-temp, .hourly-forecast, .three-day-forecast, .temperature-graph-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.details, .sun-moon, .moon-phase {
+    display: flex;
+    gap: 10px;
+}
+
+.detail-box {
+    flex: 1;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    font-weight: 600;
+    color: gray;
+    display: flex;
+    flex-direction: column;
+}
+
+.current-temp .current-temp-text,
+.detail-box span {
+    color: rgb(49, 49, 49);
+    margin-top: 10px;
+}
+
+
+.temperature-graph-container canvas {
+    max-height: 300px;
+}
+
+.hourly-container {
+    display: flex;
+    overflow-x: auto; 
+    gap: 10px;
+    padding: 10px 0;
+    max-width: 100%; 
+    box-sizing: border-box;
+}
+
+.hour-box {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    min-width: 80px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 0.9rem;
+    flex-shrink: 0; 
+}
+
+.hour-time {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: gray;
+}
+
+.hour-temp {
+    color: rgb(49, 49, 49);
+    font-size: 1rem;
+    font-weight: bold;
+}
+.three-day-container {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 10px 0;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.day-box {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    min-width: 120px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0; 
+}
+
+.day-date {
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 1rem;
+    color: gray;
+}
+
+.day-temps {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+}
+
+.day-max {
+    color: #e74c3c; 
+}
+
+.day-min {
+    color: #3498db;
+}
+
+.day-condition {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.day-condition img {
+    width: 40px;
+    height: 40px;
+}
+.city-name{
+    color: white;
+    margin: 0 20px;
+}
+#location-btn{
+    margin-left: 10px;
+    background-color: #9cc0d8;
+}
+#location-btn:hover{
+    background-color: #b6cfe0;
+}
+#convert-btn{
+    margin-left: 10px;
+    background-color: #9cc0d8;
+}
+#convert-btn:hover{
+    background-color: #b6cfe0;
+}
+
+.workspace-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 80%;
+    justify-content: flex-start;
+    flex-direction: row;
+}
+
+.workspace {
+    background-color: #ebf6fb;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 45%;
+    position: relative;
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+}
+
+.workspace-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.workspace-header h2 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.close-workspace {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: red;
+}
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+}
+.spinner-container {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 10000;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
