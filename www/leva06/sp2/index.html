@@ -4,17 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kitten Jump Game</title>
-    
-    <!-- Styles -->
     <link rel="stylesheet" href="css/main.css" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
     <link rel="icon" href="images/kitten.png" type="image/png" />
   </head>
   <body>
-    <!-- Main Section -->
-    <main>
-      <canvas id="game" aria-label="Game Canvas"></canvas>
-    </main>
-   <!-- Scripts -->
+    <div id="nickname-form" class="overlay">
+      <form id="player-form" class="styled-form">
+        <h2>Welcome to Kitten Jump</h2>
+        <p>Enter your nickname to start the game</p>
+        <input type="text" id="nickname-input" placeholder="Your Nickname" required />
+        <button type="submit">Start Game</button>
+      </form>
+    </div>
+    <canvas id="game"></canvas>
     <script type="module" src="js/main.js"></script>
   </body>
 </html>
