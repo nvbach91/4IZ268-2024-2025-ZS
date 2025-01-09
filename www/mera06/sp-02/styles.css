@@ -6,27 +6,28 @@ body {
 }
 header {
     background-color: #333;
-    color: #fff;
-    padding: 1em;
+    color: white;
     text-align: center;
+    padding: 1rem;
 }
-header form {
-    margin-top: 1em;
+form {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
 }
-header input, header button {
-    padding: 0.5em;
-    margin: 0.5em;
+input {
+    padding: 0.5rem;
 }
-main {
-    padding: 1em;
+button {
+    padding: 0.5rem 1rem;
 }
-#results, #details, #favorites {
-    margin-bottom: 2em;
+#results, #favorites, #details {
+    margin: 1rem auto;
 }
-#favorites-list {
-    list-style: none;
-    padding: 0;
-}
-#favorites-list li {
-    margin: 0.5em 0;
+.card {
+    margin: 0.5rem;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
