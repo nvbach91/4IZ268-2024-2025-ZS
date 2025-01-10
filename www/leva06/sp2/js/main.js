@@ -18,7 +18,7 @@ const TREE_COUNT = 3;
 const CANDY_IMAGE_SRC = "images/candy.png";
 const PLAYER_JUMP_STRENGTH = 12;
 const PLAYER_GRAVITY = 0.5;
-const API_URL = "https://675468d036bcd1eec851143c.mockapi.io/scores/Scores";
+const API_URL = "https://675468d036bcd1eec851143c.mockapi.io/data";
 
 canvas.width = GAME_WIDTH;
 canvas.height = GAME_HEIGHT;
@@ -34,12 +34,12 @@ let gameOver = false;
 let waitingToStart = true;
 let previousTime = null;
 let nickname = "";
-let gameSpeed = GAME_SPEED_START; 
-let gameLoopHandle = null; 
-let highScoresLoaded = false; 
+let gameSpeed = GAME_SPEED_START;
+let gameLoopHandle = null;
+let highScoreLoaded = false;
 
 // Initialize Game Objects
-function initializeGame() {
+async function initializeGame() {
   const scaleRatio = 1;
 
   player = new Player(ctx, 50, 50, scaleRatio, PLAYER_JUMP_STRENGTH, PLAYER_GRAVITY);
@@ -48,14 +48,16 @@ function initializeGame() {
   initializeTrees();
   initializeCandies();
 
-  score = new Score(ctx, scaleRatio);
+  score = new Score(ctx, scaleRatio, nickname);
 
   backgroundImage = new Image();
   backgroundImage.src = "images/sky.png";
 
-  if (!highScoresLoaded) {
-    loadHighScores();
-    highScoresLoaded = true;
+  await score.loadHighScore(); // Load high score for the current player
+
+  if (!highScoreLoaded) {
+    loadHighScore();
+    highScoreLoaded = true;
   }
 }
 
@@ -164,57 +166,112 @@ function restartGame() {
     gameOver = false;
     waitingToStart = true;
     previousTime = null;
-    gameSpeed = GAME_SPEED_START; 
+    gameSpeed = GAME_SPEED_START;
 
-    cancelAnimationFrame(gameLoopHandle); 
-    initializeGame(); 
-    gameLoopHandle = requestAnimationFrame(gameLoop); 
+    cancelAnimationFrame(gameLoopHandle);
+    initializeGame();
+    gameLoopHandle = requestAnimationFrame(gameLoop);
   }
 }
 
-// Save Score to Server
 async function saveScoreToServer(score) {
   const timestamp = new Date().toISOString();
   console.log("Sending score to API:", { nickname, score, timestamp });
+
   try {
-    const response = await fetch(API_URL, {
+    await fetch(`${API_URL}/Scores`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         nickname,
-        score,
+        score: Math.floor(score),
         timestamp,
-        gameInfo: { level: 1, player: "Kitten" },
       }),
     });
-
-    if (response.ok) {
-      const data = await response.json();
-      console.log("Score saved successfully!", data);
-    } else {
-      console.error("Failed to save score:", response.statusText);
-    }
+    console.log("Score saved successfully!");
   } catch (error) {
     console.error("Error saving score:", error);
   }
 }
 
-// Load High Scores
-async function loadHighScores() {
+
+async function loadAndDisplayScores() {
+  const API_URL = "https://675468d036bcd1eec851143c.mockapi.io/data/Scores";
+  const scoresBody = document.getElementById("scores-body");
+  scoresBody.innerHTML = ""; // Vymaže předchozí obsah tabulky
+
   try {
     const response = await fetch(API_URL);
-    if (response.ok) {
-      const scores = await response.json();
-      console.log("High scores loaded:", scores);
-    } else {
+
+    if (!response.ok) {
       console.error("Failed to load scores:", response.statusText);
+      scoresBody.innerHTML = "<tr><td colspan='4'>Failed to load scores.</td></tr>";
+      return;
     }
+
+    const scores = await response.json();
+    let scoresData = []; // Prázdné pole pro řádky tabulky
+
+    // Naplnění pole scoresData řádky tabulky
+    scores.forEach((score, index) => {
+      const row = `
+        <tr>
+          <td>${index + 1}</td>
+          <td>${score.nickname}</td>
+          <td>${score.score}</td>
+          <td>${new Date(score.timestamp).toLocaleString()}</td>
+        </tr>
+      `;
+      scoresData.push(row); // Přidání řádku do pole
+    });
+
+    // Přidání všech řádků do DOM najednou
+    scoresBody.innerHTML = scoresData.join(""); // Převod pole na řetězec a vložení do tabulky
   } catch (error) {
     console.error("Error loading scores:", error);
+    scoresBody.innerHTML = "<tr><td colspan='4'>Error loading scores.</td></tr>";
   }
 }
+
+
+// Zavolá funkci pro načtení a zobrazení skóre po načtení stránky
+window.onload = loadAndDisplayScores;
+
+// Load High Score
+async function loadHighScore(page = 1, limit = 5) {
+  try {
+    const response = await fetch(`${API_URL}/HighScore?_sort=score&_order=desc&_page=${page}&_limit=${limit}`);
+
+    if (response.ok) {
+      const score = await response.json();
+      displayHighScore(score);
+    } else {
+      console.error("Failed to load high score:", response.statusText);
+    }
+  } catch (error) {
+    console.error("Error loading high score:", error);
+  }
+}
+// Display High Score
+function displayHighScore(score) {
+  const highScoreContainer = document.getElementById("high-score-container");
+  highScoreContainer.innerHTML = "";
+
+  if (score.length === 0) {
+    highScoreContainer.innerHTML = "<p>No high score available.</p>";
+    return;
+  }
+
+  score.forEach((score, index) => {
+    const scoreElement = document.createElement("div");
+    scoreElement.textContent = `${index + 1}. ${score.nickname}: ${score.score}`;
+    highScoreContainer.appendChild(scoreElement);
+  });
+}
+
+
 
 // Handle Nickname Submission
 nicknameForm.addEventListener("submit", (event) => {
@@ -241,3 +298,27 @@ window.addEventListener("keydown", (e) => {
     restartGame();
   }
 });
+
+
+function updatePagination(page) {
+  const prevButton = document.getElementById("prev-page");
+  const nextButton = document.getElementById("next-page");
+  const currentPageElement = document.getElementById("current-page");
+
+  currentPageElement.textContent = `Page ${page}`;
+  prevButton.disabled = page === 1;
+
+  prevButton.onclick = () => {
+    if (page > 1) {
+      loadScore(--page);
+    }
+  };
+
+  nextButton.onclick = () => {
+    loadScore(++page);
+  };
+}
+
+
+// Načtení high score při spuštění hry
+loadScore();

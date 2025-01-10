@@ -36,3 +36,4 @@ export default class Tree {
     this.x = this.startingX; // Resets the tree position
   }
 }
+
