@@ -1,4 +1,5 @@
 const auth_link = `https://www.strava.com/oauth/token`;
+const deAuth_link = 'https://www.strava.com/oauth/deauthorize';
 const activities_link = `https://www.strava.com/api/v3/athlete/activities`;
 const user_link = `https://www.strava.com/api/v3/athlete`;
 const base_link = `https://www.strava.com/api/v3/`;
@@ -6,6 +7,8 @@ const searchResultsContainer = document.querySelector('#search-results');
 const activityDetailsContainer = document.querySelector('#activity-details');
 const authButton = document.querySelector('#auth_button');
 const searchForm = document.querySelector('#search-form');
+const LogOutButton = document.querySelector('#LogOut_button');
+let ActivitiesJson;
 
 //calls strava api to get activities using access token passed as parameter
 const getActivities = async (accessToken) => {
@@ -22,18 +25,14 @@ const getActivities = async (accessToken) => {
   return data;
 };
 //calls strava api to get specific activity using access token and id both passed as parameters
-const getActivity = async (accessToken, activityId) => {
-  const res = await fetch(`${base_link}/activities/${activityId}`, {
-    headers: {
-      'Authorization': `Bearer ${accessToken}`,
-      'Accept': 'application/json'
-    }
-  });
-  if (res.status !== 200) {
-    throw new Error(res.status);
+const getActivity = async (SearchedActivity) => {
+  if (SearchedActivity === "") {
+    return ActivitiesJson;
   }
-  const data = await res.json();
-  return data;
+  const result = ActivitiesJson.filter(ride => ride.name.toLowerCase() === SearchedActivity.toLowerCase());
+  console.log(result);
+
+  return result;
 };
 //calls strava api to get athlete info using access token passed as parameter
 const getAthlete = async (accessToken) => {
@@ -160,8 +159,8 @@ new LogoControl().addTo(map);
 //--------------------MAP--------------------
 //renders user info based on data passed as parameter
 const renderUser = async (data) => {
-  data = await getAthlete(getCookie('access_token'));
   const userContainer = document.getElementById('user-info');
+  data = await getAthlete(getCookie('access_token'));
   const html = `
 
     <div class="card-body p-3">
@@ -186,21 +185,34 @@ const renderUser = async (data) => {
 //renders activites based on data(from search) passed as parameter
 const renderActivitySearchResults = (results) => {
   const activities = results.map((result) => {
-    const html = `<a href="#" class="list-group-item list-group-item-action">${result.name}</a>`;
+
+    const dateString = result.start_date_local;
+    const date = new Date(dateString);
+
+    const formattedDate = date.toLocaleString("cs-CZ", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+    });
+
+    const html = `<a href="#" class="d-flex justify-content-between list-group-item list-group-item-action "><strong>${result.name}</strong> ${formattedDate}</a>`;
     const activityContainer = document.createElement('div');
     activityContainer.innerHTML = html;
 
     const activityElement = activityContainer.firstElementChild;
-    activityElement.addEventListener('click', async (e) => {
+    $(activityElement).click(async (e) => {
       e.preventDefault();
-      searchResultsContainer.querySelectorAll('.list-group-item').forEach(item => {
-        item.classList.remove('active');
-      });
+      $(searchResultsContainer).find('.list-group-item').removeClass('active');
       activityElement.classList.add('active');
 
       renderActivityDetails(result);
 
       const streams = await getActivityStreams(getCookie('access_token'), result.id, 'time,distance,latlng', true);
+      console.log(streams);
       if (streams && streams.latlng && streams.latlng.data) {
         // Clear existing polylines
         map.eachLayer((layer) => {
@@ -242,7 +254,6 @@ const formatTime = (seconds) => {
 };
 //renders activity details based on data passed as parameter
 const renderActivityDetails = (data) => {
-  const activityDetailsContainer = document.getElementById('activity-details');
 
   const dom = `
     <div class="card-body">
@@ -273,11 +284,11 @@ const renderActivityDetails = (data) => {
               <div class="d-flex justify-content-between">
                 <div>
                   <small class="text-muted">Average</small>
-                  <div class="h4 mb-0">${data.average_speed * 3.6} <small>km/h</small></div>
+                  <div class="h4 mb-0">${Math.round(data.average_speed * 3.6 * 100) / 100} <small>km/h</small></div>
                 </div>
                 <div>
                   <small class="text-muted">Max</small>
-                  <div class="h4 mb-0">${data.max_speed * 3.6} <small>km/h</small></div>
+                  <div class="h4 mb-0">${Math.round(data.max_speed * 3.6 * 100) / 100} <small>km/h</small></div>
                 </div>
               </div>
             </div>
@@ -288,7 +299,7 @@ const renderActivityDetails = (data) => {
           <div class="card">
             <div class="card-body">
               <h6 class="card-subtitle mb-2 text-muted">Distance</h6>
-              <div class="h4 mb-0">${data.distance / 1000} <small>km</small></div>
+              <div class="h4 mb-0">${Math.round(data.distance / 10) / 100} <small>km</small></div>
             </div>
           </div>
         </div>
@@ -326,6 +337,12 @@ const reAuthorize = async (auth_link, Connect_Data) => {
   return data;
 };
 
+const deAuthorize = () => {
+  cookieStore.delete("access_token");
+  cookieStore.delete("refresh_token");
+  window.location.reload();
+};
+
 // Load user activities using stored tokens
 const loadUserActivities = async () => {
   const accessToken = getCookie('access_token');
@@ -336,6 +353,7 @@ const loadUserActivities = async () => {
   }
 
   try {
+    $(document).find('#search-results').html('<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>');
     const activities = await getActivities(accessToken);
     console.log(activities);
     if (activities.message !== "Authorization Error" && activities !== null) {
@@ -351,6 +369,7 @@ const loadUserActivities = async () => {
           map.fitBounds(polyline.getBounds());
         }
       }
+      return activities
     }
   } catch (error) {
     console.error('Error loading activities: ' + error);
@@ -396,40 +415,66 @@ const handleAuthentication = async () => {
   }
 };
 
-searchForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const formData = new FormData(searchForm);
-  const { searchValue } = Object.fromEntries(formData);
 
-  const activityDetailsContainer = document.getElementById('activity-details');
+$(document).ready(function () {
+  $(searchForm).submit(async function (e) {
+    e.preventDefault();
+    const formData = new FormData(searchForm);
+    const { searchValue } = Object.fromEntries(formData);
 
-  try {
-    let result = await getActivity(getCookie('access_token'), searchValue);
-    renderActivityDetails(result);
-  } catch (error) {
-    activityDetailsContainer.innerHTML = `
-      <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        Activity with ID: ${searchValue} was not found.
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    `;
-    console.error('Search error:', error);
-  }
+
+    let result = await getActivity(searchValue);
+    renderActivitySearchResults(result);
+    if (result.length === 0) {
+      activityDetailsContainer.innerHTML = `
+        <div id="alert" class="alert alert-danger alert-dismissible fade show" role="alert">
+          Activity with name: ${searchValue} was not found.
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      `;
+      $("#alert").fadeTo(2000, 500).slideUp(500, function () {
+        $("#alert").slideUp(500);
+      });
+    }
+  });
 });
 
-document.addEventListener('DOMContentLoaded', async () => {
-  handleAuthentication();
-  // Gets user activities and renders them
-  await loadUserActivities();
-  //Render user info
-  renderUser();
+$(LogOutButton).click((e) => {
+  deAuthorize();
+});
 
+
+$(document).ready(async () => {
+
+  if (getCookie("refresh_token") === null || getCookie("refresh_token") === "undefined" || getCookie("refresh_token") === "") {
+    $(".container").addClass("d-none");
+    $("#LogOut_button").addClass("d-none");
+    $("h1").addClass("d-none");
+    $("#search-form-div ").addClass("d-none");
+    $("#user-info").addClass("d-none");
+  } else {
+    authButton.classList.add('d-none');
+    $(".container").addClass("");
+    $("#LogOut_button").addClass("");
+    $("h1").addClass("");
+    $("#search-form-div ").addClass("");
+    $("#user-info").addClass("");
+    // Gets user activities and renders them
+    ActivitiesJson = await loadUserActivities();
+    //Render user info
+    renderUser();
+  }
   // Authorization button event
-  const authButton = document.getElementById('auth_button');
+
   if (authButton) {
-    authButton.addEventListener('click', (e) => {
-      e.preventDefault();
+    $(authButton).click(async (e) => {
       window.location.href = `https://www.strava.com/oauth/authorize?client_id=141939&response_type=code&redirect_uri=http://127.0.0.1:5500/SP2/index.html&approval_prompt=force&scope=activity:read_all,read_all`;
+      handleAuthentication();
+      // Gets user activities and renders them
+      await loadUserActivities();
+      //Render user info
+      renderUser();
+
     });
   }
 });
