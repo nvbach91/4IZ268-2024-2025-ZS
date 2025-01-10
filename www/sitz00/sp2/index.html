@@ -41,14 +41,41 @@
                 <div id="wordInformation" class="wordInformation d-flex flex-column">
                     <p class="text-center text-secondary p-5">Nothing here! Search for word.</p>
                 </div>
+
+
+                <div class="modal fade " id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="confirmModalLabel">Clear history</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want to clear the search history?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-danger" id="confirmClear">Clear</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </main>
 
             <aside id="history" class="card col-md-3 p-0 col-12 shadow-sm history">
-                <div class="card-header text-center fw-semibold" id="cardHistory">Search history</div>
+                <div class="card-header text-center fw-semibold" id="cardHistory">
+                    Search history
+                    <button id="sortHistory" class="btn btn-outline-secondary ms-2">Sort A-Z </button>
+                </div>
+
                 <div class="card-body d-flex flex-column justify-content-between">
                     <div id="searchHistory" class="d-flex flex-column searchHistory">
                     </div>
-                    <button id="clearHistory" type="button" class="btn btn-outline-danger">Clear history</button>
+                    <button id="clearHistory" type="button" class="btn btn-outline-danger" disabled>Clear
+                        history</button>
                 </div>
             </aside>
         </div>

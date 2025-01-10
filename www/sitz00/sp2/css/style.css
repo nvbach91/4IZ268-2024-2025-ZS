@@ -27,3 +27,20 @@ aside.history  {
     max-height: 380px;
     overflow-y: auto;
 }
+
+.date {
+    font-size: 14px;
+}
+
+
+.wordCard {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.clickable-card {
+    cursor: pointer;
+}
+.clickable-card:hover {
+    background-color: whitesmoke;
+}

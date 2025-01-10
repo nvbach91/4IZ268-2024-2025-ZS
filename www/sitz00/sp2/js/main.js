@@ -1,4 +1,4 @@
-document.ready - $(document).ready(() => {
+$(document).ready(() => {
 
     /** název knihovny v local Storage */
     const libraryName = "MyLexicon";
@@ -9,6 +9,13 @@ document.ready - $(document).ready(() => {
     const searchForWord = $("#searchForWord");
     const searchHistory = $("#searchHistory");
     const clearHistory = $("#clearHistory");
+
+    const confirmModal = $("#confirmModal");
+    const confirmClearButton = $("#confirmClear");
+
+    const modalElement = document.getElementById("confirmModal");
+    const modalInstance = new bootstrap.Modal(modalElement);  //new bootstrap.Modal = konstruktor z knihovny Bootstrap 5, který slouží k vytvoření instance modálního dialogu a muzu pouzit pak show a hide
+
 
 
     // funkce 
@@ -29,8 +36,6 @@ document.ready - $(document).ready(() => {
     };
 
 
-
-
     /** Zobrazí chybovou zprávu */
     const showError = (message) => {
         hideSpinner();
@@ -41,8 +46,6 @@ document.ready - $(document).ready(() => {
                 </div>
             `);
     };
-
-
 
 
     /** Validace hledaného slova */
@@ -64,15 +67,16 @@ document.ready - $(document).ready(() => {
 
 
 
+
     /**  Fetch s timeoutem */
     const fetchWithTimeout = async (url, options = {}, timeout = 5000) => {
         const controller = new AbortController();
-        const signal = controller.signal;
+        const signal = controller.signal;   //objekt, který je připojen k požadavku a může spustit jeho přerušení
 
         const timer = setTimeout(() => controller.abort(), timeout);
 
         try {
-            const response = await fetch(url, { options, signal });
+            const response = await fetch(url, { ...options, signal });
             clearTimeout(timer);
             return response;
         } catch (error) {
@@ -88,7 +92,7 @@ document.ready - $(document).ready(() => {
 
 
     //Práce s historií a localStorage
-    /** Načítání dat z localStorage (obecně - item) */
+    /** Načítání dat z localStorage - naparsovaný JSON*/
     const getFromHistory = (item) => {
         const data = localStorage.getItem(item);
         try {
@@ -99,31 +103,67 @@ document.ready - $(document).ready(() => {
         }
     };
 
-    /** Uložení dat do localStorage */
-    const saveToHistory = (word, data) => {
+
+    /** Uložení slov a datum do localStorage */
+    const saveToHistory = (word) => {
         let history = getFromHistory(libraryName) ?? {};
         const trimmedWord = word.trim().toLowerCase();
 
         if (!trimmedWord || trimmedWord === "")
             return false;
 
-        history[trimmedWord] = data;
+        const currentDate = new Date().toISOString();
+        //console.log(currentDate); 
+
+        history[trimmedWord] = currentDate;
+        const date = history[trimmedWord];
+
+        const formatedDate = new Date(date).toLocaleDateString();
+        //console.log(formatedDate);
+
         localStorage.setItem(libraryName, JSON.stringify(history));
 
+        appendToHistory(trimmedWord, formatedDate)
         updateAutocomplete();
     };
 
+
+
+
     /** Vyhledání konkrétního slova v historii */
-    const findInHistory = (word) => {
+    const findInHistory = async (word) => {
         const data = getFromHistory(libraryName);
-        if (!data)
+        if (!data) {
             return null;
+        };
+
         const trimmedWord = word.trim().toLowerCase();
-        return data[trimmedWord];
+
+        if (data.hasOwnProperty(trimmedWord)) {
+            const url = `https://api.dictionaryapi.dev/api/v2/entries/en/${trimmedWord}`;
+            try {
+                const resp = await fetchWithTimeout(url);
+
+                if (!resp.ok) {
+                    throw new Error("Word not found! Please try a different word.");
+                }
+                return await resp.json();
+
+            } catch (error) {
+                throw error;
+            }
+        }
+        return null;
     };
 
-    /** Vymazání historie vyhledávání */
+
+
+    /**smazání i s alertem */
     clearHistory.on("click", () => {
+        modalInstance.show();
+    });
+
+    confirmClearButton.on("click", () => {
         localStorage.removeItem(libraryName);
 
         wordInformation.empty();
@@ -136,12 +176,47 @@ document.ready - $(document).ready(() => {
         searchedWord.val("");
         updateURL("");
         updateAutocomplete();
+
+        modalInstance.hide();
     });
 
+
+    confirmModal.on("hidden.bs.modal", () => {
+        modalInstance.hide();
+    });
+
+
+
     /** Přidání slova do historie */
-    const appendToHistory = (word) => {
+    const appendToHistory = (word, date) => {
         const data = getFromHistory(libraryName);
-        const historyListItem = $(`<button type="button" class="btn btn-light m-1 text-start">${word}</button>`);
+        const historyListItem = $(`
+                <div class="clickable-card d-flex justify-content-between align-items-center p-2 border rounded-3  mb-2">
+                    <span class="word flex-grow-1 text-start">${word}</span>
+                    <span class="date text-secondary ms-2">${date}</span>
+                    <button type="button" class="btn btn-danger deleteBtn ms-3">
+                        <i class="bi bi-trash"></i> Delete
+                    </button>
+                </div>
+            `);
+
+
+        historyListItem.find(".deleteBtn").on("click", (e) => {
+            e.stopPropagation();
+
+            const data = getFromHistory(libraryName);
+
+            if (data && data[word]) {
+                delete data[word];
+                localStorage.setItem(libraryName, JSON.stringify(data));
+                historyListItem.remove();
+
+                if (Object.keys(data).length === 0) {
+                    clearHistory.trigger("click");
+                }
+            }
+        });
+
 
         historyListItem.on("click", () => {
             useFromHistory(word);
@@ -154,33 +229,113 @@ document.ready - $(document).ready(() => {
         clearHistory.prop("disabled", false);
     };
 
-    /** Zobrazení historie */
-    const displayWordHistory = () => {
+
+
+
+
+    /** Zobrazení historie + sort */
+    const displayWordHistory = (sort = false) => {
         const historyList = getFromHistory(libraryName);
         searchHistory.empty();
 
         if (historyList) {
-            Object.keys(historyList).forEach(word => {
-                appendToHistory(word);
+            let words = Object.keys(historyList);
+
+            //const names = ["Jan", "Adam", "Petr"];
+            //names.sort((a, b) => a.localeCompare(b));
+            //console.log(names);   ["Adam", "Jan", "Petr"]
+
+            if (sort === "asc") {
+                words.sort((a, b) => a.localeCompare(b)); // A-Z
+
+            } else if (sort === "desc") {
+                words.sort((a, b) => b.localeCompare(a)); // Z-A
+            }
+
+            const fragment = $(document.createDocumentFragment());
+
+            words.forEach(word => {
+                const date = historyList[word];
+                const formatedDate = new Date(date).toLocaleDateString();
+
+                const historyListItem = $(`
+                        <div class="clickable-card d-flex justify-content-between align-items-center p-2 border rounded-3  mb-2">
+                            <span class="word flex-grow-1 text-start">${word}</span>
+                            <span class="date text-secondary ms-2">${formatedDate}</span>
+                            <button type="button" class="btn btn-danger deleteBtn ms-3">
+                                <i class="bi bi-trash"></i> Delete
+                            </button>
+                        </div>
+                `);
+
+
+                historyListItem.find(".deleteBtn").on("click", (e) => {
+                    e.stopPropagation();
+
+                    const data = getFromHistory(libraryName);
+
+                    if (data && data[word]) {
+                        delete data[word];
+                        localStorage.setItem(libraryName, JSON.stringify(data));
+                        historyListItem.remove();
+
+                        if (Object.keys(data).length === 0) {
+                            clearHistory.trigger("click");
+                        }
+                    }
+                });
+
+
+                historyListItem.on("click", () => {
+                    useFromHistory(word);
+                });
+                fragment.append(historyListItem);
             });
+            searchHistory.append(fragment);
+
         } else {
             searchHistory.append(`<p class="text-center text-secondary">Search history is empty.</p>`);
         }
     };
-
     displayWordHistory();
 
-    /** Použití slova z historie */
-    const useFromHistory = (word) => {
+
+
+    const sortHistory = $("#sortHistory");
+
+    let currentSort = "none";
+    sortHistory.on("click", function () {
+
+        if (currentSort === "none") {  //1. klik - zmeni seznam na a-z
+            currentSort = "asc";
+            sortHistory.text("Sort Z-A");
+            displayWordHistory("asc");
+
+        } else if (currentSort === "asc") {
+            currentSort = "desc";
+            sortHistory.text("Sort A-Z");
+            displayWordHistory("desc");
+
+        } else if (currentSort === "desc") {
+            currentSort = "asc";
+            sortHistory.text("Sort Z-A");
+            displayWordHistory("asc");
+        }
+    });
+
+
+
+
+    const useFromHistory = async (word) => {
         searchedWord.val(word);
-        const wordFromHistory = findInHistory(word);
-        displayData(wordFromHistory);
-        updateURL(word);
-        return;
+        try {
+            const data = await findInHistory(word);
+            displayData(data);
+            updateURL(word);
+        } catch (error) {
+            showError(error.message);
+        }
     };
-
-
-
 
 
 
@@ -192,7 +347,7 @@ document.ready - $(document).ready(() => {
 
         if (data && data.length > 0) {
             data.forEach((wordData) => {
-                const card = $("<div>", { class: "card mb-3 shadow-sm" });
+                const card = $("<div>", { class: "wordCard card mb-3 shadow-sm" });
                 const cardBody = $("<div>", { class: "card-body" });
 
                 cardBody.append(`<h2 class="card-title lh-lg">${wordData.word}</h2>`);
@@ -225,10 +380,42 @@ document.ready - $(document).ready(() => {
 
                         meaning.definitions.forEach((definition) => {
                             definitionList.append(`<li class="list-group-item fs-6 text-body-secondary ">${definition.definition}</li>`);
-                        });
 
-                        cardBody.append(definitionList);
-                    });
+
+                            if (definition.synonyms && definition.synonyms.length > 0) {
+                                let synonymList = $("<ul>", { class: "list-group list-group-flush mb-2" });
+                                definition.synonyms.forEach((synonym) => {
+                                    const synButton = $(`<button type="button" class="synBtn btn btn-link">${synonym}</button>`);
+                                    synButton.on("click", function () {
+                                        searchedWord.val(synonym);
+                                        performSearch(synonym);
+                                    });
+                                    synonymList.append($('<li class="list-group-item fs-6 text-body-secondary"></li>').append(synButton));
+                                });
+
+                                definitionList.append(`<li class="list-group-item fs-6 text-body-secondary ">Synonyms:</li>`);
+                                definitionList.append(synonymList);
+                            }
+
+                            if (definition.synonyms && definition.synonyms.length > 0) {
+                                let antonymList = $("<ul>", { class: "list-group list-group-flush mb-2" });
+                                definition.antonyms.forEach((antonym) => {
+                                    const anButton = $(`<button type="button" class="synBtn btn btn-link">${antonym}</button>`);
+                                    anButton.on("click", function () {
+                                        searchedWord.val(antonym);
+                                        performSearch(antonym);
+                                    });
+                                    antonymList.append($('<li class="list-group-item fs-6 text-body-secondary"></li>').append(anButton));
+                                });
+
+                                definitionList.append(`<li class="list-group-item fs-6 text-body-secondary ">Antonyms:</li>`);
+                                definitionList.append(antonymList);
+                            }
+
+                            cardBody.append(definitionList);
+                        })
+                    })
+
                 } else {
                     cardBody.append(`<p class="card-text">No meanings found for ${wordData.word}.</p>`);
                 }
@@ -244,6 +431,7 @@ document.ready - $(document).ready(() => {
             throw showError("No data available for the searched word.");
         }
     };
+
 
 
 
@@ -278,7 +466,6 @@ document.ready - $(document).ready(() => {
     /** Vyhledání slova ve formuláři na submit */
     searchForWord.on("submit", async (e) => {
         e.preventDefault();
-
         const word = searchedWord.val();
         await performSearch(word);
     });
@@ -298,56 +485,53 @@ document.ready - $(document).ready(() => {
         const validWord = validationResult.word;
         updateURL(validWord);
 
-        const url = `https://api.dictionaryapi.dev/api/v2/entries/en/${validWord}`;
+        try {
 
-        const wordFromHistory = findInHistory(validWord);
-        if (wordFromHistory) {
-            displayData(wordFromHistory);
-            hideSpinner();
-            return;
+            let data = await findInHistory(validWord);
 
-        } else {
-            try {
+            if (!data) {
+                const url = `https://api.dictionaryapi.dev/api/v2/entries/en/${validWord}`;
                 const searchResult = await fetchWithTimeout(url);
 
                 if (!searchResult.ok) {
                     throw new Error("Word not found! Please try a different word.");
                 }
 
-                const data = await searchResult.json();
-
-                displayData(data);
-                saveToHistory(validWord, data);
-                appendToHistory(validWord);
-                updateAutocomplete();
-
-            } catch (error) {
-                showError(error.message || "An unexpected error occurred.");
-                return;
-            } finally {
-                hideSpinner();
+                data = await searchResult.json();
+                saveToHistory(validWord);
+                //appendToHistory(validWord);
             }
-        };
-    };
 
+            if (data) {
+                displayData(data);
+            };
+
+        } catch (error) {
+            showError(error.message || "An unexpected error occurred.");
+            return;
+
+        } finally {
+            hideSpinner();
+        }
+    };
 
 
 
     // historie back and forward v prohlížeči
     /** Aktualizace URL */
     const updateURL = (word) => {
-        const currentWord = new URLSearchParams(window.location.search).get("word");
+        const currentWord = new URLSearchParams(window.location.search).get("word"); //Získá hodnotu parametru word z URL - to co tsm je teď
         if (currentWord === word) {
             return;
         }
 
         if (word) {
-            newURL = `${window.location.pathname}?word=${encodeURIComponent(word)}`;
+            newURL = `${window.location.pathname}?word=${encodeURIComponent(word)}`;  ///např. search?word=test
         } else {
-            newURL = window.location.pathname;
+            newURL = window.location.pathname; //pokud word není zadané .. např. search/
         };
 
-        history.pushState({ word }, "", newURL);
+        history.pushState({ word }, "", newURL);  //pushne novou položku do historie prohlížeče
         window.scrollTo(0, 0);
     };
 
@@ -356,7 +540,7 @@ document.ready - $(document).ready(() => {
         return params.get("word");
     };
 
-    window.addEventListener("popstate", (event) => {
+    window.addEventListener("popstate", (event) => {         //"popstate": událost, když uživatel použije tlačítko "Zpět" nebo "Vpřed" v prohlížeči
         const word = event.state?.word || getWordFromURL();
         if (word) {
             searchedWord.val(word);
@@ -372,5 +556,6 @@ document.ready - $(document).ready(() => {
         searchedWord.val(initialWord);
         performSearch(initialWord);
     };
+
 
 });
