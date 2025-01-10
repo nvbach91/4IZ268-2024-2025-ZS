@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon Guessing Game</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="./style/style.css">
+</head>
+<body>
+    <div id="modal" class="modal">
+        <div id="modal-window" class="modal-window">
+            <h2 id="modal-title">Guessed pokemons</h2>
+            <p id="modal-list"></p>
+            <button id="close-modal">Close</button>
+        </div>
+        
+    </div>
+    
+    <div class="game-container">
+        <button id="back-button">Back</button>
+        <h1 style="text-align: center;">Pokémon Guessing Game</h1>
+        
+        <div id="nickname-section" class="input-section">
+            <form id="nickname-form">
+                <input type="text" id="nickname-input" placeholder="Enter your nickname">
+                <button type="submit" id="start-button">Start Game</button>
+            </form>
+            
+            <div id="generation-section">
+                
+            </div>
+        </div>
+
+        <div id="game-section" style="display: none;">
+            
+
+            <div class="current-player-display" id="current-player"></div>
+
+            <div class="score-display">
+                Score: <span id="score">0</span>
+            </div>
+            
+            <div class="pokemon-display">
+                <div>
+                    <img id="pokemon-image-front" class="pokemon-image" src="" alt="Pokemon silhouette front">
+                    <p><b>Front</b></p>
+                </div>
+                <div id="pokemon-with-anotation-back">
+                    <img id="pokemon-image-back" class="pokemon-image" src="" alt="Pokemon silhouette back">
+                    <p><b>Back</b></p>
+                </div>
+            </div>
+
+            <div class="input-section">
+                <form>
+                    <input type="text" id="guess-input" placeholder="Enter your guess" autocomplete="off" autofocus>
+                    <div>
+                        <button id="submit-guess">Submit Guess</button>
+                        <button id="skip-guess">Skip</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <div id="message" class="message"></div>
+    </div>
+
+    <div class="leaderboard">
+        <h2>Leaderboard - Best Scores</h2>
+        <div id="leaderboard-list"></div>
+    </div>
+
+    <script src="./js/main.js"></script>
+</body>
+</html>
