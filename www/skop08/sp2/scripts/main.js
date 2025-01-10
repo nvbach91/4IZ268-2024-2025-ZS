@@ -3,14 +3,22 @@ const baseUrl = 'https://api.weatherapi.com/v1/forecast.json';
 let currentUnit = 1; // 1 -> C, 2 -> F
 const charts = {};
 
+const convertBtn = $('#convert-btn');
+const workspaceContainer = $('.workspace-container');
+const leftPanel = $('.left-panel');
+const body = $('body');
+const search = $('#search');
+const locationBtn = $('#location-btn');
+const form = $('form');
+
 $(document).ready(() => {
-    $('form').on('submit', (event) => {
+    form.on('submit', (event) => {
         event.preventDefault();
 
-        const city = $('#search').val().trim();
+        const city = search.val().trim();
         if (city) {
             fetchWeatherData(city);
-            $('#search').val('');
+            search.val('');
         } else {
             Swal.fire({
                 title: 'Chyba',
@@ -21,29 +29,44 @@ $(document).ready(() => {
         };
     });
 
-    $('#location-btn').on('click', () => {
+    locationBtn.on('click', () => {
         fetchWeatherByLocation();
     });
 
-    const convertBtn = $('#convert-btn');
-    convertBtn.on('click', () => {
-        updateAllTemperatures();
-        if (currentUnit === 2) {
-            convertBtn.text('Přepnout na °C');
-        } else {
-           convertBtn.text('Přepnout na °F');
-        }
-    });
     loadWorkspacesFromStorage();
     displaySearchHistory();
+    
+    currentUnit = parseInt(localStorage.getItem('currentUnit')) || 1;
+
+    updateAllTemperatures();
+
+    convertBtnChangeText();
+
+    convertBtn.on('click', () => {
+        updateAllTemperatures();
+        currentUnit = currentUnit === 1 ? 2 : 1;
+        localStorage.setItem('currentUnit', currentUnit);
+        convertBtnChangeText();
+    });
 });
 
-async function fetchWeatherData(query) {
+function convertBtnChangeText() {
+    if (currentUnit === 2) {
+        convertBtn.text('Přepnout na °C');
+    } else {
+       convertBtn.text('Přepnout na °F');
+    }
+}
+
+async function fetchWeatherData(query, insertToHistory = true) {
     insertSpinner();
     try {
         const response = await $.getJSON(`${baseUrl}?key=${apiKey}&q=${query}&days=4&aqi=no&alerts=no`);
         addOrUpdateWorkspace(response);
-        updateSearchHistory(response.location.name);
+        if (insertToHistory)
+        {
+            updateSearchHistory(response.location.name);
+        }
     } catch (error) {
         Swal.fire({
             title: 'Chyba',
@@ -123,18 +146,16 @@ function addOrUpdateWorkspace(data) {
                 </div>
             </div>
         `);
-        $('.workspace-container').prepend(workspaceHTML);
-
+        workspaceContainer.prepend(workspaceHTML);
+        workspaceHTML.find('.close-workspace').on('click', function() {
+            const cityToRemove = $(this).closest('.workspace').data('city');
+            $(this).closest('.workspace').remove();
+            removeCityFromStorage(cityToRemove);
+        });
         updateWorkspace(workspaceHTML, data);
 
         updateWorkspaceStorage(cityName);
     }
-
-    $('.close-workspace').on('click', function() {
-        const cityToRemove = $(this).closest('.workspace').data('city');
-        $(this).closest('.workspace').remove();
-        removeCityFromStorage(cityToRemove);
-    });
 }
 
 function updateWorkspace(workspace, data) {
@@ -210,11 +231,13 @@ function updateWorkspace(workspace, data) {
 function updateSearchHistory(city) {
     let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
 
-    history = history.filter(item => item !== city);
+    history = history.filter(item => item.city !== city);
 
-    history.unshift(city);
+    history.unshift({ city: city, favorite: false });
 
     if (history.length > 10) history.pop();
+
+    history.sort((a, b) => b.favorite - a.favorite);
 
     localStorage.setItem('searchHistory', JSON.stringify(history));
     
@@ -223,19 +246,41 @@ function updateSearchHistory(city) {
 
 function displaySearchHistory() {
     const history = JSON.parse(localStorage.getItem('searchHistory')) || [];
-    $('.left-panel').html(`
+    leftPanel.html(`
         <h3>Naposledy vyhledané</h3>
-        <ul>${history.map(city => `<li class="history-item">${city}</li>`).join('')}</ul>
+        <ul>${history.map(item => `
+            <li class="history-item">
+                <span class="favorite-star" data-city="${item.city}">${item.favorite ? '⭐' : '★'}</span> ${item.city}
+            </li>`).join('')}
+        </ul>
     `);
-    $('.history-item').on('click', function () {
-        fetchWeatherData($(this).text());
+    leftPanel.find('.favorite-star').on('click', function (event) {
+        event.stopPropagation();
+        const city = $(this).data('city');
+        toggleFavorite(city);
+    });
+    leftPanel.find('.history-item').on('click', function () {
+        fetchWeatherData($(this).text().trim().replace('⭐', '').replace('★', ''), false);
     });
 }
 
+function toggleFavorite(city) {
+    let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
+    history = history.map(item => {
+        if (item.city === city) {
+            item.favorite = !item.favorite;
+        }
+        return item;
+    });
+    history.sort((a, b) => b.favorite - a.favorite);
+    localStorage.setItem('searchHistory', JSON.stringify(history));
+    displaySearchHistory();
+}
+
 function removeCityFromSearch(cityName) {
-    let workspaces = JSON.parse(localStorage.getItem('searchHistory')) || [];
-    workspaces = workspaces.filter(city => city !== cityName);
-    localStorage.setItem('searchHistory', JSON.stringify(workspaces));
+    let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
+    history = history.filter(item => item.city !== cityName);
+    localStorage.setItem('searchHistory', JSON.stringify(history));
     displaySearchHistory();
 }
 
@@ -257,25 +302,25 @@ function removeCityFromStorage(cityName) {
 function loadWorkspacesFromStorage() {
     const workspaces = JSON.parse(localStorage.getItem('workspaces')) || [];
     workspaces.forEach(city => {
-        fetchWeatherData(city);
+        fetchWeatherData(city, false);
     });
 }
 
 function insertSpinner() {
-    const spinnerHTML = `
+    spinnerElement = `
         <div class="spinner-container">
             <div class="spinner"></div>
         </div>
     `;
-    $('body').prepend(spinnerHTML);
+    body.prepend(spinnerElement);
 }
 
 function removeSpinner(){
-    const spinnerElement = $(".spinner-container");
+    const spinnerElements = $(".spinner-container");
 
-    if (spinnerElement.length) 
+    if (spinnerElements.length) 
     {
-        spinnerElement.remove();
+        spinnerElements.remove();
     }
 }
 
@@ -301,7 +346,6 @@ function updateAllTemperatures() {
         element.text(`${newTempValue.toFixed(1)} ${newUnit}`);
     });
 
-    currentUnit = currentUnit === 1 ? 2 : 1;
 }
 
 function convertToC(value) {
