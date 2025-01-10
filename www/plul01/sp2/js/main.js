@@ -5,6 +5,7 @@ $(document).ready(function() {
   let nickname = '';
   let isLoading = false;
   let guessedPokemons = [];
+  let currentGameViewedPokemonIds = new Set();
 
   const generations = [
     { start: 1, end: 151, active: true },
@@ -18,6 +19,8 @@ $(document).ready(function() {
     { start: 906, end: 1025, active: true }
   ];
 
+  $('#modal').hide();
+
   function toggleGeneration(index) {
     generations[index].active = !generations[index].active;
 
@@ -29,16 +32,20 @@ $(document).ready(function() {
   }
 
   const $generationSection = $('#generation-section');
+  const $buttons = []; 
+
   for (let i = 0; i < generations.length; i++) {
     let gen = i + 1;
     const range = generations[i];
 
     const $newButton = $('<button>')
       .attr('id', `gen-butt-${i}`)
-      .text(`${gen}`)
+      .text(`Gen ${gen}`)
       .click(function() { toggleGeneration(i); });
-    $generationSection.append($newButton);
+    $buttons.push($newButton);
   }
+  $generationSection.append(...$buttons);
+
 
   if (localStorage.getItem('pokemonLeaderboard')) {
     const storedLeaderboard = JSON.parse(localStorage.getItem('pokemonLeaderboard')); 
@@ -102,7 +109,12 @@ $(document).ready(function() {
       const randomGenerationIndex = Math.floor(Math.random() * filteredCount);
       const range = filtered[randomGenerationIndex];
 
-      const randomId = Math.floor(Math.random() * (range.end - range.start) + range.start);
+      var randomId = Math.floor(Math.random() * (range.end - range.start) + range.start);
+      // Try again until we get an id that hasnt been viewed yet
+      while (currentGameViewedPokemonIds.has(randomId)) {
+        randomId = Math.floor(Math.random() * (range.end - range.start) + range.start);
+      }
+
       const response = await $.ajax({ url: `https://pokeapi.co/api/v2/pokemon/${randomId}`, method: 'GET' });
       currentPokemon = { 
         name: response.name.split('-')[0],
@@ -110,6 +122,8 @@ $(document).ready(function() {
         image_back: response.sprites.back_default || response.sprites.other['official-artwork'].back_default
       };
 
+      currentGameViewedPokemonIds.add(randomId);
+      
       const img_front = new Image();
       img_front.onload = function() {
         $('#pokemon-image-front')
@@ -165,30 +179,53 @@ $(document).ready(function() {
     const sortedLeaderboard = Array.from(leaderboard.entries())
       .map(([nickname, result]) => ({ nickname, result }))
       .sort((a, b) => b.result.score - a.result.score);
+
+    const $entries = [];
     sortedLeaderboard.forEach((entry, index) => {
-      let pokeString = "";
-      for (let i = 0; i < entry.result.pokemons.length; i++) {
-        const pokemonName = entry.result.pokemons[i];
-        pokeString += pokemonName;
-        if (i != entry.result.pokemons.length - 1) {
-          pokeString += ", ";
-        }
-      }
+      let pokeString = joinNames(entry.result.pokemons, 6);
 
       const $entry = $('<div>')
         .addClass('leaderboard-entry');
 
       const $name = $('<p>').text(`${index + 1}. ${entry.nickname}: ${entry.result.score}`);
       const $pokemonListOut = $('<p>').text(pokeString).addClass('pokemon-listout');
+      const $showAllButton = $('<button>').text('Show All').click(function() {
+        showModal(entry.nickname, entry.result.pokemons);
+      });
 
       $entry.append($name);
       $entry.append($pokemonListOut);
+      $entry.append($showAllButton);
 
       if (entry.nickname === newHighScoreNickname) {
         $entry.addClass('new-high-score');
       }
-      $leaderboardList.append($entry);
+      $entries.push($entry);
     });
+
+    $leaderboardList.append(...$entries);
+  }
+//tady opravit 
+  function joinNames(names, max = Infinity) {
+    let pokeString = "";
+    // Only show the 6 latest
+    const length = names.length;
+    const minOfSixOrLength = Math.min(max, length);
+    for (let i = 0; i < minOfSixOrLength; i++) {
+      const pokemonName = names[length - i - 1];
+      pokeString += pokemonName;
+      if (i != minOfSixOrLength - 1) {
+        pokeString += ", ";
+      }
+    }
+
+    return pokeString;
+  }
+
+  function showModal(nickname, pokemonNames) {
+    $('#modal').show();
+    $('#modal-title').text(`Guessed Pokémon by ${nickname}`);
+    $('#modal-list').text(joinNames(pokemonNames));
   }
 
   function startGameValidate() {
@@ -256,7 +293,12 @@ $(document).ready(function() {
       $('#guess-input').val('');
       showMessage(`Correct, it was ${currentPokemon.name}! Here comes another one!`, 'success');
       guessedPokemons.push(currentPokemon.name);
-      fetchNewPokemon();
+
+      $('#pokemon-image-front').addClass('revealed');
+      $('#pokemon-image-back').addClass('revealed');
+      setTimeout(function() {
+        fetchNewPokemon();
+      }, 2000);
     } else {
       gameOver();
     }
@@ -288,6 +330,7 @@ $(document).ready(function() {
     $('#message').empty()
       .hide();
     guessedPokemons = [];
+    currentGameViewedPokemonIds = new Set();
     fetchNewPokemon();
   }
 
@@ -302,15 +345,16 @@ $(document).ready(function() {
     event.preventDefault();
     startGameValidate();
   });
-  $('#submit-guess').click(checkGuess);
-  $('#skip-guess').click(skipGuess)
-  $('#guess-input').keypress(function(e) {
-    if (e.which === 13) {
-      checkGuess();
-    }
+  $('#submit-guess').click(function(event) {
+    event.preventDefault();
+    checkGuess();
   });
+  $('#skip-guess').click(skipGuess)
   $('#back-button').click(function() {
     history.back();
+  });
+  $('#close-modal').click(function() {
+    $('#modal').hide();
   });
 
   if (window.location.hash === '#game' && nickname) {
