@@ -1,0 +1,115 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+    /* Body Styles */
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #030032; /* Deep blue background */
+    user-select: none;
+    overflow: hidden;
+  }
+  /* Canvas Styles */
+  canvas {
+    border: 2px solid #000;
+    display: block;
+  }
+  /* Centering and styling the overlay */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+}
+/* Form container */
+.styled-form {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+}
+/* Title */
+.styled-form h2 {
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+}
+/* Subtitle */
+.styled-form p {
+  font-family: 'Arial', sans-serif;
+  color: #666;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+}
+/* Input styling */
+.styled-form input {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease;
+}
+.styled-form input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+/* Button styling */
+.styled-form button {
+  background: #007bff;
+  color: #fff;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.styled-form button:hover {
+  background: #0056b3;
+}
+.overlay.hidden {
+  display: none;
+}
+
+#scores-section {
+  margin-top: 20px;
+  text-align: center;
+  color: white;
+}
+
+table {
+  width: 80%;
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+#pagination {
+  margin-top: 10px;
+}

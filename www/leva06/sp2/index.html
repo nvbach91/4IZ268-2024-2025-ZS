@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kitten Jump Game</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="images/kitten.png" type="image/png" />
+  </head>
+  <body>
+    <!-- Nickname Form -->
+    <div id="nickname-form" class="overlay">
+      <form id="player-form" class="styled-form">
+        <h2>Welcome to Kitten Jump</h2>
+        <p>Enter your nickname to start the game</p>
+        <input type="text" id="nickname-input" placeholder="Your Nickname" required />
+        <button type="submit">Start Game</button>
+      </form>
+    </div>
+
+    <!-- Game Canvas -->
+    <canvas id="game"></canvas>
+<div id="scores-section">
+  <h2>Scores</h2>
+  <table id="scores-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Nickname</th>
+        <th>Score</th>
+        <th>Timestamp</th>
+      </tr>
+    </thead>
+    <tbody id="scores-body">
+      <!-- Sem se dynamicky vloží data -->
+    </tbody>
+  </table>
+</div>
+
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>
+
