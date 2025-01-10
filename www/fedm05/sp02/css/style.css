@@ -9,7 +9,6 @@ body {
 
 .container {
     display: flex;
-    margin: 10px;
 }
 
 .left-panel {
@@ -89,7 +88,7 @@ body {
 }
 
 .route-list {
-    height: 100px;
+    height: 200px;
     flex-shrink: 0;
     border: 2px solid rgba(0, 0, 0, 0.2);
     border-radius: 2px;
@@ -121,6 +120,7 @@ body {
     margin-right: auto;
     font-size: 18px;
     margin-left: 20px;
+    cursor: text;
 }
 
 .route-remove {
@@ -146,17 +146,17 @@ body {
 
 .route-remove:hover,
 .add-route-button:hover,
-.remove-segment:hover {
+.remove-segment:hover,
+.reload-button {
     color: #111;
 }
 
 
 
-.add-route-button {
+.add-route-button,
+.reload-button {
     font-size: 24px;
     width: 40px;
-    margin-left: auto;
-    margin-right: auto;
     margin-bottom: 5px;
     color: #666;
 }
@@ -328,4 +328,14 @@ body {
     100% {
         transform: rotate(360deg);
     }
+}
+
+
+.route-labels {
+    display: flex;
+
+}
+
+.route-labels h3 {
+    margin-right: auto;
 }

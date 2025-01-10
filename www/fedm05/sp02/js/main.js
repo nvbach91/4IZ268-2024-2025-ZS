@@ -11,7 +11,23 @@ const App = {
     routeInfoElement: document.querySelector(".route-info"),
     map: L.map("map").setView([50.082, 14.42651], 13),
     resultsContainerElement: document.querySelector(".results-container"),
+    browserLat: null,
+    browserLon: null,
+    reloadButton: document.querySelector(".reload-button"),
 };
+
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+        App.browserLat = position.coords.latitude;
+        App.browserLon = position.coords.longitude;
+        console.log(
+            `Latitude: ${App.browserLat}, Longitude: ${App.browserLon}`
+        );
+    });
+} else {
+    console.log("Geolocation is not supported by this browser.");
+}
+
 function initializeRoutePlanner() {
     const addRouteButton = document.querySelector(".add-route-button");
     const addButton = document.querySelector(".add-route-segment-button");
@@ -44,7 +60,7 @@ function initializeRoutePlanner() {
         `;
         newRoute.appendChild(routeName);
         newRoute.appendChild(removeButton);
-        App.routeListElement.insertBefore(newRoute, addRouteButton);
+        App.routeListElement.appendChild(newRoute);
 
         // save route to the variable
         App.routes[routeId] = {
@@ -98,6 +114,11 @@ function initializeRoutePlanner() {
         App.locationInputElement.dataset.lat = null;
         App.locationInputElement.dataset.lon = null;
     });
+
+    App.reloadButton.addEventListener("click", () => {
+        console.log("test");
+        App.map.setView([App.browserLat, App.browserLon], 13);
+    });
 }
 // initialize the application
 document.addEventListener("DOMContentLoaded", () => {
@@ -114,6 +135,7 @@ function loadRoutes() {
     if (App.routes) {
         // Recreate route elements
         const addRouteButton = document.querySelector(".add-route-button");
+        const fragment = document.createDocumentFragment();
 
         Object.entries(App.routes).forEach(([routeId, routeData]) => {
             const newRoute = document.createElement("div");
@@ -131,9 +153,10 @@ function loadRoutes() {
             newRoute.appendChild(routeName);
             newRoute.appendChild(removeButton);
 
-            App.routeListElement.insertBefore(newRoute, addRouteButton);
+            fragment.appendChild(newRoute);
             setupRouteHandlers(newRoute, routeId);
         });
+        App.routeListElement.appendChild(fragment);
     }
 }
 
@@ -249,7 +272,25 @@ async function displayRouteData(routeId) {
 }
 
 // add city to route and update display
-function addCityToRoute(routeId, locationData) {
+async function addCityToRoute(routeId, locationData) {
+    let data; // Declare data outside the try block
+    if (!locationData.locationLat || !locationData.locationLon) {
+        q = locationData.location;
+        try {
+            const response = await fetch(
+                `https://nominatim.openstreetmap.org/search?format=json&accept-language=en&q=${encodeURIComponent(
+                    q
+                )}&limit=5`
+            );
+            data = await response.json();
+        } catch (error) {
+            console.error(error);
+        }
+        const closestResult = await data[0];
+        locationData.locationLat = closestResult.lat;
+        locationData.locationLon = closestResult.lon;
+    }
+
     // add marker to map
     L.marker([locationData.locationLat, locationData.locationLon])
         .addTo(App.map)
@@ -341,24 +382,17 @@ function formatDate(dateString) {
 let timeoutId;
 
 async function searchLocation(query) {
-    const xhr = new XMLHttpRequest();
-    xhr.open(
-        "GET",
-        `https://nominatim.openstreetmap.org/search?format=json&accept-language=en&q=${encodeURIComponent(
-            query
-        )}&limit=5`,
-        true
-    );
-
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            const data = JSON.parse(xhr.responseText);
-            displayResults(data);
-        } else {
-            console.error("error");
-        }
-    };
-    xhr.send();
+    try {
+        const response = await fetch(
+            `https://nominatim.openstreetmap.org/search?format=json&accept-language=en&q=${encodeURIComponent(
+                query
+            )}&limit=5`
+        );
+        const data = await response.json();
+        displayResults(data);
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 // search suggestions on change of input
@@ -392,7 +426,6 @@ function displayResults(results) {
                 App.locationInputElement.dataset.lat = result.lat;
                 App.locationInputElement.dataset.lon = result.lon;
                 console.log(result.lat);
-
                 console.log(result.lon);
                 App.resultsContainerElement.style.display = "none";
             });
@@ -437,53 +470,81 @@ async function getWeatherData(locationData) {
     startDate.setHours(12, 0, 0, 0);
     endDate.setHours(12, 0, 0, 0);
 
-    while (startDate <= endDate) {
-        try {
-            const dateStr = startDate.toISOString().split("T")[0];
+    const differenceInMilliseconds = endDate - startDate;
+    const differenceInDays = differenceInMilliseconds / (1000 * 60 * 60 * 24);
+    if (differenceInDays <= 10) {
+        while (startDate <= endDate) {
+            try {
+                const dateStr = startDate.toISOString().split("T")[0];
 
-            // get data from cache, return null if it doesnt exist
-            let dayWeatherData =
-                App.weatherDataCache[locationName]?.[dateStr] ?? null;
+                // get data from cache, return null if it doesnt exist
+                let dayWeatherData =
+                    App.weatherDataCache[locationName]?.[dateStr] ?? null;
 
-            if (dayWeatherData === null) {
-                dayWeatherData = await new Promise((resolve, reject) => {
-                    const xhr = new XMLHttpRequest();
-                    xhr.open(
-                        "GET",
-                        `https://api.openweathermap.org/data/3.0/onecall/day_summary?lat=${targetLat}&lon=${targetLon}&date=${dateStr}&appid=e5b10427ec6e0b999e954d28cdd49862&units=metric`,
-                        true
+                if (dayWeatherData === null) {
+                    const response = await fetch(
+                        `https://api.openweathermap.org/data/3.0/onecall/day_summary?lat=${targetLat}&lon=${targetLon}&date=${dateStr}&appid=e5b10427ec6e0b999e954d28cdd49862&units=metric`
                     );
+                    dayWeatherData = await response.json();
 
-                    xhr.onload = function () {
-                        if (xhr.status === 200) {
-                            resolve(JSON.parse(xhr.responseText));
-                        } else {
-                            reject(new Error(`error`));
-                        }
-                    };
-                    xhr.send();
-                });
-
-                if (!App.weatherDataCache[locationName]) {
-                    App.weatherDataCache[locationName] = {};
+                    if (!App.weatherDataCache[locationName]) {
+                        App.weatherDataCache[locationName] = {};
+                    }
+                    App.weatherDataCache[locationName][dateStr] =
+                        dayWeatherData;
+                    // save data to cache
+                    localStorage.setItem(
+                        "weatherDataCache",
+                        JSON.stringify(App.weatherDataCache)
+                    );
                 }
-                App.weatherDataCache[locationName][dateStr] = dayWeatherData;
-                // save data to cache
-                localStorage.setItem(
-                    "weatherDataCache",
-                    JSON.stringify(App.weatherDataCache)
-                );
-            }
 
-            daysData.push({
-                date: new Date(startDate),
-                weatherData: dayWeatherData,
-            });
-        } catch (error) {
-            console.log(error);
+                daysData.push({
+                    date: new Date(startDate),
+                    weatherData: dayWeatherData,
+                });
+            } catch (error) {
+                console.log(error);
+            }
+            // increment date by 1
+            startDate.setDate(startDate.getDate() + 1);
         }
-        // increment date by 1
-        startDate.setDate(startDate.getDate() + 1);
+    } else {
+        const arr = [startDate, endDate];
+        for (const date of arr) {
+            try {
+                const dateStr = date.toISOString().split("T")[0];
+
+                // get data from cache, return null if it doesnt exist
+                let dayWeatherData =
+                    App.weatherDataCache[locationName]?.[dateStr] ?? null;
+
+                if (dayWeatherData === null) {
+                    const response = await fetch(
+                        `https://api.openweathermap.org/data/3.0/onecall/day_summary?lat=${targetLat}&lon=${targetLon}&date=${dateStr}&appid=e5b10427ec6e0b999e954d28cdd49862&units=metric`
+                    );
+                    dayWeatherData = await response.json();
+
+                    if (!App.weatherDataCache[locationName]) {
+                        App.weatherDataCache[locationName] = {};
+                    }
+                    App.weatherDataCache[locationName][dateStr] =
+                        dayWeatherData;
+                    // save data to cache
+                    localStorage.setItem(
+                        "weatherDataCache",
+                        JSON.stringify(App.weatherDataCache)
+                    );
+                }
+
+                daysData.push({
+                    date: new Date(date),
+                    weatherData: dayWeatherData,
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        }
     }
 
     return daysData;
@@ -508,64 +569,60 @@ L.tileLayer(
 ).addTo(App.map);
 // implement clickable functionality on map
 
-App.map.on("click", function (e) {
+App.map.on("click", async function (e) {
     if (!App.currentRouteId) {
         alert("Please select a route first");
         return;
     }
 
-    // set cursor to loading icon
-    document.body.style.cursor = "wait";
-    App.map.getContainer().style.cursor = "wait";
+    try {
+        // set cursor to loading icon
+        document.body.style.cursor = "wait";
+        App.map.getContainer().style.cursor = "wait";
 
-    const xhr = new XMLHttpRequest();
-    xhr.open(
-        "GET",
-        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${e.latlng.lat}&lon=${e.latlng.lng}&accept-language=en&addressdetails=1&zoom=10`,
-        true
-    );
+        const response = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${e.latlng.lat}&lon=${e.latlng.lng}&accept-language=en&addressdetails=1&zoom=10`
+        );
 
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            const data = JSON.parse(xhr.responseText);
-
-            if (data.address) {
-                const city =
-                    data.address.city ||
-                    data.address.town ||
-                    data.address.village ||
-                    data.address.municipality ||
-                    data.address.suburb;
-                const country = data.address.country;
-
-                if (city && country) {
-                    const locationName = `${city}, ${country}`;
-                    App.locationInputElement.value = locationName;
-                    App.locationInputElement.dataset.lat = e.latlng.lat;
-                    App.locationInputElement.dataset.lon = e.latlng.lng;
-
-                    if (window.currentMarker) {
-                        App.map.removeLayer(window.currentMarker);
-                    }
-                    window.currentMarker = L.marker(e.latlng)
-                        .addTo(App.map)
-                        .bindPopup(locationName)
-                        .openPopup();
-
-                    App.arrivalDateElement.focus();
-                } else {
-                    alert("No city found, try clicking closer to a city.");
-                }
-            }
-        } else {
-            console.error("error");
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
-    };
-    xhr.onloadend = function () {
+
+        const data = await response.json();
+
+        if (data.address) {
+            const city =
+                data.address.city ||
+                data.address.town ||
+                data.address.village ||
+                data.address.municipality ||
+                data.address.suburb;
+            const country = data.address.country;
+
+            if (city && country) {
+                const locationName = `${city}, ${country}`;
+                App.locationInputElement.value = locationName;
+                App.locationInputElement.dataset.lat = e.latlng.lat;
+                App.locationInputElement.dataset.lon = e.latlng.lng;
+
+                if (window.currentMarker) {
+                    App.map.removeLayer(window.currentMarker);
+                }
+                window.currentMarker = L.marker(e.latlng)
+                    .addTo(App.map)
+                    .bindPopup(locationName)
+                    .openPopup();
+
+                App.arrivalDateElement.focus();
+            } else {
+                alert("No city found, try clicking closer to a city.");
+            }
+        }
+    } catch (error) {
+        console.error("Error:", error);
+    } finally {
         // remove loading cursor
         document.body.style.cursor = "default";
         App.map.getContainer().style.cursor = "pointer";
-    };
-
-    xhr.send();
+    }
 });
