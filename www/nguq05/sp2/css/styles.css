@@ -2,7 +2,7 @@
     box-sizing: border-box;
 }
 
-header {
+header, footer {
     background-color: #e9ecef;
     padding: 20px;
     border-radius: 8px;
