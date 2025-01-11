@@ -27,45 +27,64 @@ function gisLoaded() {
     tokenClient = google.accounts.oauth2.initTokenClient({
         client_id: CLIENT_ID,
         scope: SCOPES,
-        callback: '', 
+        callback: (resp) => {
+            if (resp.error !== undefined) {
+                throw resp;
+            }
+            document.getElementById('signout_button').style.visibility = 'visible';
+            document.getElementById('authorize_button').innerText = 'Refresh';
+            document.getElementById('auth-container').style.display = 'none';
+            document.getElementById('app-container').style.display = 'block';
+            displayUserEmail();
+        },
     });
     gisInited = true;
     maybeEnableButtons();
 }
 
+
 function maybeEnableButtons() {
     if (gapiInited && gisInited) {
-        document.getElementById('authorize_button').style.visibility = 'visible';
+        const token = gapi.client.getToken();
+        if (token) {
+            document.getElementById('authorize_button').style.visibility = 'hidden';
+            document.getElementById('signout_button').style.visibility = 'visible';
+            document.getElementById('auth-container').style.display = 'none';
+            document.getElementById('app-container').style.display = 'block';
+            displayUserEmail();
+        } else {
+            document.getElementById('authorize_button').style.visibility = 'visible';
+        }
     }
 }
 
 function handleAuthClick() {
-    tokenClient.callback = async (resp) => {
-        if (resp.error !== undefined) {
-            throw resp;
-        }
-        document.getElementById('signout_button').style.visibility = 'visible';
-        document.getElementById('authorize_button').innerText = 'Refresh';
-        document.getElementById('auth-container').style.display = 'none';
-        document.getElementById('app-container').style.display = 'block';
-    };
-
-    if (gapi.client.getToken() === null) {
-        tokenClient.requestAccessToken({ prompt: 'consent' });
-    } else {
-        tokenClient.requestAccessToken({ prompt: '' });
-    }
+    tokenClient.requestAccessToken({ prompt: '' });
 }
 
 function handleSignoutClick() {
     const token = gapi.client.getToken();
     if (token !== null) {
-        google.accounts.oauth2.revoke(token.access_token);
-        gapi.client.setToken('');
-        document.getElementById('authorize_button').innerText = 'Authorize';
-        document.getElementById('signout_button').style.visibility = 'hidden';
-        document.getElementById('auth-container').style.display = 'block';
-        document.getElementById('app-container').style.display = 'none';
+        google.accounts.oauth2.revoke(token.access_token, () => {
+            gapi.client.setToken('');
+            document.getElementById('authorize_button').innerText = 'Authorize';
+            document.getElementById('signout_button').style.visibility = 'hidden';
+            document.getElementById('auth-container').style.display = 'block';
+            document.getElementById('app-container').style.display = 'none';
+        });
+    }
+}
+
+async function displayUserEmail() {
+    try {
+        const response = await gapi.client.request({
+            path: 'https://www.googleapis.com/oauth2/v3/userinfo',
+        });
+        const email = response.result.email;
+        const emailElement = document.getElementById('user-email');
+        emailElement.textContent = `Signed in as: ${email}`;
+    } catch (error) {
+        console.error('Error fetching user email:', error);
     }
 }
 
@@ -205,6 +224,20 @@ function filterTasks(filterOption) {
   });
 }
 
+// Filter tasks based on date
+function filterTasksByDate(date) {
+    const tasks = document.querySelectorAll('#task-list li');
+
+    tasks.forEach((task) => {
+        const taskDate = new Date(task.getAttribute('data-deadline')).toISOString().split('T')[0];
+        task.style.display = '';
+
+        if (taskDate !== date) {
+            task.style.display = 'none';
+        }
+    });
+}
+
 // Sort tasks by priority
 let sortAscending = true;
 
@@ -251,6 +284,7 @@ function addTaskToDOM(taskText, eventId, deadline, note = '', priority = 3) {
     completionCircle.addEventListener('click', () => {
         completionCircle.classList.toggle('completed');
         li.classList.toggle('completed');
+
         saveTasksToLocalStorage();
     });
 
@@ -333,11 +367,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const addTaskBtn = document.getElementById('add-task-btn');
   const taskInput = document.getElementById('new-task');
   const taskFilter = document.getElementById('task-filter');
+  const dateFilter = document.getElementById('date-filter');
 
   loadTasksFromLocalStorage();
 
   sortPriorityBtn.addEventListener('click', sortTasksByPriority);
- 
   sortPriorityBtn.title = 'Sort tasks by priority';
  
 
@@ -345,21 +379,18 @@ document.addEventListener('DOMContentLoaded', () => {
       taskPriorityInput.classList.toggle('hidden'); 
       taskPriorityInput.focus(); 
   });
-
   priorityIcon.title = 'Set task priority';
 
   calendarIcon.addEventListener('click', () => {
       taskDateInput.classList.toggle('hidden');
       taskDateInput.focus();
   });
-
   calendarIcon.title = 'Set task date';
 
   timeIcon.addEventListener('click', () => {
       taskTimeInput.classList.toggle('hidden');
       taskTimeInput.focus();
   });
-
   timeIcon.title = 'Set task time';
 
   addTaskBtn.addEventListener('click', () => {
@@ -400,4 +431,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const filterOption = event.target.value;
       filterTasks(filterOption);
   });
+
+    dateFilter.addEventListener('change', (event) => {
+        const selectedDate = event.target.value;
+        filterTasksByDate(selectedDate);
+    });
 });
