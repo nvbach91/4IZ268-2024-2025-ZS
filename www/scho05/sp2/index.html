@@ -11,7 +11,7 @@
     <meta name="author" content="Ondřej Schwarz" />
     <meta
       name="description"
-      content="Random joke generator containing hundreds of jokes which you can save for later."
+      content="Random joke generator containing hundreds of jokes which you search for and save for later."
     />
     <link rel="stylesheet" href="./css/styles.css" />
     <link
@@ -22,10 +22,14 @@
   </head>
   <body>
     <h1>Explore hundreds of jokes!</h1>
-    <div id="jokeDisplay">Click "Show a Joke" to see one!</div>
-    <div>
-      <button id="btnShowJoke">Show a Joke</button>
-      <button id="btnAddFavorite">Add to Favorites</button>
+    <div class="container-lg" id="jokeDisplay">
+      Generate a random joke with the button bellow!
+    </div>
+    <div class="btn-group">
+      <button id="btnShowJoke" class="primary-btn">Get Random Joke</button>
+      <button id="btnAddFavorite" class="secondary-btn">
+        Add to Favorites
+      </button>
     </div>
 
     <div class="search-section">
@@ -36,20 +40,28 @@
           id="searchInput"
           name="searchTerm"
           placeholder="Enter keyword to search jokes..."
-          required
         />
-        <button type="submit">Search</button>
+        <button type="submit" class="primary-btn">Search</button>
+        <button id="btnClearResults" class="secondary-btn">Clear</button>
       </form>
       <div id="searchResultsCount"></div>
-      <div id="searchResults">
+      <div id="searchResults" class="container-md">
         <ul id="searchResultsList"></ul>
       </div>
     </div>
 
-    <h2>Favorite Jokes</h2>
-    <div id="favoriteJokesList">
+    <div class="list-of-favorites container-lg">
+      <h2>List of Favorite Jokes:</h2>
+      <select id="sortFavorites" class="container-lg">
+        <option value="none">No sorting</option>
+        <option value="highest">Highest rating first</option>
+        <option value="lowest">Lowest rating first</option>
+      </select>
+    </div>
+    <div id="favoriteJokesList" class="container-lg">
       <ul></ul>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.slim.min.js"></script>
     <script src="./js/main.js"></script>
   </body>
 </html>

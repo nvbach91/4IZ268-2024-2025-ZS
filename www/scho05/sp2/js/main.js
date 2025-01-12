@@ -1,138 +1,211 @@
-// DOM element references
-const showJokeBtn = document.getElementById("btnShowJoke");
-const searchForm = document.getElementById("searchForm");
-const favoriteBtn = document.getElementById("btnAddFavorite");
-const jokeElement = document.getElementById("jokeDisplay");
-const favoriteJokesElement = document.getElementById("favoriteJokesList");
-const searchInput = document.getElementById("searchInput");
-const searchResultsList = document.getElementById("searchResultsList");
-const searchResultsCount = document.getElementById("searchResultsCount");
+$(document).ready(() => {
+  // Selectors
+  const joke = $("#jokeDisplay");
+  const searchForm = $("#searchForm");
+  const searchInput = $("#searchInput");
+  const searchResultsList = $("#searchResultsList");
+  const searchResultsCount = $("#searchResultsCount");
+  const favoritesList = $("#favoriteJokesList ul");
+  const sortSelect = $("#sortFavorites");
 
-// Fetch a joke from the API
-async function fetchJoke() {
-  try {
-    const response = await fetch("https://icanhazdadjoke.com/", {
-      headers: {
-        Accept: "application/json",
-        "User-Agent": "My Joke App (https://github.com/ondrulin)",
-      },
-    });
-    const { joke } = await response.json();
-    return joke;
-  } catch (error) {
-    console.error("Failed to fetch joke:", error);
-    return "Sorry, no jokes available right now.";
-  }
-}
+  // Emoji ratings
+  const RATING_EMOJIS = [
+    "\uD83D\uDE22",
+    "\uD83D\uDE10",
+    "\uD83D\uDE42",
+    "\uD83D\uDE0A",
+    "\uD83E\uDD23",
+  ];
 
-// Search for jokes
-async function searchJokes(term) {
-  try {
-    const response = await fetch(
-      `https://icanhazdadjoke.com/search?term=${encodeURIComponent(
-        term
-      )}&limit=15`,
-      {
+  async function fetchJoke() {
+    try {
+      const response = await fetch("https://icanhazdadjoke.com/", {
         headers: {
           Accept: "application/json",
           "User-Agent": "My Joke App (https://github.com/ondrulin)",
         },
-      }
+      });
+      const data = await response.json();
+      return {
+        id: data.id,
+        joke: data.joke
+      };
+    } catch (error) {
+      console.error("Failed to fetch joke:", error);
+      return { id: null, joke: "Sorry, no jokes available right now." };
+    }
+  }
+
+  async function searchJokes(term) {
+    try {
+      const response = await fetch(
+        `https://icanhazdadjoke.com/search?term=${encodeURIComponent(term)}&limit=15`,
+        {
+          headers: {
+            Accept: "application/json",
+            "User-Agent": "My Joke App (https://github.com/ondrulin)",
+          },
+        }
+      );
+      const data = await response.json();
+      return {
+        results: data.results,
+        total: data.total_jokes,
+      };
+    } catch (error) {
+      console.error("Failed to search jokes:", error);
+      return { results: [], total: 0 };
+    }
+  }
+
+  async function displaySearchResults(searchTerm) {
+    clearSearchResults();
+
+    if (!searchTerm) {
+      return;
+    }
+
+    const { results: jokes, total } = await searchJokes(searchTerm);
+    if (jokes.length === 0) {
+      searchResultsList.html("<li>No jokes found</li>");
+      return;
+    }
+
+    searchResultsCount.text(`Showing ${jokes.length} out of ${total} jokes`);
+
+    const jokesHtml = jokes.map(joke => $("<li>")
+      .append(
+        $("<span>").text(joke.joke),
+        $("<button>")
+          .addClass("btnAddToFavorites")
+          .html("&#x2764;")
+          .data({
+            joke: joke.joke,
+            id: joke.id
+          })
+          .on("click", function () {
+            addToFavorites($(this).data());
+          })
+      ));
+
+    searchResultsList.append(jokesHtml);
+  }
+
+  function clearSearchResults() {
+    searchResultsList.empty();
+    searchResultsCount.empty();
+    searchInput.val("");
+  }
+
+  async function displayJoke() {
+    const { id, joke: jokeText } = await fetchJoke();
+    joke
+      .text(jokeText)
+      .data("jokeId", id)
+      .data("jokeText", jokeText);
+  }
+
+  function createRatingButtons(jokeId, currentRating) {
+    return RATING_EMOJIS.map((emoji, index) =>
+      $("<button>")
+        .addClass("rating-btn")
+        .toggleClass("selected", currentRating === index + 1)
+        .data({
+          rating: index + 1,
+          jokeId: jokeId
+        })
+        .text(emoji)
+        .on("click", function () {
+          const btn = $(this);
+          rateJoke(btn.data("jokeId"), btn.data("rating"));
+        })
     );
-    const data = await response.json();
-    return {
-      results: data.results,
-      total: data.total_jokes,
-    };
-  } catch (error) {
-    console.error("Failed to search jokes:", error);
-    return { results: [], total: 0 };
-  }
-}
-
-// Display search results
-async function displaySearchResults(searchTerm) {
-  if (!searchTerm) {
-    searchResultsList.innerHTML = "<li>Please enter a search term</li>";
-    searchResultsCount.textContent = "";
-    return;
   }
 
-  const { results: jokes, total } = await searchJokes(searchTerm);
-  if (jokes.length === 0) {
-    searchResultsCount.textContent = "No results found";
-    return;
+  function rateJoke(jokeId, rating) {
+    const favoriteJokes = getFavoriteJokes();
+    const jokeIndex = favoriteJokes.findIndex(joke => joke.id === jokeId);
+
+    if (jokeIndex !== -1) {
+      favoriteJokes[jokeIndex].rating = rating;
+      localStorage.setItem("favoriteJokes", JSON.stringify(favoriteJokes));
+      displayFavoriteJokes();
+    }
   }
 
-  searchResultsCount.textContent = `Showing ${jokes.length} out of ${total} jokes found`;
+  function sortJokes(jokes, sortType) {
+    if (sortType === "none") return jokes;
 
-  searchResultsList.innerHTML = jokes
-    .map(
-      (joke) => `
-      <li>
-          ${joke.joke}
-          <button data-joke="${encodeURIComponent(
-            joke.joke
-          )}" onclick="addToFavorites(this)">
-              Add to Favorites
-          </button>
-      </li>
-    `
-    )
-    .join("");
-}
+    return [...jokes].sort((a, b) => {
+      const ratingA = a.rating || 0;
+      const ratingB = b.rating || 0;
 
-// Display a random joke
-async function displayJoke() {
-  jokeElement.textContent = await fetchJoke();
-}
-
-// Add joke to favorites
-function addToFavorites(jokeOrButton) {
-  let joke;
-
-  // If the argument is a button, extract the joke from its data attribute
-  if (jokeOrButton && jokeOrButton.getAttribute) {
-    joke = decodeURIComponent(jokeOrButton.getAttribute("data-joke"));
-  } else {
-    // Otherwise, treat the argument as a string (for the random joke case)
-    joke = jokeOrButton;
+      return sortType === "highest" ? ratingB - ratingA : ratingA - ratingB;
+    });
   }
 
-  const favoriteJokes = JSON.parse(localStorage.getItem("favoriteJokes")) || [];
-
-  if (!favoriteJokes.includes(joke)) {
-    favoriteJokes.push(joke);
-    localStorage.setItem("favoriteJokes", JSON.stringify(favoriteJokes));
-    displayFavoriteJokes();
+  function getFavoriteJokes() {
+    return JSON.parse(localStorage.getItem("favoriteJokes") || "[]");
   }
-}
 
-// Add current joke to favorites
-function addFavoriteJoke() {
-  const currentJoke = jokeElement.textContent;
-  if (!currentJoke || currentJoke === "Click Show a Joke to see one!") return;
-  addToFavorites(currentJoke);
-}
+  function addToFavorites({ id: jokeId, joke: jokeText } = {}) {
+    // If no parameters provided, use current joke display
+    if (!jokeId) {
+      const currentJoke = joke.text();
+      if (!currentJoke || currentJoke === "Generate a random joke with the button bellow!") {
+        return;
+      }
+      jokeId = joke.data("jokeId");
+      jokeText = currentJoke;
+    }
 
-// Display favorite jokes
-function displayFavoriteJokes() {
-  const favoriteJokes = JSON.parse(localStorage.getItem("favoriteJokes")) || [];
-  const favoriteJokesList = document.querySelector("#favoriteJokesList ul");
-  favoriteJokesList.innerHTML = favoriteJokes
-    .map((joke) => `<li>${joke}</li>`)
-    .join("");
-}
+    if (!jokeId) return;
 
-searchForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const formData = new FormData(e.target);
-  const searchTerm = formData.get("searchTerm").trim();
-  await displaySearchResults(searchTerm);
+    const favoriteJokes = getFavoriteJokes();
+
+    if (!favoriteJokes.some(joke => joke.id === jokeId)) {
+      favoriteJokes.push({
+        id: jokeId,
+        text: jokeText,
+        rating: 0
+      });
+      localStorage.setItem("favoriteJokes", JSON.stringify(favoriteJokes));
+      displayFavoriteJokes();
+    }
+  }
+
+  function displayFavoriteJokes() {
+    const favoriteJokes = sortJokes(
+      getFavoriteJokes(),
+      sortSelect.val()
+    );
+
+    favoritesList.empty();
+
+    const jokesHtml = favoriteJokes.map(joke =>
+      $("<li>").append(
+        $("<div>")
+          .addClass("joke-text")
+          .text(joke.text),
+        $("<div>")
+          .addClass("joke-rating")
+          .append(createRatingButtons(joke.id, joke.rating))
+      )
+    );
+
+    favoritesList.append(jokesHtml);
+  }
+
+  // Event handlers
+  searchForm.on("submit", async (e) => {
+    e.preventDefault();
+    await displaySearchResults(searchInput.val().trim());
+  });
+
+  $("#btnShowJoke").on("click", displayJoke);
+  $("#btnAddFavorite").on("click", () => addToFavorites());
+  $("#btnClearResults").on("click", clearSearchResults);
+  sortSelect.on("change", displayFavoriteJokes);
+
+  displayFavoriteJokes();
 });
-
-showJokeBtn.addEventListener("click", displayJoke);
-favoriteBtn.addEventListener("click", addFavoriteJoke);
-
-// Initialize favorite jokes on page load
-displayFavoriteJokes();
