@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+    <div class="container" id="auth-container">
+        <h1>To-Do List</h1>
+        <div class="auth-buttons">
+            <button id="authorize_button" class="btn" onclick="handleAuthClick()">Authorize</button>
+            <button id="signout_button" class="btn" onclick="handleSignoutClick()">Sign Out</button>
+        </div>
+    </div>
+    <div class="container" id="app-container" style="display: none;">
+        <div class="header-container">
+            <h1>To-Do List</h1>
+            <p id="user-email"></p>
+            <div class="date-filter-container">
+                <label for="date-filter">Filter by date:</label>
+                <input type="date" id="date-filter" class="task-input">
+            </div>
+            <div class="filter-container">         
+                <div class="filter-dropdown">
+                    <label for="task-filter">Tasks:</label>
+                    <select id="task-filter" class="dropdown">
+                        <option value="all">All</option>
+                        <option value="completed">Completed</option>
+                        <option value="incomplete">Incomplete</option>
+                    </select>
+                </div>
+                <div class="sort-container">
+                    <label for="sort-priority-btn">Priority:</label>
+                    <button id="sort-priority-btn" class="icon-btn">
+                        <i class="fas fa-sort-amount-down"></i>
+                    </button>  
+                </div>
+            </div>
+        </div>
+        <div class="input-container">
+            <input type="text" id="new-task" placeholder="Add a new task..." class="task-input">
+            <button id="priority-icon" class="icon-btn">
+                <i class="fas fa-fire"></i>
+            </button>
+            <input type="number" id="task-priority" class="task-priority hidden" min="1" max="5" placeholder="1-5">
+            <button id="calendar-icon" class="icon-btn">
+                <i class="fas fa-calendar-alt"></i>
+            </button>
+            <input type="date" id="task-date" class="task-date hidden">
+            <button id="time-icon" class="icon-btn">
+                <i class="fas fa-clock"></i> 
+            </button>
+            <input type="time" id="task-time" class="task-time hidden">
+            <button id="add-task-btn" class="btn">Add</button>
+        </div>   
+        <ul id="task-list" class="task-list"></ul>
+    </div>
+    <div id="notification-container" class="notification-container"></div>
+
+    <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
+    <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
