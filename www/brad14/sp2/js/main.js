@@ -22,12 +22,20 @@ const constructUrl = (baseUrl, parameters) => {
  */
 const fetchWeatherData = async (lat, lon) => {
     const url = constructUrl(BASE_URL_DATA, `lat=${lat}&lon=${lon}&units=metric&exclude=minutely`);
-    const res = await fetch(url);
-    if (!res.ok) {
-        throw new Error('Failed to fetch weather data');
+    try {
+        const res = await fetch(url);
+        if (!res.ok) {
+            throw new Error('Failed to fetch weather data');
+        }
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        if (error.message === 'Failed to fetch') {
+            throw new Error('Network error: Please check you internet connection.');
+        } else {
+            throw error;
+        }
     }
-    const data = await res.json();
-    return data;
 }
 
 
@@ -38,15 +46,23 @@ const fetchWeatherData = async (lat, lon) => {
  */
 const fetchCoordinates = async (location) => {
     const url = constructUrl(BASE_URL_GEO_DIRECT, `q=${location}&limit=3`);
-    const res = await fetch(url);
-    if (!res.ok) {
-        throw new Error('Failed to fetch coordinates');
+    try {
+        const res = await fetch(url);
+        if (!res.ok) {
+            throw new Error('Failed to fetch coordinates');
+        }
+        const data = await res.json();
+        if (data.length === 0) {
+            throw new Error('Location not found');
+        }
+        return data[0];
+    } catch (error) {
+        if (error.message === 'Failed to fetch') {
+            throw new Error('Network error: Please check your internet connection.');
+        } else {
+            throw error;
+        }
     }
-    const data = await res.json();
-    if (data.length === 0) {
-        throw new Error('Location not found');
-    }
-    return data[0];
 }
 
 
@@ -103,13 +119,82 @@ const renderWeatherData = (data) => {
     `;
     const dailyHtml = `
         <h3>Daily forecast</h3>
-        <div class="daily">${renderDailyContent(data.daily)}</div>
+        <div class="daily">${renderDailyContent(data.daily, data.lat, data.lon)}</div>
+    `;
+    const currentConditionsHtml = `
+        <h3>Current conditions</h3>
+        <div class="current-conditions">
+                    <div class="condition humidity">
+                        <h4>Wind</h4>
+                        <span class="icon">
+                            <i class="fa-solid fa-location-arrow fa-rotate-by fa-4x"
+                                style="color: #2563d6; --fa-rotate-angle: ${data.current.wind_deg - 45}deg;"></i>
+                        </span>
+                        <div class="condition-value">
+                            <div class="start">
+                                <div class="big">${data.current.wind_speed.toFixed(1)}</div>
+                                <span>km/h</span>
+                            </div>
+                            <div class="end">
+                                ${renderWindDirection(data.current.wind_deg)}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="condition sun">
+                        <div class="appart">
+                            <h4>Sun</h4>
+                            <div class="sun-movement">
+                                <canvas id="canvas"></canvas>
+                            </div>
+                        </div>
+                        <div class="condition-value">
+                            <div class="start">
+                                <div class="medium">${getDateTime(data.current.sunrise, data.timezone).time}</div>
+                                <span>Sunrise</span>
+                            </div>
+                            <div class="end">
+                                <div class="medium">${getDateTime(data.current.sunset, data.timezone).time}</div>
+                                <span>Sunset</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="condition humidity">
+                        <h4>Humidity</h4>
+                        <span class="icon">
+                            <img src="images/weather/humidity.svg" alt="Humidity Icon">
+                        </span>
+                        <div class="condition-value">
+                            <div class="humidity-value">
+                                <span class="big">${data.current.humidity}</span>
+                                <span class="unit">%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="condition humidity">
+                        <h4>Pressure</h4>
+                        <span class="icon">
+                            <img src="images/weather/atmospheric-pressure.png" alt="Pressure Icon" width="70">
+                        </span>
+                        <div class="condition-value">
+                            <div class="humidity-value">
+                                <div class="big">${data.current.pressure}</div>
+                                <span class="unit">hPa</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
     `;
 
+    $('.daily-detail-wrapper').empty();
     $('.current-wrapper').empty().append(currentHtml);
     $('.hourly-wrapper').empty().append(hourlyHtml);
     $('.daily-wrapper').empty().append(dailyHtml);
+    $('.current-conditions-wrapper').empty().append(currentConditionsHtml);
+    drawSunArc(getDateTime(data.current.sunrise, data.timezone).time, getDateTime(data.current.sunset, data.timezone).time, getDateTime(data.current.dt, data.timezone).time)
 }
+
+
 /**
  * Renders the hourly weather content as HTML.
  *
@@ -143,23 +228,176 @@ const renderHourlyContent = (hourlyData, timezone, sunrise, sunset) => {
  * @param {Array} dailyData - An array of daily weather data objects.
  * @returns {string} The HTML string representing the daily weather content.
  */
-const renderDailyContent = (dailyData) => {
+const renderDailyContent = (dailyData, lat, lon) => {
     let html = ``;
     dailyData.forEach((day, index) => {
         const dateTime = getDateTime(day.dt);
         const dayHtml = `
-            <div class="daily-box">
+            <div class="daily-box" onclick="renderDayDetail(${index}, '${lat}', '${lon}')">
                 <div class="date">${index === 0 ? 'Today' : dateTime.weekDay} ${dateTime.dayOfMonth} ${dateTime.month}</div>
                 <div class="weather-info">
                     <div class="img-wrapper">
                         <img width="40" src="./images/weather/${getIconName(day.weather[0], day.dt, day.sunrise, day.sunset)}.png" alt="">
                     </div>
-                    <p>${Math.round(day.temp.day)}°<span class="night-temp">/</span><span class="night-temp">${Math.round(day.temp.night)}°</span></p>
+                    <p class="min-max-temp">${Math.round(day.temp.day)}°<span class="night-temp">/</span><span class="night-temp">${Math.round(day.temp.night)}°</span></p>
                 </div>
             </div>
         `;
         html += dayHtml;
     })
+    return html;
+}
+
+/**
+ * Renders the detailed weather information for a specific day.
+ *
+ * @param {number} index - The index of the day in the weather data.
+ * @param {number} lat - The latitude of the location.
+ * @param {number} lon - The longitude of the location.
+ * @param {Object} [weatherData] - The weather data object. If not provided, it will be fetched using the latitude and longitude.
+ */
+const renderDayDetail = async (index, lat, lon, weatherData) => {
+    let data;
+    if (!weatherData) {
+        data = await fetchWeatherData(lat, lon);
+    } else {
+        data = weatherData;
+    }
+    const day = data.daily[index];
+    const dateTime = getDateTime(day.dt, data.timezone);
+    addDayDetailToSearchParams(index);
+    const html = `
+        <a class="back-wrapper">
+            <i class="fa-solid fa-chevron-left fa-lg" style="color: black"></i>
+            <span>Back to forecast</span>
+        </a>
+        <div class="days">
+            ${renderDays(data, index)}
+        </div>
+        <div class="detail">
+            <div class="date">${index === 0 ? 'Today' : dateTime.weekDay} ${dateTime.dayOfMonth} ${dateTime.month}</div>
+            <div class="xl temperature">
+                <span>${day.temp.day.toFixed()}<span class="current-unit">°</span><span class="night-temp"><span
+                            class="slash standard">/ </span>${day.temp.min.toFixed()}<span class="current-unit">°</span></span></span>
+                <img src="./images/weather/${getIconName(day.weather[0], day.dt, day.sunrise, day.sunset)}.png" alt="weather icon" width="100">
+            </div>
+            <div class="description">${day.summary}</div>
+        </div>
+        <h3>Daily conditions</h3>
+        <div class="current-conditions">
+            <div class="condition humidity">
+                <h4>Wind</h4>
+                <span class="icon">
+                    <i class="fa-solid fa-location-arrow fa-rotate-by fa-4x"
+                        style="color: #2563d6; --fa-rotate-angle: ${day.wind_deg - 45}deg;"></i>
+                </span>
+                <div class="condition-value">
+                    <div class="start">
+                        <div class="big">${day.wind_speed.toFixed(1)}</div>
+                        <span>km/h</span>
+                    </div>
+                    <div class="end">
+                        ${renderWindDirection(day.wind_deg)}
+                    </div>
+                </div>
+            </div>
+            <div class="condition sun">
+                <div class="appart">
+                    <h4>Sun</h4>
+                </div>
+                <div class="left">
+                    <div class="sun-value">
+                        <div class="start">
+                            <div class="big">${getDateTime(day.sunrise, data.timezone).time}</div>
+                            <span>Sunrise</span>
+                        </div>
+                        <img src="./images/weather/sunrise.png" alt="Sunrise icon" width="50">
+                    </div>
+                    <div class="sun-value">
+                        <div class="start">
+                            <div class="big">${getDateTime(day.sunset, data.timezone).time}</div>
+                            <span>Sunset</span>
+                        </div>
+                        <img src="./images/weather/sunset.png" alt="Sunset icon" width="50">
+                    </div>
+                </div>
+            </div>
+            <div class="condition humidity">
+                <h4>Humidity</h4>
+                <span class="icon">
+                    <img src="images/weather/humidity.svg" alt="Humidity Icon">
+                </span>
+                <div class="condition-value">
+                    <div class="humidity-value">
+                        <span class="big">${day.humidity}</span>
+                        <span class="unit">%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="condition humidity">
+                <h4>Pressure</h4>
+                <span class="icon">
+                    <img src="images/weather/atmospheric-pressure.png" alt="Pressure Icon" width="70">
+                </span>
+                <div class="condition-value">
+                    <div class="humidity-value">
+                        <div class="big">${day.pressure}</div>
+                        <span class="unit">hPa</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    $('.current-wrapper').empty();
+    $('.hourly-wrapper').empty();
+    $('.daily-wrapper').empty();
+    $('.current-conditions-wrapper').empty();
+    $('.daily-detail-wrapper').empty().append(html);
+    focusActiveDay();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    $('.back-wrapper').on('click', () => backToForecast());
+}
+
+
+
+/**
+ * Renders the HTML for the days in day detail view
+ *
+ * @param {Object} data - The weather data object.
+ * @param {number} indexActive - The index of the currently active day.
+ * @returns {string} The HTML string representing the daily weather forecast.
+ */
+const renderDays = (data, indexActive) => {
+    let html = ``;
+    data.daily.forEach((day, index) => {
+        const dateTime = getDateTime(day.dt);
+        const dayHtml = `
+            <div class="hour-box day ${indexActive === index ? 'active' : ''}" onclick="selectDay(${index}, ${data.lat}, ${data.lon})">
+                <p class="time">${index === 0 ? 'Today' : dateTime.weekDay.slice(0, 3)}</p>
+                <div class="img-wrapper">
+                    <img width="50" src="./images/weather/${getIconName(day.weather[0], day.dt, day.sunrise, day.sunset)}.png" alt="">
+                </div>
+                <p class="min-max-temp">${Math.floor(day.temp.day)}°<span class="night-temp">/</span><span class="night-temp">${Math.floor(day.temp.min)}°</span>
+                </p>
+            </div>
+        `;
+        html += dayHtml;
+    })
+    return html;
+}
+
+/**
+ * Renders the wind direction based on the given wind degrees.
+ *
+ * @param {number} windDegrees - The wind direction in degrees.
+ * @returns {string} The HTML string representing the wind direction.
+ */
+const renderWindDirection = (windDegrees) => {
+    const { directionAbbreviation, fullAbbreviationName } = getWindDirection(windDegrees);
+    const html = `
+        <div class="big capital">${directionAbbreviation}</div>
+        <span class="full">${fullAbbreviationName}</span>
+    `;
     return html;
 }
 
@@ -198,10 +436,9 @@ const renderRecentSearchesContent = () => {
             <a onclick="selectLocation('${location}')">
                 <div class="location">
                     ${location}
-                    <svg id="trash-icon" onclick="removeLocationFromRecentSearches(event, '${location}')" xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 448 512">
-                        <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                        <path fill="" d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/>
-                    </svg>
+                    <span id="trash-icon" onclick="removeLocationFromRecentSearches(event, '${location}')">
+                        <i class="fa-solid fa-trash fa-xl"></i>
+                    </span>
                 </div>
             </a>
         `;
@@ -226,12 +463,62 @@ const getDateTime = (unixDt, timezone) => {
     const dt = dayjs.tz(localTime, timezone);
     const dateTime = {
         'time': dt.format('HH:mm'),
-        'date': dt.format('DD/MM/YYYY'),
+        'date': dt.format('YYYY-MM-DD'),
         'weekDay': dt.format('dddd'),
         'dayOfMonth': dt.format('D'),
         'month': dt.format('MMM')
     };
     return dateTime;
+}
+
+/**
+ * Determines the wind direction based on the given wind degrees.
+ *
+ * @param {number} windDegrees - The wind direction in degrees (0 to 360).
+ * @returns {{directionAbbreviation: string, fullAbbreviationName: string}} An object containing the wind direction abbreviation and its full name.
+ */
+const getWindDirection = (windDegrees) => {
+    let directionAbbreviation;
+    let fullAbbreviationName;
+    switch (true) {
+        case (windDegrees >= 0 && windDegrees < 22.5) || (windDegrees >= 337.5 && windDegrees <= 360):
+            directionAbbreviation = 'N';
+            fullAbbreviationName = 'North';
+            break;
+        case (windDegrees >= 22.5 && windDegrees < 67.5):
+            directionAbbreviation = 'NE';
+            fullAbbreviationName = 'Northeast';
+            break;
+        case (windDegrees >= 67.5 && windDegrees < 112.5):
+            directionAbbreviation = 'E';
+            fullAbbreviationName = 'East';
+            break;
+        case (windDegrees >= 112.5 && windDegrees < 157.5):
+            directionAbbreviation = 'SE';
+            fullAbbreviationName = 'Southeast';
+            break;
+        case (windDegrees >= 157.5 && windDegrees < 202.5):
+            directionAbbreviation = 'S';
+            fullAbbreviationName = 'South';
+            break;
+        case (windDegrees >= 202.5 && windDegrees < 247.5):
+            directionAbbreviation = 'SW';
+            fullAbbreviationName = 'Southwest';
+            break;
+        case (windDegrees >= 247.5 && windDegrees < 292.5):
+            directionAbbreviation = 'W';
+            fullAbbreviationName = 'West';
+            break;
+        case (windDegrees >= 292.5 && windDegrees < 337.5):
+            directionAbbreviation = 'NW';
+            fullAbbreviationName = 'Northwest';
+            break;
+        default:
+            directionAbbreviation = 'N';
+            fullAbbreviationName = 'North';
+            break;
+    }
+    return { directionAbbreviation, fullAbbreviationName };
 }
 
 
@@ -243,12 +530,42 @@ const getDateTime = (unixDt, timezone) => {
  * 
  * @param {string} location - The location to be added to the URL search parameters.
  */
-const addLocationToSearchParam = (location) => {
+const addLocationToSearchParams = (location) => {
     const params = new URLSearchParams(window.location.search);
     params.set('location', location);
     const newUrl = `${window.location.pathname}?${params.toString()}`;
     window.history.pushState({}, '', newUrl);
 }
+
+/**
+ * Updates the URL search parameters to include the specified day index.
+ * 
+ * This function modifies the current URL by adding or updating the 'day' parameter
+ * with the provided index value. It uses the History API to update the URL without
+ * reloading the page.
+ * 
+ * @param {number} index - The index of the day to be added to the search parameters.
+ */
+const addDayDetailToSearchParams = (index) => {
+    const params = new URLSearchParams(window.location.search);
+    params.set('day', index);
+    const newUrl = `${window.location.pathname}?${params.toString()}`;
+    window.history.pushState({}, '', newUrl)
+}
+
+/**
+ * Removes the 'day' parameter from the URL search parameters.
+ * 
+ * This function updates the browser's history state to remove the 'day' parameter
+ * from the current URL, effectively resetting the day detail view.
+ */
+const removeDayFromSearchParams = () => {
+    const params = new URLSearchParams(window.location.search);
+    params.delete('day');
+    const newUrl = `${window.location.pathname}?${params.toString()}`;
+    window.history.pushState({}, '', newUrl);
+}
+
 
 /**
  * Fetches and displays weather data based on the location specified in the URL search parameters.
@@ -259,33 +576,22 @@ const addLocationToSearchParam = (location) => {
 const getResults = async () => {
     const params = new URLSearchParams(document.location.search);
     const location = params.get('location');
+    const day = params.get('day');
     if (location) {
-        $('.search-wrapper').addClass('chosen');
-        const coordinates = await fetchCoordinates(location);
-        if (coordinates instanceof Error) {
-            Toastify({
-                text: coordinates.message,
-                className: 'error',
-                offset: {
-                    y: 5,
-                },
-                duration: 2000
-            }).showToast();
-        } else {
+        try {
+            $('.search-wrapper').addClass('chosen');
+            const coordinates = await fetchCoordinates(location);
+            // set the the location into the input
             input.val(`${coordinates.name}, ${coordinates.country}`);
-            try {
-                const weatherData = await fetchWeatherData(coordinates.lat, coordinates.lon);
+            const weatherData = await fetchWeatherData(coordinates.lat, coordinates.lon);
+            if (day) {
+                renderDayDetail(Number.parseInt(day), coordinates.lat, coordinates.lon, weatherData);
+            } else {
                 renderWeatherData(weatherData);
-            } catch (error) {
-                Toastify({
-                    text: error.message,
-                    className: 'error',
-                    offset: {
-                        y: 5,
-                    },
-                    duration: 2000
-                }).showToast();
             }
+        }
+        catch (error) {
+            toastError(error.message);
         }
     }
 }
@@ -336,19 +642,20 @@ const storeLocation = (location) => {
  */
 const selectLocation = (location) => {
     updateLocations(location);
+    removeDayFromSearchParams();
     getResults();
 }
 
 
 /**
- * Updates the locations by storing the given location, adding it to the search parameters,
+ * Updates the locations by storing the given location in local storage, adding it to the search parameters,
  * and updating the recent searches.
  *
  * @param {string} location - The location to be updated.
  */
 const updateLocations = (location) => {
     storeLocation(location);
-    addLocationToSearchParam(location);
+    addLocationToSearchParams(location);
     updateRecentSearches();
 }
 
@@ -368,6 +675,45 @@ const removeLocationFromRecentSearches = (e, location) => {
         window.localStorage.setItem('locations', JSON.stringify(locations));
         updateRecentSearches();
     }
+}
+
+/**
+ * Selects a day and renders its details based on the provided day index, latitude, and longitude.
+ *
+ * @param {number} dayIndex - The index of the day to select.
+ * @param {number} lat - The latitude coordinate.
+ * @param {number} lon - The longitude coordinate.
+ */
+const selectDay = (dayIndex, lat, lon) => {
+    renderDayDetail(dayIndex, lat, lon);
+}
+
+/**
+ * Scrolls the active day element into view smoothly.
+ * 
+ * This function selects the element with the class 'days' and then finds the child element
+ * with the class 'active'. If an active day element is found, it scrolls it into view
+ * with smooth behavior, aligning it to the nearest block and centering it inline.
+ */
+const focusActiveDay = () => {
+    const days = document.querySelector('.days');
+    const activeDay = days.querySelector('.active');
+    if (activeDay) {
+        activeDay.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest',
+            inline: 'nearest'
+        });
+    }
+}
+
+/**
+ * Navigates back to the forecast view by removing the selected day from the search parameters
+ * and fetching the updated results.
+ */
+const backToForecast = () => {
+    removeDayFromSearchParams();
+    getResults();
 }
 
 
@@ -419,6 +765,23 @@ const getIconName = (weatherCondition, dt, sunrise, sunset) => {
     }
 }
 
+/**
+ * Displays an error toast notification with the specified message.
+ *
+ * @param {string} message - The message to display in the toast notification.
+ * @param {number} duration - The duration for which the toast notification should be displayed, in milliseconds.
+ */
+const toastError = (message, duration = 2000) => {
+    Toastify({
+        text: message,
+        className: 'error',
+        offset: {
+            y: 5,
+        },
+        duration: duration
+    }).showToast();
+}
+
 
 
 /////////////////////////////////////////////////////
@@ -433,47 +796,24 @@ var value = '';
 // handle the submit event on the form element
 $('form').on('submit', async (e) => {
     e.preventDefault();
-    // save text input
-    const searchLocation = input.val();
-    /// try fetching coordinates for the location
+    const location = input.val();
+    removeDayFromSearchParams();
+    // try fetching coordinates for the location
     try {
-        const location = $('input[name="location"]').val();
         const coordinates = await fetchCoordinates(location);
-        if (coordinates instanceof Error) {
-            Toastify({
-                text: coordinates.message,
-                className: 'error',
-                offset: {
-                    y: 5,
-                },
-                duration: 2000
-            }).showToast();
-            input.val(searchLocation);
-            input.trigger('focus');
-            // delete old weather results and reset search wrapper location
-            $('.current-wrapper').empty();
-            $('.hourly-wrapper').empty();
-            $('.daily-wrapper').empty();
-            $('.search-wrapper').removeClass('chosen');
-        } else {
-            $('.search-wrapper').addClass('chosen');
-            input.trigger('blur');
-            const locationName = `${coordinates.name}, ${coordinates.country}`;
-            input.val(locationName);
-            updateLocations(locationName);
-            const weatherData = await fetchWeatherData(coordinates.lat, coordinates.lon);
-            renderWeatherData(weatherData);
-            editing = false;
-        }
+        $('.search-wrapper').addClass('chosen');
+        input.trigger('blur');
+        const locationName = `${coordinates.name}, ${coordinates.country}`;
+        input.val(locationName);
+        updateLocations(locationName);
+        const weatherData = await fetchWeatherData(coordinates.lat, coordinates.lon);
+        renderWeatherData(weatherData);
+        editing = false;
     } catch (error) {
-        Toastify({
-            text: error.message,
-            className: 'error',
-            offset: {
-                y: 5,
-            },
-            duration: 2000
-        }).showToast();
+        toastError(error.message);
+        // set the value of the location back
+        input.val(location);
+        input.trigger('focus');
     }
 });
 
@@ -486,7 +826,7 @@ input.on('focus', (e) => {
     overlay.fadeIn('fast');
     overlay.addClass('visible');
     $('#location-icon').css('display', 'none');
-    $('#clear-icon').css('display', 'block');
+    $('#clear-icon').css('display', 'flex');
     $('.location-history').slideDown({
         duration: 200,
     });
@@ -500,7 +840,7 @@ input.on('blur', (e) => {
         setTimeout(() => {
             overlay.removeClass('visible')
         }, 300);
-        $('#location-icon').css('display', 'block');
+        $('#location-icon').css('display', 'flex');
         $('#clear-icon').css('display', 'none');
         $('.location-history').scrollTop(0);
         $('.location-history').slideUp({
@@ -534,7 +874,7 @@ $(document).on('click', (e) => {
 $('#location-icon').on('click', (e) => {
     e.preventDefault();
     $('#location-icon').css('display', 'none');
-    $('#spinner-icon').css('display', 'block');
+    $('#spinner-icon').css('display', 'flex');
     navigator.geolocation.getCurrentPosition(async (position) => {
         try {
             $('.search-wrapper').addClass('chosen');
@@ -545,29 +885,16 @@ $('#location-icon').on('click', (e) => {
             const weatherData = await fetchWeatherData(lat, lon);
             renderWeatherData(weatherData);
             input.val(name);
-        } catch (e) {
-            Toastify({
-                text: e.message,
-                className: 'error',
-                offset: {
-                    y: 5,
-                },
-                duration: 2000
-            }).showToast();
+        } catch (error) {
+            toastError(error.message);
         }
         $('#spinner-icon').css('display', 'none');
-        $('#location-icon').css('display', 'block');
+        $('#location-icon').css('display', 'flex');
+        removeDayFromSearchParams();
     }, () => {
-        Toastify({
-            text: 'Unable to retrieve your position',
-            className: 'error',
-            offset: {
-                y: 5,
-            },
-            duration: 2000
-        }).showToast();
+        toastError('Unable to retrieve your position');
         $('#spinner-icon').css('display', 'none');
-        $('#location-icon').css('display', 'block');
+        $('#location-icon').css('display', 'flex');
     }, { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 });
 });
 
@@ -640,3 +967,54 @@ $('.action').on('click', (e) => {
 window.addEventListener('popstate', () => {
     getResults();
 });
+
+const convertToHours = (time) => {
+    const [hours, minutes] = time.split(':').map(Number);
+    return hours + minutes / 60;
+}
+
+/**
+ * Draws a sun arc on a canvas element representing the sun's position throughout the day.
+ *
+ * @param {number|string} sunrise - The time of sunrise, either as a number of hours or a string in "HH:MM" format.
+ * @param {number|string} sunset - The time of sunset, either as a number of hours or a string in "HH:MM" format.
+ * @param {number|string} currentTime - The current time, either as a number of hours or a string in "HH:MM" format.
+ */
+const drawSunArc = (sunrise, sunset, currentTime) => {
+    const ctx = canvas.getContext('2d');
+    canvas.width = 700;
+    canvas.height = 300;
+
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height;
+    const radiusX = 300;
+    const radiusY = 230;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.beginPath();
+    ctx.ellipse(centerX, centerY, radiusX, radiusY, Math.PI, 2 * Math.PI, 0);
+    ctx.strokeStyle = '#2563d6';
+    ctx.lineWidth = 5;
+    ctx.stroke();
+
+    // Convert times to hours if necessary
+    sunrise = convertToHours(sunrise);
+    sunset = convertToHours(sunset);
+    currentTime = convertToHours(currentTime);
+
+    const totalTime = sunset - sunrise;
+
+    const elapsedTime = Math.max(0, Math.min(currentTime - sunrise, totalTime));
+    const angle = Math.PI + (elapsedTime / totalTime) * Math.PI;
+
+    const sunX = centerX + radiusX * Math.cos(angle);
+    const sunY = centerY + radiusY * Math.sin(angle);
+
+    const sunImage = new Image();
+    sunImage.src = './images/weather/clear-day.png';
+    sunImage.onload = () => {
+        const sunRadius = 120;
+        ctx.drawImage(sunImage, sunX - sunRadius, sunY - sunRadius, sunRadius * 2, sunRadius * 2);
+    }
+}

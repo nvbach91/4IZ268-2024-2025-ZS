@@ -35,6 +35,7 @@ body {
 }
 
 .error {
+    max-width: calc(100% - 30px);
     width: 400px;
     background: rgb(248, 63, 63);
     font-weight: 600;
@@ -112,16 +113,22 @@ body {
     outline: none;
 }
 
-.input-icon {
-    position: absolute;
-    top: 18px;
-    right: 70px;
-    fill: rgb(102, 102, 102);
+.icon-span {
+    padding: 5px;
     cursor: pointer;
+    position: absolute;
+    top: 10.5px;
+    right: 60px;
+    color: rgb(102, 102, 102);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 40px;
 }
 
-.input-icon:hover {
-    fill: black;
+.icon-span:hover {
+    color: black;
 }
 
 #clear-icon,
@@ -129,9 +136,6 @@ body {
     display: none;
 }
 
-#spinner-icon {
-    animation: spin 1s linear infinite;
-}
 
 #spinner-icon:hover {
     fill: rgb(102, 102, 102);
@@ -227,12 +231,12 @@ body {
 }
 
 #trash-icon {
-    fill: rgb(132, 132, 132);
+    color: rgb(132, 132, 132);
     cursor: pointer;
 }
 
 #trash-icon:hover {
-    fill: rgb(102, 102, 102)
+    color: rgb(102, 102, 102)
 }
 
 
@@ -380,6 +384,12 @@ body {
     justify-content: space-between;
     border-radius: 4px;
     align-items: center;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+}
+
+.daily-box:hover {
+    background-color: rgb(88, 160, 255);
 }
 
 .daily-box p {
@@ -393,12 +403,215 @@ body {
     width: 100px;
 }
 
+.min-max-temp {
+    font-weight: 600;
+}
+
 .night-temp {
     color: rgb(231, 231, 231);
     margin: auto 2px;
 }
 
+.current-conditions {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 1fr 1fr;
+    color: white;
+}
 
+
+
+.condition {
+    border-radius: 10px;
+    background-color: rgb(114, 173, 251);
+    position: relative;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+
+    h4 {
+        position: absolute;
+        top: 7px;
+        left: 10px;
+        margin: 0;
+    }
+
+    .icon {
+        padding-top: 10px;
+        flex-grow: 1;
+    }
+
+    .condition-value {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        width: 100%;
+        flex-grow: 1;
+        flex-shrink: 1;
+    }
+
+    .end {
+        text-align: right;
+    }
+
+    .wind .number {
+        margin-right: -3px;
+    }
+
+    .capital {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+}
+
+.medium {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.standard {
+    font-weight: 500;
+}
+
+.big {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.condition.sun {
+    justify-content: end;
+}
+
+.sun .condition-value {
+    flex-grow: 0;
+}
+
+.sun .appart {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#canvas {
+    height: 100%;
+    width: 100%;
+}
+
+.humidity {
+    .icon {
+        padding-top: 30px;
+        display: flex;
+        align-items: end;
+    }
+}
+
+.humidity-value {
+    display: flex;
+    gap: 4px;
+    align-items: end;
+    flex-shrink: 1;
+}
+
+.humidity .unit {
+    margin-bottom: 3px;
+}
+
+
+.daily-detail-wrapper {
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+
+    .detail {
+        color: white;
+        font-weight: 600;
+        font-size: 1.3rem;
+        margin: 0 auto;
+        margin-bottom: 20px;
+    }
+
+    .description {
+        font-size: 1rem;
+    }
+
+    .slash {
+        padding: 0 3px;
+    }
+
+    .left {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .sun-value {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+
+
+    .hour-box.day {
+        padding: 5px;
+        background-color: rgb(114, 173, 251);
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .hour-box.day.active,
+    .hour-box.day:hover {
+        background-color: rgb(88, 160, 255);
+    }
+}
+
+.days {
+    display: flex;
+    gap: 10px;
+    overflow: auto;
+    height: 100px;
+    width: calc(100vw - 40px);
+    white-space: nowrap;
+    scrollbar-width: none;
+    max-width: 600px;
+    margin-bottom: 20px
+}
+
+.daily-detail-wrapper .current-conditions {
+    grid-template-columns: 1fr 1fr;
+}
+
+.xl {
+    font-size: 4rem;
+}
+
+.xl.temperature {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 20px
+}
+
+.back-wrapper {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    max-width: fit-content;
+}
+
+.back-wrapper:hover span {
+    text-decoration: underline;
+    user-select: none;
+}
+
+
+/* dialog styling */
 dialog[open] {
     opacity: 1;
 }
@@ -444,27 +657,29 @@ dialog {
     }
 
     .icon-wrapper {
-        display: block;
-        width: 25px;
-        height: 25px;
+        width: 35px;
+        height: 35px;
         border-radius: 100%;
         cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .icon-wrapper:hover {
         background-color: #e7e7e7;
 
         .icon {
-            fill: black;
+            color: black;
         }
     }
 
     .icon {
-        fill: rgb(146, 146, 146);
+        color: rgb(146, 146, 146);
     }
 
     .icon:hover {
-        fill: black;
+        color: black;
     }
 
     a {
@@ -542,6 +757,7 @@ footer {
 }
 
 @media (min-width: 1229px) {
+
     .hourly {
         width: 1200px;
     }
@@ -566,13 +782,18 @@ footer {
         padding: 1em
     }
 
+    .error {
+        width: 100%;
+    }
+
 }
 
 @media (min-width: 400px) {
 
     .search-box,
     .current,
-    .location-history-wrapper {
+    .location-history-wrapper,
+    .detail {
         max-width: 600px;
     }
 
@@ -585,5 +806,19 @@ footer {
 @media (min-width: 600px) {
     .location-history {
         max-height: 40vh;
+    }
+
+    .sun-value {
+        padding-right: 10px;
+    }
+}
+
+@media (min-width: 900px) {
+    .current-conditions {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+
+    .daily-detail-wrapper .current-conditions {
+        grid-template-columns: 1fr 1fr;
     }
 }
