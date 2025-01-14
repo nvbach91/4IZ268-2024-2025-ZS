@@ -578,6 +578,7 @@ const getResults = async () => {
     const location = params.get('location');
     const day = params.get('day');
     if (location) {
+        addLoadingUi();
         try {
             $('.search-wrapper').addClass('chosen');
             const coordinates = await fetchCoordinates(location);
@@ -592,6 +593,9 @@ const getResults = async () => {
         }
         catch (error) {
             toastError(error.message);
+        }
+        finally {
+            removeLoadingUi();
         }
     }
 }
@@ -765,6 +769,26 @@ const getIconName = (weatherCondition, dt, sunrise, sunset) => {
     }
 }
 
+
+let loaderTimeout;
+const addLoadingUi = () => {
+    loaderTimeout = setTimeout(() => {
+        const loader = '<div><div class="loader"></div></div>';
+        $('.daily-detail-wrapper').empty().append(loader);
+        setTimeout(() => {
+            $('.loader').addClass('visible');
+        }, 50);
+    }, 1000);
+};
+
+const removeLoadingUi = () => {
+    clearTimeout(loaderTimeout);
+    $('.loader').removeClass('visible');
+    setTimeout(() => {
+        $('.daily-detail-wrapper').empty();
+    }, 500);
+};
+
 /**
  * Displays an error toast notification with the specified message.
  *
@@ -800,6 +824,7 @@ $('form').on('submit', async (e) => {
     removeDayFromSearchParams();
     // try fetching coordinates for the location
     try {
+        addLoadingUi();
         const coordinates = await fetchCoordinates(location);
         $('.search-wrapper').addClass('chosen');
         input.trigger('blur');
@@ -814,6 +839,8 @@ $('form').on('submit', async (e) => {
         // set the value of the location back
         input.val(location);
         input.trigger('focus');
+    } finally {
+        removeLoadingUi();
     }
 });
 
@@ -881,15 +908,18 @@ $('#location-icon').on('click', (e) => {
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
             const name = await fetchLocationName(lat, lon);
+            $('#spinner-icon').css('display', 'none');
+            $('#location-icon').css('display', 'flex');
             updateLocations(name);
+            addLoadingUi();
             const weatherData = await fetchWeatherData(lat, lon);
             renderWeatherData(weatherData);
             input.val(name);
         } catch (error) {
             toastError(error.message);
+        } finally {
+            removeLoadingUi();
         }
-        $('#spinner-icon').css('display', 'none');
-        $('#location-icon').css('display', 'flex');
         removeDayFromSearchParams();
     }, () => {
         toastError('Unable to retrieve your position');
