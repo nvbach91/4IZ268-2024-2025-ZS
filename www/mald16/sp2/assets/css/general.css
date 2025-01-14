@@ -6,13 +6,28 @@
 	width: 40%;
 }
 
-/* TODO: Fix this */
+.saved-exs {
+	width: 75px;
+	height: 75px;
+	border-radius: 50%;
+	background-color: #0d6efd;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	cursor: pointer;
+}
+
+.saved-exs > img {
+	width: 30px;
+	height: 30px;
+}
+
 footer {
-	display: none;
-	position: absolute;
-	bottom: 0;
-	left: 50%;
-	transform: translateX(-50%);
+	position: static;
+	font-size: 0.7rem;
 }
 
 @media (max-width: 800px) {

@@ -9,15 +9,15 @@
 		<link rel="stylesheet" href="assets/css/general.css" />
 	</head>
 	<body>
+		<a href="saved.html" class="saved-exs">
+			<img src="./assets/icons/heart.svg" alt="Heart icon" />
+		</a>
 		<div class="container pt-5">
-			<h1 class="text-center text-capitalize" id="page-title">Exercise name</h1>
-			<div class="d-flex flex-wrap justify-content-center">
-				<p class="text-center text-muted text-wrap" id="quote"></p>
-			</div>
+			<h1 class="text-center text-capitalize" id="page-title"></h1>
 			<div class="d-flex flex-wrap justify-content-center">
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="index.html">Body Parts</a></li>
+						<li class="breadcrumb-item"><a href="index.html"></a></li>
 						<li class="breadcrumb-item text-capitalize">
 							<a href="" id="body-parts"></a>
 						</li>
@@ -29,36 +29,69 @@
 					</ol>
 				</nav>
 			</div>
-			<!-- Add spinner -->
 			<div class="d-flex justify-content-center align-center mt-4">
 				<div>
-					<img class="border rounded mx-2" id="exercise-img" />
+					<!-- Add spinner -->
+
+					<div
+						style="
+							width: 362px;
+							height: 362px;
+							margin: 0 8px;
+							display: flex;
+							justify-content: center;
+							align-items: center;
+						"
+						id="spinner"
+						class="border rounded mx-2"
+					>
+						<div class="spinner-border text-primary" role="status"></div>
+					</div>
+
+					<img
+						class="border rounded mx-2"
+						id="exercise-img"
+						style="display: none"
+					/>
 				</div>
 				<div style="width: 50%">
 					<div style="padding-left: 16px">
 						<strong>Target muscles:</strong>
-						<span id="target-muscles">chest</span>
+						<span id="target-muscles"></span>
 					</div>
 					<div style="padding-left: 16px">
 						<strong>Secondary muscles:</strong>
-						<span id="secondary-muscles">shoulders</span>
+						<span id="secondary-muscles"></span>
 					</div>
 					<div style="padding-left: 16px">
 						<strong>Equipment:</strong>
-						<span id="equipments">barbell</span>
+						<span id="equipments"></span>
 					</div>
 					<br />
 					<div id="steps"></div>
 				</div>
 			</div>
-			<footer class="text-muted p-2 text-center">
-				Made by David Malášek &#183; VŠE FIS 4IZ268 &#183; Thanks to
-				<a href="https://exercisedb-api.vercel.app">ExerciseDB API</a>
-			</footer>
+
+			<div class="d-flex justify-content-center align-center mt-5">
+				<div class="btn-group" role="group" aria-label="Basic example">
+					<button type="button" class="btn btn-outline-primary" id="save-ex">
+						Save exercise
+					</button>
+					<button
+						type="button"
+						class="btn btn-outline-danger disabled"
+						id="remove-ex"
+					>
+						Remove exercise
+					</button>
+				</div>
+			</div>
+
 			<!-- prettier-ignore -->
 			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 			<!-- prettier-ignore -->
 			<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+			<script src="./assets/js/utils.js"></script>
 			<script src="./assets/js/exercise.js"></script>
 		</div>
 	</body>
