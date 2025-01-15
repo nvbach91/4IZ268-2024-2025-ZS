@@ -1,3 +1,27 @@
-body {
-    font-family: 'Poppins', sans-serif;
+#favorites,
+#results,
+#history,
+#emptyResults {
+  display: none;
+}
+
+.animated-text {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #333;
+  animation: textAnimation 5s infinite;
+}
+
+@keyframes textAnimation {
+  0% {
+    color: #ff6347;
+  }
+
+  50% {
+    color: #32cd32;
+  }
+
+  100% {
+    color: #ff6347;
+  }
 }
