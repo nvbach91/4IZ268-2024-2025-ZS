@@ -1,0 +1,39 @@
+.card {
+    height: 100%;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.book-cover {
+    max-height: 200px;
+    object-fit: contain;
+    margin: 15px;
+}
+
+.add-book,
+.remove-book {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.book-detail {
+    flex-grow: 1;
+}
+
+.book-detail-cover {
+    width: 20%;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+.modal-dialog {
+    min-width: 40%;
+}
+
+.hidden {
+    display: none;
+}
