@@ -1,38 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather forecast</title>
-    <link rel="stylesheet" href="css/styles.css"> 
-
+    <title>Počasí - app</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <h1>Šarlatánská předpověď počasí</h1>
-    <div class="card">
-        <div class="search">
-            <input type="text" placeholder="Location" spellcheck="false">
-            <button><img src="https://img.freepik.com/vetores-premium/icone-da-lupa_97886-20278.jpg" alt="search" height="40px"></button>
-        </div>
-        <h3>Jaképak bude dnes počasí?</h3>
-        <div class="forecast-container">
-            <div class="reporter"></div>
-            <div class="forecast">
-                <img src="https://i.imgur.com/7FeN2IE.jpeg" class="weather-icon" height="100px"> 
-                <h1 class="temperature">22°C</h1>
-                <h2 class="city">Praha</h2>
-                <div class="details">
-                    <p>Jasno, mírný vítr 5 km/h</p>
-                    <p>Vlhkost: 45%</p>
+
+
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Předpověď počasí</h1>
+        
+        <!-- Vyhledávací formulář -->
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <input type="text" id="cityInput" class="form-control" placeholder="Zadejte název města">
+                    <button class="btn btn-primary" id="searchBtn">Zobrazit počasí</button>
                 </div>
+
+                <div class="mb-4 mt-4">
+                    <button class="btn btn-primary w-100" id="getLocationBtn">Moje poloha</button>
+                </div>
+
+                <div id="errorMsg" class="text-danger mt-2"></div>
             </div>
-
-
-
         </div>
+
+        <!-- Kontejner na karty s počasím -->
+        <div class="row" id="weatherCards"></div>
     </div>
+
     
-    <script src="js/script.js"></script>
-    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
