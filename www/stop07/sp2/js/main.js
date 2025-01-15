@@ -1,7 +1,5 @@
 $(document).ready(function () {
     const colors = ["yellow", "red", "blue", "green"];
-    const bestScoreApiUrl = "https://api.jsonbin.io/v3/b/6754296cad19ca34f8d71b1d";
-    const bestScoreApiKey = "$2a$10$Yh9lWBvp/39veIfIDGsxWO5ZBbBlmqdeSSV3KAXUE5/pkYeFiFeeS";
 
     let gameState = {
         gameSequence: [],
@@ -49,7 +47,6 @@ $(document).ready(function () {
         if (!hasInteracted) {
             return;
         }
-
         if (currentSound && !currentSound.paused) {
             currentSound.playbackRate = 2;
         }
@@ -72,48 +69,37 @@ $(document).ready(function () {
         $("#spinner").hide();
     };
 
-    const loadBestScore = async () => {
-        showSpinner();
-        try {
-            const response = await fetch(bestScoreApiUrl, {
-                method: "GET",
-                headers: {
-                    "X-Master-Key": bestScoreApiKey
-                }
-            });
-            const data = await response.json();
-            const record = data.record || {};
-            gameState.bestScore = record.bestScore || 0;
-            gameState.bestTime = record.bestTime || "00:00";
-            $highestScore.text(gameState.bestScore);
-            $bestTime.text(gameState.bestTime);
-        } catch (error) {
-            console.error("Error loading best score:", error);
-        } finally {
-            hideSpinner();
-        }
+    const loadBestScore = () => {
+        return new Promise((resolve, reject) => {
+            showSpinner();
+            try {
+                const savedData = JSON.parse(localStorage.getItem("bestScoreData")) || {};
+                gameState.bestScore = savedData.bestScore || 0;
+                gameState.bestTime = savedData.bestTime || "00:00";
+
+                $highestScore.text(gameState.bestScore);
+                $bestTime.text(gameState.bestTime);
+                resolve(); 
+            } catch (error) {
+                console.error("Error loading best score from localStorage:", error);
+                reject(error); 
+            } finally {
+                hideSpinner();
+            }
+        });
     };
 
-    const saveBestScore = async () => {
+    const saveBestScore = () => {
         try {
-            const response = await fetch(bestScoreApiUrl, {
-                method: "PUT",
-                headers: {
-                    "X-Master-Key": bestScoreApiKey,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    bestScore: gameState.bestScore,
-                    bestTime: gameState.bestTime
-                })
-            });
-            if (response.ok) {
-                console.log("Best score and time successfully saved!");
-            } else {
-                console.error("Failed to save best score");
-            }
+            const bestScoreData = {
+                bestScore: gameState.bestScore,
+                bestTime: gameState.bestTime
+            };
+            localStorage.setItem("bestScoreData", JSON.stringify(bestScoreData));
+
+            console.log("Best score and time successfully saved to localStorage!");
         } catch (error) {
-            console.error("Error saving best score:", error);
+            console.error("Error saving best score to localStorage:", error);
         }
     };
 
@@ -181,6 +167,9 @@ $(document).ready(function () {
         gameState.firstRound = true;
         gameState.gameCompleted = false;
         gameState.pausedTime = 0;
+
+        gameState.gameStartTime = moment();
+
         startTimer();
         nextSequence();
 
@@ -190,6 +179,7 @@ $(document).ready(function () {
 
         saveGameState();
     };
+
 
     const showReplayButton = () => {
         $("#replay-sequence-btn").show();
@@ -289,11 +279,14 @@ $(document).ready(function () {
 
     const stopTimer = () => {
         clearInterval(gameState.timerInterval);
+
         const elapsed = moment().diff(gameState.gameStartTime, "seconds");
         gameState.pausedTime = elapsed;
         const formattedTime = moment.utc(elapsed * 1000).format("mm:ss");
+        gameState.lastGameTime = formattedTime;
 
-        if (gameState.currentScore > (gameState.bestScore || 0)) {
+        if (gameState.currentScore > (gameState.bestScore || 0) ||
+            (gameState.currentScore === gameState.bestScore && formattedTime < gameState.bestTime)) {
             gameState.bestScore = gameState.currentScore;
             gameState.bestTime = formattedTime;
             $highestScore.text(gameState.bestScore);
@@ -346,7 +339,56 @@ $(document).ready(function () {
             }
         }, 700);
     };
+    let playerName = localStorage.getItem("playerName") || "";
+    
 
+    if (playerName) {
+        $("#current-player").text(playerName + " is playing").show();
+        $("#player-name-label").text("Change player:"); // Text pro změnu jména
+    } else {
+        $("#current-player").hide();
+    }
+    $('#player-name').on('input', function() {
+        const playerName = $(this).val().trim();
+
+        if (playerName !== "") {
+            $('#start-button').prop('disabled', false);  
+        } else {
+            $('#start-button').prop('disabled', true);  
+        }
+    });
+
+
+    $("#save-name-btn").click(function () {
+        const playerNameInput = $("#player-name").val().trim();
+        if (playerNameInput) {
+            playerName = playerNameInput;
+            localStorage.setItem("playerName", playerName);
+
+            console.log("Player name saved:", playerName);
+
+            $("#player-name-label").text("Change player:");
+            $("#current-player").text(playerName + " is playing").show();
+            $("#player-name").val(""); 
+        } else {
+            alert("Please enter a name.");
+        }
+    });
+
+    const saveGameProgress = () => {
+        const gameProgress = JSON.parse(localStorage.getItem("gameProgress")) || [];
+        const currentDate = moment().format("YYYY-MM-DD HH:mm:ss");
+
+        const newGameRecord = {
+            playerName: playerName || "Unknown Player",
+            score: gameState.currentScore,
+            time: gameState.lastGameTime || "00:00",
+            date: currentDate,
+        };
+
+        gameProgress.push(newGameRecord);
+        localStorage.setItem("gameProgress", JSON.stringify(gameProgress));
+    };
 
     const flashColor = (color) => {
         $(`#${color}`).addClass("active");
@@ -357,16 +399,21 @@ $(document).ready(function () {
     };
 
     const checkPlayerInput = (clickedColor) => {
+        console.log("Clicked color:", clickedColor);
+        console.log("Expected color:", gameState.gameSequence[gameState.playerSequence.length]);
+
         if (gameState.isPlayerTurn && gameState.playerSequence.length < gameState.gameSequence.length) {
             gameState.playerSequence.push(clickedColor);
             flashColor(clickedColor);
 
             if (clickedColor !== gameState.gameSequence[gameState.playerSequence.length - 1]) {
+                console.error("Wrong color! Ending game.");
                 endGame();
                 return;
             }
 
             if (gameState.playerSequence.length === gameState.gameSequence.length) {
+                console.log("Correct sequence! Moving to next round.");
                 gameState.currentScore++;
                 $currentScore.text(gameState.currentScore);
                 gameState.playerSequence = [];
@@ -377,20 +424,24 @@ $(document).ready(function () {
         }
     };
 
+
     const endGame = () => {
+        console.log("Ending game...");
+        stopTimer();
+
         $finalScore.text(gameState.currentScore);
         $bestScoreModal.text(gameState.bestScore);
         $finalTime.text($yourTime.text());
         $bestTimeModal.text(gameState.bestTime);
 
-        saveGameProgress();
-
+        saveGameProgress(); 
         $gameOverModal.show();
 
         playGameOverSound();
-        stopTimer();
         resetGame();
+        console.log("Game ended. Game state reset.");
     };
+
 
     $closeModalButton.click((event) => {
         event.preventDefault();
@@ -406,7 +457,11 @@ $(document).ready(function () {
     $colorButtons.click(function (event) {
         event.preventDefault();
         const clickedColor = $(this).attr("id");
-        if (!gameState.gameStarted || !gameState.isPlayerTurn || $(this).prop("disabled")) return;
+        console.log("Button clicked:", clickedColor);
+        if (!gameState.gameStarted || !gameState.isPlayerTurn || $(this).prop("disabled")) {
+            console.log("Ignoring click.");
+            return;
+        }
         checkPlayerInput(clickedColor);
     });
 
@@ -417,6 +472,8 @@ $(document).ready(function () {
 
     loadBestScore().then(() => {
         loadGameState();
+    }).catch((error) => {
+        console.error("Error during initialization:", error);
     });
 
     document.addEventListener("visibilitychange", function () {
@@ -428,30 +485,31 @@ $(document).ready(function () {
             }
         }
     });
-    const saveGameProgress = () => {
-        const gameProgress = JSON.parse(localStorage.getItem("gameProgress")) || [];
-        const newGameRecord = {
-            score: gameState.currentScore,
-            date: moment().format("YYYY-MM-DD HH:mm:ss"),
-        };
-        gameProgress.push(newGameRecord);
-        localStorage.setItem("gameProgress", JSON.stringify(gameProgress));
-    };
 
     const loadGameProgress = () => {
         const gameProgress = JSON.parse(localStorage.getItem("gameProgress")) || [];
         const $progressTableBody = $("#progress-table tbody");
         $progressTableBody.empty();
+    
+        const playerGames = gameProgress.filter(record => record.playerName === playerName);
+        playerGames.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-        gameProgress.forEach((record, index) => {
+        console.log("Player's game progress:", playerGames);  
+
+    
+        playerGames.forEach((record, index) => {
             const row = `<tr>
-                            <td>${index + 1}</td>
+                            <td>${playerGames.length - index}</td> <!-- Reverse the index -->
+                            <td>${record.playerName}</td>
                             <td>${record.score}</td>
+                            <td>${record.time}</td> <!-- Display the time -->
                             <td>${record.date}</td>
                         </tr>`;
             $progressTableBody.append(row);
         });
     };
+    
+
 
     const openProgressModal = () => {
         loadGameProgress();
@@ -463,17 +521,17 @@ $(document).ready(function () {
     };
 
     $("#view-progress-btn").click(function () {
-        stopTimer();  // Stop the game timer
-        stopSequence();  // Stop any ongoing sequence animation
-        openProgressModal();  // Open the progress modal
+        stopTimer();
+        stopSequence();
+        openProgressModal();
     });
 
     $("#progress-modal .modal-btn").click(function () {
         closeProgressModal();
         if (gameState.gameStarted && !gameState.gameCompleted) {
-            startTimer(true);  // Resume the game timer
+            startTimer(true);
             if (gameState.gameSequence.length > 0 && gameState.playerSequence.length === 0) {
-                animateSequence();  // Resume the sequence if needed
+                animateSequence();
             }
         }
     });
@@ -481,4 +539,17 @@ $(document).ready(function () {
     $("#close-progress-modal-btn").click(() => {
         closeProgressModal();
     });
+    
+   
+    $('#delete-progress-modal-btn').click(function() {
+        localStorage.removeItem('gameProgress'); 
+        showNotification();
+    });
+
+    function showNotification() {
+        $('#delete-progress-notification').fadeIn();
+        setTimeout(function() {
+            $('#delete-progress-notification').fadeOut();
+        }, 3000);
+    }
 });

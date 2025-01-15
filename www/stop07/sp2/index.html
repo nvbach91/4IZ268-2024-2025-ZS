@@ -23,15 +23,23 @@
     <header>
         <h1>Simon Says</h1>
     </header>
+    <p id="current-player" style="display: none;"></p> 
 
+    <div>
+        <label for="player-name" id="player-name-label">Do you want to track your progress?</label>
+        <input type="text" id="player-name" placeholder="Enter your name">
+        <button id="save-name-btn">Save Name</button>
+    </div>
+    
+    
     <main>
         <section id="game-over-modal" class="modal">
             <div class="modal-content">
                 <h2>Game Over</h2>
                 <p>Your Current Score: <span id="final-score"></span></p>
-                <p>Your Highest Score: <span id="best-score-modal"></span></p>
+                <p>Highest Score: <span id="best-score-modal"></span></p>
                 <p>Your Current Time: <span id="final-time"></span></p>
-                <p>Your Best Time: <span id="best-time-modal"></span></p>
+                <p>Best Time: <span id="best-time-modal"></span></p>
                 <button id="restart-game" class="modal-btn">Restart Game</button>
                 <button id="close-modal" class="modal-btn">Close</button>
             </div>
@@ -45,7 +53,7 @@
                         <td><span id="current-score">0</span></td>
                     </tr>
                     <tr>
-                        <td>Your Highest Score</td>
+                        <td>Highest Score</td>
                         <td><span id="highest-score">0</span></td>
                     </tr>
                     <tr>
@@ -53,21 +61,21 @@
                         <td><span id="your-time">00:00</span></td>
                     </tr>
                     <tr>
-                        <td>Your Best Time</td>
+                        <td>Best Time</td>
                         <td><span id="best-time">00:00</span></td>
                     </tr>
                 </tbody>
             </table>
         </section>
 
-        <section id="game-circle">
+        <section id="game-circle" style>
             <div id="circle">
                 <button class="color-button" id="yellow"></button>
                 <button class="color-button" id="red"></button>
                 <button class="color-button" id="blue"></button>
                 <button class="color-button" id="green"></button>
             </div>
-            <div id="start-button" class="btn btn-primary">
+            <div id="start-button" class="btn btn-primary" disabled>
                 <span>Start</span>
             </div>
         </section>
@@ -93,19 +101,26 @@
                 <table id="progress-table">
                     <thead>
                         <tr>
-                            <th>Game</th>
+                            <th>#</th>
+                            <th>Name</th>
                             <th>Score</th>
+                            <th>Time</th>
                             <th>Date</th>
                         </tr>
                     </thead>
                     <tbody>
                     </tbody>
                 </table>
+                <button class="modal-btn" id="delete-progress-modal-btn">Delete my progress</button>
                 <button class="modal-btn" id="close-progress-modal-btn">Close</button>
+
             </div>
         </div>
 
         <div id="spinner" class="spinner" style="display:none;"></div>
+        <div class="notification" id="delete-progress-notification">
+            Progress has been successfully deleted.
+        </div>
     </main>
 
     <footer>

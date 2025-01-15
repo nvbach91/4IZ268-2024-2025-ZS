@@ -59,12 +59,10 @@ h1 {
 }
 
 #view-progress-btn {
-    font-family: "Montserrat", serif;
     position: absolute;
     top: 20px;
     right: 20px;
     background-color: #5bc0de;
-    /* Barva tlačítka */
     color: white;
     border-radius: 10px;
     padding: 10px 20px;
@@ -72,7 +70,6 @@ h1 {
     cursor: pointer;
     z-index: 10;
 }
-
 #view-progress-btn:hover {
     background-color: #31b0d5;
 }
@@ -80,6 +77,7 @@ h1 {
 #view-progress-btn:only-child {
     right: 20px;
 }
+
 
 .color-button {
     width: 50%;
@@ -305,6 +303,53 @@ footer {
     animation: spin 2s linear infinite;
 }
 
+div label,
+div input,
+div button {
+    display: block;
+    margin: auto;
+    text-align: center;
+    border-radius: 10px;
+}
+
+#current-player {
+    font-size: 20px;
+    color: #ec971f;
+}
+    
+#save-name-btn {
+    border-radius: 10px;
+    background-color: #ec971f;
+    width: 150px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: white;
+}
+.notification {
+    display: none; /* SkrÃ½t notifikaci vÃ½chozÃ­m zpÅ¯sobem */
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4CAF50; /* ZelenÃ© pozadÃ­ pro ÃºspÄ›ch */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* UjistÃ­me se, Å¾e bude nad ostatnÃ­mi prvky */
+}
+
+.notification.show {
+    bottom: 40px; /* ViditelnÃ¡ ÄÃ¡st obrazovky */
+}
+#error-message {
+    color: red;
+    margin-top: 10px;
+}
+
+
+
 @keyframes spin {
     0% {
         transform: rotate(0deg);
@@ -348,23 +393,19 @@ footer {
     #restart,
     #replay-sequence-btn {
         position: static;
-        /* Odstraníme absolutní pozicování */
         margin: 10px auto;
-        /* Tlačítka budou centrovaná a budou mít mezery mezi sebou */
         display: block;
-        /* Tlačítka budou blokové prvky, takže budou pod sebou */
     }
 
     #view-progress-btn {
         position: static;
-        /* Odstraní pevné pozicování */
         margin: auto;
-        /* Tlačítko bude centrováno */
+        margin-top: 5px;
     }
 
+    
     #restart:hover {
         background-color: #d9534f;
-        /* Změna barvy při hoveru */
     }
 
     .modal-content {
@@ -380,4 +421,8 @@ footer {
         width: 330px;
     }
 
+    #progress-table {
+        width: 90%;
+        margin: 0 auto;
+    }
 }
