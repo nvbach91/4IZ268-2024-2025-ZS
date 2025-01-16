@@ -16,6 +16,11 @@ body {
 }
 
 .loading-overlay .spinner-border {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-left: -2rem;
+    margin-top: -2rem;
     width: 4rem;
     height: 4rem;
     border-width: 0.25rem;
@@ -28,8 +33,11 @@ body {
 
 .loading-message {
     position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -3.7rem;
     color: white;
-    margin-top: 80px;
+    margin-top: 48px;
     font-size: 1.2rem;
 }
 

@@ -1,6 +1,6 @@
 const config = {
-    API_KEY: '6cecca922d31ea317cafbf97bd96b30e',
-    BASE_URL: 'https://api.exchangeratesapi.io/v1',
+    API_KEY: 'ccdc8c18e7d743faa3a2f3f0abd7b239',
+    BASE_URL: 'https://openexchangerates.org/api',
     currencies: []
 };
 
@@ -79,20 +79,33 @@ const urlManager = {
         if (params.has('to')) {
             const toCurrencies = params.get('to').split(',');
             $('#toCurrencies').empty();
+            
+            addNewCurrency(true);
+            
             toCurrencies.forEach((currency, index) => {
-                if (index > 0) addNewCurrency();
+                if (index > 0) {
+                    addNewCurrency();
+                }
                 $('.to-currency').eq(index).val(currency);
             });
+        } else {
+
+            $('#toCurrencies').empty();
+            addNewCurrency(true);
         }
     }
 };
 
 // Přidání nové měny
-function addNewCurrency() {
-    $('<div>')
+function addNewCurrency(isFirst = false) {
+    const $container = $('<div>')
         .addClass('to-currency-item mb-2')
         .append(
-            $('<select>').addClass('form-control to-currency').prop('required', true),
+            $('<select>').addClass('form-control to-currency').prop('required', true)
+        );
+
+    if (!isFirst) {
+        $container.append(
             $('<span>')
                 .addClass('remove-currency')
                 .html('<i class="fas fa-times-circle"></i>')
@@ -100,10 +113,14 @@ function addNewCurrency() {
                     $(this).parent().remove();
                     urlManager.update();
                 })
-        )
-        .appendTo('#toCurrencies')
+        );
+    }
+
+    $container.appendTo('#toCurrencies')
         .find('select')
         .each(fillCurrencySelect);
+
+    return $container.find('select');
 }
 
 // Naplnění select boxu měnami
@@ -113,7 +130,7 @@ function fillCurrencySelect() {
     config.currencies.forEach(currency => {
         $('<option>').val(currency).text(currency).appendTo($select);
     });
-    $select.val($select.hasClass('to-currency') ? 'CZK' : 'EUR');
+    $select.val($select.hasClass('to-currency') ? 'CZK' : 'USD');
 }
 
 // Zobrazení chyb
@@ -131,23 +148,25 @@ function showError(message, details = '') {
 async function convertCurrency(amount, from, to) {
     try {
         const response = await $.ajax({
-            url: `${config.BASE_URL}/latest`,
+            url: `${config.BASE_URL}/latest.json`,
             data: {
-                access_key: config.API_KEY,
-                base: from,
-                symbols: to
+                app_id: config.API_KEY
             },
             method: 'GET',
-            timeout: 10000 // Přidáme timeout 10 sekund
+            timeout: 10000
         });
 
-        if (response.success === false) {
-            throw new Error(response.error.type || 'API Error');
+        if (!response.rates) {
+            throw new Error('Invalid API response');
         }
 
-        return amount * response.rates[to];
+        const fromRate = response.rates[from];
+        const toRate = response.rates[to];
+        
+        const result = (amount / fromRate) * toRate;
+        return result;
     } catch (error) {
-        const errorMessage = error.responseJSON?.error?.type || error.message || 'Neznámá chyba';
+        const errorMessage = error.responseJSON?.description || error.message || 'Neznámá chyba';
         throw new Error(`Nepodařilo se provést převod: ${errorMessage}`);
     }
 }
@@ -158,17 +177,17 @@ $(document).ready(async function() {
     $('#loadingOverlay').show();
     try {
         const response = await $.ajax({
-            url: `${config.BASE_URL}/symbols`,
-            data: { access_key: config.API_KEY },
+            url: `${config.BASE_URL}/currencies.json`,
+            data: { app_id: config.API_KEY },
             method: 'GET',
             timeout: 10000
         });
 
-        if (response.success === false) {
-            throw new Error(response.error.type || 'API Error');
+        if (!response) {
+            throw new Error('Invalid API response');
         }
 
-        config.currencies = Object.keys(response.symbols);
+        config.currencies = Object.keys(response);
         if (config.currencies.length === 0) {
             throw new Error('Seznam měn je prázdný');
         }
@@ -176,7 +195,7 @@ $(document).ready(async function() {
         $('select').each(fillCurrencySelect);
         urlManager.load();
     } catch (error) {
-        const errorDetails = error.responseJSON?.error?.type || error.message || 'Neznámá chyba';
+        const errorDetails = error.responseJSON?.description || error.message || 'Neznámá chyba';
         showError(
             'Nepodařilo se načíst seznam měn.',
             `Technické informace: ${errorDetails}`
@@ -184,7 +203,6 @@ $(document).ready(async function() {
     } finally {
         $('#loadingOverlay').hide();
     }
-
 
     // Inicializace historie
     historyManager.display();
