@@ -1,11 +1,10 @@
 // TMDB API
 const apiKey = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZTIzYjUzYTVjMzk5ZmEwMTFkMDk0OTc3YTZlMmM2YSIsIm5iZiI6MTczNDI2MDM5Ny4zNzc5OTk4LCJzdWIiOiI2NzVlYjZhZDQ4OWRjYmFhMDZiNmYzNWIiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.oggAABe4BgcGB7U7wk1dT1tjYrs-Bmx2eMhodohT57A';
-const apiURL = 'https://api.themoviedb.org/3/search/movie';
-
+const apiBaseUrl = 'https://api.themoviedb.org/3';
+const apiURL = `${apiBaseUrl}/search/movie`;
 
 //Variables 
 const movieInput = document.getElementById('movieInput')
-const searchButton = document.getElementById('searchButton')
 const favoritesButton = document.getElementById('favoritesButton')
 const homeButton = document.getElementById('homeButton')
 const addToFavoritesButton = document.getElementById('addToFavoritesButton')
@@ -23,17 +22,39 @@ const favorites = document.getElementById('favorites')
 const favoritesList = document.getElementById('favoritesList')
 const history = document.getElementById('history')
 const historyList = document.getElementById('historyList')
+const loadingIndicator = document.getElementById('loading');
 
+
+
+// LOADING
+function showLoading() {
+    loadingIndicator.classList.remove('hidden');
+}
+
+function hideLoading() {
+    loadingIndicator.classList.add('hidden');
+}
+
+// NOTIFICATION
+function showNotification(message) {
+    notification.textContent = message;
+    notification.classList.remove('hidden');
+    notification.style.display = 'block';
+    setTimeout(() => {
+        notification.classList.add('hidden');
+        notification.style.display = 'none';
+    }, 3000);
+}
 
 //SEARCHING MOVIES
 async function searchMovies() {
     const query = movieInput.value.trim();
-    // check if unput is empty
+    loading.classList.remove('hidden');
     if (!query) {
-        alert('Zadejte název filmu.');
+        showNotification('Zadejte název filmu.');
+        loading.classList.add('hidden');
         return;
     }
-    // finding the movies based on user input
     try {
         const response = await axios.get(apiURL, {
             headers: {
@@ -43,32 +64,31 @@ async function searchMovies() {
                 query: query
             }
         });
-        // response is stored in response.data, data.results includes the list of movies
         const data = response.data;
         displayMovies(data.results);
     } catch (error) {
         console.error('Chyba při načítání dat (API).', error);
-        alert('Nastala chyba při načítání API dat. Zkuste to znovu.');
+        showNotification('Nastala chyba při načítání API dat. Zkuste to znovu.');
+    } finally {
+        loading.classList.add('hidden');
     }
 }
+
+
 // DISPLAYING MOVIES 
 function displayMovies(movies) {
-    //hide the sections
     notStarted.style.display = 'none';
     emptyResults.style.display = 'none';
     results.style.display = 'none';
-    // clears content of movie list
     movieList.innerHTML = '';
-    // check if any movies are found, if not display message empty results
     if (movies.length === 0) {
         emptyResults.style.display = 'block';
     } else {
-        // shows results section
         results.style.display = 'block';
-        // creates cards for the movies 
+        const fragment = document.createDocumentFragment();
         movies.forEach(movie => {
             const movieCard = document.createElement('div');
-            movieCard.className = 'col-md-4';
+            movieCard.className = 'col-md-2';
             movieCard.innerHTML = `
                 <div class="card">
                     <img src="https://image.tmdb.org/t/p/w500${movie.poster_path || ''}" 
@@ -76,52 +96,57 @@ function displayMovies(movies) {
                     <div class="card-body">
                         <h5 class="card-title">${movie.title}</h5>
                         <p class="card-text">${movie.overview || 'Popis není k dispozici.'}</p>
-                        <button class="btn btn-warning" onclick="showMovieDetails(${movie.id})">
+                        <button class="btn btn-warning">
                             Více informací
                         </button>
                     </div>
                 </div>
-            `
-            // adds the movieCard element (which represents a single movie) to the movieList container on the webpage.
-            movieList.appendChild(movieCard);
-        })
+            `;
+            const movieCardButton = movieCard.querySelector('button');
+            movieCardButton.addEventListener('click', () => showMovieDetails(movie.id));
+            fragment.appendChild(movieCard);
+        });
+        movieList.appendChild(fragment);
     }
 }
 // BUTTON FOR SEARCHING MOVIES
-searchButton.addEventListener('click', searchMovies);
+document.getElementById('searchForm').addEventListener('submit', (event) => {
+    event.preventDefault();
+    searchMovies();
+});
 
 // INFORMATION ABOUT MOVIES
 async function showMovieDetails(movieId) {
+    loading.classList.remove('hidden');
     try {
-        // calling API
-        const movieDetailsUrl = `https://api.themoviedb.org/3/movie/${movieId}`;
+        const movieDetailsUrl = `${apiBaseUrl}/movie/${movieId}`;
         const response = await axios.get(movieDetailsUrl, {
             headers: {
                 Authorization: `Bearer ${apiKey}`
             }
         });
-
-        // response
         const movie = response.data;
-
-        //preparing moviToSave, saving title and poster
         const movieToSave = {
+            id: movie.id,
             title: movie.title,
             poster: movie.poster_path || 'Obrázek není dostupný'
         };
-
-        //caling saveHistory 
         saveHistory(movieToSave);
-
-        // adding to favorites button, saves the movie to favorites, shows alert, hides modal
-        addToFavoritesButton.onclick = () => {
-            addFavorite(movieToSave);
-            alert('Film byl přidán do oblíbených.');
-            const bootstrapModal = new bootstrap.Modal(movieModal);
-            bootstrapModal.hide();
-        };
-
-        // Modal insides - actualize
+        const favoritesMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
+        const isAlreadyFavorite = favoritesMovies.some(fav => normalizeTitle(fav.title) === normalizeTitle(movie.title));
+        if (isAlreadyFavorite) {
+            addToFavoritesButton.textContent = 'Již v oblíbených';
+            addToFavoritesButton.disabled = true;
+        } else {
+            addToFavoritesButton.textContent = 'Přidat do oblíbených';
+            addToFavoritesButton.disabled = false;
+            addToFavoritesButton.addEventListener('click', () => {
+                addFavorite(movieToSave);
+                showNotification('Film byl přidán do oblíbených.');
+                const bootstrapModal = new bootstrap.Modal(movieModal);
+                bootstrapModal.hide();
+            });
+        }
         movieModalTitle.textContent = movie.title || 'Název není dostupný';
         moviePoster.src = movie.poster_path
             ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
@@ -133,12 +158,16 @@ async function showMovieDetails(movieId) {
             ? `${movie.vote_average}/10`
             : 'Neznámé';
 
-        // Show modal
+        const genres = movie.genres.map(genre => genre.name).join(', ') || 'Neznámé';
+        document.getElementById('movieGenre').textContent = genres;
+        history.style.display = 'none';
         const bootstrapModal = new bootstrap.Modal(movieModal);
         bootstrapModal.show();
     } catch (error) {
         console.error('Chyba při načítání detailů filmu.', error);
-        alert('Nepodařilo se načíst detaily filmu. Zkuste to prosím znovu.');
+        ('Nepodařilo se načíst detaily filmu. Zkuste to prosím znovu.');
+    } finally {
+        loading.classList.add('hidden');
     }
 }
 
@@ -172,51 +201,43 @@ function loadHomePageStatus() {
     displayHistory();
 }
 
-window.onload = function () {
+window.addEventListener('load', function () {
     loadHomePageStatus();
-};
+});
 
 homeButton.addEventListener('click', goHome);
 
 // SAVING TO HISTORY
 function saveHistory(movie) {
-    // loads value under key from historyMovies from localStorage, using JSON.parse converts JSON string to Javascript object, if theres no value in localStorage it uses []
     let historyMovies = JSON.parse(localStorage.getItem('historyMovies')) || [];
-    // adds new movie to the beggining of historyMovies, keeping only the first 5
     historyMovies = [movie, ...historyMovies].slice(0, 5);
-    // converts historyMovies to JSON string, than saves it to localStorage under key historyMovies
     localStorage.setItem('historyMovies', JSON.stringify(historyMovies));
     displayHistory();
 }
 
 // DISPLAYING HISTORY
 function displayHistory() {
-    // loads historyMovies from local storage, uses JSON.parse to convert to javascript, if theres no history saves []
     const historyMovies = JSON.parse(localStorage.getItem('historyMovies')) || [];
-    // if there no history block it doesnt show any history
-
-    if (historyMovies.length === 0) {
-        history.style.display = 'none';
-        return;
-    }
-
-    // shows history block
-    history.style.display = 'block';
-
-    // deletes previous so there no duplicity
-    historyList.innerHTML = '';
-
-    // creates new li for every movie, adds css class list-group-item, sets listitem - poster and title, adds to history list
+    history.style.display = historyMovies.length === 0 ? 'none' : 'block';
+    historyList.innerHTML = '';  // Clear the current list
+    const fragment = document.createDocumentFragment();
     historyMovies.forEach(movie => {
         const listItem = document.createElement('li');
-        listItem.className = 'list-group-item';
+        listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
         listItem.innerHTML = `
-            <img src="https://image.tmdb.org/t/p/w500${movie.poster}" alt="${movie.title}" class="me-2" style="width: 50px; height: 75px;">
-            ${movie.title}
+            <div class="d-flex align-items-center">
+                <img src="https://image.tmdb.org/t/p/w500${movie.poster}" alt="${movie.title}" class="me-2" style="width: 50px; height: 75px;">
+                ${movie.title}
+            </div>
+            <button class="btn btn-warning btn-sm">Zobrazit více</button> 
         `;
-        historyList.appendChild(listItem);
+        const movieDetailsButton = listItem.querySelector('button');
+        movieDetailsButton.addEventListener('click', () => showMovieDetails(movie.id));
+        fragment.appendChild(listItem);
     });
+    historyList.appendChild(fragment);
 }
+
 
 
 // FAVORITES BUTTON
@@ -229,57 +250,61 @@ favoritesButton.addEventListener('click', () => {
     displayFavorites();
 });
 
-// Normalize movie titles by removing special characters, spaces, and converting to lowercase
 const normalizeTitle = (title) => title.trim().toLowerCase().replace(/[^\w\s]/gi, '').replace(/\s+/g, ' ');
 
 // Adding to favorites
 function addFavorite(movie) {
     let favoritesMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
     const normalizedTitle = normalizeTitle(movie.title);
-    // Check if the movie already exists in favorites (using normalized title)
     if (!favoritesMovies.some(fav => normalizeTitle(fav.title) === normalizedTitle)) {
         favoritesMovies.push(movie);
         localStorage.setItem('favoritesMovies', JSON.stringify(favoritesMovies));
         displayFavorites();
     } else {
-        alert('Tento film je již v oblíbených.');
+        showNotification('Tento film je již v oblíbených.');
     }
 }
 
 
 // Display favorites
 function displayFavorites() {
-    // loads favorites
     const favoritesMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
-    // if no favorites shows message
+    favoritesList.innerHTML = '';
     if (favoritesMovies.length === 0) {
         favoritesList.innerHTML = '<p>V seznamu oblíbených se momentálně nenachází žádný film.</p>';
     } else {
-        // ensures theres no duplicity
-        favoritesList.innerHTML = '';
-        // for each movie creates new li, adds styling, creates div for image
+        const fragment = document.createDocumentFragment();
         favoritesMovies.forEach(movie => {
             const listItem = document.createElement('li');
             listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
             listItem.innerHTML = `
                 <div class="d-flex align-items-center">
-        <img src="https://image.tmdb.org/t/p/w500${movie.poster}" alt="${movie.title}" class="me-2" style="width: 50px; height: 75px;">
-        ${movie.title}
-    </div>
-    <button class="btn btn-danger btn-sm" onclick="removeFavorite('${movie.title.replace(/'/g, "\\'")}')">Odebrat</button>
-`;
-            favoritesList.appendChild(listItem);
+                    <img src="https://image.tmdb.org/t/p/w500${movie.poster}" alt="${movie.title}" class="me-2" style="width: 50px; height: 75px;">
+                    ${movie.title}
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-warning btn-sm me-2">Zobrazit více</button>
+                    <button class="btn btn-danger btn-sm">Odebrat</button>
+                </div>
+            `;
+
+            const movieDetailsButton = listItem.querySelector('button.btn-warning');
+            movieDetailsButton.addEventListener('click', () => showMovieDetails(movie.id));
+
+            const removeButton = listItem.querySelector('button.btn-danger');
+            removeButton.addEventListener('click', () => removeFavorite(movie.id));
+
+            fragment.appendChild(listItem);
         });
+        favoritesList.appendChild(fragment);
     }
 }
 
-
 // Removing from favorites
-function removeFavorite(movieTitle) {
+function removeFavorite(movieId) {
     let favoritesMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
-    const normalizedTitleToRemove = normalizeTitle(movieTitle);
-    // Remove movie from favorites by comparing normalized titles
-    favoritesMovies = favoritesMovies.filter(movie => normalizeTitle(movie.title) !== normalizedTitleToRemove);
+    favoritesMovies = favoritesMovies.filter(movie => movie.id !== movieId);
     localStorage.setItem('favoritesMovies', JSON.stringify(favoritesMovies));
     displayFavorites();
 }
+

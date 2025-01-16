@@ -20,6 +20,15 @@
 </head>
 
 <body class=" bg-light d-flex flex-column min-vh-100">
+  <!-- Loading-->
+  <div id="loading" class="hidden">
+    <div class="spinner"></div>
+    <p>Načítání...</p>
+  </div>
+
+  <!-- notification-->
+  <div id="notification" class="hidden"></div>
+
   <!-- Main Head-->
   <header class="bg-danger text-white text-center p-4">
     <h1>Movie Explorer</h1>
@@ -29,18 +38,20 @@
   <main class="flex-grow-1">
     <!-- Search-->
     <section id="search" class="mb-2 mt-2">
-      <div class="d-flex align-items-center">
+      <form id="searchForm" class="d-flex align-items-center mb-0">
         <input type="text" id="movieInput" class="form-control" placeholder="Vyhledat film ...">
-        <button id="searchButton" class="btn btn-warning">
+        <button type="submit" id="searchButton" class="btn btn-warning">
           <i class="fa-solid fa-magnifying-glass"></i>
         </button>
-        <button id="favoritesButton" class="btn btn-danger">
-          <i class="fa-solid fa-heart"></i>
-        </button>
-        <button id="homeButton" class="btn btn-primary">
+      </form>
+      <section id="homeandfavorites" class="mb-2 mt-2">
+        <button id="homeButton" class="btn btn-primary ms-2">
           <i class="fa-solid fa-house"></i>
         </button>
-      </div>
+        <button id="favoritesButton" class="btn btn-danger ms-2">
+          <i class="fa-solid fa-heart"></i>
+        </button>
+      </section>
     </section>
 
     <!-- Beginning-->
@@ -70,6 +81,7 @@
             <img id="moviePoster" src="./assets/images/no-poster.jpg" alt="Plakát filmu" class="img-fluid mb-3">
             <p id="movieDescription">Popis filmu</p>
             <p><strong>Datum vydání: <span id="movieReleaseDate">N/A</span></strong></p>
+            <p><strong>Žánr: <span id="movieGenre">N/A</span></strong></p>
             <p><strong>Hodnocení: <span id="movieRating">N/A</span></strong></p>
           </div>
           <div class="modal-footer">
