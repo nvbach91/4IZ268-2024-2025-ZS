@@ -1,77 +1,359 @@
 const app = $('#app');
-const questions = {
-    "1":"Prvni otazka",
-    "2":"Druha otazka",
-    "3":"Treti otazka",
-    "4":"Ctvrta otazka",
-    "5":"Pata otazka",
-}
+let score = 0;
+const apiKey = "e6ddb7a05694a1e542e615f585d6bd42"
+const questions = [
+    {id:"highTemp",text:"Which of these cities currently has the highest temperature ?",cardNum:5},
+    {id:"lowTemp",text:"Which of these cities currently has the lowest temperature ?",cardNum:5},
+    {id:"currTemp",text:"What is the current temperature in this city ? (tolerance of two degrees)",cardNum:1},
+    {id:"highWind",text:"Which of these cities is currently the windiest?",cardNum:5},
+    {id:"highHumid",text:"Which of these cities is currently the most humid?",cardNum:5}
+]
 
-const answers = [
-    {id:1, name:"Prague", value:10},
-    {id:2, name:"Budapest", value:12},
-    {id:3, name:"London", value:5},
-    {id:4, name:"Yakutsk", value:-20},
-    {id:5, name:"Mecca", value:20},
+const cityList = [
+    {name:"Prague",continent:"Europe"},
+    {name:"Budapest",continent:"Europe"},
+    {name:"London",continent:"Europe"},
+    {name:"Berlin",continent:"Europe"},
+    {name:"Stockholm",continent:"Europe"},
+    {name:"Madrid",continent:"Europe"},
+    {name:"Rome",continent:"Europe"},
+    {name:"Glasgow",continent:"Europe"},
+    {name:"Sarajevo",continent:"Europe"},
+    {name:"Paris",continent:"Europe"},
+    {name:"Hamburg",continent:"Europe"},
+    {name:"Dublin",continent:"Europe"},
+    {name:"Yakutsk",continent:"Asia"},
+    {name:"Mecca",continent:"Asia"},
+    {name:"Tokyo",continent:"Asia"},
+    {name:"Beijing",continent:"Asia"},
+    {name:"Vladivostok",continent:"Asia"},
+    {name:"New Delhi",continent:"Asia"},
+    {name:"Kuala Lumpur",continent:"Asia"},
+    {name:"Hong Kong",continent:"Asia"},
+    {name:"New York",continent:"North_America"},
+    {name:"Ottawa",continent:"North_America"},
+    {name:"Austin",continent:"North_America"},
+    {name:"Atlanta",continent:"North_America"},
+    {name:"Los Angeles",continent:"North_America"},
+    {name:"San Francisco",continent:"North_America"},
+    {name:"Anchorage",continent:"North_America"},
+    {name:"Boston",continent:"North_America"},
+    {name:"Tampa",continent:"North_America"},
+    {name:"Mexico City",continent:"North_America"},
+    {name:"Medellin",continent:"South_America"},
+    {name:"Buenos Aires",continent:"South_America"},
+    {name:"Santiago de Chile",continent:"South_America"},
+    {name:"Montevideo",continent:"South_America"},
+    {name:"Brasília",continent:"South_America"},
+    {name:"Rio de Janeiro",continent:"South_America"},
+    {name:"Caracas",continent:"South_America"},
+    {name:"Havana",continent:"South_America"},
+    {name:"Cairo",continent:"Africa"},
+    {name:"Cape Town",continent:"Africa"},
+    {name:"Benghazi",continent:"Africa"},
+    {name:"Algiers",continent:"Africa"},
+    {name:"Addis Ababa",continent:"Africa"},
+    {name:"Kinshasa",continent:"Africa"},
+    {name:"Mogadishu",continent:"Africa"},
+    {name:"Lagos",continent:"Africa"},
+    {name:"Casablanca",continent:"Africa"},
+    {name:"Perth",continent:"Australia"},
+    {name:"Adelaide",continent:"Australia"},
+    {name:"Melbourne",continent:"Australia"},
+    {name:"Sydney",continent:"Australia"},
 ]
 
 
 
 
 //Zadani jmena a nasledna inicializace herni plochy
-const nameForm = $(`
-    <form id="nameForm">
-        <input id="playerName" name="name">
-    </form>
-`);
-app.append(nameForm);
-const nameButton = $(`
-    <button id="nameButton">Enter</button>
+const init = () =>{
+    $(`.removable`).remove();
+    score=0;
+    const mainTitle = $(`
+        <h1 class="removable">Weatherguessr</h1>
+        `)
+    app.append(mainTitle);
+    const nameForm = $(`
+        <div id="nameForm" class="removable">
+            <form id="nameForm" autocomplete="off" class="removable inputForm">
+                <input id="playerName" name="name">
+            </form>
+            <button id="nameButton">Enter</button>
+        </div>
     `);
-app.append(nameButton)
-nameButton.click(()=>{
-    const playerName=$("#playerName").val();
-    //console.log($("#playerName").val());
-    $("#nameForm").remove();
-    $("#nameButton").remove();
-    app.addClass("game-start");
-    nextTurn();
-});
+    app.append($(`<h2 class="removable" id="question">Enter your name!</h2>`))
+    app.append(nameForm);
+    $("#nameButton").on("click",()=>{
+        playerName=$("#playerName").val();
+        nextTurn();
+    });
+};
 
-
+//Funkce vraci nahodne cele cislo v predem urcenem rozsahu
 const questionPicker = () =>{
-    return 1 + Math.floor(Math.random() * 5);
-}
+    if (score<3){
+        return questions[Math.floor(Math.random() * (questions.length-3))];
+    }
+    else if(score<6){
+        return questions[Math.floor(Math.random() * (questions.length-2))];
+    }
+    else{
+        return questions[Math.floor(Math.random() * (questions.length))];
+    };
+};
 
 //Funkce vytvarejici karty
-const cardMaker = (input) =>{
+const cardMaker = (input,answer,question) =>{
+    //console.log("lol")
+    if (Number(question.cardNum)===1){
+        const card = $(`
+                <div class=" removable card ${input.continent} single" id="card${input.name}">${input.name}</div>
+                <form id="answerForm" autocomplete="off" class="inputForm">
+                        <input id="answerInput" name="answerName">
+                        <button id="answerButton">Enter</button>
+                </form>
+            `);
+        card.find("#answerButton").on("click",()=>{
+            const ans = $("#answerInput").val();
+            if (Number(ans) > Number(answer) -2 && Number(ans) < Number(answer) +2){
+                score+=2;
+                nextTurn();
+            }
+            else{
+                gameOver(answer,question);
+            }
+        });
+        return card;
+    }else{
     const card = $(`
-        <div class="card" id="card${input.id}">${input.name}</div>
+        <div class="removable card ${input.continent} multiple" id="card${input.name}">${input.name}</div>
         `);
     card.on("click",()=>{
-        console.log(input.value);
-    })
+            if (question.id==="highTemp" || question.id==="lowTemp"){
+                console.log(input.temperature);
+                if(input.temperature===answer.temperature){
+                    score++;
+                    nextTurn();
+                }
+                else{
+                    gameOver(answer,question);
+                }
+            } else if(question.id==="highWind"){
+                if(input.wind===answer.wind){
+                    score++;
+                    nextTurn();
+                }
+                else{
+                    gameOver(answer,question);
+                }
+            }else{
+                if(input.humidity===answer.humidity){
+                    score++;
+                    nextTurn();
+                }
+                else{
+                    gameOver(answer,question);
+                }
+            }
+        }
+ 
+    )
     return card;
+    };
 }
+//Funkce na ziskani dat z weatherstack API
+const dataFetcher = async (city,continent) =>{
+    const url = `https://api.weatherstack.com/current?access_key=${apiKey}&query=${city}`;
+    try {
+        const resp =  await fetch(url,{method:"GET"});
+        const res = await resp.json();
+        return jsonTransformer(res,continent);
+    } catch(error){
+        console.error(error);
+    }
+}
+
+//Funkce transformujicji json z weatherstack API do pouzitelnejsi formy
+const jsonTransformer = (data,continent) =>{
+    console.log(data);
+    const newData = {name: data.location.name, temperature:data.current.temperature, wind:data.current.wind_speed, humidity:data.current.humidity, continent:continent}
+    console.log(newData);
+    return newData;
+}
+ /*
+//Funkce na precteni lokalniho JSON souboru, nebude pouzito ve finalni verzi
+const jsonReader = () =>{
+    const inputElement = $(`
+        <input type="file" id="fileInput" accept=".json"/>
+        `);
+    const readButton = $(`
+        <button id="jsonButton">Read data</button>
+        `);
+    const outputElement = $(`
+        <pre id="output"></pre>
+        `);
+    app.append(readButton);
+    app.append(inputElement);
+    app.append(outputElement);
+    $("#fileInput").on("change", (event)=>{
+        const file = event.target.files[0];
+        //console.log(file);
+        if(file){
+            const reader = new FileReader();
+            reader.onload = (e) =>{
+                try{
+                    const jsonLmao = JSON.parse(e.target.result);
+                    //console.log(jsonLmao);
+                    //Volani funkce na zpracovani JSON objektu z API do formatu pouzitelny pro hru
+                    jsonTransformer(jsonLmao);
+                    return jsonLmao;
+                }catch(err){
+                    console.error(err);
+                }
+            }
+            reader.readAsText(file);
+        }
+    })
+}
+*/
+//Funkce vraci objekt ktery je spravna odpoved
+const answerPicker = (ans,type) =>{
+    switch(type){
+        case "highTemp":
+            return ans.reduce((max,obj)=>{
+                return obj.temperature > max.temperature ? obj : max;
+            },ans[0]);
+        case "lowTemp":
+            return ans.reduce((min,obj)=>{
+                return obj.temperature < min.temperature ? obj : min;
+            },ans[0]);
+        case "currTemp":
+            return ans[0].temperature;
+        case "highWind":
+            return ans.reduce((max,obj)=>{
+                return obj.wind > max.wind ? obj : max;
+            },ans[0]);
+        case "highHumid":
+            return ans.reduce((max,obj)=>{
+                return obj.humidity > max.humidity ? obj : max;
+            },ans[0]);
+    }
+}
+
+//Funkce vybira nahodna mesta ze seznamu
+const cityPicker = (arr,size) =>{
+    const res = new Set();
+    while (res.size<size){
+        const randomCity=arr[Math.floor(Math.random() * arr.length)];
+        res.add(randomCity);
+    }
+    return Array.from(res);
+}
+
+
+const createSpinner = () =>{
+    const spinner = $(`
+            <div class="spinner"></div>
+        `);
+    app.append(spinner);
+};
+
+const destroySpinner = () =>{
+    $(`.spinner`).remove();
+};
 
 //Funkce pripravujici hru na dalsi tah
-const nextTurn = () =>{
-    $(".card").remove();
+const nextTurn = async () =>{
+    $(".removable").remove();
+    const mainTitle = $(`
+            <h1 class="removable">Weatherguessr</h1>
+        `);
+    app.append(mainTitle);
+    const scoreContainer = $(`
+            <h3 class="removable">Score: ${score}</h3>
+        `);
+    app.append(scoreContainer);
+    let question = questionPicker();
     const questionContainer= $(`
-        <h1 id="question"></h1>
-        `)
+            <h2 id="question" class="removable">${question.text}</h2>
+        `);
     app.append(questionContainer);
-    let questionNum = questionPicker();
-    $("#question").text(questions[questionNum]); 
-    let $cards = [];
-    for (let i =0;i<=4;i++){
-            $cards.push(cardMaker(answers[i]));
+    const cardContaiter = $(`
+        <div class="cardContainer removable"></div>
+        `);
+    const cities = cityPicker(cityList,question.cardNum);
+    let cityData = [];
+    createSpinner();
+    for(let i=0;i<question.cardNum;i++){
+        cityData.push(await dataFetcher(cities[i].name,cities[i].continent))
+    };
+    destroySpinner();
+    //console.log(cityData);
+    //Funkce na vybrani spravne odpovedi
+    const corrAns = answerPicker(cityData,question.id);
+    console.log(corrAns);
+    for (let i =0;i<question.cardNum;i++){
+            cardContaiter.append(cardMaker(cityData[i],corrAns,question));
+    };
+    //Funkce na precteni lokalniho JSON souboru, nebude pouzito ve finalni verzi
+    //jsonData= jsonReader();
+    app.append(cardContaiter);
+}
+
+const gameOver = (ans,question) =>{
+    $(".removable").remove();
+    //console.log(localStorage[playerName])
+    const gameOverText = $(`
+        <h2 class="removable">Game Over!</h2>
+        `);
+    app.append(gameOverText);
+    if(question.id==="currTemp"){
+        const gameOverAnswer = $(`
+            <h2 class="removable">The answer was ${ans}!</h2>
+            `);
+        app.append(gameOverAnswer);
+    }else{
+        const gameOverAnswer = $(`
+            <h2 class="removable">The answer was ${ans.name}!</h2>
+            `);
+        app.append(gameOverAnswer);
     }
-    app.append($cards);
-    //$("#card4").remove();
+
+    if (score>localStorage[playerName] || !localStorage[playerName]){
+        localStorage.setItem(playerName,score.toString());
+    };
+    const scoreObj = localStorage;
+    delete scoreObj.debug;
+    const scoreArr = Object.entries(scoreObj).sort(([,x],[,y])=>{
+            return Number(y)-Number(x);
+        });
+    console.log(scoreArr);
+    const scoreList = $(`
+        <ol id="scoreList" class="removable"></ol>
+        `);
+    let i = 0;
+    while(i<10 && i < scoreArr.length){
+        const scoreListElement = $(`
+            <li id=listElement>${scoreArr[i][0]} : ${scoreArr[i][1]}</li>
+            `)
+        scoreList.append(scoreListElement);
+        i++;
+    };
+    console.log()
+
+
+    app.append(scoreList);
+    const replayButton = $(`
+        <button class="removable" id="replayButton">Play Again!</button>
+        `);
+    app.append(replayButton);
+    replayButton.on("click",()=>{
+        init();
+    });
 }
 
 
 
 
-
+init();

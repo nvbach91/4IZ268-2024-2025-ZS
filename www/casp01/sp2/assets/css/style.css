@@ -1,5 +1,126 @@
-.game-start{
-    background-image: url("../img/background.jpg");
+body{
+    background-image: url("https://i.postimg.cc/9fXwjwcL/background.png");
     background-size: cover;
+    background-repeat: no-repeat;
+}
 
+#nameForm{
+    display: flex;
+    justify-content: center;
+}
+
+
+
+
+.inputForm input{
+    background-color: rgba(74, 163, 231, 0.582);
+}
+button{
+    background-color: rgba(74, 163, 231, 0.582);
+}
+.spinner{
+    margin: 0 auto;
+    width: 15vw;
+    height: 15vw;
+    border: 15px solid rgb(255, 239, 131); 
+    border-top: 15px solid transparent;
+    border-radius: 50%; 
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+
+.nameDiv{
+    display: flex;
+    width: 10%;
+    padding-left: 45%;
+    padding-right: 45%;
+}
+
+h1{
+    text-align: center;
+    font-size: 5vw;
+    color: aliceblue;
+}
+
+h2{
+    text-align: center;
+    font-size: 3vw;
+    color: cadetblue;
+    text-shadow: 
+    -1px -1px 0 black,
+     1px -1px 0 black,
+    -1px  1px 0 black,
+     1px  1px 0 black; 
+}
+
+h3{
+    text-align: right;
+    font-size: 1.5vw;
+    color: aliceblue;
+}
+
+
+
+#scoreList{
+    margin-left: 30%;
+    margin-right:30%;
+    font-size: 2vw;
+    background-color: rgba(0, 183, 255, 0.788);
+}
+
+.cardContainer{
+    margin-left: 5%;
+    margin-right: 5%;
+    height: calc(100%/3);
+    display: flex;
+    gap:1vw;
+}
+
+.card{
+    font-size: 1.8vw;
+    height: 100%;
+    width:calc(100%/5);
+    border: 1px solid black;
+    text-align: center;
+    padding-top: 10%;
+    padding-bottom:10%;
+    background-size: 100% 100%;
+    background-position: center;
+}
+
+.card.single{
+    margin-left: 40%;
+}
+
+.card.multiple:hover{
+    border:5px solid red;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.Europe{
+    background-image: url("https://i.postimg.cc/hhFK46TS/europe.jpg");
+}
+.Asia{
+    background-image: url("https://i.postimg.cc/52VFnkTd/asia.jpg");
+}
+.Africa{
+    background-image: url("https://i.postimg.cc/GmxTNxnB/africa.jpg");
+}
+.Australia{
+    background-image: url("https://i.postimg.cc/wTJm5dWQ/australia.jpg");
+}
+.North_America{
+    background-image: url("https://i.postimg.cc/tR86Vgzg/north-america.jpg");
+}
+.South_America{
+    background-image: url("https://i.postimg.cc/XNrFJ5dh/south-america.jpg");
 }
