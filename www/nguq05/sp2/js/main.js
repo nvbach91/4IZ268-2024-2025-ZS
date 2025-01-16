@@ -12,7 +12,20 @@ const recipesContainer = document.querySelector('#recipesContainer');
 const savedRecipes = document.querySelector('#savedRecipes');
 
 // event listener načtení z localstorage
-document.addEventListener('DOMContentLoaded', loadFavorites);
+document.addEventListener('DOMContentLoaded', () => loadFavorites());
+
+// funkce zobrazí spinner
+function displayLoading() {
+    const spinner = document.createElement('div');
+    spinner.classList.add('spinner');
+    recipesContainer.append(spinner);
+    return spinner;
+}
+
+// funkce schová spinner
+function hideLoading(spinner) {
+    spinner.remove();
+};
 
 // event listener pro formulář
 recipesForm.addEventListener('submit', async (e) => {
@@ -25,8 +38,10 @@ recipesForm.addEventListener('submit', async (e) => {
         return;
     }
 
+    const spinner = displayLoading();
     try {
         const recipeData = await fetchRecipes(input);
+        hideLoading(spinner);
         displayRecipes(recipeData.results);
     } catch (error) {
         console.error(error);
@@ -39,7 +54,7 @@ savedRecipes.addEventListener('click', () => {
     const favorites = getFavorites();
 
     if (favorites.length === 0) {
-        displayError('No saved recipes found. You can save them by clicking on the Add to Favorites button.');
+        displayError('No saved recipes found.');
     } else {
         displayRecipes(favorites);
     }
@@ -89,7 +104,7 @@ function createRecipeCard(recipe) {
                 <p class="mb-1"><strong>Cuisine:</strong> ${recipe.cuisines?.join(', ') || 'N/A'}</p>
                 <p class="mb-1"><strong>Diet:</strong> ${recipe.diets?.join(', ') || 'N/A'}</p>
                 <p class="mb-1"><strong>Type:</strong> ${recipe.dishTypes?.join(', ') || 'N/A'}</p>
-                <p class="mb-3"><strong>Summary:</strong> ${recipe.summary ? recipe.summary.slice(0, 100) + '...' : 'No description available.'}</p>
+                <p class="mb-3"><strong>Summary:</strong> ${recipe.summary ? recipe.summary.slice(0, 300) + '...' : 'No description available.'}</p>
                 <div>
                     <a href="${recipe.sourceUrl}" target="_blank" class="btn btn-primary me-2">Show Recipe</a>
                     <button class="btn btn-${isFavorite ? 'danger' : 'outline-danger'} favorite-btn" data-id="${recipe.id}" data-title="${recipe.title}" data-image="${recipe.image}">
@@ -108,6 +123,23 @@ function createRecipeCard(recipe) {
         const recipeImage = button.getAttribute('data-image');
 
         if (checkIfFavorite(recipeId)) {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Your recipe has been deleted.",
+                        icon: "success"
+                    });
+                }
+            });
             removeFavorite(recipeId);
             button.classList.replace('btn-danger', 'btn-outline-danger');
             button.textContent = 'Add to Favorites';
@@ -147,18 +179,25 @@ function getFavorites() {
 }
 
 // funkce načte všechny oblíbené a zobrazí je, když je stránka načtená
-function loadFavorites() {
-    const favorites = getFavorites();
-    if (favorites.length > 0) {
-        displayRecipes(favorites);
+function loadFavorites(showSavedRecipes) {
+    if (showSavedRecipes) {
+        const favorites = getFavorites();
+        if (favorites.length > 0) {
+            displayRecipes(favorites);
+        } else {
+            recipesContainer.innerHTML = '<p class="text-center text-muted">No saved recipes found.</p>';
+        }
+    } else {
+        // Reset na úvodní stránku
+        recipesContainer.innerHTML = '';
     }
 }
 
 // funkce zobrazení erroru
 function displayError(message) {
-    recipesContainer.innerHTML = `
-           <div class="alert alert-danger w-100" role="alert">
-            ${message}
-        </div>
-        `;
+    Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: message,
+    });
 }
