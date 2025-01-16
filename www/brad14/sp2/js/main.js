@@ -3,6 +3,16 @@ const BASE_URL_DATA = 'https://api.openweathermap.org/data/3.0/onecall?';
 const BASE_URL_GEO_DIRECT = 'https://api.openweathermap.org/geo/1.0/direct?';
 const BASE_URL_GEO_REVERSE = 'https://api.openweathermap.org/geo/1.0/reverse?';
 
+// wrapper elements
+const loaderWrapper = $('.loader-wrapper');
+const dailyDetailWrapper = $('.daily-detail-wrapper');
+const currentWrapper = $('.current-wrapper');
+const hourlyWrapper = $('.hourly-wrapper');
+const dailyWrapper = $('.daily-wrapper');
+const currentConditionsWrapper = $('.current-conditions-wrapper');
+
+
+
 /**
  * Constructs a URL with the given base URL and parameters, appending the API key.
  * @param {string} baseUrl - The base URL for the API endpoint.
@@ -186,11 +196,11 @@ const renderWeatherData = (data) => {
             </div>
     `;
 
-    $('.daily-detail-wrapper').empty();
-    $('.current-wrapper').empty().append(currentHtml);
-    $('.hourly-wrapper').empty().append(hourlyHtml);
-    $('.daily-wrapper').empty().append(dailyHtml);
-    $('.current-conditions-wrapper').empty().append(currentConditionsHtml);
+    dailyDetailWrapper.empty();
+    currentWrapper.empty().append(currentHtml);
+    hourlyWrapper.empty().append(hourlyHtml);
+    dailyWrapper.empty().append(dailyHtml);
+    currentConditionsWrapper.empty().append(currentConditionsHtml);
     drawSunArc(getDateTime(data.current.sunrise, data.timezone).time, getDateTime(data.current.sunset, data.timezone).time, getDateTime(data.current.dt, data.timezone).time)
 }
 
@@ -259,7 +269,14 @@ const renderDailyContent = (dailyData, lat, lon) => {
 const renderDayDetail = async (index, lat, lon, weatherData) => {
     let data;
     if (!weatherData) {
-        data = await fetchWeatherData(lat, lon);
+        addLoadingUi();
+        try {
+            data = await fetchWeatherData(lat, lon);
+        } catch (error) {
+            toastError(error.message);
+        } finally {
+            removeLoadingUi();
+        }
     } else {
         data = weatherData;
     }
@@ -348,11 +365,11 @@ const renderDayDetail = async (index, lat, lon, weatherData) => {
             </div>
         </div>
     `;
-    $('.current-wrapper').empty();
-    $('.hourly-wrapper').empty();
-    $('.daily-wrapper').empty();
-    $('.current-conditions-wrapper').empty();
-    $('.daily-detail-wrapper').empty().append(html);
+    currentWrapper.empty();
+    hourlyWrapper.empty();
+    dailyWrapper.empty();
+    currentConditionsWrapper.empty();
+    dailyDetailWrapper.empty().append(html);
     focusActiveDay();
     window.scrollTo({ top: 0, behavior: 'smooth' });
     $('.back-wrapper').on('click', () => backToForecast());
@@ -769,15 +786,14 @@ const getIconName = (weatherCondition, dt, sunrise, sunset) => {
     }
 }
 
-
 let loaderTimeout;
 const addLoadingUi = () => {
     loaderTimeout = setTimeout(() => {
-        const loader = '<div><div class="loader"></div></div>';
-        $('.daily-detail-wrapper').empty().append(loader);
+        const loader = '<div></div>';
+        $('.loader-wrapper').slideDown();
         setTimeout(() => {
             $('.loader').addClass('visible');
-        }, 50);
+        }, 300);
     }, 1000);
 };
 
@@ -785,7 +801,7 @@ const removeLoadingUi = () => {
     clearTimeout(loaderTimeout);
     $('.loader').removeClass('visible');
     setTimeout(() => {
-        $('.daily-detail-wrapper').empty();
+        $('.loader-wrapper').slideUp();
     }, 500);
 };
 
@@ -804,6 +820,57 @@ const toastError = (message, duration = 2000) => {
         },
         duration: duration
     }).showToast();
+}
+
+const convertToHours = (time) => {
+    const [hours, minutes] = time.split(':').map(Number);
+    return hours + minutes / 60;
+}
+
+/**
+ * Draws a sun arc on a canvas element representing the sun's position throughout the day.
+ *
+ * @param {number|string} sunrise - The time of sunrise, either as a number of hours or a string in "HH:MM" format.
+ * @param {number|string} sunset - The time of sunset, either as a number of hours or a string in "HH:MM" format.
+ * @param {number|string} currentTime - The current time, either as a number of hours or a string in "HH:MM" format.
+ */
+const drawSunArc = (sunrise, sunset, currentTime) => {
+    const ctx = canvas.getContext('2d');
+    canvas.width = 700;
+    canvas.height = 300;
+
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height;
+    const radiusX = 300;
+    const radiusY = 230;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.beginPath();
+    ctx.ellipse(centerX, centerY, radiusX, radiusY, Math.PI, 2 * Math.PI, 0);
+    ctx.strokeStyle = '#2563d6';
+    ctx.lineWidth = 5;
+    ctx.stroke();
+
+    // Convert times to hours if necessary
+    sunrise = convertToHours(sunrise);
+    sunset = convertToHours(sunset);
+    currentTime = convertToHours(currentTime);
+
+    const totalTime = sunset - sunrise;
+
+    const elapsedTime = Math.max(0, Math.min(currentTime - sunrise, totalTime));
+    const angle = Math.PI + (elapsedTime / totalTime) * Math.PI;
+
+    const sunX = centerX + radiusX * Math.cos(angle);
+    const sunY = centerY + radiusY * Math.sin(angle);
+
+    const sunImage = new Image();
+    sunImage.src = './images/weather/clear-day.png';
+    sunImage.onload = () => {
+        const sunRadius = 120;
+        ctx.drawImage(sunImage, sunX - sunRadius, sunY - sunRadius, sunRadius * 2, sunRadius * 2);
+    }
 }
 
 
@@ -997,54 +1064,3 @@ $('.action').on('click', (e) => {
 window.addEventListener('popstate', () => {
     getResults();
 });
-
-const convertToHours = (time) => {
-    const [hours, minutes] = time.split(':').map(Number);
-    return hours + minutes / 60;
-}
-
-/**
- * Draws a sun arc on a canvas element representing the sun's position throughout the day.
- *
- * @param {number|string} sunrise - The time of sunrise, either as a number of hours or a string in "HH:MM" format.
- * @param {number|string} sunset - The time of sunset, either as a number of hours or a string in "HH:MM" format.
- * @param {number|string} currentTime - The current time, either as a number of hours or a string in "HH:MM" format.
- */
-const drawSunArc = (sunrise, sunset, currentTime) => {
-    const ctx = canvas.getContext('2d');
-    canvas.width = 700;
-    canvas.height = 300;
-
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height;
-    const radiusX = 300;
-    const radiusY = 230;
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    ctx.beginPath();
-    ctx.ellipse(centerX, centerY, radiusX, radiusY, Math.PI, 2 * Math.PI, 0);
-    ctx.strokeStyle = '#2563d6';
-    ctx.lineWidth = 5;
-    ctx.stroke();
-
-    // Convert times to hours if necessary
-    sunrise = convertToHours(sunrise);
-    sunset = convertToHours(sunset);
-    currentTime = convertToHours(currentTime);
-
-    const totalTime = sunset - sunrise;
-
-    const elapsedTime = Math.max(0, Math.min(currentTime - sunrise, totalTime));
-    const angle = Math.PI + (elapsedTime / totalTime) * Math.PI;
-
-    const sunX = centerX + radiusX * Math.cos(angle);
-    const sunY = centerY + radiusY * Math.sin(angle);
-
-    const sunImage = new Image();
-    sunImage.src = './images/weather/clear-day.png';
-    sunImage.onload = () => {
-        const sunRadius = 120;
-        ctx.drawImage(sunImage, sunX - sunRadius, sunY - sunRadius, sunRadius * 2, sunRadius * 2);
-    }
-}
