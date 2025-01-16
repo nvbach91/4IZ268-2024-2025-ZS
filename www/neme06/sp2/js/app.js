@@ -1,59 +1,102 @@
 let debounceTimer;
+const config_file = 'config.env';
 
-window.addEventListener('load', loadBooksFromLocalStorage())
+window.onload = () => {
+    loadBooksFromLocalStorage()
+    closeBookModal()
 
-document.getElementById('search-input').addEventListener('input', (event) => {
-    const query = event.target.value.trim();
-
-    if (query.length >= 3) {
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(() => {
-            searchBooks(query);
-        }, 150);
-    } else {
-        document.getElementById('search-results').innerHTML = '';
+    document.getElementById('search-input').addEventListener('input', (event) => {
+        const query = event.target.value.trim();
+        
+        const regex = /^[a-zA-Z0-9\-:._]+$/;
+    
+        if (!regex.test(query)) {
+            document.getElementById('search-results').innerHTML = '';
+            return;
+        }
+    
+        if (query.length >= 3) {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                searchBooks(query);
+            }, 150);
+        } else {
+            document.getElementById('search-results').innerHTML = '';
+        }
+    });
+    
+    function searchBooks(query) {
+        fetch(config_file)
+            .then((response) => response.text())
+            .then((data) => {
+                const apiKey = data.match(/API_KEY=(.*)/)?.[1]?.trim();
+                if (!apiKey) {
+                    throw new Error('API key not found in .env file');
+                }
+    
+                fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&key=${apiKey}`)
+                .then(response => response.json())
+                .then(data => displaySearchResults(data.items || []))
+                .catch(error => console.error('Error fetching books:', error));
+            })
     }
-});
-
-function searchBooks(query) {
-    fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}`)
-        .then(response => response.json())
-        .then(data => displaySearchResults(data.items || []))
-        .catch(error => console.error('Error fetching books:', error));
+    
+    function displaySearchResults(books) {
+        const resultsContainer = document.getElementById('search-results');
+        resultsContainer.innerHTML = '';
+    
+        if (books.length === 0) {
+            resultsContainer.innerHTML = '<p>Nebyly nalezeny žádné knihy.</p>';
+            return;
+        }
+    
+        books.forEach(book => {
+            const bookInfo = book.volumeInfo;
+            const bookItem = document.createElement('div');
+            bookItem.className = 'book-item';
+    
+            bookItem.innerHTML = `
+                <h3>${bookInfo.title}</h3>
+                <p>Autor: ${bookInfo.authors ? bookInfo.authors.join(', ') : 'Neznámý autor'}</p>
+                <img src='${bookInfo.imageLinks.thumbnail}'></img>
+                <button onclick='addBookModal(${JSON.stringify({
+                title: bookInfo.title,
+                authors: bookInfo.authors,
+                description: bookInfo.description,
+                thumbnail: bookInfo.imageLinks.thumbnail
+            })})'>Přidat do seznamu</button>
+            `;
+            resultsContainer.appendChild(bookItem);
+        });
+    }
 }
 
-function displaySearchResults(books) {
-    const resultsContainer = document.getElementById('search-results');
-    resultsContainer.innerHTML = '';
+function loadBooksFromLocalStorage() {
+    const books = JSON.parse(localStorage.getItem('readBooks')) || [];
+    const bookList = document.getElementById('book-list');
+    bookList.innerHTML = '';
 
     if (books.length === 0) {
-        resultsContainer.innerHTML = '<p>Nebyly nalezeny žádné knihy.</p>';
+        bookList.innerHTML = '<p>Seznam je prázdný.</p>';
         return;
     }
 
-    books.forEach(book => {
-        const bookInfo = book.volumeInfo;
+    books.forEach((book, index) => {
         const bookItem = document.createElement('div');
-        const bookId = book.accessInfo.id;
         bookItem.className = 'book-item';
 
         bookItem.innerHTML = `
-            <h3>${bookInfo.title}</h3>
-            <p>Autor: ${bookInfo.authors ? bookInfo.authors.join(', ') : 'Neznámý autor'}</p>
-            <img src='${bookInfo.imageLinks.thumbnail}'></img>
-            <button onclick='addBookModal(${JSON.stringify({
-            title: bookInfo.title,
-            authors: bookInfo.authors,
-            description: bookInfo.description,
-            thumbnail: bookInfo.imageLinks.thumbnail
-        })})'>Přidat do seznamu</button>
+            <h3>${book.title}</h3>
+            <p>Autor: ${book.author}</p>
+            <img src='${book.thumbnail}'></img>
+            <button onclick='editBook(${index})' class="edit">Upravit hodnocení</button>
+            <button onclick='deleteBook(${index})'class="cancel">Smazat</button>
         `;
-        resultsContainer.appendChild(bookItem);
+        bookList.appendChild(bookItem);
     });
 }
 
 function addBookModal(book) {
-    // const bookModal = document.createElement('div');
     const resultsContainer = document.getElementById('book-modal-wrapper');
     const modal = document.getElementById('book-modal');
 
@@ -86,7 +129,7 @@ function closeBookModal() {
     document.getElementById('book-modal-wrapper').style.display = 'none';
     // document.getElementById('modal').remove();
 }
-
+    
 function addBookToReadList(book) {
     const bookReview = document.getElementById('review').value
     const bookRating = document.getElementById('rating').value;
@@ -109,36 +152,10 @@ function addBookToReadList(book) {
     let books = JSON.parse(localStorage.getItem('readBooks')) || [];
     books.push(bookJson);
     localStorage.setItem('readBooks', JSON.stringify(books));
-    alert('Kniha byla přidána do seznamu!');
     loadBooksFromLocalStorage();
 }
 
-
-function loadBooksFromLocalStorage() {
-    const books = JSON.parse(localStorage.getItem('readBooks')) || [];
-    const bookList = document.getElementById('book-list');
-    bookList.innerHTML = '';
-
-    if (books.length === 0) {
-        bookList.innerHTML = '<p>Seznam je prázdný.</p>';
-        return;
-    }
-
-    books.forEach((book, index) => {
-        const bookItem = document.createElement('div');
-        bookItem.className = 'book-item';
-
-        bookItem.innerHTML = `
-            <h3>${book.title}</h3>
-            <p>Autor: ${book.author}</p>
-            <img src='${book.thumbnail}'></img>
-            <button onclick='editBook(${index})'>Upravit hodnocení</button>
-            <button onclick='deleteBook(${index})'>Smazat</button>
-        `;
-        bookList.appendChild(bookItem);
-    });
-}
-
+    
 function editBook(index) {
     const books = JSON.parse(localStorage.getItem('readBooks')) || [];
     const book = books[index];
@@ -153,7 +170,7 @@ function editBook(index) {
         document.getElementById('overlay').style.display = 'block';
 
         modal.innerHTML = `
-            <button onclick='closeBookModal()'>Zrušit</button>          
+            <button onclick='closeBookModal()' class="cancel">Zrušit</button>          
             <h3>${book.title}</h3>
             <p>Autor: ${book.author}</p>
             <p>Popis: ${book.description}</p>
@@ -164,7 +181,7 @@ function editBook(index) {
         `;
     }
 }
-
+    
 function saveBookEdits(index) {
     const books = JSON.parse(localStorage.getItem('readBooks')) || [];
     const book = books[index];
@@ -177,7 +194,6 @@ function saveBookEdits(index) {
         book.review = newReview;
 
         localStorage.setItem('readBooks', JSON.stringify(books));
-        alert('Hodnocení knihy bylo upraveno!');
 
         closeBookModal();
         loadBooksFromLocalStorage();
@@ -188,7 +204,5 @@ function deleteBook(index) {
     let books = JSON.parse(localStorage.getItem('readBooks')) || [];
     books.splice(index, 1);
     localStorage.setItem('readBooks', JSON.stringify(books));
-    alert('Kniha byla smazána ze seznamu!');
     loadBooksFromLocalStorage();
 }
-
