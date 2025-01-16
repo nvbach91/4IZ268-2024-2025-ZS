@@ -160,7 +160,6 @@ body {
 }
 
 .loader.visible {
-    /* Must be larger than the loader's height */
     opacity: 1;
 }
 

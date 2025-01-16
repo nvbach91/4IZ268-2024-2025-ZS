@@ -794,7 +794,7 @@ const addLoadingUi = () => {
         setTimeout(() => {
             $('.loader').addClass('visible');
         }, 300);
-    }, 1000);
+    }, 500);
 };
 
 const removeLoadingUi = () => {
@@ -802,7 +802,7 @@ const removeLoadingUi = () => {
     $('.loader').removeClass('visible');
     setTimeout(() => {
         $('.loader-wrapper').slideUp();
-    }, 500);
+    }, 200);
 };
 
 /**
@@ -974,11 +974,11 @@ $('#location-icon').on('click', (e) => {
             $('.search-wrapper').addClass('chosen');
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
-            const name = await fetchLocationName(lat, lon);
             $('#spinner-icon').css('display', 'none');
             $('#location-icon').css('display', 'flex');
-            updateLocations(name);
             addLoadingUi();
+            const name = await fetchLocationName(lat, lon);
+            updateLocations(name);
             const weatherData = await fetchWeatherData(lat, lon);
             renderWeatherData(weatherData);
             input.val(name);
