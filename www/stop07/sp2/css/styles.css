@@ -9,6 +9,7 @@ td {
     border: 1px solid white;
     width: 150px;
     padding: 5px;
+    font-size:14px
 }
 
 table {
@@ -23,14 +24,13 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow: hidden; 
 }
 
 h1 {
-    font-size: 75px;
-    margin-bottom: 20px;
-    margin-top: 30px;
+    font-size: 70px;
     font-weight: bold;
+    margin-bottom: 0px;
 }
 
 #score-board p {
@@ -311,11 +311,6 @@ div button {
     text-align: center;
     border-radius: 10px;
 }
-
-#current-player {
-    font-size: 20px;
-    color: #ec971f;
-}
     
 #save-name-btn {
     border-radius: 10px;
@@ -325,23 +320,34 @@ div button {
     margin-bottom: 10px;
     color: white;
 }
+#player-name,
+#save-name-btn {
+    display: inline-block; /* Nastaví všechny elementy do řádku */
+    vertical-align: middle; /* Zajišťuje vertikální zarovnání na střed */
+}
+
+#save-name-btn:hover{
+    background-color: #f0ad4e;
+}
+
+
 .notification {
-    display: none; /* SkrÃ½t notifikaci vÃ½chozÃ­m zpÅ¯sobem */
+    display: none; 
     position: fixed;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #4CAF50; /* ZelenÃ© pozadÃ­ pro ÃºspÄ›ch */
+    background-color: #4CAF50; 
     color: white;
     padding: 10px 20px;
     border-radius: 5px;
     font-size: 16px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 1000; /* UjistÃ­me se, Å¾e bude nad ostatnÃ­mi prvky */
+    z-index: 1000; 
 }
 
 .notification.show {
-    bottom: 40px; /* ViditelnÃ¡ ÄÃ¡st obrazovky */
+    bottom: 40px; 
 }
 #error-message {
     color: red;

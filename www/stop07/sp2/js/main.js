@@ -43,6 +43,7 @@ $(document).ready(function () {
         hasInteracted = true;
     });
 
+    //prehrani zvuku klik
     const playClickSound = () => {
         if (!hasInteracted) {
             return;
@@ -55,12 +56,13 @@ $(document).ready(function () {
         currentSound.playbackRate = 1;
     };
 
+    //prehrani zvuku po konci hry
     const playGameOverSound = () => {
         const gameOverSound = new Audio("sounds/gameover.mp3");
         gameOverSound.play();
         gameOverSound.playbackRate = 1;
     };
-
+    //spinner
     const showSpinner = () => {
         $("#spinner").show();
     };
@@ -68,7 +70,7 @@ $(document).ready(function () {
     const hideSpinner = () => {
         $("#spinner").hide();
     };
-
+    //nacitani nejlepsiho skore z localstorage
     const loadBestScore = () => {
         return new Promise((resolve, reject) => {
             showSpinner();
@@ -79,16 +81,17 @@ $(document).ready(function () {
 
                 $highestScore.text(gameState.bestScore);
                 $bestTime.text(gameState.bestTime);
-                resolve(); 
+                resolve();
             } catch (error) {
                 console.error("Error loading best score from localStorage:", error);
-                reject(error); 
+                reject(error);
             } finally {
                 hideSpinner();
             }
         });
     };
 
+    //ulozeni nejlepsiho skore do localstorage
     const saveBestScore = () => {
         try {
             const bestScoreData = {
@@ -103,6 +106,7 @@ $(document).ready(function () {
         }
     };
 
+    //ukladani aktualniho stavu do localstorage
     const saveGameState = () => {
         const state = {
             gameSequence: gameState.gameSequence,
@@ -118,6 +122,7 @@ $(document).ready(function () {
         localStorage.setItem("simonGameState", JSON.stringify(state));
     };
 
+    //nacitani stavu hry z localstorage
     const loadGameState = () => {
         const savedState = localStorage.getItem("simonGameState");
         if (savedState) {
@@ -158,6 +163,7 @@ $(document).ready(function () {
         }
     };
 
+    //spousteni hry
     const startGame = () => {
         gameState.gameSequence = [];
         gameState.playerSequence = [];
@@ -180,7 +186,7 @@ $(document).ready(function () {
         saveGameState();
     };
 
-
+    //ukazovani a schovavani replaye
     const showReplayButton = () => {
         $("#replay-sequence-btn").show();
     };
@@ -205,6 +211,7 @@ $(document).ready(function () {
         startTimer(true);
     });
 
+    // modal po kliknuti na restart
     $restartButton.click(function (event) {
         stopTimer();
         stopSequence();
@@ -296,7 +303,7 @@ $(document).ready(function () {
 
         saveGameState();
     };
-
+    // vola api pro nahodne cislo
     const nextSequence = () => {
         $.ajax({
             url: "https://www.random.org/integers/?num=1&min=1&max=4&col=1&base=10&format=plain&rnd=new",
@@ -321,7 +328,7 @@ $(document).ready(function () {
     animateSequence();
     saveGameState();
 };*/
-
+    //postupne rozsvecovani tlacitek
     const animateSequence = () => {
         let index = 0;
         $colorButtons.prop("disabled", true);
@@ -340,21 +347,22 @@ $(document).ready(function () {
         }, 700);
     };
     let playerName = localStorage.getItem("playerName") || "";
-    
 
     if (playerName) {
-        $("#current-player").text(playerName + " is playing").show();
-        $("#player-name-label").text("Change player:"); // Text pro změnu jména
+        // Pouze změní text labelu
+        $("#player-name-label").text("Change player:");
     } else {
-        $("#current-player").hide();
+        $("#player-name-label").text("Enter your name:");
     }
-    $('#player-name').on('input', function() {
+
+    // Povolení nebo zakázání tlačítka Start na základě vstupu
+    $('#player-name').on('input', function () {
         const playerName = $(this).val().trim();
 
         if (playerName !== "") {
-            $('#start-button').prop('disabled', false);  
+            $('#start-button').prop('disabled', false);
         } else {
-            $('#start-button').prop('disabled', true);  
+            $('#start-button').prop('disabled', true);
         }
     });
 
@@ -367,14 +375,34 @@ $(document).ready(function () {
 
             console.log("Player name saved:", playerName);
 
-            $("#player-name-label").text("Change player:");
-            $("#current-player").text(playerName + " is playing").show();
-            $("#player-name").val(""); 
+            $("#player-name").val(""); // Vymaže vstupní pole pro jméno
+
+            // Zobrazí notifikaci s textem `--- is playing`
+            $("#name-playing-notification").text(`${playerName} is playing`).fadeIn();
+
+            // Automatické skrytí notifikace po 3 sekundách
+            setTimeout(() => {
+                $("#name-playing-notification").fadeOut();
+            }, 3000);
+
+            // Vynulování hry
+            resetGame(); // Resetuje hru
+            $startButton.show(); // Zobrazí tlačítko Start
+            $restartButton.hide(); // Schová tlačítko Restart
         } else {
-            alert("Please enter a name.");
+            // Zobraz notifikaci o chybě
+            $("#enter-name-notification").fadeIn();
+
+            // Automatické skrytí notifikace po 3 sekundách
+            setTimeout(() => {
+                $("#enter-name-notification").fadeOut();
+            }, 3000);
         }
     });
 
+
+
+    //ukladani progresu do localstorage
     const saveGameProgress = () => {
         const gameProgress = JSON.parse(localStorage.getItem("gameProgress")) || [];
         const currentDate = moment().format("YYYY-MM-DD HH:mm:ss");
@@ -397,7 +425,7 @@ $(document).ready(function () {
             $(`#${color}`).removeClass("active");
         }, 500);
     };
-
+    // kontroluje spravnost kliknuti
     const checkPlayerInput = (clickedColor) => {
         console.log("Clicked color:", clickedColor);
         console.log("Expected color:", gameState.gameSequence[gameState.playerSequence.length]);
@@ -424,7 +452,7 @@ $(document).ready(function () {
         }
     };
 
-
+    //konec hry - zastavi casovac, zobrazuje modal, uklada 
     const endGame = () => {
         console.log("Ending game...");
         stopTimer();
@@ -434,7 +462,7 @@ $(document).ready(function () {
         $finalTime.text($yourTime.text());
         $bestTimeModal.text(gameState.bestTime);
 
-        saveGameProgress(); 
+        saveGameProgress();
         $gameOverModal.show();
 
         playGameOverSound();
@@ -475,7 +503,7 @@ $(document).ready(function () {
     }).catch((error) => {
         console.error("Error during initialization:", error);
     });
-
+    // pri prepnuti okna se casovac zastavi
     document.addEventListener("visibilitychange", function () {
         if (document.hidden) {
             stopTimer();
@@ -490,13 +518,13 @@ $(document).ready(function () {
         const gameProgress = JSON.parse(localStorage.getItem("gameProgress")) || [];
         const $progressTableBody = $("#progress-table tbody");
         $progressTableBody.empty();
-    
+
         const playerGames = gameProgress.filter(record => record.playerName === playerName);
         playerGames.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-        console.log("Player's game progress:", playerGames);  
+        console.log("Player's game progress:", playerGames);
 
-    
+
         playerGames.forEach((record, index) => {
             const row = `<tr>
                             <td>${playerGames.length - index}</td> <!-- Reverse the index -->
@@ -508,7 +536,7 @@ $(document).ready(function () {
             $progressTableBody.append(row);
         });
     };
-    
+
 
 
     const openProgressModal = () => {
@@ -539,16 +567,16 @@ $(document).ready(function () {
     $("#close-progress-modal-btn").click(() => {
         closeProgressModal();
     });
-    
-   
-    $('#delete-progress-modal-btn').click(function() {
-        localStorage.removeItem('gameProgress'); 
+
+    //umoznuje vymazat progres
+    $('#delete-progress-modal-btn').click(function () {
+        localStorage.removeItem('gameProgress');
         showNotification();
     });
-
+    //po smazani progresu se ukaze notifikace
     function showNotification() {
         $('#delete-progress-notification').fadeIn();
-        setTimeout(function() {
+        setTimeout(function () {
             $('#delete-progress-notification').fadeOut();
         }, 3000);
     }
