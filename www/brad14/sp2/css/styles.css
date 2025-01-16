@@ -15,7 +15,7 @@ body {
     height: 100dvh;
 }
 
-.center>a {
+.center-between>a {
     all: unset;
     cursor: pointer;
 }
@@ -44,10 +44,15 @@ body {
     border-radius: 7px;
 }
 
+.center-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
 .center {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
 }
 
@@ -141,8 +146,14 @@ body {
     fill: rgb(102, 102, 102);
 }
 
+
 .loader-wrapper {
-    display: none;
+    box-sizing: content-box;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    width: 100px;
 }
 
 .loader {
@@ -152,11 +163,8 @@ body {
     border-top: 5px solid #3498db;
     border-radius: 50%;
     animation: spin 1s linear infinite;
-    margin: auto;
-    transition: opacity 0.5s ease-in-out;
-    overflow: hidden;
+    transition: opacity 0.2s ease-in-out;
     opacity: 0;
-    transition: opacity 0.5s ease;
 }
 
 .loader.visible {

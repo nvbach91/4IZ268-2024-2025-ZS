@@ -789,20 +789,21 @@ const getIconName = (weatherCondition, dt, sunrise, sunset) => {
 let loaderTimeout;
 const addLoadingUi = () => {
     loaderTimeout = setTimeout(() => {
-        const loader = '<div></div>';
-        $('.loader-wrapper').slideDown();
+        loaderWrapper.slideDown();
         setTimeout(() => {
             $('.loader').addClass('visible');
-        }, 300);
-    }, 500);
+        }, 200);
+    }, 400);
 };
 
 const removeLoadingUi = () => {
     clearTimeout(loaderTimeout);
-    $('.loader').removeClass('visible');
     setTimeout(() => {
-        $('.loader-wrapper').slideUp();
-    }, 200);
+        $('.loader').removeClass('visible');
+        setTimeout(() => {
+            loaderWrapper.slideUp();
+        }, 200);
+    }, 400);
 };
 
 /**
