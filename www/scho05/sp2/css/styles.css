@@ -45,12 +45,17 @@ h1 {
   background: #fff;
   border: 2px solid #000;
   box-shadow: 6px 6px 0px #000;
+  min-height: 97px;
 }
 
 .list-of-favorites {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.list-of-favorites h2 {
+  padding-right: 24px;
 }
 
 #sortFavorites {
@@ -201,6 +206,58 @@ button {
   align-items: center;
   height: 40px;
   width: 40px;
+}
+
+.pagination {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.favorites-pagination {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.page-info {
+  margin: 0 10px;
+}
+
+.total-jokes-count {
+  margin: 10px 0;
+  font-weight: bold;
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #ffd500;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  animation: rotation 1s linear infinite;
+  margin: 8px auto;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @media screen and (max-width: 768px) {
