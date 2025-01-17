@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seznam přečtených knih</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <header>
+        <h1>Seznam přečtených knih</h1>
+    </header>
+
+    <div id="book-modal-wrapper">
+        <div id="book-modal"></div>
+    </div>
+    <div id="overlay"></div>
+    <main>
+        <section id="search-section">
+            <h2>Hledat knihu</h2>
+            <label for="book-language">Jazyk: </label>
+            <select id="book-language" name="language">
+                <option value="all">Všechny</option>
+                <option value="cs-only">Pouze CZ</option>
+                <option value="en-only">Pouze EN</option>
+            </select>
+            <input type="text" id="search-input" placeholder="Zadejte název knihy">
+            <span class="loader" id="spinner"></span>
+            <div id="search-results"></div>
+        </section>
+
+        <section id="read-books-section">
+            <h2>Přečtené knihy</h2>
+            <select id="sort-books" name="sort">
+                <option value="by-date">Podle data přidání</option>
+                <option value="by-rating">Podle uděleného hodnocení</option>
+            </select>
+            <div id="book-list"></div>
+        </section>
+    </main>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
