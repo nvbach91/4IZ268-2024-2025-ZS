@@ -1,135 +1,167 @@
 body {
-    background-color: #f4f4f4;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: #f4f4f4;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
 main {
-    width: 1200px;
-    margin: 0 auto 0 auto;
+  width: 1200px;
+  margin: 0 auto 0 auto;
 }
 
 header {
-    margin-bottom: 20px;
-    width: 1200px;
-    margin: 0 auto 0 auto;
+  margin-bottom: 20px;
+  width: 1200px;
+  margin: 0 auto 0 auto;
 }
 
 section {
-    margin-bottom: 30px;
+  margin-bottom: 30px;
 }
 
 #search-section input {
-    padding: 10px;
-    width: 500px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+  padding: 10px;
+  width: 500px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
 }
 
 button {
-    padding: 10px 15px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 button.edit {
-    background-color: green;
+  background-color: green;
 }
 
 button.cancel {
-    background-color: red;
+  background-color: red;
 }
 
 button.edit:hover {
-    background-color: rgb(0, 75, 0);
+  background-color: rgb(0, 75, 0);
 }
 
 button.cancel:hover {
-    background-color: rgb(182, 0, 0);
+  background-color: rgb(182, 0, 0);
 }
 
 button:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 
-#search-results, #book-list {
-    margin-top: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+#search-results,
+#book-list {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .book-item {
-    background: white;
-    border: 1px solid #ddd;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 4px;
-    display: flex;
-    flex-direction: column;
-    width: 200px;
+  background: white;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  width: 200px;
 }
 
 .book-item img {
-    width: auto;
+  width: auto;
 }
 
 .book-item h3 {
-    margin: 0;
-    font-size: 1.2rem;
+  margin: 0;
+  font-size: 1.2rem;
 }
 
 .book-item p {
-    margin: 5px 0 10px;
+  margin: 5px 0 10px;
 }
 
 .book-item button {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 div#book-modal-wrapper textarea {
-    width: 500px;
-    height: 200px;
-    margin: 20px 0 20px 0;
+  width: 500px;
+  height: 200px;
+  margin: 20px 0 20px 0;
 }
 
 div#book-modal-wrapper {
-    width: 600px;
-    margin: 0 auto; 
+  width: 600px;
+  margin: 0 auto;
 }
 
 div#book-modal {
-    position: fixed;
-    background-color: white;
-    width: 600px;
-    z-index: 1001;
-    padding: 50px;
-    top: 50%;  
-    left: 50%;
-    transform: translate(-50%, -50%); 
-    max-height: 80%; 
-    overflow-y: auto; 
+  position: fixed;
+  background-color: white;
+  width: 600px;
+  z-index: 1001;
+  padding: 50px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-height: 80%;
+  overflow-y: auto;
+}
+
+div#book-modal a {
+  text-decoration: none;
+  margin: 0 20px 0 0;
+}
+
+div#book-modal a:hover {
+  text-decoration: underline;
 }
 
 #overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); 
-    display: none;  
-    z-index: 1000;
-    overflow: auto; 
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  z-index: 1000;
+  overflow: auto;
 }
 
-select#sort-books {
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+select#sort-books,
+select#book-language {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
 }
 
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid black;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  display: none;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -19,7 +19,14 @@
     <main>
         <section id="search-section">
             <h2>Hledat knihu</h2>
+            <label for="book-language">Jazyk: </label>
+            <select id="book-language" name="language">
+                <option value="all">Všechny</option>
+                <option value="cs-only">Pouze CZ</option>
+                <option value="en-only">Pouze EN</option>
+            </select>
             <input type="text" id="search-input" placeholder="Zadejte název knihy">
+            <span class="loader" id="spinner"></span>
             <div id="search-results"></div>
         </section>
 
