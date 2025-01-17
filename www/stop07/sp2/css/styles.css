@@ -9,7 +9,7 @@ td {
     border: 1px solid white;
     width: 150px;
     padding: 5px;
-    font-size:14px
+    font-size: 14px
 }
 
 table {
@@ -24,7 +24,7 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow: hidden; 
+    overflow: hidden;
 }
 
 h1 {
@@ -70,6 +70,7 @@ h1 {
     cursor: pointer;
     z-index: 10;
 }
+
 #view-progress-btn:hover {
     background-color: #31b0d5;
 }
@@ -311,7 +312,7 @@ div button {
     text-align: center;
     border-radius: 10px;
 }
-    
+
 #save-name-btn {
     border-radius: 10px;
     background-color: #ec971f;
@@ -320,40 +321,43 @@ div button {
     margin-bottom: 10px;
     color: white;
 }
+
 #player-name,
 #save-name-btn {
-    display: inline-block; /* Nastaví všechny elementy do řádku */
-    vertical-align: middle; /* Zajišťuje vertikální zarovnání na střed */
+    display: inline-block;
+    /* Nastaví všechny elementy do řádku */
+    vertical-align: middle;
+    /* Zajišťuje vertikální zarovnání na střed */
 }
 
-#save-name-btn:hover{
+#save-name-btn:hover {
     background-color: #f0ad4e;
 }
 
 
 .notification {
-    display: none; 
+    display: none;
     position: fixed;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #4CAF50; 
+    background-color: #4CAF50;
     color: white;
     padding: 10px 20px;
     border-radius: 5px;
     font-size: 16px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 1000; 
+    z-index: 1000;
 }
 
 .notification.show {
-    bottom: 40px; 
+    bottom: 40px;
 }
+
 #error-message {
     color: red;
     margin-top: 10px;
 }
-
 
 
 @keyframes spin {
@@ -409,7 +413,7 @@ div button {
         margin-top: 5px;
     }
 
-    
+
     #restart:hover {
         background-color: #d9534f;
     }

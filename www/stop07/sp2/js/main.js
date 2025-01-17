@@ -33,7 +33,67 @@ $(document).ready(function () {
     const $confirmRestartModal = $("#confirm-restart-modal");
     const $confirmRestartYes = $("#confirm-restart-yes");
     const $confirmRestartNo = $("#confirm-restart-no");
+    const $spinner = $("#spinner");
+    const $replaySequenceButton = $("#replay-sequence-btn");
+    const $playerName = $("#player-name");
+    const $saveNameButton = $("#save-name-btn");
+    const $playerNameLabel = $("#player-name-label");
+    const $namePlayingNotification = $("#name-playing-notification");
+    const $viewProgressButton = $("#view-progress-btn");
+    const $enterNameNotification = $("#enter-name-notification");
+    const $prograssModal = $("#progress-modal");
+    const $closeProgressModalBtn = $("#close-progress-modal-btn");
+    const $deleteProgressModalBtn = $("#delete-progress-modal-btn");
+    const $deleteProgressNotification = $("#delete-progress-notification");
+    const $progressTableBody = $("#progress-table tbody");
+    const $modalButtonSelector = $("#progress-modal .modal-btn");
+    const $playerForm = $("#player-form");
 
+    const colorButtons = {
+        yellow: $("#yellow"),
+        red: $("#red"),
+        blue: $("#blue"),
+        green: $("#green")
+    };
+
+    $playerForm.submit(function (event) {
+        event.preventDefault();  
+        
+        const playerNameInput = $playerName.val().trim();
+        if (playerNameInput) {
+            savePlayerName(playerNameInput);
+        } else {
+            $enterNameNotification.fadeIn();
+            setTimeout(() => {
+                $enterNameNotification.fadeOut();
+            }, 3000);
+        }
+    });
+    
+    // Funkce pro uložení jména hráče do localStorage a pokračování ve hře
+    const savePlayerName = (playerName) => {
+        localStorage.setItem("playerName", playerName);
+        console.log("Player name saved:", playerName);
+        $playerNameInput.val(""); // Vymazání textového pole
+    
+        // Změna textu pro změnu jména
+        $playerNameLabel.text("Change player:");
+    
+        // Zobrazení notifikace o hráči
+        $namePlayingNotification.text(`${playerName} is playing`).fadeIn();
+        setTimeout(() => {
+            $namePlayingNotification.fadeOut();
+        }, 3000);
+    
+        // Vynulování hry
+        resetGame();
+        $startButton.show();
+        $restartButton.hide();
+    
+        // Zobrazení tlačítka "View Progress"
+        $viewProgressButton.show();
+    };
+    
     $restartButton.hide();
 
     let currentSound = null;
@@ -62,14 +122,15 @@ $(document).ready(function () {
         gameOverSound.play();
         gameOverSound.playbackRate = 1;
     };
-    //spinner
+
     const showSpinner = () => {
-        $("#spinner").show();
+        $spinner.show();  // Ukáže spinner
     };
 
     const hideSpinner = () => {
-        $("#spinner").hide();
+        $spinner.hide();  // Skryje spinner
     };
+
     //nacitani nejlepsiho skore z localstorage
     const loadBestScore = () => {
         return new Promise((resolve, reject) => {
@@ -183,19 +244,22 @@ $(document).ready(function () {
         $restartButton.show();
         $startButton.hide();
 
+        // Když hra začne, deaktivuje tlačítko Save Name
+        $saveNameButton.prop('disabled', true);
+
         saveGameState();
     };
 
     //ukazovani a schovavani replaye
     const showReplayButton = () => {
-        $("#replay-sequence-btn").show();
+        $replaySequenceButton.show();
     };
 
     const hideReplayButton = () => {
-        $("#replay-sequence-btn").hide();
+        $replaySequenceButton.hide();
     };
 
-    $("#replay-sequence-btn").click(function (event) {
+    $replaySequenceButton.click(function (event) {
         event.preventDefault();
 
         if (gameState.currentScore > 0) {
@@ -258,6 +322,9 @@ $(document).ready(function () {
         gameState.gameCompleted = true;
         hideReplayButton();
         saveGameState();
+
+        // Když hra začne, deaktivuje tlačítko Save Name
+        $saveNameButton.prop('disabled', false);
     };
 
     const startTimer = (isResume = false) => {
@@ -346,61 +413,71 @@ $(document).ready(function () {
             }
         }, 700);
     };
-    let playerName = localStorage.getItem("playerName") || "";
-
-    if (playerName) {
-        // Pouze změní text labelu
-        $("#player-name-label").text("Change player:");
-    } else {
-        $("#player-name-label").text("Enter your name:");
-    }
 
     // Povolení nebo zakázání tlačítka Start na základě vstupu
-    $('#player-name').on('input', function () {
+    $playerName.on('input', function () {
         const playerName = $(this).val().trim();
 
         if (playerName !== "") {
-            $('#start-button').prop('disabled', false);
+            $startButton.prop('disabled', false);
         } else {
-            $('#start-button').prop('disabled', true);
+            $startButton.prop('disabled', true);
         }
     });
 
 
-    $("#save-name-btn").click(function () {
-        const playerNameInput = $("#player-name").val().trim();
+    //kliknuti na savename
+    $saveNameButton.click(function () {
+        const playerNameInput = $playerName.val().trim();
+
         if (playerNameInput) {
+            // jmeno se ulozi do localstorage
             playerName = playerNameInput;
             localStorage.setItem("playerName", playerName);
 
             console.log("Player name saved:", playerName);
 
-            $("#player-name").val(""); // Vymaže vstupní pole pro jméno
+            // vymazani vypsaneho jmeno
+            $playerName.val("");
 
-            // Zobrazí notifikaci s textem `--- is playing`
-            $("#name-playing-notification").text(`${playerName} is playing`).fadeIn();
+            // text se zmenina change playes
+            $playerNameLabel.text("Change player:");
+
+            //  notifikace s textem `--- is playing`
+            $namePlayingNotification.text(`${playerName} is playing`).fadeIn();
 
             // Automatické skrytí notifikace po 3 sekundách
             setTimeout(() => {
-                $("#name-playing-notification").fadeOut();
+                $namePlayingNotification.fadeOut();
             }, 3000);
 
             // Vynulování hry
             resetGame(); // Resetuje hru
             $startButton.show(); // Zobrazí tlačítko Start
             $restartButton.hide(); // Schová tlačítko Restart
+
+            // Zobrazení tlačítka "View Progress"
+            $viewProgressButton.show();
         } else {
-            // Zobraz notifikaci o chybě
-            $("#enter-name-notification").fadeIn();
+            // Pokud není jméno zadáno, zobrazí se notifikace
+            $enterNameNotification.fadeIn();
 
             // Automatické skrytí notifikace po 3 sekundách
             setTimeout(() => {
-                $("#enter-name-notification").fadeOut();
+                $enterNameNotification.fadeOut();
             }, 3000);
         }
     });
 
+    let playerName = localStorage.getItem("playerName") || "";
 
+    if (playerName) {
+        $playerNameLabel.text("Change player:");
+        $viewProgressButton.show(); // Zobrazí tlačítko, pokud je jméno již uloženo
+    } else {
+        $playerNameLabel.text("Do you want to track your progress?");
+    }
+    
 
     //ukladani progresu do localstorage
     const saveGameProgress = () => {
@@ -419,11 +496,14 @@ $(document).ready(function () {
     };
 
     const flashColor = (color) => {
-        $(`#${color}`).addClass("active");
-        playClickSound();
-        setTimeout(() => {
-            $(`#${color}`).removeClass("active");
-        }, 500);
+        const $button = colorButtons[color];
+        if ($button) {
+            $button.addClass("active");
+            playClickSound();
+            setTimeout(() => {
+                $button.removeClass("active");
+            }, 500);
+        }
     };
     // kontroluje spravnost kliknuti
     const checkPlayerInput = (clickedColor) => {
@@ -516,7 +596,6 @@ $(document).ready(function () {
 
     const loadGameProgress = () => {
         const gameProgress = JSON.parse(localStorage.getItem("gameProgress")) || [];
-        const $progressTableBody = $("#progress-table tbody");
         $progressTableBody.empty();
 
         const playerGames = gameProgress.filter(record => record.playerName === playerName);
@@ -524,37 +603,39 @@ $(document).ready(function () {
 
         console.log("Player's game progress:", playerGames);
 
+        let rows = ''; //vsechny radky najednou
 
         playerGames.forEach((record, index) => {
-            const row = `<tr>
-                            <td>${playerGames.length - index}</td> <!-- Reverse the index -->
-                            <td>${record.playerName}</td>
-                            <td>${record.score}</td>
-                            <td>${record.time}</td> <!-- Display the time -->
-                            <td>${record.date}</td>
-                        </tr>`;
-            $progressTableBody.append(row);
+            rows += `<tr>
+                        <td>${playerGames.length - index}</td> <!-- Reverse the index -->
+                        <td>${record.playerName}</td>
+                        <td>${record.score}</td>
+                        <td>${record.time}</td> <!-- Display the time -->
+                        <td>${record.date}</td>
+                     </tr>`;
         });
+
+        // vsechny radky najednou
+        $progressTableBody.append(rows);
     };
-
-
 
     const openProgressModal = () => {
         loadGameProgress();
-        $("#progress-modal").show();
+        $prograssModal.show();
     };
 
     const closeProgressModal = () => {
-        $("#progress-modal").hide();
+        $prograssModal.hide();
     };
-
-    $("#view-progress-btn").click(function () {
+    $viewProgressButton.click(function () {
+        console.log("View Progress button clicked");
         stopTimer();
         stopSequence();
         openProgressModal();
     });
 
-    $("#progress-modal .modal-btn").click(function () {
+
+    $modalButtonSelector.click(function () {
         closeProgressModal();
         if (gameState.gameStarted && !gameState.gameCompleted) {
             startTimer(true);
@@ -564,20 +645,21 @@ $(document).ready(function () {
         }
     });
 
-    $("#close-progress-modal-btn").click(() => {
+    $closeProgressModalBtn.click(() => {
         closeProgressModal();
     });
 
     //umoznuje vymazat progres
-    $('#delete-progress-modal-btn').click(function () {
+    $deleteProgressModalBtn.click(function () {
         localStorage.removeItem('gameProgress');
         showNotification();
     });
     //po smazani progresu se ukaze notifikace
     function showNotification() {
-        $('#delete-progress-notification').fadeIn();
+        $deleteProgressNotification.fadeIn();
         setTimeout(function () {
-            $('#delete-progress-notification').fadeOut();
+            $deleteProgressNotification.fadeOut();
         }, 3000);
     }
+
 });

@@ -23,15 +23,15 @@
     <header>
         <h1>Simon Says</h1>
     </header>
-    <p id="current-player" style="display: none;"></p> 
+    <p id="current-player" style="display: none;"></p>
 
-    <div>
+    <form id="player-form">
         <label for="player-name" id="player-name-label">Do you want to track your progress?</label>
         <input type="text" id="player-name" placeholder="Enter your name">
-        <button id="save-name-btn">Save Name</button>
-    </div>
+        <button type="submit" id="save-name-btn">Save Name</button>
+    </form>
     
-    
+
     <main>
         <section id="game-over-modal" class="modal">
             <div class="modal-content">
@@ -93,7 +93,7 @@
         </div>
 
         <button id="replay-sequence-btn" style="display: none;">Replay Sequence (-1 point)</button>
-        <button id="view-progress-btn">View Progress</button>
+        <button id="view-progress-btn" style="display:none;">View Progress</button>
 
         <div id="progress-modal" class="modal" style="display: none;">
             <div class="modal-content">
