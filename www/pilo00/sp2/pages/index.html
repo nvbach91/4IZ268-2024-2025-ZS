@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabletop Game Planner</title>
+    <link rel="icon" href="../img/icons/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body>
+    <!-- ========== 1. HEADER ========== -->
+    <header>
+        <div class="logo">
+            <h1>Tabletop Game Planner</h1>
+        </div>
+        <nav>
+            <ul>
+                <!-- Example navigation for the SPA -->
+                <li><a href="#" id="navHome" data-target="homeView">Home</a></li>
+                <li><a href="#" id="navLogin" data-target="loginView">Login</a></li>
+                <li><a href="#" id="navDashboard" data-target="dashboardView" class="hidden">Dashboard</a></li>
+                <li><a href="#" id="navProfile" data-target="profileView" class="hidden">Profile</a></li>
+                <li><a href="#" id="logoutBtn" class="hidden">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- ========== 2. MAIN CONTENT CONTAINER ========== -->
+    <main>
+
+        <!-- === HOME / INTRO VIEW === -->
+        <section id="homeView" class="view">
+            <h2>Plan Your Games, Anytime, Anywhere</h2>
+            <p>
+                Organize your tabletop gaming sessions with ease. Create groups, share your availability, and plan
+                events that suit everyone.
+            </p>
+            <button id="getStartedBtn">Get Started</button>
+            <!-- Or any other home/landing content you want here -->
+        </section>
+
+        <!-- === LOGIN VIEW === -->
+        <section id="loginView" class="view hidden">
+            <div class="login-section">
+                <h2>Login</h2>
+                <form id="loginForm">
+                    <input type="email" id="loginEmail" placeholder="Email" required />
+                    <input type="password" id="loginPassword" placeholder="Password" required />
+                    <!-- Loading spinner can be inserted here if needed -->
+                    <button type="submit">Login</button>
+                </form>
+
+                <h2>Register</h2>
+                <form id="registerForm">
+                    <input type="text" id="registerName" placeholder="Name" required />
+                    <input type="email" id="registerEmail" placeholder="Email" required />
+                    <input type="password" id="registerPassword" placeholder="Password" required />
+                    <button type="submit">Register</button>
+                </form>
+
+                <p>
+                    <a href="#" id="resetPassword">Forgot Password?</a>
+                </p>
+            </div>
+        </section>
+
+        <!-- === DASHBOARD VIEW === -->
+        <section id="dashboardView" class="view hidden">
+            <div class="dashboard-container">
+                <!-- SIDEBAR for Groups -->
+                <aside class="sidebar">
+                    <h2>Your Groups</h2>
+                    <ul id="groupList">
+                        <!-- Dynamically populated by fetchGroups() -->
+                    </ul>
+                    <button id="addGroupBtn">+ Add Group</button>
+                </aside>
+
+                <!-- MAIN CONTENT for Calendar & Events -->
+                <div class="main-content">
+                    <h2 id="groupTitle">Select a Group</h2>
+
+                    <div class="calendar-navigation">
+                        <button id="prevWeekBtn">Previous Week</button>
+                        <button id="currentWeekBtn">Current Week</button>
+                        <button id="nextWeekBtn">Next Week</button>
+                    </div>
+                    <div id="calendarContainer"></div>
+
+                    <section class="upcoming-events">
+                        <h3>Upcoming Events</h3>
+                        <ul id="upcomingEvents">
+                            <!-- Event list dynamically populated -->
+                        </ul>
+                    </section>
+
+                    <button id="addEventBtn">+ Add Event</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- === PROFILE VIEW === -->
+        <section id="profileView" class="view hidden">
+            <div class="profile-container">
+                <h2>Your Profile</h2>
+                <div id="profileInfo">
+                    <p><strong>Email:</strong> <span id="userEmail">Loading...</span></p>
+                    <p><strong>Display Name:</strong> <span id="displayName">Loading...</span></p>
+                </div>
+
+                <form id="updateProfileForm">
+                    <label for="newDisplayName">New Display Name:</label>
+                    <input type="text" id="newDisplayName" placeholder="Enter new name" required />
+                    <button type="submit">Update Profile</button>
+                    <button id="toDashboardBtn">Back to Dashboard</button>
+                </form>
+
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ========== 4. ALL MODALS ========== -->
+    <!-- ADD EVENT MODAL -->
+    <div id="addEventModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeAddEventModal">&times;</span>
+            <h3>Add Event</h3>
+            <form id="eventForm">
+                <div>
+                    <label for="eventTitle">Event Title:</label>
+                    <input type="text" id="eventTitle" required />
+                </div>
+                <div>
+                    <label for="startTime">Start Time:</label>
+                    <input type="datetime-local" id="startTime" required />
+                </div>
+                <div>
+                    <label for="duration">Duration (hours):</label>
+                    <input type="number" id="duration" min="0" step="0.5" required />
+                </div>
+                <!-- Add spinner if needed -->
+                <button type="submit">Add Event</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- EDIT EVENT MODAL -->
+    <div id="editEventModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeEditEventModal">&times;</span>
+            <h3>Edit Event</h3>
+            <form id="editEventForm">
+                <div>
+                    <label for="editEventTitle">Event Title:</label>
+                    <input type="text" id="editEventTitle" required />
+                </div>
+                <div>
+                    <label for="editStartTime">Start Time:</label>
+                    <input type="datetime-local" id="editStartTime" required />
+                </div>
+                <div>
+                    <label for="editDuration">Duration (hours):</label>
+                    <input type="number" id="editDuration" min="0" step="0.5" required />
+                </div>
+                <!-- Optional spinner inside the modal -->
+                <span class="spinner hidden" id="editEventSpinner"></span>
+                <button id="saveEventButton" class="submit">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ADD GROUP MODAL -->
+    <div id="addGroupModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeGroupModal">&times;</span>
+            <h3>Add New Group</h3>
+            <form id="addGroupForm">
+                <label for="groupName">Group Name:</label>
+                <input type="text" id="groupName" required />
+                <!-- Example spinner usage -->
+                <div>
+                    <span id="spinner" class="spinner hidden"></span>
+                </div>
+                <button type="submit" id="addGroupSubmitBtn">Add Group</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- EDIT GROUP MODAL -->
+    <div id="editGroupModal" class="modal">
+        <div class="modal-content">
+            <span id="closeEditGroupModal" class="close">&times;</span>
+            <h3>Edit Group</h3>
+            <input type="text" id="editGroupNameInput" />
+            <div>
+                <span id="spinner" class="spinner hidden"></span>
+            </div>
+            <button id="saveGroupNameBtn">Save</button>
+        </div>
+    </div>
+
+    <!-- DELETE GROUP MODAL -->
+    <div id="deleteGroupModal" class="modal">
+        <div class="modal-content">
+            <span id="closeDeleteGroupModal" class="close">&times;</span>
+            <h3>Are you sure you want to delete this group?</h3>
+            <button id="confirmDeleteGroupBtn" style="background-color: red; color: white;">Delete</button>
+        </div>
+    </div>
+
+    <!-- ========== 3. FOOTER ========== -->
+    <footer>
+        <p>© 2024 Tabletop Game Planner. All rights reserved.</p>
+    </footer>
+
+    <!-- Scripts at bottom -->
+    <script src="../libs/daypilot/daypilot-all.min.js"></script>
+    <script type="module" src="../js/firebase-config.js"></script>
+    <script type="module" src="../js/auth.js"></script>
+    <script type="module" src="../js/dashboard.js"></script>
+    <script type="module" src="../js/spa.js"></script>
+
+    <!-- Preloader Overlay at the bottom -->
+  <div id="preloaderOverlay" class="overlay hidden">
+    <div class="spinner"></div>
+  </div>
+</body>
+
+</html>
