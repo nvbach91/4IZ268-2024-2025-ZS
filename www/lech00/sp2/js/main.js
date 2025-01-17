@@ -5,14 +5,70 @@ const App = (() => {
     const characterDetail = document.querySelector("#characterDetail");
     const characterImage = document.querySelector("#characterImage");
     const characterName = document.querySelector("#characterName");
-    const characterDescription = document.querySelector("#characterDescription");
+    // const characterDescription = document.querySelector("#characterDescription");
     const searchInput = document.querySelector("#searchInput");
     const searchButton = document.querySelector("#searchButton");
-    const showAllCharactersButton = document.querySelector("#showAllCharacters");
+    // const showAllCharactersButton = document.querySelector("#showAllCharacters");
     const showSavedCharactersButton = document.querySelector("#showSavedCharacters");
     const saveCharacterButton = document.querySelector("#saveCharacterButton");
     const removeCharacterButton = document.querySelector("#removeCharacterButton");
     const errorMessage = document.querySelector("#errorMessage");
+    const loader = document.querySelector("#loader");
+    const filterButtons = document.querySelectorAll("[data-element], #showAllCharacters");
+    const characterNote = document.querySelector("#characterNote");
+
+    // Vision icons
+    const visionIcons = {
+        Pyro: '<i class="fas fa-fire" style="color: #e74c3c;"></i>',
+        Hydro: '<i class="fas fa-tint" style="color: #3498db;"></i>',
+        Anemo: '<i class="fas fa-wind" style="color: #1abc9c;"></i>',
+        Electro: '<i class="fas fa-bolt" style="color: #9b59b6;"></i>',
+        Dendro: '<i class="fas fa-seedling" style="color: #2ecc71;"></i>',
+        Cryo: '<i class="fas fa-snowflake" style="color: #5dade2;"></i>',
+        Geo: '<i class="fas fa-mountain" style="color: #f1c40f;"></i>',
+    };
+
+    // Weapon icons
+    const weaponIcons = {
+        Bow: '<i class="fas fa-bullseye" style="color: #e67e22;"></i>',
+        Sword: '<i class="fas fa-cut" style="color: #3498db;"></i>',
+        Polearm: '<i class="fas fa-chess-rook" style="color: #1abc9c;"></i>',
+        Catalyst: '<i class="fas fa-book" style="color: #9b59b6;"></i>',
+        Claymore: '<i class="fas fa-hammer" style="color: #e74c3c;"></i>',
+    };
+
+    // In-memory objekt pro uložené postavy
+    let savedCharacters = [];
+
+    // Inicializace in-memory objektu z localStorage
+    const loadSavedCharacters = () => {
+        const saved = localStorage.getItem("savedCharacterNames");
+        savedCharacters = saved ? JSON.parse(saved) : [];
+    };
+
+    // Uložení in-memory objektu zpět do localStorage
+    const saveToLocalStorage = () => {
+        localStorage.setItem("savedCharacterNames", JSON.stringify(savedCharacters));
+    };
+
+    // Přidání postavy do uložených
+    const addCharacter = (characterName, characterNote) => {
+        if (!savedCharacters.includes(characterName)) {
+            savedCharacters.push({ name: characterName, note: characterNote });
+            saveToLocalStorage(); // Uložit do localStorage
+        }
+    };
+
+    // Odebrání postavy z uložených
+    const removeCharacter = (characterName) => {
+        savedCharacters = savedCharacters.filter(character => character.name !== characterName);
+        saveToLocalStorage(); // Uložit do localStorage
+    };
+
+    // Kontrola, zda je postava uložena
+    const isCharacterSaved = (characterName) => {
+        return savedCharacters.includes(characterName);
+    };
 
     // Private helper functions
     const capitalizeName = (name) => {
@@ -24,38 +80,15 @@ const App = (() => {
     };
 
     const getVisionIcon = (vision) => {
-        const visionIcons = {
-            Pyro: '<i class="fas fa-fire" style="color: #e74c3c;"></i>',
-            Hydro: '<i class="fas fa-tint" style="color: #3498db;"></i>',
-            Anemo: '<i class="fas fa-wind" style="color: #1abc9c;"></i>',
-            Electro: '<i class="fas fa-bolt" style="color: #9b59b6;"></i>',
-            Dendro: '<i class="fas fa-seedling" style="color: #2ecc71;"></i>',
-            Cryo: '<i class="fas fa-snowflake" style="color: #5dade2;"></i>',
-            Geo: '<i class="fas fa-mountain" style="color: #f1c40f;"></i>',
-        };
         return visionIcons[vision] || '<i class="fas fa-question-circle" style="color: #7f8c8d;"></i>';
     };
 
     const getWeaponIcon = (weapon) => {
-        const weaponIcons = {
-            Bow: '<i class="fas fa-bullseye" style="color: #e67e22;"></i>',
-            Sword: '<i class="fas fa-cut" style="color: #3498db;"></i>',
-            Polearm: '<i class="fas fa-chess-rook" style="color: #1abc9c;"></i>',
-            Catalyst: '<i class="fas fa-book" style="color: #9b59b6;"></i>',
-            Claymore: '<i class="fas fa-hammer" style="color: #e74c3c;"></i>',
-        };
         return weaponIcons[weapon] || '<i class="fas fa-question-circle" style="color: #7f8c8d;"></i>';
     };
 
-    const showLoader = () => {
-        const loader = document.querySelector("#loader");
-        loader.classList.add("d-flex");
-    };
-
-    const hideLoader = () => {
-        const loader = document.querySelector("#loader");
-        loader.classList.remove("d-flex");
-    };
+    const showLoader = () => loader.classList.add("d-flex");
+    const hideLoader = () => loader.classList.remove("d-flex");
 
     // Public methods
     const fetchCharacterByName = async (name) => {
@@ -105,10 +138,12 @@ const App = (() => {
         }
     };
 
-    const fetchAndShowCharacterDetail = (async (characterId) => {
+    const fetchAndShowCharacterDetail = async (characterId) => {
         // Reset the error message
         errorMessage.style.display = "none";
         errorMessage.textContent = "";
+
+        characterNote.value = "";
 
         showLoader();
         try {
@@ -129,7 +164,7 @@ const App = (() => {
         } finally {
             hideLoader();
         }
-    });
+    };
 
     // Function to show character details
     const showCharacterDetail = ((character) => {
@@ -221,18 +256,22 @@ const App = (() => {
                 characterObtainMethods.innerHTML = "<li>Unknown methods</li>";
             }
 
-            // Check if the character is already saved
-            const savedCharacterNames = JSON.parse(localStorage.getItem("savedCharacterNames")) || [];
-            if (savedCharacterNames.includes(character.name)) {
-                saveCharacterButton.style.display = "none";
-                removeCharacterButton.style.display = "block";
-            } else {
-                saveCharacterButton.style.display = "block";
-                removeCharacterButton.style.display = "none";
-            }
-
             // Show the details section
             characterDetail.style.display = "flex";
+
+            // Check if the character is already saved
+            savedCharacters.every(e => {
+                if (e.name === character.name) {
+                    characterNote.value = e.note;
+                    saveCharacterButton.style.display = "none";
+                    removeCharacterButton.style.display = "block";
+                    return false;
+                } else {
+                    saveCharacterButton.style.display = "block";
+                    removeCharacterButton.style.display = "none";
+                    return true;
+                }
+            });
         }
     });
 
@@ -244,7 +283,7 @@ const App = (() => {
         const imageUrl = getCharacterImageURL(character.name);
         const card = `
             <div class="col-md-4 mb-4">
-                <div class="card" onclick="App.fetchAndShowCharacterDetail(${character.id})">
+                <div class="card" data-character-id="${character.id}">
                     <img src="${imageUrl}" class="card-img-top" alt="${character.name}">
                     <div class="card-body">
                         <h5 class="card-title">${character.name}</h5>
@@ -257,17 +296,16 @@ const App = (() => {
 
     // Reason for if statement: Character names from API dont align with public database image file names
     const getCharacterImageURL = (name) => {
-        if (name === "Traveller (female)") {
-            return "https://u.cubeupload.com/Forgott3n/Travellerfemale.png";
-        } else if (name === "Traveller (male)") {
-            return "https://u.cubeupload.com/Forgott3n/Travellermale.png";
-        } else {
-            return `https://u.cubeupload.com/Forgott3n/${name.replace(" ", "")}.png`
-        };
+        // Nahradíme mezery a speciální znaky prázdnými znaky
+        const cleanName = name.replace(/[^a-zA-Z]/g, "");
+        return `https://u.cubeupload.com/Forgott3n/${cleanName}.png`;
     };
 
+
     const attachEventListeners = () => {
-        searchButton.addEventListener("click", async () => {
+        searchButton.addEventListener("click", async (e) => {
+            e.preventDefault();
+            filterButtons.forEach((btn) => btn.classList.remove("active"));
             let query = searchInput.value.trim();
 
             // Reset the error message
@@ -301,16 +339,10 @@ const App = (() => {
             // Get the character name from the details section
             const characterNameToSave = characterName.textContent;
 
-            // Retrieve existing saved character names from localStorage
-            let savedCharacterNames = JSON.parse(localStorage.getItem("savedCharacterNames")) || [];
-
             // Check if the name is already saved
-            if (!savedCharacterNames.includes(characterNameToSave)) {
-                // Add the new character name to the saved names list
-                savedCharacterNames.push(characterNameToSave);
-
+            if (!isCharacterSaved(characterNameToSave)) {
                 // Save updated list to localStorage
-                localStorage.setItem("savedCharacterNames", JSON.stringify(savedCharacterNames));
+                addCharacter(characterNameToSave, characterNote.value);
 
                 showLoader();
                 hideLoader();
@@ -339,25 +371,26 @@ const App = (() => {
             errorMessage.style.display = "none";
             errorMessage.textContent = "";
 
-            // Retrieve saved character names from localStorage
-            const savedCharacterNames = JSON.parse(localStorage.getItem("savedCharacterNames")) || [];
+            // // Retrieve saved character names from localStorage
+            // const savedCharacterNames = JSON.parse(localStorage.getItem("savedCharacterNames")) || [];
 
             // Clear the card container
             characterCards.innerHTML = "";
 
-            if (savedCharacterNames.length === 0) {
+            if (savedCharacters.length === 0) {
                 // Display a message if no characters are saved
                 characterCards.innerHTML = "<p>No saved characters found.</p>";
                 return;
             }
 
             // Fetch and render each saved character"s details using forEach
-            const fetchPromises = savedCharacterNames.map(async (name) => {
-                const character = await fetchCharacterByName(name); // Fetch details by name
+            const fetchPromises = savedCharacters.map(async (e) => {
+                const character = await fetchCharacterByName(e.name); // Fetch details by name
                 if (character) {
                     renderCharacterCard(character); // Render card for each character
                 }
             });
+
 
             // Wait for all fetches to complete
             await Promise.all(fetchPromises);
@@ -374,14 +407,7 @@ const App = (() => {
             // Get the character name from the details section
             const characterNameToRemove = characterName.textContent;
 
-            // Retrieve existing saved character names from localStorage
-            let savedCharacterNames = JSON.parse(localStorage.getItem("savedCharacterNames")) || [];
-
-            // Filter out the character to be removed
-            savedCharacterNames = savedCharacterNames.filter(name => name !== characterNameToRemove);
-
-            // Save the updated list back to localStorage
-            localStorage.setItem("savedCharacterNames", JSON.stringify(savedCharacterNames));
+            removeCharacter(characterNameToRemove);
 
             showLoader();
             hideLoader();
@@ -396,73 +422,102 @@ const App = (() => {
             saveCharacterButton.style.display = "block";
         });
 
-        showAllCharactersButton.addEventListener("click", async () => {
-            // Reset the error message
-            errorMessage.style.display = "none";
-            errorMessage.textContent = "";
-
+        const fetchAllCharacters = async () => {
             showLoader();
             try {
-                let allCharacters = [];
-                let currentPage = 1;
-                let totalPages = 1;
+                // Jedno volání pro získání všech postav
+                const response = await fetch(`${API_BASE_URL}/characters?limit=1000`);
+                const data = await response.json();
 
-                // Fetch all pages of characters
-                do {
-                    const response = await fetch(`${API_BASE_URL}/characters?page=${currentPage}`);
-                    const data = await response.json();
-
-                    if (data.results) {
-                        allCharacters = allCharacters.concat(data.results); // Add results to the list
-                    }
-
-                    currentPage++;
-                    totalPages = data.total_pages || 1; // Update total pages if available
-                } while (currentPage <= totalPages);
-
-                if (allCharacters.length > 0) {
-                    // Render all character cards
-                    characterCards.innerHTML = ""; // Clear existing cards
-                    console.log(allCharacters);
-                    allCharacters.forEach(character => renderCharacterCard(character));
+                if (data.results && data.results.length > 0) {
+                    renderCharacterCards(data.results);
                 } else {
-                    characterCards.innerHTML = "<p>No characters found.</p>"; // Fallback for empty results
+                    characterCards.innerHTML = "<p>No characters found.</p>";
                 }
-
-                // Hide the character details section
-                characterDetail.style.display = "none";
             } catch (error) {
                 console.error("Error fetching all characters:", error);
                 characterCards.innerHTML = "<p>Error fetching characters. Please try again later.</p>";
             } finally {
                 hideLoader();
             }
-        });
+        };
+
+        const renderCharacterCards = (characters) => {
+            const characterCards = document.querySelector("#characterCards");
+
+            // Vyčistíme stávající obsah
+            characterCards.innerHTML = "";
+
+            // Pokud nejsou postavy k dispozici, zobrazí se zpráva
+            if (!characters || characters.length === 0) {
+                characterCards.innerHTML = "<p>No characters found.</p>";
+                return;
+            }
+
+            const fragment = document.createDocumentFragment();
+
+            characters.forEach((character) => {
+                // Vytvoříme kartu postavy
+                const card = document.createElement("div");
+                card.className = "col-md-4 mb-4";
+
+                card.innerHTML = `
+            <div class="card" data-character-id="${character.id}">
+                <img src="${getCharacterImageURL(character.name)}" class="card-img-top" alt="${character.name}">
+                <div class="card-body">
+                    <h5 class="card-title">${character.name}</h5>
+                </div>
+            </div>`;
+
+                fragment.appendChild(card);
+            });
+
+            characterCards.appendChild(fragment);
+        };
 
         // Attach event listeners to filter buttons
-        document.querySelectorAll("[data-element]").forEach(filterButton => {
-            filterButton.addEventListener("click", async () => {
-                // Reset the error message
-                errorMessage.style.display = "none";
-                errorMessage.textContent = "";
+        filterButtons.forEach((button) => {
+            button.addEventListener("click", async () => {
+                // Reset všech aktivních tlačítek
+                filterButtons.forEach((btn) => btn.classList.remove("active"));
 
-                const element = filterButton.getAttribute("data-element"); // Get the element type (e.g., Pyro, Hydro)
-                await fetchAndRenderCharactersByElement(capitalizeName(element));
+                // Nastavení aktivního tlačítka
+                button.classList.add("active");
+
+                // Hide the character details section
+                characterDetail.style.display = "none";
+
+                // Logika pro tlačítko "All"
+                if (button.id === "showAllCharacters") {
+                    await fetchAllCharacters();
+                } else {
+                    // Jinak načti postavy podle vision
+                    const element = button.getAttribute("data-element");
+                    await fetchAndRenderCharactersByElement(capitalizeName(element));
+                }
             });
         });
 
-        showAllCharactersButton.addEventListener("click", async () => {
-            // Fetch and display all characters
+        characterCards.addEventListener("click", (e) => {
+            const card = e.target.closest(".card");
+            if (card && card.dataset.characterId) {
+                filterButtons.forEach((btn) => btn.classList.remove("active"));
+                App.fetchAndShowCharacterDetail(card.dataset.characterId);
+            }
         });
     };
 
     const init = () => {
+        loadSavedCharacters();
         hideLoader();
         attachEventListeners();
     };
 
     return {
         init,
+        addCharacter,
+        removeCharacter,
+        isCharacterSaved,
         fetchCharacterByName,
         fetchAndRenderCharactersByElement,
         renderCharacterCard,

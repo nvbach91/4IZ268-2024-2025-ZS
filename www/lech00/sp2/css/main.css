@@ -1,5 +1,6 @@
 h1 {
     text-align: center;
+    color: #ebebeb;
 }
 
 /* Styles for card images */
@@ -8,6 +9,10 @@ h1 {
     height: 300px;
     object-fit: cover;
     border-radius: 8px;
+}
+
+.card:hover {
+    cursor: pointer;
 }
 
 /* Styles for character detail image */
@@ -56,14 +61,16 @@ header {
     background-color: #004d85;
 }
 
-h1 {
-    color: #ebebeb;
-}
-
 footer {
     text-align: center;
     background-color: #004d85;
     height: 48px;
     line-height: 48px;
     color: #ebebeb;
+}
+
+button.active {
+    background-color: #004d85;
+    color: white;
+    border-color: #003366;
 }

@@ -38,13 +38,15 @@
             <!-- Search Section -->
             <div class="row justify-content-center">
                 <div class="col-md-6">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" id="searchInput"
-                            placeholder="Type character name here...">
-                        <button class="btn btn-dark" id="searchButton">
-                            <i class="fas fa-search"></i> Search
-                        </button>
-                    </div>
+                    <form>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" id="searchInput"
+                                placeholder="Type character name here...">
+                            <button class="btn btn-dark" id="searchButton">
+                                <i class="fas fa-search"></i> Search
+                            </button>
+                        </div>
+                    </form>
                     <!-- Error message in case of invalid input -->
                     <p id="errorMessage" class="text-danger mt-2"></p>
                 </div>
@@ -67,9 +69,6 @@
                     </button>
                     <button class="btn btn-outline-dark" data-element="electro">
                         <i class="fas fa-bolt"></i>
-                    </button>
-                    <button class="btn btn-outline-dark" data-element="dendro">
-                        <i class="fas fa-seedling"></i>
                     </button>
                     <button class="btn btn-outline-dark" data-element="cryo">
                         <i class="fas fa-snowflake"></i>
@@ -112,6 +111,7 @@
                         <li>Unknown methods</li>
                     </ul>
 
+                    <textarea id="characterNote"></textarea>
                     <button class="btn btn-success" id="saveCharacterButton">
                         <i class="fas fa-save"></i> Save Character
                     </button>
