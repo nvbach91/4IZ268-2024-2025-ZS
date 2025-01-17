@@ -1,0 +1,76 @@
+h1 {
+    text-align: center;
+    color: #ebebeb;
+}
+
+/* Styles for card images */
+.card img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.card:hover {
+    cursor: pointer;
+}
+
+/* Styles for character detail image */
+#characterImage {
+    width: 100%;
+    max-width: 400px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+#characterDetail,
+#removeCharacterButton {
+    display: none;
+}
+
+#characterRarity {
+    margin-bottom: 10px;
+}
+
+#characterTitles {
+    font-style: italic;
+}
+
+#loader {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    z-index: 1050;
+}
+
+#errorMessage {
+    display: none;
+}
+
+header a {
+    text-decoration: none;
+    color: #121212;
+}
+
+header {
+    background-color: #004d85;
+}
+
+footer {
+    text-align: center;
+    background-color: #004d85;
+    height: 48px;
+    line-height: 48px;
+    color: #ebebeb;
+}
+
+button.active {
+    background-color: #004d85;
+    color: white;
+    border-color: #003366;
+}
