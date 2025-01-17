@@ -1,0 +1,438 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", serif;
+}
+
+td {
+    border: 1px solid white;
+    width: 150px;
+    padding: 5px;
+    font-size: 14px
+}
+
+table {
+    margin: auto;
+    width: 350px;
+}
+
+body {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+h1 {
+    font-size: 70px;
+    font-weight: bold;
+    margin-bottom: 0px;
+}
+
+#score-board p {
+    font-size: 20px;
+    margin: 10px 0;
+}
+
+#game-circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    position: relative;
+}
+
+#circle {
+    width: 400px;
+    height: 400px;
+    position: relative;
+    border-radius: 50%;
+    background-color: #fff;
+    display: flex;
+    flex-wrap: wrap;
+    overflow: hidden;
+    border: solid white 10px;
+}
+
+#view-progress-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #5bc0de;
+    color: white;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+#view-progress-btn:hover {
+    background-color: #31b0d5;
+}
+
+#view-progress-btn:only-child {
+    right: 20px;
+}
+
+
+.color-button {
+    width: 50%;
+    height: 50%;
+    border: none;
+    outline: none;
+}
+
+.color-button:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+#yellow {
+    background-color: #ffff55;
+    position: relative;
+    left: -5px;
+    top: -5px;
+}
+
+#red {
+    background-color: #fa4a47;
+    position: relative;
+    right: -5px;
+    top: -5px;
+}
+
+#blue {
+    background-color: #51a9f7;
+    position: relative;
+    left: -5px;
+    bottom: -5px;
+}
+
+#green {
+    background-color: #6cdb72;
+    position: relative;
+    right: -5px;
+    bottom: -5px;
+}
+
+#start-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    color: #333;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+
+#start-button:hover {
+    background-color: #f0c040;
+    color: black;
+    transform: translate(-50%, -50%) scale(1.1);
+    box-shadow: 0 0 15px rgba(255, 165, 0, 0.8);
+}
+
+p {
+    position: relative;
+    top: -5px;
+}
+
+.color-button.active {
+    opacity: 0.5;
+    transition: opacity 0.2s ease-out;
+}
+
+#restart {
+    font-family: "Montserrat", serif;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #ff6347;
+    color: white;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+#restart:hover {
+    background-color: #d9534f;
+}
+
+#replay-sequence-btn {
+    font-family: "Montserrat", serif;
+    position: absolute;
+    top: 20px;
+    left: 160px;
+    background-color: #f0ad4e;
+    color: white;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 10;
+    display: none;
+}
+
+#replay-sequence-btn:hover {
+    background-color: #ec971f;
+}
+
+#restart {
+    font-family: "Montserrat", serif;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #ff6347;
+    color: white;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+#restart:hover {
+    background-color: #d9534f;
+}
+
+
+.modal {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    color: black;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.modal-btn {
+    padding: 10px 20px;
+    background-color: #e9cf87;
+    color: black;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+#confirm-restart-modal {
+    position: fixed;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    color: black;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+#confirm-restart-modal .modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+}
+
+#confirm-restart-modal .modal-btn {
+    padding: 10px 20px;
+    background-color: #e9cf87;
+    color: black;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 10px;
+    border-radius: 5px;
+}
+
+#confirm-restart-modal .modal-btn:hover {
+    background-color: #f0c040;
+}
+
+button:hover {
+    background-color: #f0c040;
+}
+
+footer {
+    padding-top: 10px;
+    margin-top: auto;
+}
+
+.spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid black;
+    border-radius: 50%;
+    animation: spin 2s linear infinite;
+}
+
+div label,
+div input,
+div button {
+    display: block;
+    margin: auto;
+    text-align: center;
+    border-radius: 10px;
+}
+
+#save-name-btn {
+    border-radius: 10px;
+    background-color: #ec971f;
+    width: 150px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: white;
+}
+
+#player-name,
+#save-name-btn {
+    display: inline-block;
+    /* Nastaví všechny elementy do řádku */
+    vertical-align: middle;
+    /* Zajišťuje vertikální zarovnání na střed */
+}
+
+#save-name-btn:hover {
+    background-color: #f0ad4e;
+}
+
+
+.notification {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.notification.show {
+    bottom: 40px;
+}
+
+#error-message {
+    color: red;
+    margin-top: 10px;
+}
+
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+@media (max-width: 1300px) {
+    body {
+        height: auto;
+        overflow-y: auto;
+    }
+
+    h1 {
+        font-size: 60px;
+    }
+
+    #circle {
+        width: 300px;
+        height: 300px;
+        border: solid white 10px;
+    }
+
+    .color-button {
+        width: 50%;
+        height: 50%;
+    }
+
+    #start-button {
+        width: 100px;
+        height: 100px;
+        line-height: 100px;
+        font-size: 1.2rem;
+        padding-left: 10px;
+    }
+
+    #restart,
+    #replay-sequence-btn {
+        position: static;
+        margin: 10px auto;
+        display: block;
+    }
+
+    #view-progress-btn {
+        position: static;
+        margin: auto;
+        margin-top: 5px;
+    }
+
+
+    #restart:hover {
+        background-color: #d9534f;
+    }
+
+    .modal-content {
+        width: 70%;
+    }
+
+    .modal-btn {
+        font-size: 16px;
+        padding: 10px 20px;
+    }
+
+    table {
+        width: 330px;
+    }
+
+    #progress-table {
+        width: 90%;
+        margin: 0 auto;
+    }
+}
