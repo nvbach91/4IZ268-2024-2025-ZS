@@ -23,6 +23,7 @@ const favoritesList = document.getElementById('favoritesList')
 const history = document.getElementById('history')
 const historyList = document.getElementById('historyList')
 const loadingIndicator = document.getElementById('loading');
+const movieGenreElement = document.getElementById('movieGenre');
 
 
 
@@ -91,8 +92,7 @@ function displayMovies(movies) {
             movieCard.className = 'col-md-2';
             movieCard.innerHTML = `
                 <div class="card">
-                    <img src="https://image.tmdb.org/t/p/w500${movie.poster_path || ''}" 
-                         alt="${movie.title}" class="card-img-top">
+                    <img src="${movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : './assets/images/no-poster.jpg'}" alt="${movie.title}" class="card-img-top">
                     <div class="card-body">
                         <h5 class="card-title">${movie.title}</h5>
                         <p class="card-text">${movie.overview || 'Popis není k dispozici.'}</p>
@@ -125,11 +125,12 @@ async function showMovieDetails(movieId) {
                 Authorization: `Bearer ${apiKey}`
             }
         });
+        console.log(response)
         const movie = response.data;
         const movieToSave = {
             id: movie.id,
             title: movie.title,
-            poster: movie.poster_path || 'Obrázek není dostupný'
+            poster: movie.poster_path || ''
         };
         saveHistory(movieToSave);
         const favoritesMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
@@ -159,13 +160,13 @@ async function showMovieDetails(movieId) {
             : 'Neznámé';
 
         const genres = movie.genres.map(genre => genre.name).join(', ') || 'Neznámé';
-        document.getElementById('movieGenre').textContent = genres;
+        movieGenreElement.textContent = genres;
         history.style.display = 'none';
         const bootstrapModal = new bootstrap.Modal(movieModal);
         bootstrapModal.show();
     } catch (error) {
         console.error('Chyba při načítání detailů filmu.', error);
-        ('Nepodařilo se načíst detaily filmu. Zkuste to prosím znovu.');
+        showNotification('Nepodařilo se načíst detaily filmu. Zkuste to prosím znovu.');
     } finally {
         loading.classList.add('hidden');
     }
@@ -226,7 +227,7 @@ function displayHistory() {
         listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
         listItem.innerHTML = `
             <div class="d-flex align-items-center">
-                <img src="https://image.tmdb.org/t/p/w500${movie.poster}" alt="${movie.title}" class="me-2" style="width: 50px; height: 75px;">
+                 <img src="${movie.poster ? `https://image.tmdb.org/t/p/w500${movie.poster}`: './assets/images/no-poster.jpg'}" alt="${movie.title}" class="me-2 custom-img movie-poster">
                 ${movie.title}
             </div>
             <button class="btn btn-warning btn-sm">Zobrazit více</button> 
@@ -279,7 +280,7 @@ function displayFavorites() {
             listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
             listItem.innerHTML = `
                 <div class="d-flex align-items-center">
-                    <img src="https://image.tmdb.org/t/p/w500${movie.poster}" alt="${movie.title}" class="me-2" style="width: 50px; height: 75px;">
+                   <img src="${movie.poster ? `https://image.tmdb.org/t/p/w500${movie.poster}` : './assets/images/no-poster.jpg'}" alt="${movie.title}" class="me-2 custom-img movie-poster">
                     ${movie.title}
                 </div>
                 <div class="d-flex justify-content-end">
@@ -290,6 +291,7 @@ function displayFavorites() {
 
             const movieDetailsButton = listItem.querySelector('button.btn-warning');
             movieDetailsButton.addEventListener('click', () => showMovieDetails(movie.id));
+            
 
             const removeButton = listItem.querySelector('button.btn-danger');
             removeButton.addEventListener('click', () => removeFavorite(movie.id));

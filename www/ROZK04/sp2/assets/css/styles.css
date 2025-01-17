@@ -94,3 +94,14 @@
   overflow-y: auto;
   padding-right: 5px;
 }
+
+.custom-img {
+  width: 50px;
+  height: 75px;
+}
+
+.card-img-top {
+  width: 5Opx;
+  object-fit: cover; 
+}
+
