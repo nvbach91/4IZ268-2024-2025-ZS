@@ -40,7 +40,7 @@ const historyManager = {
                 const $historyItem = $('<div>').addClass('history-item').append(
                     $('<div>').addClass('history-content').html(`
                         <div class="text-primary">${item.timestamp}</div>
-                        <div>${formatNumber(item.amount)} ${item.from} (${config.currencyNames[item.from]}) = ${formatNumber(item.result.toFixed(2))} ${item.to} (${config.currencyNames[item.to]})</div>
+                        <div>${formatNumber(item.amount)} ${item.from} (${config.currencyNames[item.from]}) = ${formatNumber(formatResult(item.result))} ${item.to} (${config.currencyNames[item.to]})</div>
                     `),
                     $('<div>').addClass('button-group').append(
                         $('<button>').addClass('btn btn-outline-danger btn-sm delete-item').html('<i class="fas fa-trash"></i>').on('click', () => this.delete(item.id)),
@@ -128,7 +128,7 @@ const performConversion = async () => {
         $result.html(results.map(r => `
             <div class="result-item">
                 <i class="fas fa-exchange-alt text-primary"></i>
-                ${formatNumber(amount)} ${fromCurrency} (${config.currencyNames[fromCurrency]}) = <strong>${formatResult(r.result)} ${r.to} (${config.currencyNames[r.to]})</strong>
+                ${formatNumber(amount)} ${fromCurrency} (${config.currencyNames[fromCurrency]}) = <strong>${formatNumber(formatResult(r.result))} ${r.to} (${config.currencyNames[r.to]})</strong>
             </div>
         `).join(''));
     } catch (error) {
@@ -136,6 +136,12 @@ const performConversion = async () => {
     } finally {
         $loadingOverlay.hide();
     }
+};
+
+const formatNumber = number => {
+    const parts = number.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return parts.join('.');
 };
 
 const formatResult = result => {
@@ -174,8 +180,6 @@ const repeatConversion = async item => {
     addNewCurrency(true).val(item.to);
     $converterForm.submit();
 };
-
-const formatNumber = number => number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 
 $(document).ready(async () => {
     $loadingOverlay.append('<div class="loading-message">Načítám data...</div>').show();
