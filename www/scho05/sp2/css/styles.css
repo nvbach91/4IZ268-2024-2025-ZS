@@ -1,0 +1,287 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Courier New", Courier, monospace;
+  background-color: #f4f4f4;
+  color: #333;
+  padding: 24px;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+}
+
+h1,
+h2 {
+  font-size: 2rem;
+}
+
+.container-lg {
+  max-width: 740px;
+}
+
+.container-md {
+  max-width: 540px;
+}
+
+h1 {
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #222;
+  background: #ffd500;
+  padding: 16px;
+  display: inline-block;
+  box-shadow: 6px 6px 0px #000;
+  width: fit-content;
+}
+
+#jokeDisplay {
+  margin: 32px 0 24px 0;
+  padding: 16px;
+  font-size: 1.2rem;
+  background: #fff;
+  border: 2px solid #000;
+  box-shadow: 6px 6px 0px #000;
+  min-height: 97px;
+}
+
+.list-of-favorites {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.list-of-favorites h2 {
+  padding-right: 24px;
+}
+
+#sortFavorites {
+  font-size: 1rem;
+  padding: 6px 8px;
+  border: 2px solid #000;
+  box-shadow: 4px 4px 0px #ffd500;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  height: 44px;
+}
+
+#sortFavorites:hover {
+  background: #ffd500;
+  color: #000;
+}
+
+.btn-group {
+  margin-bottom: 32px;
+}
+
+button {
+  font-size: 1rem;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  margin-right: 5px;
+  background-color: #fff;
+  color: #333;
+  border: 2px solid #000;
+}
+
+.primary-btn {
+  background: #000;
+  color: #fff;
+  box-shadow: 4px 4px 0px #ffd500;
+}
+
+.secondary-btn {
+  background: #fff;
+  color: #000;
+  box-shadow: 4px 4px 0px #ccc;
+}
+
+.primary-btn:hover,
+.secondary-btn:hover {
+  background: #ffd500;
+  color: #000;
+}
+
+.search-section {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  box-shadow: 6px 6px 0px #000;
+  background: #fff;
+  border: 2px solid #000;
+  padding: 4px 16px;
+  width: 504px;
+}
+
+.search-container input {
+  font-size: 1rem;
+  padding: 10px;
+  margin-right: 10px;
+  border: 2px solid #000;
+  background: #fff;
+  box-shadow: inset 4px 4px 0px #ffd500;
+  width: 270px;
+}
+
+.search-container button {
+  font-size: 1rem;
+}
+
+#searchResults ul {
+  list-style: none;
+  margin-top: 20px;
+}
+
+#searchResults li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid #000;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-shadow: 4px 4px 0px #ffd500;
+  gap: 12px;
+}
+
+.joke-text {
+  line-height: 1.3;
+}
+
+#searchResults .joke-text {
+  flex: 1;
+  margin-right: 10px;
+}
+
+#searchResults button.secondary {
+  flex-shrink: 0;
+}
+
+#favoriteJokesList ul {
+  list-style: none;
+  margin-top: 20px;
+}
+
+#favoriteJokesList li {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 10px;
+  border: 2px solid #000;
+  background: #fff;
+  box-shadow: 4px 4px 0px #ffd500;
+}
+
+.joke-rating {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.rating-btn {
+  filter: saturate(0);
+  border-radius: 50%;
+  padding: 6px;
+  border: 2px solid #ddd;
+}
+
+.rating-btn:hover {
+  filter: saturate(1);
+  transform: scale(110%);
+}
+
+.rating-btn.selected {
+  filter: saturate(1);
+  transform: scale(110%);
+  border: 2px solid #000;
+}
+
+.btnAddToFavorites {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 40px;
+}
+
+.pagination {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.favorites-pagination {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.page-info {
+  margin: 0 10px;
+}
+
+.total-jokes-count {
+  margin: 10px 0;
+  font-weight: bold;
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #ffd500;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  animation: rotation 1s linear infinite;
+  margin: 8px auto;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+
+  h1,
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  #jokeDisplay,
+  .search-section,
+  #searchResults li,
+  #favoriteJokesList li {
+    width: 100%;
+  }
+
+  button {
+    font-size: 0.9rem;
+  }
+
+  #jokeDisplay {
+    font-size: 1rem;
+  }
+}

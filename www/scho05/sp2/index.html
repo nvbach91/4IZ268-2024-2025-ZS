@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Ultimate Joke Generator</title>
+    <meta
+      name="keywords"
+      content="joke generator, random jokes, dad jokes, funny jokes generator"
+    />
+    <meta name="author" content="Ondřej Schwarz" />
+    <meta
+      name="description"
+      content="Random joke generator containing hundreds of jokes which you search for and save for later."
+    />
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link
+      rel="shortcut icon"
+      href="https://cdn.jsdelivr.net/npm/twemoji@11.3.0/2/svg/1f602.svg"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
+    <h1>Explore hundreds of jokes!</h1>
+    <div class="container-lg" id="jokeDisplay">
+      Generate a random joke with the button bellow!
+    </div>
+    <div class="btn-group">
+      <button id="btnShowJoke" class="primary-btn">Get Random Joke</button>
+      <button id="btnAddFavorite" class="secondary-btn">
+        Add to Favorites
+      </button>
+    </div>
+
+    <div class="search-section">
+      <h2>Search Jokes</h2>
+      <form id="searchForm" class="search-container">
+        <input
+          type="text"
+          id="searchInput"
+          name="searchTerm"
+          placeholder="Enter keyword to search jokes..."
+        />
+        <button type="submit" class="primary-btn">Search</button>
+        <button id="btnClearResults" class="secondary-btn">Clear</button>
+      </form>
+      <div id="searchResultsCount"></div>
+      <div id="searchResults" class="container-md">
+        <ul id="searchResultsList"></ul>
+      </div>
+    </div>
+
+    <div class="list-of-favorites container-lg">
+      <h2>List of Favorite Jokes:</h2>
+      <button id="btnClearFavorites">Clear</button>
+      <select id="sortFavorites" class="container-lg">
+        <option value="none">No sorting</option>
+        <option value="highest">Highest rating first</option>
+        <option value="lowest">Lowest rating first</option>
+      </select>
+    </div>
+    <div id="favoriteJokesList" class="container-lg">
+      <ul></ul>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./js/main.js"></script>
+  </body>
+</html>
