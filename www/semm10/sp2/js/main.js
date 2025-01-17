@@ -8,11 +8,13 @@ const finalScoreDisplay = document.getElementById('final-score');
 const highScoreDisplay = document.getElementById('high-score-display');
 const playAgainButton = document.getElementById('play-again');
 const endButton = document.getElementById('end');
-
+const playerForm = document.getElementById('player-form');
+const spinner = document.getElementById('spinner');
 
 const BIN_ID = '678447aae41b4d34e4765ea8 	'; 
 const API_KEY = '$2a$10$/RkrMpWvBfTapiHB.c66M.BbOAVwWzykHUJzcF.RnEhni.mJhPqrO'; 
 const MASTER_KEY = '$2a$10$mL9HV0ZyCTNR0AnAL/WELu4jcVD1oIKH7QVbcaPtl2sy7ovHUXrLy'; 
+
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -24,46 +26,69 @@ let bullets = [];
 let score = 0;
 let highScore = 0;
 let highScorePlayer = ''; 
+gameInterval
 
+let highScores = []; 
 
-function loadHighScore() {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', `https://api.jsonbin.io/v3/b/${BIN_ID}`, true);
-    xhr.setRequestHeader('X-Master-Key', MASTER_KEY);
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            const data = JSON.parse(xhr.responseText);
-            highScore = data.highScore || 0;  
-            highScorePlayer = data.highScorePlayer || '';  
-        } else {
-            console.error('Failed to load high score:', xhr.status);
+function showSpinner() {
+    spinner.style.display = 'block';
+  }
+  
+function hideSpinner() {    
+    spinner.style.display = 'none';
+  }
+
+async function loadHighScore() {
+    try {
+        showSpinner();
+        const response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+            method: 'GET',
+            headers: {
+                'X-Master-Key': MASTER_KEY,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to load high scores: ${response.status}`);
         }
-    };
-    xhr.onerror = function () {
-        console.error('Request failed');
-    };
-    xhr.send();
+
+        const data = await response.json();
+        highScores = data.record.scores || []; 
+    } catch (error) {
+        console.error('Error loading high scores:', error);
+    } finally {
+        hideSpinner();
+    }
 }
 
 
-function saveHighScore() {
-    const xhr = new XMLHttpRequest();
-    xhr.open('PUT', `https://api.jsonbin.io/v3/b/${BIN_ID}`, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.setRequestHeader('X-Master-Key', MASTER_KEY);
-    xhr.onload = function () {
-        if (xhr.status !== 200) {
-            console.error('Failed to save high score:', xhr.status);
+async function saveHighScore() {
+    try {
+        showSpinner();
+        const response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Master-Key': MASTER_KEY,
+            },
+            body: JSON.stringify({
+                scores: highScores.slice(0, 10), 
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to save high scores: ${response.status}`);
         }
-    };
-    xhr.onerror = function () {
-        console.error('Request failed');
-    };
-    xhr.send(JSON.stringify({
-        highScore: highScore,
-        highScorePlayer: highScorePlayer
-    }));
+    } catch (error) {
+        console.error('Error saving high scores:', error);
+    } finally {
+        hideSpinner()
+    }
 }
+
+loadHighScore()
+
+saveHighScore()
 
 function resetGame() {
     score = 0;
@@ -81,8 +106,34 @@ function resetGame() {
 
 function showGameOverScreen() {
     clearInterval(gameInterval);
+
     finalScoreDisplay.textContent = `Name: ${playerName} | Score: ${Math.floor(score)}`;
-    highScoreDisplay.textContent = `High Score: ${Math.floor(highScore)} by ${highScorePlayer || 'Unknown'}`;
+
+    const tableBody = document.querySelector('#high-score-table tbody');
+    tableBody.innerHTML = ''; 
+
+    const fragment = document.createDocumentFragment(); 
+
+    highScores.slice(0, 10).forEach(({ player, score }, index) => {
+        const row = document.createElement('tr');
+
+        const rankCell = document.createElement('td');
+        rankCell.textContent = index + 1;
+
+        const playerCell = document.createElement('td');
+        playerCell.textContent = player;
+
+        const scoreCell = document.createElement('td');
+        scoreCell.textContent = Math.floor(score);
+
+        row.appendChild(rankCell);
+        row.appendChild(playerCell);
+        row.appendChild(scoreCell);
+
+        fragment.appendChild(row); 
+    });
+
+    tableBody.appendChild(fragment); 
 
     gameOverScreen.style.display = 'block';
     canvas.style.display = 'none';
@@ -115,12 +166,15 @@ function startGame() {
 }
 
 function gameOver() {
+    highScores.push({ player: playerName, score: Math.floor(score) });
+    highScores.sort((a, b) => b.score - a.score);
     if (score > highScore) {
-        highScore = score;
-        highScorePlayer = playerName;
-        saveHighScore(); 
+        highScore = score; 
+
     }
-    showGameOverScreen(); 
+
+    saveHighScore();
+    showGameOverScreen();
 }
 
 // Class for the player
@@ -227,7 +281,7 @@ const spawnRate = 2000;
 
 function spawnAsteroids() {
     const index = Math.floor(Math.random() * 8); 
-    let x, y, angle, vx, vy;
+    let x, y, vx, vy;
     const radius = Math.random() * 50 + 10; 
 
     switch (index) {
@@ -335,7 +389,9 @@ function game_loop() {
             player.position.y - asteroid.position.y
         );
         if (playerDistance < asteroid.radius + 20) { 
+            console.log('test');
             gameOver();
+            
             return;
         }
 
@@ -368,6 +424,10 @@ function game_loop() {
         player.velocity.y = -Math.sin(player.rotation) * 3;
     }
 }
+
+playerNameInput.addEventListener('keydown', (event) => {
+    event.stopPropagation();
+});
 
 function drawScore() {
     ctx.fillStyle = 'white';
@@ -424,7 +484,14 @@ window.addEventListener('keyup', (move) => {
     }
 });
 
-startButton.addEventListener('click', startGame);
+
+
+// startButton.addEventListener('click', startGame);
+
+playerForm.addEventListener('submit', (event) => {
+    event.preventDefault(); 
+    startGame(); 
+});
 
 loadHighScore();
 
