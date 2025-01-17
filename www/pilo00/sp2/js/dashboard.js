@@ -16,9 +16,57 @@ import { signOut, updateProfile } from "https://www.gstatic.com/firebasejs/9.16.
 
 // If you have a switchView function in spa.js, you can import it:
 // import { switchView } from "./spa.js";
+// ========== GLOBAL APP STATE ==========
+let selectedGroupId = null;  // Track which group is selected
+let calendar = null;         // DayPilot calendar instance
 
-let selectedGroupId = null; // Track which group is selected
-let calendar = null;        // DayPilot calendar instance
+// ========== FREQUENT DOM ELEMENTS (cached once) ==========
+// logout button
+const logoutBtn       = document.getElementById("logoutBtn");
+
+// Groups
+const groupList       = document.getElementById("groupList");
+const groupTitle      = document.getElementById("groupTitle");
+
+// Modals for groups
+const editGroupModal  = document.getElementById("editGroupModal");
+const deleteGroupModal= document.getElementById("deleteGroupModal");
+const addGroupModal   = document.getElementById("addGroupModal");
+
+// Spinners / Buttons in group modals
+const editGroupSpinner= document.getElementById("editGroupSpinner");
+const deleteGroupSpinner = document.getElementById("deleteGroupSpinner");
+const saveGroupNameBtn= document.getElementById("saveGroupNameBtn");
+const confirmDeleteGroupBtn = document.getElementById("confirmDeleteGroupBtn");
+const closeEditGroupModal   = document.getElementById("closeEditGroupModal");
+const closeDeleteGroupModal = document.getElementById("closeDeleteGroupModal");
+
+// Add group form
+const addGroupForm    = document.getElementById("addGroupForm");
+const addGroupBtn     = document.getElementById("addGroupBtn");
+const groupNameField  = document.getElementById("groupName");
+const groupSpinner    = document.getElementById("spinner");
+const addGroupSubmitBtn = document.getElementById("addGroupSubmitBtn");
+const closeGroupModal = document.getElementById("closeGroupModal");
+
+// Calendar / Event modals
+const addEventModal   = document.getElementById("addEventModal");
+const editEventModal  = document.getElementById("editEventModal");
+const closeAddEventModal = document.getElementById("closeAddEventModal");
+const closeEditEventModal= document.getElementById("closeEditEventModal");
+const addEventBtn     = document.getElementById("addEventBtn");
+const eventForm       = document.getElementById("eventForm");
+const editEventSpinner= document.getElementById("editEventSpinner");
+const saveEventButton = document.getElementById("saveEventButton"); // if you have such an ID
+// Fields in add/edit event
+const eventTitle   = document.getElementById("eventTitle");
+const startTime    = document.getElementById("startTime");
+const duration     = document.getElementById("duration");
+const editEventTitle   = document.getElementById("editEventTitle");
+const editStartTime    = document.getElementById("editStartTime");
+const editDuration     = document.getElementById("editDuration");
+const addEventSpinner  = document.getElementById("addEventSpinner");
+const addEventSubmitBtn= document.getElementById("addEventSubmitBtn");
 
 /* ============================
     LOGOUT FUNCTIONALITY
@@ -38,7 +86,6 @@ document.getElementById("logoutBtn").addEventListener("click", async () => {
          FETCH GROUPS
 ============================ */
 export async function fetchGroups() {
-  const groupList = document.getElementById("groupList");
   groupList.innerHTML = ""; // Clear existing list
 
   try {
@@ -48,7 +95,13 @@ export async function fetchGroups() {
       return;
     }
 
-    groupsSnapshot.forEach((docSnap) => {
+    // Create a DocumentFragment to batch DOM changes
+    const fragment = document.createDocumentFragment();
+
+    const groupDocs = groupsSnapshot.docs; 
+    // Alternatively, you could store them in an array, but we can just iterate directly:
+
+    groupDocs.forEach((docSnap) => {
       const groupData = docSnap.data();
       const li = document.createElement("li");
       li.className = "group-item";
@@ -68,7 +121,7 @@ export async function fetchGroups() {
       editBtn.textContent = "Edit";
       editBtn.className = "edit-group-btn";
       editBtn.addEventListener("click", (e) => {
-        e.stopPropagation(); // Don’t select group
+        e.stopPropagation(); 
         showEditGroupModal(docSnap.id, groupData.name);
       });
 
@@ -81,16 +134,24 @@ export async function fetchGroups() {
         showDeleteGroupModal(docSnap.id);
       });
 
+      // Append everything to li
       li.appendChild(groupNameSpan);
       li.appendChild(editBtn);
       li.appendChild(deleteBtn);
-      groupList.appendChild(li);
+
+      // Append li to our fragment (not directly to the DOM yet)
+      fragment.appendChild(li);
     });
+
+    // Now append the entire fragment at once
+    groupList.appendChild(fragment);
+
   } catch (error) {
     console.error("Error fetching groups:", error.message);
-    //alert("Failed to fetch groups.");
+    // alert("Failed to fetch groups.");
   }
 }
+
 
 /* ============================
      SELECT / LOAD GROUP
@@ -367,7 +428,6 @@ async function loadGroupEvents(groupId, groupName) {
    ADD EVENT (BUTTON + FORM)
 ========================= */
 // 1) Make sure the button #addEventBtn exists:
-const addEventBtn = document.getElementById("addEventBtn");
 if (addEventBtn) {
   addEventBtn.addEventListener("click", () => {
     document.getElementById("eventForm").reset();
@@ -431,10 +491,6 @@ document.getElementById("eventForm")?.addEventListener("submit", async (e) => {
 /* ============================
   ADD GROUP LOGIC + SPINNER
 ============================ */
-const addGroupModal = document.getElementById("addGroupModal");
-const closeGroupModal = document.getElementById("closeGroupModal");
-const addGroupBtn = document.getElementById("addGroupBtn");
-const addGroupForm = document.getElementById("addGroupForm");
 
 addGroupBtn.addEventListener("click", () => {
   addGroupModal.classList.add("active");
@@ -482,14 +538,11 @@ addGroupForm.addEventListener("submit", async (e) => {
 ============================ */
 // We handle opening the edit event modal in `calendar.onEventClick` above.
 // Here we just handle the close, etc.
-const editEventModal = document.getElementById("editEventModal");
-const closeEditEventModal = document.getElementById("closeEditEventModal");
+
 closeEditEventModal.addEventListener("click", () => {
   editEventModal.classList.remove("active");
 });
 
-const addEventModal = document.getElementById("addEventModal");
-const closeAddEventModal = document.getElementById("closeAddEventModal");
 closeAddEventModal.addEventListener("click", () => {
   addEventModal.classList.remove("active");
 });
