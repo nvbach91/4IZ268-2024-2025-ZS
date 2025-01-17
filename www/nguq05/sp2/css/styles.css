@@ -1,0 +1,33 @@
+* {
+    box-sizing: border-box;
+}
+
+header,
+footer {
+    background-color: #e9ecef;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.spinner {
+    width: 200px;
+    height: 200px;
+    border: 20px solid rgb(0, 0, 0);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spinning 1s linear infinite;
+    position: absolute;
+    margin: auto;
+    top: 300px;
+    left: 650px;
+}
+
+@keyframes spinning {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
