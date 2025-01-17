@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asteroids Game</title>
+  <link rel="stylesheet" href="./css/style.css">
+</head> 
+<body> 
+  <div id="landing">
+    <h1>Asteroids Game</h1>
+    <form id="player-form">
+      <input id="player-name" type="text" placeholder="Enter your name">
+      <button id="start-button">Start Game</button>
+    </form>
+  </div>
+  <div id="game-over">
+    <h2>Game Over</h2>
+    <p id="final-score">Name: Player | Score: 0</p>
+
+    <h3>Top 10 High Scores</h3>
+    <table id="high-score-table">
+        <thead>
+            <tr>
+                <th style=>Rank</th>
+                <th style=>Player</th>
+                <th style=>Score</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <button id="play-again">Play Again</button>
+    <button id="end">End</button>
+</div>
+
+  <div id="game-canvas-container"></div>
+
+  <canvas id="game-canvas"></canvas>
+
+  <div id="spinner"></div>
+
+  <script src="./js/main.js"></script>
+</body>
+</html>
