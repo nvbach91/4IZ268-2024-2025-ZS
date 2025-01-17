@@ -32,6 +32,13 @@
             <button class="btn btn-success">Start</button>
         </div>
 
+        <div id="difficulty-buttons" class="d-none">
+            <h2 class="text">Choose the difficulty:</h2>
+                <button id="easy-button" class="btn btn-success m-2">Easy</button>
+                <button id="medium-button" class="btn btn-success m-2">Medium</button>
+                <button id="hard-button" class="btn btn-success m-2">Hard</button>
+        </div>
+
         <div id="spinner" class="spinner-border text-success d-none mx-auto" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
@@ -43,8 +50,7 @@
 
         <div id="progressContainer" class="progress d-none" role="progressbar" aria-label="Animated striped example"
             aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-            <div id="progress-bar" class="progress-bar bg-success progress-bar-striped progress-bar-animated"
-                style="width: 100%;">
+            <div id="progress-bar" class="progress-bar bg-success progress-bar-striped progress-bar-animated">
             </div>
         </div>
 
@@ -55,8 +61,39 @@
             <p>Good luck, and enjoy the quiz!</p>
         </div>
 
-        <div id="restart-button" class="d-none">
-            <button class="btn btn-success">Play Again</button>
+        <div id="name-container" class="input-group mb-3 d-none">
+            <input type="text" id="player-name" class="form-control" placeholder="Enter your name"
+                aria-label="Recipient's username" aria-describedby="button-addon2" />
+            <button id="button-addon2" class="btn btn-success">Save</button>
+        </div>
+
+        <div id="show-history" class="d-none">
+            <button class="btn btn-success m-2">Game History</button>
+        </div>
+
+        <div id="game-history" class="d-none table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Score</th>
+                        <th>Date</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody id="history-table">
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <div id="delete-history" class="d-none">
+                <button class="btn btn-success m-2">Delete All</button>
+            </div>
+            <div id="restart-button" class="d-none">
+                <button class="btn btn-success m-2">Play Again</button>
+            </div>
         </div>
     </div>
 
