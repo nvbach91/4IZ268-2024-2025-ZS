@@ -43,7 +43,7 @@ body {
 
 .remove-currency {
     position: absolute;
-    right: -40px;
+    right: 8px;
     top: 50%;
     transform: translateY(-50%);
     color: #dc3545;
@@ -76,12 +76,27 @@ body {
     background-color: #f8f9fa;
 }
 
+.history-item .button-group {
+    display: flex;
+    align-items: center;
+}
+
 .history-item .delete-item {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    margin-right: 16px; /* Přidá 16px mezeru mezi tlačítkem pro mazání a tlačítkem pro opakování */
+}
+
+.history-item:hover .delete-item {
+    opacity: 1;
+}
+
+.history-item .repeat-item {
     opacity: 0;
     transition: opacity 0.3s ease;
 }
 
-.history-item:hover .delete-item {
+.history-item:hover .repeat-item {
     opacity: 1;
 }
 
@@ -129,4 +144,34 @@ select.form-control {
 
 .to-currency-item {
     animation: slideIn 0.3s ease;
+}
+
+/* Stylování pro pop-up okno */
+.modal-dialog {
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-body {
+    flex: 1 1 auto;
+}
+
+.currency-list-container {
+    max-height: 50vh; /* Nastavte maximální výšku pro scrollovací oblast */
+    overflow-y: auto;
+}
+
+.modal-footer {
+    flex-shrink: 0;
+}
+
+.currency-list-container .list-group-item {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.currency-list-container .list-group-item input[type="checkbox"] {
+    margin-right: 10px;
 }
