@@ -1,0 +1,49 @@
+.thumbnail {
+	height: 300px;
+}
+
+.exercise {
+	width: 18rem;
+}
+
+.exercise-descr-wrapper {
+	width: 50%;
+}
+
+.exercise-descr-wrapper > div {
+	padding-left: 16px;
+}
+
+.saved-exercise {
+	cursor: pointer;
+}
+
+.saved-exs {
+	width: 75px;
+	height: 75px;
+	border-radius: 50%;
+	background-color: #0d6efd;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	cursor: pointer;
+}
+
+.saved-exs > img {
+	width: 30px;
+	height: 30px;
+}
+
+footer {
+	position: static;
+	font-size: 0.7rem;
+}
+
+@media (max-width: 800px) {
+	#quote {
+		width: 90%;
+	}
+}
