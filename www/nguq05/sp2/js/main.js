@@ -1,18 +1,23 @@
 // namespace
 const App = {
-    apiKey: '9f8d585583154ba98c550be5b60f55d2',
+    apiKey: 'ddc5cf8c1af047b3bfee7185ff0496f8',
     apiUrl: 'https://api.spoonacular.com/recipes/complexSearch',
     favoritesKey: 'favoriteRecipes',
 };
+
+let localStorageContainer = [];
 
 // DOM elementy
 const recipesForm = document.querySelector('#recipesForm');
 const dishInput = document.querySelector('#dishInput');
 const recipesContainer = document.querySelector('#recipesContainer');
 const savedRecipes = document.querySelector('#savedRecipes');
+const recipeIframe = document.querySelector('#recipeIframe');
 
 // event listener načtení z localstorage
-document.addEventListener('DOMContentLoaded', () => loadFavorites());
+document.addEventListener('DOMContentLoaded', () => {
+    localStorageContainer = JSON.parse(localStorage.getItem(App.favoritesKey)) || [];
+});
 
 // funkce zobrazí spinner
 function displayLoading() {
@@ -68,7 +73,6 @@ async function fetchRecipes(dish) {
     if (!response.ok) {
         throw new Error("Failed to fetch recipes.");
     }
-
     return response.json();
 }
 
@@ -81,10 +85,13 @@ function displayRecipes(recipes) {
         return;
     }
 
+    const tmpElements = [];
+
     recipes.forEach((recipe) => {
         const card = createRecipeCard(recipe);
-        recipesContainer.appendChild(card);
+        tmpElements.push(card);
     });
+    recipesContainer.append(...tmpElements);
 }
 
 // funkce na vytvoření karty receptu
@@ -101,13 +108,22 @@ function createRecipeCard(recipe) {
             </div>
             <div class="flex-grow-1 ms-3">
                 <h5 class="fw-bold">${recipe.title}</h5>
-                <p class="mb-1"><strong>Cuisine:</strong> ${recipe.cuisines?.join(', ') || 'N/A'}</p>
-                <p class="mb-1"><strong>Diet:</strong> ${recipe.diets?.join(', ') || 'N/A'}</p>
-                <p class="mb-1"><strong>Type:</strong> ${recipe.dishTypes?.join(', ') || 'N/A'}</p>
+                <p class="mb-1"><strong>Cuisine:</strong>
+                        ${recipe.cuisines.map((cuisine) => {
+        return `<button class="cuisine-btn btn-info">${cuisine}
+                            </button>`;
+    }) || 'N/A'}
+                </p>
+                <p class="mb-1"><strong>Diet:</strong> ${recipe.diets || 'N/A'}</p>
+                <p class="mb-1"><strong>Type:</strong> ${recipe.dishTypes || 'N/A'}</p>
                 <p class="mb-3"><strong>Summary:</strong> ${recipe.summary ? recipe.summary.slice(0, 300) + '...' : 'No description available.'}</p>
                 <div>
-                    <a href="${recipe.sourceUrl}" target="_blank" class="btn btn-primary me-2">Show Recipe</a>
-                    <button class="btn btn-${isFavorite ? 'danger' : 'outline-danger'} favorite-btn" data-id="${recipe.id}" data-title="${recipe.title}" data-image="${recipe.image}">
+                    <button class="btn btn-primary me-2 show-recipe-btn" data-url="${recipe.sourceUrl ? recipe.sourceUrl : '#'}">
+                        Show recipe
+                    </button>
+                    
+                   <button class="btn btn-${isFavorite ? 'warning' : 'outline-warning'} favorite-btn" data-id="${recipe.id}" data-title="${recipe.title}" data-image="${recipe.image}" 
+                    data-diets="${recipe.diets}" data-cuisines="${recipe.cuisines}">
                         ${isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
                     </button>
                 </div>
@@ -115,12 +131,37 @@ function createRecipeCard(recipe) {
         </div>
     `;
 
+    card.querySelector('.show-recipe-btn').addEventListener('click', (e) => {
+        const recipeUrl = e.currentTarget.getAttribute('data-url');
+
+        if (recipeUrl) {
+            Swal.fire({
+                width: 800,
+                html: `
+                <iframe src="${recipeUrl}" class="vw-100 vh-100">
+                </iframe>
+                `,
+                imageAlt: "Recipe URL",
+            });
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Recipe URL is not available",
+            });
+        }
+    });
+
     // event listener na tlačítko add to favorite v kartě
     card.querySelector('.favorite-btn').addEventListener('click', (e) => {
         const button = e.currentTarget;
         const recipeId = button.getAttribute('data-id');
         const recipeTitle = button.getAttribute('data-title');
         const recipeImage = button.getAttribute('data-image');
+        const recipeCuisines = button.getAttribute('data-cuisines');
+        const recipeDiets = button.getAttribute('data-diets');
+        const recipeDishTypes = button.getAttribute('data-dishTypes');
+        const recipeSummary = button.getAttribute('data-summary');
 
         if (checkIfFavorite(recipeId)) {
             Swal.fire({
@@ -138,13 +179,17 @@ function createRecipeCard(recipe) {
                         text: "Your recipe has been deleted.",
                         icon: "success"
                     });
+                    removeFavorite(recipeId);
+                    button.classList.replace('btn-danger', 'btn-outline-danger');
+                    button.textContent = 'Add to Favorites';
                 }
             });
-            removeFavorite(recipeId);
-            button.classList.replace('btn-danger', 'btn-outline-danger');
-            button.textContent = 'Add to Favorites';
         } else {
-            addFavorite({ id: recipeId, title: recipeTitle, image: recipeImage });
+            addFavorite({
+                id: recipeId, title: recipeTitle, image: recipeImage,
+                cuisines: recipeCuisines, diets: recipeDiets,
+                dishTypes: recipeDishTypes, summary: recipeSummary
+            });
             button.classList.replace('btn-outline-danger', 'btn-danger');
             button.textContent = 'Remove from Favorites';
         }
@@ -155,22 +200,19 @@ function createRecipeCard(recipe) {
 
 // funkce přidá recept do oblíbených
 function addFavorite(recipe) {
-    const favorites = getFavorites();
-    favorites.push(recipe);
-    localStorage.setItem(App.favoritesKey, JSON.stringify(favorites));
+    localStorageContainer.push(recipe);
+    localStorage.setItem(App.favoritesKey, JSON.stringify(localStorageContainer));
 }
 
 // funkce odstraní recept z oblíbených
 function removeFavorite(recipeId) {
-    const favorites = getFavorites();
-    const updatedFavorites = favorites.filter((recipe) => recipe.id !== recipeId);
-    localStorage.setItem(App.favoritesKey, JSON.stringify(updatedFavorites));
+    localStorageContainer = localStorageContainer.filter((recipe) => recipe.id !== recipeId);
+    localStorage.setItem(App.favoritesKey, JSON.stringify(localStorageContainer));
 }
 
 // funkce zkontroluje, jestli je recept v oblíbených
 function checkIfFavorite(recipeId) {
-    const favorites = getFavorites();
-    return favorites.some((recipe) => recipe.id === recipeId);
+    return localStorageContainer.some((recipe) => recipe.id === recipeId);
 }
 
 // funkce vrátí všechny oblíbené recepty z localstorage
