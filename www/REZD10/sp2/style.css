@@ -1,0 +1,169 @@
+/* Vlastní stylování */
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* Příklad stylování pro karty filmů */
+.movie-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.movie-poster {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+h1 {
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+h1:hover {
+    opacity: 0.8;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #212529 !important; /* Even darker grey (Bootstrap's gray-900) */
+  color: white;
+}
+
+header h1 {
+  color: white;
+  margin-bottom: 0;
+}
+
+#searchForm {
+  display: flex;
+  align-items: center;
+}
+
+#searchInput {
+  margin-right: 0.5rem;
+}
+
+#topPlakatyWrapper,
+#recommendedMoviesWrapper,
+#searchResultsWrapper {
+  margin: 0 -0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.section {
+  transition: opacity 0.3s ease;
+}
+
+.section.d-none {
+  opacity: 0;
+}
+
+/* Styly pro full-height menu */
+.container-fluid {
+    min-height: 100vh;
+}
+
+.container-fluid > .row {
+    min-height: inherit;
+}
+
+aside {
+    background-color: #dc3545;
+    height: 100%;
+    min-height: 100vh;
+    position: sticky;
+    top: 0;
+}
+
+/* Styles for menu separation */
+.main-nav {
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding-bottom: 1rem;
+}
+
+.categories-nav {
+    padding-top: 0.5rem;
+}
+
+.categories-nav .nav-link {
+    padding-left: 1rem;
+    font-size: 0.9rem;
+}
+
+.categories-nav .nav-link:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Active menu item styling */
+.nav-link.active {
+    background-color: rgba(255,255,255,0.2);
+    font-weight: bold;
+}
+
+.categories-nav .nav-link.active {
+    border-left: 3px solid white;
+}
+
+/* Rating styles */
+.rating-container {
+    text-align: center;
+}
+
+.stars {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.star {
+    color: #ddd;
+    font-size: 20px;
+    transition: color 0.2s ease;
+    display: inline-block;
+}
+
+.star.active {
+    color: #ffc107;
+}
+
+/* Update hover behavior for left-to-right */
+.star:hover {
+    color: #ffc107;
+}
+
+.star:hover ~ .star {
+    color: #ddd;
+}
+
+/* When hovering over container, highlight stars up to hovered one */
+.stars:hover .star {
+    color: #ffc107;
+}
+
+.stars .star:hover ~ .star {
+    color: #ddd;
+}
+
+.rating-text {
+    display: block;
+    color: #666;
+    margin-top: 5px;
+}
+
+.rating-container .btn-outline-danger {
+    font-size: 0.8rem;
+    padding: 0.2rem 0.5rem;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
