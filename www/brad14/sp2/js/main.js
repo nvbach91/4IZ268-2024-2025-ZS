@@ -3,7 +3,9 @@ const BASE_URL_DATA = 'https://api.openweathermap.org/data/3.0/onecall?';
 const BASE_URL_GEO_DIRECT = 'https://api.openweathermap.org/geo/1.0/direct?';
 const BASE_URL_GEO_REVERSE = 'https://api.openweathermap.org/geo/1.0/reverse?';
 
+
 // wrapper elements
+const searchWrapper = $('.search-wrapper');
 const loaderWrapper = $('.loader-wrapper');
 const dailyDetailWrapper = $('.daily-detail-wrapper');
 const currentWrapper = $('.current-wrapper');
@@ -11,7 +13,10 @@ const hourlyWrapper = $('.hourly-wrapper');
 const dailyWrapper = $('.daily-wrapper');
 const currentConditionsWrapper = $('.current-conditions-wrapper');
 
-
+// other ui elements
+const locationHistory = $('.location-history');
+const input = $('input');
+const overlay = $('.overlay');
 
 /**
  * Constructs a URL with the given base URL and parameters, appending the API key.
@@ -432,7 +437,7 @@ const updateRecentSearches = () => {
             ${renderRecentSearchesContent()}
         </div>
     `;
-    $('.location-history').empty().append(html);
+    locationHistory.empty().append(html);
 }
 
 /**
@@ -567,7 +572,7 @@ const addDayDetailToSearchParams = (index) => {
     const params = new URLSearchParams(window.location.search);
     params.set('day', index);
     const newUrl = `${window.location.pathname}?${params.toString()}`;
-    window.history.pushState({}, '', newUrl)
+    window.history.pushState({}, '', newUrl);
 }
 
 /**
@@ -597,7 +602,7 @@ const getResults = async () => {
     if (location) {
         addLoadingUi();
         try {
-            $('.search-wrapper').addClass('chosen');
+            searchWrapper.addClass('chosen');
             const coordinates = await fetchCoordinates(location);
             // set the the location into the input
             input.val(`${coordinates.name}, ${coordinates.country}`);
@@ -614,6 +619,14 @@ const getResults = async () => {
         finally {
             removeLoadingUi();
         }
+    } else {
+        input.val('');
+        searchWrapper.removeClass('chosen');
+        dailyDetailWrapper.empty();
+        currentWrapper.empty();
+        hourlyWrapper.empty();
+        dailyWrapper.empty();
+        currentConditionsWrapper.empty();
     }
 }
 
@@ -786,12 +799,14 @@ const getIconName = (weatherCondition, dt, sunrise, sunset) => {
     }
 }
 
+const loader = $('.loader');
+
 let loaderTimeout;
 const addLoadingUi = () => {
     loaderTimeout = setTimeout(() => {
         loaderWrapper.slideDown();
         setTimeout(() => {
-            $('.loader').addClass('visible');
+            loader.addClass('visible');
         }, 200);
     }, 400);
 };
@@ -799,7 +814,7 @@ const addLoadingUi = () => {
 const removeLoadingUi = () => {
     clearTimeout(loaderTimeout);
     setTimeout(() => {
-        $('.loader').removeClass('visible');
+        loader.removeClass('visible');
         setTimeout(() => {
             loaderWrapper.slideUp();
         }, 200);
@@ -880,8 +895,6 @@ const drawSunArc = (sunrise, sunset, currentTime) => {
 // EVENT HANDLING
 /////////////////////////////////////////////////////
 
-const input = $('input');
-const overlay = $('.overlay');
 var editing = false;
 var value = '';
 
@@ -894,7 +907,7 @@ $('form').on('submit', async (e) => {
     try {
         addLoadingUi();
         const coordinates = await fetchCoordinates(location);
-        $('.search-wrapper').addClass('chosen');
+        searchWrapper.addClass('chosen');
         input.trigger('blur');
         const locationName = `${coordinates.name}, ${coordinates.country}`;
         input.val(locationName);
@@ -916,13 +929,12 @@ $('form').on('submit', async (e) => {
 // handle focus event on input element
 input.on('focus', (e) => {
     value = input.val();
-    console.log('executing focus editing is ' + editing);
     editing = true;
     overlay.fadeIn('fast');
     overlay.addClass('visible');
     $('#location-icon').css('display', 'none');
     $('#clear-icon').css('display', 'flex');
-    $('.location-history').slideDown({
+    locationHistory.slideDown({
         duration: 200,
     });
 });
@@ -930,22 +942,20 @@ input.on('focus', (e) => {
 // handle blur event on input element
 input.on('blur', (e) => {
     if (!editing) {
-        console.log('executing blur with editing = false');
         overlay.fadeOut('300');
         setTimeout(() => {
             overlay.removeClass('visible')
         }, 300);
         $('#location-icon').css('display', 'flex');
         $('#clear-icon').css('display', 'none');
-        $('.location-history').scrollTop(0);
-        $('.location-history').slideUp({
+        locationHistory.scrollTop(0);
+        locationHistory.slideUp({
             duration: 200,
         });
         if (input.val() === '') {
             input.val(value);
         }
     } else {
-        console.log('executing blur with editing = true, setting editing = false');
         editing = false;
     }
 });
@@ -959,7 +969,6 @@ $('#clear-icon').on('click', (e) => {
 // trigger blur of input if click is outside of input element and the clear icon
 $(document).on('click', (e) => {
     if (!$(e.target).closest('input[name="location"], #clear-icon, #location-icon').length) {
-        console.log('calling blur when editing = ' + editing);
         input.trigger('blur'); //calling blur when editing = false
     }
 });
@@ -972,7 +981,7 @@ $('#location-icon').on('click', (e) => {
     $('#spinner-icon').css('display', 'flex');
     navigator.geolocation.getCurrentPosition(async (position) => {
         try {
-            $('.search-wrapper').addClass('chosen');
+            searchWrapper.addClass('chosen');
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
             $('#spinner-icon').css('display', 'none');
@@ -1032,12 +1041,6 @@ $('.icon-wrapper').on('click', () => {
     closeDialogs();
 });
 
-// close dialog if close icon is focused and the enter key is pressed
-$(document).on('keypress', (e) => {
-    if (e.key === 'Enter') {
-        closeDialogs();
-    }
-});
 
 // close dialog if the click is outside of it
 window.addEventListener('click', (e) => {

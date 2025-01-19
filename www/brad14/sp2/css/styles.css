@@ -149,11 +149,10 @@ body {
 
 .loader-wrapper {
     box-sizing: content-box;
-    display: block;
+    display: none;
     justify-content: center;
     align-items: center;
     height: 50px;
-    width: 100px;
 }
 
 .loader {
