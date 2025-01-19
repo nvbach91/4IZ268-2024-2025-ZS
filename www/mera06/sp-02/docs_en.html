@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OMDb Movie Finder Documentation (EN)</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        h1 {
+            color: white;
+        }
+        h2, h3 {
+            color: #333;
+        }
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        footer {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header class="bg-dark text-white text-center py-3">
+        <h1>OMDb Movie Finder Documentation</h1>
+        <p>Author: Andreas Merhaut</p>
+        <p>Date: 9. 1. 2025, 12:00 PM</p>
+    </header>
+    <main>
+        <section>
+            <h2>Introduction</h2>
+            <p>The OMDb Movie Finder is a web application that allows users to search for movies and TV series, view details, and manage a list of favorites. It uses the OMDb API to fetch movie data dynamically via AJAX and offers a user-friendly interface.</p>
+        </section>
+        <section>
+            <h2>Code Explanation</h2>
+            <h3>1. Search Section</h3>
+            <p>The search section includes a form with inputs for the movie title and optional year. When the form is submitted, a query is sent to the OMDb API, and the results are dynamically displayed.</p>
+            
+            <h3>2. Results Section</h3>
+            <p>The results section displays movies as cards with their title, year, and poster. Each card includes a "View Details" button, which fetches additional data for the movie.</p>
+            
+            <h3>3. Details Section</h3>
+            <p>The details section shows detailed information about a selected movie or series, including the director, plot, genre, and poster. Buttons allow adding or removing the movie from favorites.</p>
+            
+            <h3>4. Favorites Section</h3>
+            <p>The favorites section lists all saved movies with their title and year. Users can view details or remove movies from the list.</p>
+        </section>
+        <section>
+            <h2>How to Use</h2>
+            <ol>
+                <li>Enter a movie or series title in the search bar and optionally specify a year.</li>
+                <li>Click "Search" to see results in the results section.</li>
+                <li>Click "View Details" on any movie to view its detailed information.</li>
+                <li>Add a movie to favorites using the "Add to Favorites" button or remove it if already added.</li>
+            </ol>
+        </section>
+    </main>
+    <footer class="text-center bg-dark text-white py-3">
+        <p>© 2025 Andreas Merhaut</p>
+    
+        <p><a href="index.html" class="text-white">Back to Home</a></p>
+    </footer>
+    
+</body>
+</html>
