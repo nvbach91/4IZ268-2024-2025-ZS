@@ -52,7 +52,7 @@ function renderFavorites() {
 
 // Fetch movie data
 async function fetchMovies(query, year) {
-    resultsSection.innerHTML = '<p class="text-center">Načítám...</p>'; // Loading indicator
+    resultsSection.innerHTML = '<p class="text-center">Loading...</p>'; // Loading indicator
     const url = `https://www.omdbapi.com/?apikey=${apiKey}&s=${query}${year ? `&y=${year}` : ''}`;
     const response = await fetch(url);
     const data = await response.json();
@@ -61,7 +61,7 @@ async function fetchMovies(query, year) {
 
 // Fetch movie details
 async function fetchMovieDetails(imdbID) {
-    detailsSection.innerHTML = '<p class="text-center">Načítám detaily...</p>'; // Loading indicator
+    detailsSection.innerHTML = '<p class="text-center">Loading details...</p>'; // Loading indicator
     const url = `https://www.omdbapi.com/?apikey=${apiKey}&i=${imdbID}`;
     const response = await fetch(url);
     const data = await response.json();
