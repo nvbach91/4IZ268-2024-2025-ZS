@@ -5,6 +5,7 @@ const yearInput = document.getElementById('year-input');
 const resultsSection = document.getElementById('results');
 const detailsSection = document.getElementById('details');
 const favoritesList = document.getElementById('favorites-list');
+const base_url = 'https://www.omdbapi.com/';
 
 let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 let lastSearch = JSON.parse(localStorage.getItem('lastSearch')) || { query: '', year: '' };
@@ -53,7 +54,7 @@ function renderFavorites() {
 // Fetch movie data
 async function fetchMovies(query, year) {
     resultsSection.innerHTML = '<p class="text-center">Loading...</p>'; // Loading indicator
-    const url = `https://www.omdbapi.com/?apikey=${apiKey}&s=${query}${year ? `&y=${year}` : ''}`;
+    const url = `${base_url}?apikey=${apiKey}&s=${query}${year ? `&y=${year}` : ''}`;
     const response = await fetch(url);
     const data = await response.json();
     return data.Search || [];
@@ -62,7 +63,7 @@ async function fetchMovies(query, year) {
 // Fetch movie details
 async function fetchMovieDetails(imdbID) {
     detailsSection.innerHTML = '<p class="text-center">Loading details...</p>'; // Loading indicator
-    const url = `https://www.omdbapi.com/?apikey=${apiKey}&i=${imdbID}`;
+    const url = `${base_url}?apikey=${apiKey}&i=${imdbID}`;
     const response = await fetch(url);
     const data = await response.json();
     return data;
@@ -73,7 +74,7 @@ function displayResults(movies) {
     resultsSection.innerHTML = '<h2 class="mb-3">Search Results</h2>';
 
     if (movies.length === 0) {
-        resultsSection.innerHTML += '<p class="text-center">Žádné výsledky nebyly nalezeny.</p>';
+        resultsSection.innerHTML += '<p class="text-center">No results were found.</p>';
         return;
     }
 
