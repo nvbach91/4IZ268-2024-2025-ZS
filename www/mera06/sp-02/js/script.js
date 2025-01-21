@@ -11,7 +11,7 @@ let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 let lastSearch = JSON.parse(localStorage.getItem('lastSearch')) || { query: '', year: '' };
 
 // Render favorites
-function renderFavorites() {
+const renderFavorites = () => {
     favoritesList.innerHTML = '';
     const fragment = document.createDocumentFragment();
 
@@ -49,28 +49,28 @@ function renderFavorites() {
     });
 
     favoritesList.appendChild(fragment);
-}
+};
 
 // Fetch movie data
-async function fetchMovies(query, year) {
-    resultsSection.innerHTML = '<p class="text-center">Loading...</p>'; // Loading indicator
+const fetchMovies = async (query, year) => {
+    resultsSection.innerHTML = '<p class="text-center">Loading...</p>';
     const url = `${base_url}?apikey=${apiKey}&s=${query}${year ? `&y=${year}` : ''}`;
     const response = await fetch(url);
     const data = await response.json();
     return data.Search || [];
-}
+};
 
 // Fetch movie details
-async function fetchMovieDetails(imdbID) {
-    detailsSection.innerHTML = '<p class="text-center">Loading details...</p>'; // Loading indicator
+const fetchMovieDetails = async (imdbID) => {
+    detailsSection.innerHTML = '<p class="text-center">Loading details...</p>';
     const url = `${base_url}?apikey=${apiKey}&i=${imdbID}`;
     const response = await fetch(url);
     const data = await response.json();
     return data;
-}
+};
 
 // Display search results
-function displayResults(movies) {
+const displayResults = (movies) => {
     resultsSection.innerHTML = '<h2 class="mb-3">Search Results</h2>';
 
     if (movies.length === 0) {
@@ -133,10 +133,10 @@ function displayResults(movies) {
     });
 
     resultsSection.appendChild(fragment);
-}
+};
 
 // Display movie details
-function displayDetails(details) {
+const displayDetails = (details) => {
     const isFavorite = favorites.some(f => f.imdbID === details.imdbID);
     detailsSection.innerHTML = `
         <h2>${details.Title}</h2>
@@ -171,7 +171,7 @@ function displayDetails(details) {
             displayDetails(details);
         };
     }
-}
+};
 
 // Handle form submission
 searchForm.addEventListener('submit', async (e) => {
