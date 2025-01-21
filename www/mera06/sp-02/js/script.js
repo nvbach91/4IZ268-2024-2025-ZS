@@ -23,15 +23,15 @@ const renderFavorites = () => {
         const viewBtn = document.createElement('button');
         viewBtn.textContent = 'View';
         viewBtn.classList.add('btn', 'btn-primary', 'btn-sm', 'me-2');
-        viewBtn.onclick = async () => {
+        viewBtn.addEventListener('click', async () => {
             const details = await fetchMovieDetails(movie.imdbID);
             displayDetails(details);
-        };
+        });
 
         const removeBtn = document.createElement('button');
         removeBtn.textContent = 'Remove';
         removeBtn.classList.add('btn', 'btn-danger', 'btn-sm');
-        removeBtn.onclick = () => {
+        removeBtn.addEventListener('click', () => {
             Swal.fire({
                 title: 'Are you sure?',
                 text: 'Do you want to remove this movie from favorites?',
@@ -47,7 +47,7 @@ const renderFavorites = () => {
                     Swal.fire('Removed!', 'The movie has been removed from favorites.', 'success');
                 }
             });
-        };
+        });
 
         const buttonGroup = document.createElement('div');
         buttonGroup.appendChild(viewBtn);
@@ -109,13 +109,13 @@ const displayResults = (movies) => {
             </div>
         `;
 
-        div.querySelector('.view-details').onclick = async () => {
+        div.querySelector('.view-details').addEventListener('click', async () => {
             const details = await fetchMovieDetails(movie.imdbID);
             displayDetails(details);
             detailsSection.scrollIntoView({ behavior: 'smooth' });
-        };
+        });
 
-        div.querySelector('.toggle-favorite').onclick = async (event) => {
+        div.querySelector('.toggle-favorite').addEventListener('click', async (event) => {
             const details = await fetchMovieDetails(movie.imdbID);
             const isFavorite = favorites.some(f => f.imdbID === details.imdbID);
 
@@ -147,7 +147,7 @@ const displayResults = (movies) => {
                 renderFavorites();
                 Swal.fire('Added!', 'The movie has been added to favorites.', 'success');
             }
-        };
+        });
 
         fragment.appendChild(div);
     });
@@ -172,7 +172,7 @@ const displayDetails = (details) => {
     if (isFavorite) {
         favoriteActionButton.textContent = 'Remove from Favorites';
         favoriteActionButton.classList.add('btn-danger');
-        favoriteActionButton.onclick = () => {
+        favoriteActionButton.addEventListener('click', () => {
             Swal.fire({
                 title: 'Are you sure?',
                 text: 'Do you want to remove this movie from favorites?',
@@ -189,17 +189,17 @@ const displayDetails = (details) => {
                     Swal.fire('Removed!', 'The movie has been removed from favorites.', 'success');
                 }
             });
-        };
+        });
     } else {
         favoriteActionButton.textContent = 'Add to Favorites';
         favoriteActionButton.classList.add('btn-success');
-        favoriteActionButton.onclick = () => {
+        favoriteActionButton.addEventListener('click', () => {
             favorites.push(details);
             localStorage.setItem('favorites', JSON.stringify(favorites));
             renderFavorites();
             displayDetails(details);
             Swal.fire('Added!', 'The movie has been added to favorites.', 'success');
-        };
+        });
     }
 };
 
