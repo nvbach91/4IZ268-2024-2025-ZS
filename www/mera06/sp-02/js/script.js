@@ -174,7 +174,7 @@ function displayDetails(details) {
 }
 
 // Handle form submission
-searchForm.onsubmit = async (e) => {
+searchForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const query = searchInput.value;
     const year = yearInput.value;
@@ -184,7 +184,7 @@ searchForm.onsubmit = async (e) => {
 
     const movies = await fetchMovies(query, year);
     displayResults(movies);
-};
+});
 
 // Initialize
 (async () => {
