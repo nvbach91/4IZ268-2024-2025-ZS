@@ -32,12 +32,21 @@ const renderFavorites = () => {
         removeBtn.textContent = 'Remove';
         removeBtn.classList.add('btn', 'btn-danger', 'btn-sm');
         removeBtn.onclick = () => {
-            const confirmation = confirm('Are you sure you want to remove this movie from favorites?');
-            if (confirmation) {
-                favorites = favorites.filter(f => f.imdbID !== movie.imdbID);
-                localStorage.setItem('favorites', JSON.stringify(favorites));
-                renderFavorites();
-            }
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Do you want to remove this movie from favorites?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, remove it!',
+                cancelButtonText: 'No, keep it',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    favorites = favorites.filter(f => f.imdbID !== movie.imdbID);
+                    localStorage.setItem('favorites', JSON.stringify(favorites));
+                    renderFavorites();
+                    Swal.fire('Removed!', 'The movie has been removed from favorites.', 'success');
+                }
+            });
         };
 
         const buttonGroup = document.createElement('div');
@@ -111,22 +120,33 @@ const displayResults = (movies) => {
             const isFavorite = favorites.some(f => f.imdbID === details.imdbID);
 
             if (isFavorite) {
-                const confirmation = confirm('Are you sure you want to remove this movie from favorites?');
-                if (confirmation) {
-                    favorites = favorites.filter(f => f.imdbID !== details.imdbID);
-                    event.target.textContent = 'Add to Favorites';
-                    event.target.classList.remove('btn-danger');
-                    event.target.classList.add('btn-success');
-                }
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'Do you want to remove this movie from favorites?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, remove it!',
+                    cancelButtonText: 'No, keep it',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        favorites = favorites.filter(f => f.imdbID !== details.imdbID);
+                        event.target.textContent = 'Add to Favorites';
+                        event.target.classList.remove('btn-danger');
+                        event.target.classList.add('btn-success');
+                        localStorage.setItem('favorites', JSON.stringify(favorites));
+                        renderFavorites();
+                        Swal.fire('Removed!', 'The movie has been removed from favorites.', 'success');
+                    }
+                });
             } else {
                 favorites.push(details);
                 event.target.textContent = 'Remove from Favorites';
                 event.target.classList.remove('btn-success');
                 event.target.classList.add('btn-danger');
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+                renderFavorites();
+                Swal.fire('Added!', 'The movie has been added to favorites.', 'success');
             }
-
-            localStorage.setItem('favorites', JSON.stringify(favorites));
-            renderFavorites();
         };
 
         fragment.appendChild(div);
@@ -153,13 +173,22 @@ const displayDetails = (details) => {
         favoriteActionButton.textContent = 'Remove from Favorites';
         favoriteActionButton.classList.add('btn-danger');
         favoriteActionButton.onclick = () => {
-            const confirmation = confirm('Are you sure you want to remove this movie from favorites?');
-            if (confirmation) {
-                favorites = favorites.filter(f => f.imdbID !== details.imdbID);
-                localStorage.setItem('favorites', JSON.stringify(favorites));
-                renderFavorites();
-                displayDetails(details);
-            }
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Do you want to remove this movie from favorites?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, remove it!',
+                cancelButtonText: 'No, keep it',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    favorites = favorites.filter(f => f.imdbID !== details.imdbID);
+                    localStorage.setItem('favorites', JSON.stringify(favorites));
+                    renderFavorites();
+                    displayDetails(details);
+                    Swal.fire('Removed!', 'The movie has been removed from favorites.', 'success');
+                }
+            });
         };
     } else {
         favoriteActionButton.textContent = 'Add to Favorites';
@@ -169,6 +198,7 @@ const displayDetails = (details) => {
             localStorage.setItem('favorites', JSON.stringify(favorites));
             renderFavorites();
             displayDetails(details);
+            Swal.fire('Added!', 'The movie has been added to favorites.', 'success');
         };
     }
 };
