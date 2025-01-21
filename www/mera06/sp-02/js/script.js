@@ -84,7 +84,7 @@ function displayResults(movies) {
         const div = document.createElement('div');
         div.classList.add('card', 'col-md-3', 'p-2');
         div.innerHTML = `
-            <img src="${movie.Poster}" alt="${movie.Title}" class="card-img-top">
+            <img src="${movie.Poster !== 'N/A' ? movie.Poster : 'https://t3.ftcdn.net/jpg/02/48/42/64/360_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg'}" alt="${movie.Title}" class="card-img-top">
             <div class="card-body">
                 <h5 class="card-title">${movie.Title} (${movie.Year})</h5>
                 <button class="btn btn-primary btn-sm view-details" data-id="${movie.imdbID}">View Details</button>
