@@ -2,6 +2,25 @@
     box-sizing: border-box;
 }
 
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #2658e2;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #0530b0;
+    /* Darker blue on hover */
+}
+
+
 /* rgb(155, 215, 255); */
 body {
     padding: 0;
