@@ -1,13 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../style/main.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LuckyPlanner</title>
+  <link rel="stylesheet" href="./style/main.css">
 </head>
 <body>
-    <h1>APP</h1>
-    <script src="../js/main.js"></script>    
+  <div id="spinner" class="spinner"></div>
+  <main id="app">
+    <header>
+      <h1>LuckyPlanner</h1>
+    </header>
+    <div id="notification-container"></div>
+    <div id="app-container">
+      <!-- Left Section -->
+      <section id="task-input-section">
+        <h2>Task Manager</h2>
+        <div id="app-info">
+          <p id="current-date">Date: <span></span></p>
+          <p id="task-count">Tasks: <span>0</span></p>
+        </div>
+        <form id="task-input">
+          <input type="text" id="task" placeholder="Add a new task">
+          <input type="date" id="task-date">
+          <input type="time" id="task-time">
+          <textarea id="task-description" placeholder="Add a description (optional)"></textarea>
+          <button id="add-task" disabled>Add Task</button>
+        </form>
+        <div id="auth-container">
+          <div id="auth-buttons">
+            <button id="auth-button">Sign In</button>
+            <button id="sync-calendar" disabled>Sync with Google Calendar</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Section -->
+      <section id="task-list-section">
+        <h2>Your Tasks</h2>
+        <ul id="task-list">
+          <!-- Tasks will be dynamically added here -->
+        </ul>
+      </section>
+    </div>
+  </main>
+  
+  <script src="https://accounts.google.com/gsi/client"></script>
+  <script src="https://apis.google.com/js/api.js"></script>
+  <script src="./js/main.js"></script>
 </body>
 </html>
