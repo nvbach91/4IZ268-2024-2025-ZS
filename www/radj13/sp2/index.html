@@ -3,10 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <title>Movie search app</title>
 </head>
 <body>
-    <h1>Movie Search App</h1>
+    <header>
+        <h1>Movie Search App</h1>
+        <div id="search-bar">
+            <form id="search-form">
+                <input type="text" id="search-input" placeholder="Search for movies...">
+                <button type="submit" id="searchButton">Search</button>
+            </form>
+            <button id="homeButton">Home</button>
+            <button id="searchResultsButton">Search Results</button>
+            <button id="libraryButton">My Library</button>
+            <div id="popup-container" class="popup-container"></div>
+        </div>
+    </header>
+    <main>
+        <div id="loading-spinner" class="loading-spinner" style="display: none;"></div>
+        <section class="movie-section" id="home-section" style="display: none;">
+            <h2>Newest Films</h2>
+            <div class="movies" id="newest-list"></div>
+            <h2>Top Rated Films</h2>
+            <div class="movies" id="top-rated-list"></div>
+        </section>
+        <section class="movie-section" id="search-results">
+            <h2>Search Results</h2>
+            <div class="movies" id="search-results-list"></div>
+        </section>
+        <section class="movie-section" id="library-results" style="display: none;">
+            <h2>My Library</h2>
+            <div class="movies" id="library-results-list"></div>
+        </section>
+    </main>
+    <div id="movie-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <div id="movie-details-content"></div>
+        </div>
+    </div>
     <script src="js/main.js"></script>
 </body>
 </html>
