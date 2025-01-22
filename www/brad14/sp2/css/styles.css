@@ -2,22 +2,36 @@
     box-sizing: border-box;
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar for WebKit browsers */
 ::-webkit-scrollbar {
     width: 7px;
 }
 
 ::-webkit-scrollbar-track {
     background: transparent;
+    border: 1px solid transparent;
 }
 
 ::-webkit-scrollbar-thumb {
     background-color: #2658e2;
 }
 
-::-webkit-scrollbar-thumb:hover {
-    background-color: #0530b0;
-    /* Darker blue on hover */
+/* Custom scrollbar for Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #2658e2 transparent;
+}
+
+*::-webkit-scrollbar {
+    width: 7px;
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #2658e2;
 }
 
 
