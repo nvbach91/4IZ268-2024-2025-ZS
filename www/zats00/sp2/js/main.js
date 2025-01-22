@@ -15,7 +15,7 @@ const updateEventModal = document.getElementById('updateEventModal');
 
 // TODO(developer): Set to client ID and API key from the Developer Console
 const CLIENT_ID = '1038298541337-30bucs9236c7l2c3eqn5klq8uo8mo5kl.apps.googleusercontent.com';
-const API_KEY = 'AIzaSyBlmHqpjoTCG7ejV-E9zVr925v6H3KR1OQ';
+const API_KEY = '';
 
 // Discovery doc URL for APIs used by the quickstart
 const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest';
