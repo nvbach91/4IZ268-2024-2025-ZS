@@ -11,35 +11,16 @@
 </head>
 
 <body>
-    <h1>Call endar</h1>
-    <button id="addEventButton"> Add event</button>
+    <div id="container">
+        <div id="header">
+            <div id="monthDisplay"></div>
+            <div>
+                <button id="backButton">Back</button>
+                <button id="nextButton">Next</button>
+            </div>
 
-    <div id="eventForm" style="display: none;">
-        <h3>Event Details</h3>
-        <form id="eventDetailsForm">
-            <label for="eventTitle">Event Title:</label>
-            <input type="text" id="eventTitle" name="eventTitle" required><br><br>
-
-            <label for="eventTime">Event Time:</label>
-            <input type="time" id="eventTime" name="eventTime" required><br><br>
-
-            <label for="eventDate">Event Date:</label>
-            <input type="date" id="eventDate" name="eventDate" required><br><br>
-
-            <button type="submit">Submit Event</button>
-        </form>
-    </div>
-    <div id="eventDisplaySection">
-        <h2>Upcoming Events:</h2>
-    </div>
-    <div class="calendar-wrapper">
-        <div class="calendar-month-year-wrapper">
-            <button type="button" id="calendar-previous-month" disabled="true">
-                &#x2190; Previous month </button>
-            <div class="calendar-month-year"></div>
-            <button type="button" id="calendar-next-month">Next month &rarr;</button>
         </div>
-        <div class="calendar-week-days">
+        <div id="weekdays">
             <div>Monday</div>
             <div>Tuesday</div>
             <div>Wednesday</div>
@@ -48,9 +29,69 @@
             <div>Saturday</div>
             <div>Sunday</div>
         </div>
-        <div class="calendar-days"></div>
+        <div id="calendar">
+        </div>
+    </div>    
+    <div id="newEventModal">
+        <h2>New event</h2>
+        <input id="eventTitleInput" placeholder="Event Title">
+        <form>
+            <h3>Details of the event</h3>
+            <textarea id="eventNoteInput" placeholder="Event Note" size="600"> </textarea>
+            <h3>Choose a priority:</h3>
+            <select id="options" name="options">
+                <option value="low">Low</option>
+                <option value="middle">Middle</option>
+                <option value="high">High</option>
+            </select>
+        </form>
+        <button id="saveButton">Save</button>
+        <button id="cancelButton">Cancel</button>
+    </div>
+    <div id="updateEventModal">
+        <h2>Update event</h2>
+        <input id="eventUpdateTitleInput" placeholder="Event Title">
+        <form>
+            <h3>Details of the event</h3>
+            <textarea id="eventUpdateNoteInput" placeholder="Event Note" size="600"> </textarea>
+            <h3>Choose a priority:</h3>
+            <select id="optionsUpdate" name="options">
+                <option value="low">Low</option>
+                <option value="middle">Middle</option>
+                <option value="high">High</option>
+            </select>
+        </form>
+        <button id="updateButton">Update</button>
+        <button id="cancelUpdateButton">Cancel</button>
+    </div>
+    <div id="deleteEventModal">
+        
+        <h2 id="eventText"></h2>
+        <p id="eventNotePopUp"></p>
+        <button id="deleteButton">Delete</button>
+        <button id="closeButton">Close</button>
+        <button id="changeButton">Change</button>
+    </div>
+    <div id="modalBackDrop">
+
+    </div>
+    <div id="eventDisplaySection">
+    </div>
+    <div id="notification">
     </div>
 
+   
+
+    <!--Add buttons to initiate auth sequence and sign out-->
+    <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
+    <button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
+
+    <pre id="content" style="white-space: pre-wrap;"></pre>
+
+    <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
+    <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
+  
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.slim.min.js" defer></script>
     <script src="./js/main.js"></script>
 </body>
