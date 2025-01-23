@@ -1,153 +1,197 @@
-const App = {
-  users: [],
-  currentUser: null,
+// app.js
+import CONFIG from './config.js';
+import router from './router.js';
+import auth from './auth.js';
+import places from './places.js';
+import directions from './directions.js';
+import itineraryDetails from './itinerary-details.js';
+import NotificationManager from './notifications.js';
+import recommendationService from './recommendations.js';
+import statisticsService from './statistics.js';
 
-  // Kontrola přihlášení uživatele
-  checkAuth() {
-    const storedUser = localStorage.getItem('currentUser');
-    if (storedUser) {
-      this.currentUser = JSON.parse(storedUser);
-      $('#auth-section').hide();
-      $('#map-section, #directions-section, #itineraries-section, #itinerary-details-section').show();
-      this.renderUserMenu();
-    } else {
-      this.currentUser = null;
-      $('#auth-section').show();
-      $('#map-section, #directions-section, #itineraries-section, #itinerary-details-section').hide();
+class TripPlannerApp {
+    constructor() {
+        this.initializeApp();
     }
-  },
 
-  // Vykreslení uživatelského menu
-  renderUserMenu() {
-    const userMenu = `
-      <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="userMenuButton"
-                data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="bi bi-person-circle"></i> ${this.currentUser?.email || 'Uživatel'}
-        </button>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#" id="new-itinerary">Nový itinerář</a></li>
-          <li><a class="dropdown-item" href="#" id="my-trips">Moje cesty</a></li>
-          <li><a class="dropdown-item" href="#" id="settings">Nastavení</a></li>
-          <li><a class="dropdown-item text-danger" href="#" id="logout">Odhlásit se</a></li>
-        </ul>
-      </div>
-    `;
-    $('#user-menu-container').html(userMenu);
+    async initializeApp() {
+        try {
+            // Setup error handling
+            this.setupErrorHandling();
 
-    $('#logout').on('click', () => {
-      localStorage.removeItem('currentUser');
-      this.checkAuth();
-    });
+            // Setup offline capabilities
+            this.setupOfflineSupport();
 
-    $('#new-itinerary').on('click', () => {
-      $('#map-section, #directions-section, #itineraries-section, #itinerary-details-section').hide();
-      $('#itinerary-form').show();
-    });
+            // Initialize core components
+            await this.initializeComponents();
 
-    $('#my-trips').on('click', () => {
-      $('#map-section, #directions-section, #itinerary-form').hide();
-      $('#itineraries-section, #itinerary-details-section').show();
-      ItineraryDetails.renderDetails();
-    });
+            // Check initial authentication state
+            this.checkAuthenticationState();
 
-    $('#settings').on('click', () => {
-      Swal.fire('Nastavení', 'Zde můžete měnit nastavení uživatelského profilu.', 'info');
-    });
-  },
+            // Initialize notifications
+            this.initializeNotifications();
 
-  Itineraries: {
-    addItinerary() {
-      const name = $('#itinerary-name').val().trim();
-      const date = $('#itinerary-date').val();
-      const destination = $('#itinerary-destination').val().trim();
+            // Setup global event listeners
+            this.setupGlobalEventListeners();
 
-      if (!name || !date || !destination) {
-        Swal.fire('Chyba!', 'Vyplňte všechny údaje pro nový itinerář.', 'error');
-        return;
-      }
-
-      const newItinerary = {
-        name,
-        date,
-        destination,
-        activities: []
-      };
-
-      if (!App.currentUser.itineraries) {
-        App.currentUser.itineraries = [];
-      }
-
-      App.currentUser.itineraries.push(newItinerary);
-      localStorage.setItem('currentUser', JSON.stringify(App.currentUser));
-
-      Swal.fire('Úspěch!', `Itinerář "${name}" byl vytvořen.`, 'success');
-      $('#itinerary-name, #itinerary-date, #itinerary-destination').val('');
-      ItineraryDetails.renderDetails();
-    },
-
-    addActivity(name, time) {
-      const currentItinerary = this.getCurrentItinerary();
-      if (!currentItinerary) return;
-
-      const activity = { type: 'activity', name, time };
-      currentItinerary.activities.push(activity);
-      this.saveItineraries();
-    },
-
-    addRoute(origin, destination, distance, duration) {
-      const currentItinerary = this.getCurrentItinerary();
-      if (!currentItinerary) return;
-
-      const route = { type: 'route', origin, destination, distance, duration };
-      currentItinerary.activities.push(route);
-      this.saveItineraries();
-    },
-
-    addPlace(name, description) {
-      const currentItinerary = this.getCurrentItinerary();
-      if (!currentItinerary) return;
-
-      const place = { type: 'place', name, description };
-      currentItinerary.activities.push(place);
-      this.saveItineraries();
-    },
-
-    getCurrentItinerary() {
-      if (!App.currentUser.itineraries || App.currentUser.itineraries.length === 0) {
-        Swal.fire('Chyba!', 'Žádný itinerář není aktuálně vytvořen.', 'error');
-        return null;
-      }
-      return App.currentUser.itineraries[App.currentUser.itineraries.length - 1];
-    },
-
-    saveItineraries() {
-      localStorage.setItem('currentUser', JSON.stringify(App.currentUser));
-      ItineraryDetails.renderDetails();
+        } catch (error) {
+            this.handleInitializationError(error);
+        }
     }
-  },
 
-  // Přidávání aktivit do itineráře
-  initializeActivityForm() {
-    $('#add-activity-form').on('submit', (e) => {
-      e.preventDefault();
-      const name = $('#activity-name').val();
-      const time = $('#activity-time').val();
-      App.Itineraries.addActivity(name, time);
-      Swal.fire('Úspěch!', 'Aktivita byla přidána do itineráře.', 'success');
-    });
-  },
+    setupErrorHandling() {
+        window.addEventListener('error', (event) => {
+            console.error('🚨 Unhandled Error:', event.error);
+            NotificationManager.show({
+                type: 'error',
+                message: 'An unexpected error occurred. Please try again.'
+            });
+        });
 
-  initialize() {
-    this.users = JSON.parse(localStorage.getItem('users')) || [];
-    this.checkAuth();
-    Auth.initializeAuth();
-    Places.initializePlaces();
-    Directions.initializeDirections();
-    ItineraryDetails.renderDetails();
-  }
-};
+        // Handle promise rejections
+        window.addEventListener('unhandledrejection', (event) => {
+            console.error('🚨 Unhandled Promise Rejection:', event.reason);
+            NotificationManager.show({
+                type: 'error',
+                message: 'An unhandled error occurred. Please check the console.'
+            });
+        });
+    }
 
-$(document).ready(() => {
-  App.initialize();
-});
+    setupOfflineSupport() {
+        if ('serviceWorker' in navigator && CONFIG.FEATURES.OFFLINE_MODE) {
+            window.addEventListener('load', async () => {
+                try {
+                    // Dynamically calculate the base path
+                    const basePath = window.location.pathname.replace(/\/[^/]*$/, '');
+                    const registration = await navigator.serviceWorker.register(`${basePath}/js/service-worker.js`, {
+                        scope: `${basePath}/`
+                    });
+        
+                    console.log('Service Worker registered successfully', registration);
+                } catch (error) {
+                    console.error('Service Worker registration failed', error);
+                }
+            });
+        }
+    }
+
+    async initializeComponents() {
+        try {
+            // Core services that should always initialize
+            await auth.initialize();
+    
+            // Initialize route-dependent services based on current path
+            const currentPath = window.location.pathname;
+            
+            // Initialize only required services based on route
+            const initPromises = [];
+    
+            // Auth should always initialize
+            initPromises.push(auth.initialize());
+    
+            // Only initialize services if we're on their respective pages
+            if (currentPath === '/search') {
+                // Delay places initialization until after router renders the page
+                setTimeout(() => places.initialize(), 100);
+            }
+    
+            if (currentPath === '/recommendations') {
+                setTimeout(() => recommendationService.initialize(), 100);
+            }
+    
+            if (currentPath === '/itineraries') {
+                initPromises.push(itineraryDetails.initialize());
+            }
+    
+            // Statistics should only initialize on dashboard
+            if (currentPath === '/dashboard') {
+                initPromises.push(statisticsService.initialize());
+            }
+    
+            await Promise.allSettled(initPromises);
+            console.log('✅ Core components initialized successfully');
+        } catch (error) {
+            console.error('❌ Component initialization failed:', error);
+        }
+    }
+    
+    setupGlobalEventListeners() {
+        // Global event delegation for route and action buttons
+        document.addEventListener('click', (event) => {
+            const loginButton = event.target.closest('#loginButton');
+            const signUpButton = event.target.closest('#signUpButton');
+            const logoutButton = event.target.closest('#logout-btn');
+
+            if (loginButton) {
+                console.log('🔐 Login button clicked');
+                router.navigateTo('/login');
+            }
+
+            if (signUpButton) {
+                console.log('🆕 Sign Up button clicked');
+                router.navigateTo('/register');
+            }
+
+            if (logoutButton) {
+                console.log('🚪 Logout button clicked');
+                auth.logout();
+                router.navigateTo('/');
+            }
+        });
+
+        // Setup global custom events
+        document.addEventListener('addToItinerary', (event) => {
+            console.log('📅 Add to Itinerary Event:', event.detail);
+            NotificationManager.show({
+                type: 'success',
+                message: 'Item added to itinerary'
+            });
+        });
+
+        // Network status events
+        window.addEventListener('online', () => {
+            NotificationManager.show({
+                type: 'success',
+                message: 'Internet connection restored'
+            });
+        });
+
+        window.addEventListener('offline', () => {
+            NotificationManager.show({
+                type: 'warning',
+                message: 'You are currently offline'
+            });
+        });
+    }
+
+    checkAuthenticationState() {
+        const user = auth.getCurrentUser();
+        if (user) {
+            // User is logged in, navigate to dashboard
+            router.navigateTo(CONFIG.ROUTES.DASHBOARD);
+        } else {
+            // No user, navigate to home
+            router.navigateTo(CONFIG.ROUTES.HOME);
+        }
+    }
+
+    initializeNotifications() {
+        if (CONFIG.FEATURES.NOTIFICATIONS) {
+            NotificationManager.requestPermission();
+        }
+    }
+
+    handleInitializationError(error) {
+        console.error('🚨 App initialization failed:', error);
+        NotificationManager.show({
+            type: 'error',
+            message: 'Failed to start the application. Please refresh or contact support.'
+        });
+    }
+}
+
+// Create and initialize the app
+const app = new TripPlannerApp();
+
+export default app;
