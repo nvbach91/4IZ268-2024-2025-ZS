@@ -3,29 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather</title>
+    <title>WeatherHub</title>
     <link href="./assets/css/style.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 <body>
-    <div class="container">
-        <header></header>
-        <main>
-            <div id="main-part">
-                <div class="map"></div>
-                <input type="text" id="city-input" placeholder="Zadejte město" />
-                <button id="get-weather" class="btn btn-primary mt-2">Zobrazit počasí</button>
-                <div id="weather-details" class="mt-4"></div>
+    
+    <div class="app-container">
+        <!-- sidebar -->
+        <aside class="capital-cities">
+          <h2>Capital cities</h2>
+          <ul>
+            <li data-city="Prague">Prague </li>
+            <li data-city="Bratislava">Bratislava</li>
+            <li data-city="Vienna">Vienna</li>
+            <li data-city="Berlin">Berlin</li>
+            <li data-city="Warsaw">Warsaw</li>
+            <li data-city="Budapest">Budapest</li>
+            <li data-city="Ljubljana">Ljubljana</li>
+            <li data-city="Zagreb">Zagreb</li>
+            <li data-city="Vaduz">Vaduz</li>
+            <li data-city="Bern">Bern</li>
+            <li data-city="London">London</li>
+            <li data-city="Paris">Paris</li>
+            <li data-city="Rome">Rome</li>
+            <li data-city="Madrid">Madrid</li>
+            <li data-city="Lisbon">Lisbon</li>
+            <li data-city="Oslo">Oslo</li>
+            <li data-city="Stockholm">Stockholm</li>
+            <li data-city="Helsinki">Helsinki</li>
+            <li data-city="Copenhagen">Copenhagen</li>
+            <li data-city="Tallinn">Tallinn</li>
+          </ul>
+        </aside>
+      
+        <!-- Main part -->
+        <main class="main-content">
+          <h1>WeatherHub</h1>
+          <div id="location-info">Your location: Not available</div>
+          
+          <div  class="input-group" class="search-bar">
+            <input type="text" class="form-control" id="search-city" placeholder="Search city..." />
+            <button type="button" class="btn btn-secondary" id="search-btn">Search</button>
+          </div>
+          <div id="error-message" class="error hidden"></div>
+      
+          <!-- Displayed city -->
+          <div class="current-city">
+
+            <div id="spinner-container" style="display: none;">
+              <div class="spinner-border text-info" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
             </div>
-            <div id="favourite-cities">
-                <h4>Oblíbená města</h4>
-            <ul id="favorites-list">
-                <li>Prague</li>
-                <li>Berlin</li>
-                <li>London</li>
-            </ul>
+
+            <h2 id="city-name">City name</h2>
+            <span class="favorite-icon">
+              <i class="fa-regular fa-heart"></i>
+            </span>
+            
+            <div class="weather-info">
+              <img id="weather-icon" src="" alt="Weather condition" />
+              <p id="weather-description">Weather description</p>
             </div>
+          </div>
+      
+          <!-- More details about city -->
+          <div class="weather-details">
+            <div class="detail-item">
+              <p id="temp">Temperature</p>
+            </div>
+            <div class="detail-item">
+              <p id="precipitation">Precipitation</p>
+            </div>
+            <div class="detail-item">
+              <p id="humidity">Humidity</p>
+            </div>
+            <div class="detail-item">
+              <p id="wind-speed">Wind speed</p>
+            </div>
+          </div>
+      
+          <!-- Forecast hourly/daily -->
+          <div class="forecast">
+            <h2>Forecast</h2>
+            <div id="forecast-container" class="hourly-forecast">
+              <!-- Dynamic generated  -->
+            </div>
+            <button type="button" class="btn btn-secondary" id="toggle-forecast-btn"></button>
+          </div>
+      
+          <!-- Favourite cities -->
+          <div class="favorites">
+            <h2>Favorite cities</h2>
+
+            <div id="favorites-container">
+              <!-- Dynamic generated -->
+            </div>
+          </div>
         </main>
-    </div>
+      </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="./assets/js/main.js"></script>
 </body>
