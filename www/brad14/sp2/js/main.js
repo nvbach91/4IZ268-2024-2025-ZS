@@ -502,6 +502,55 @@
     }
 
 
+    const renderLocationOptions = (locationOptionsData) => {
+        const html = `
+            <p class="title">Choose your location:</p>
+            <div class="locations">
+                ${renderLocationOptionsContent(locationOptionsData)}
+            </div>
+        `;
+        locationHistory.empty().append(html);
+
+        $('.location-option').on('click', async (e) => {
+            const location = e.target.closest('.location-option').dataset.location;
+            try {
+                addLoadingUi();
+                const coordinatesArray = await fetchCoordinates(location, 1);
+                const coordinates = coordinatesArray[0];
+                searchWrapper.addClass('chosen');
+                input.trigger('blur');
+                const locationName = `${coordinates.name}, ${coordinates.country}`;
+                input.val(locationName);
+                updateLocations(locationName);
+                const weatherData = await fetchWeatherData(coordinates.lat, coordinates.lon);
+                renderWeatherData(weatherData);
+                editing = false;
+            } catch (error) {
+                toastError(error.message);
+                // set the value of the location back
+                input.val(location);
+                input.trigger('focus');
+            } finally {
+                removeLoadingUi();
+            }
+        });
+    }
+
+    const renderLocationOptionsContent = (locationOptionsData) => {
+        let html = '';
+        locationOptionsData.forEach((location) => {
+            const locationDescription = `${location.name}, ${location.state}, ${location.country}`;
+            const lat = location.lat;
+            const lon = location.lon;
+            const locationHtml = `
+                <div class="location-option" data-lat="${lat}" data-lon="${lon}" data-location="${locationDescription}">${locationDescription}</div>
+            `;
+            html += locationHtml;
+        });
+        return html;
+    }
+
+
 
     /////////////////////////////////////////////////////
     // UTILITIES
@@ -1043,54 +1092,6 @@
     input.on('keydown', () => {
         clearTimeout(typingTimer);
     });
-
-    const renderLocationOptions = (locationOptionsData) => {
-        const html = `
-            <p class="title">Choose your location:</p>
-            <div class="locations">
-                ${renderLocationOptionsContent(locationOptionsData)}
-            </div>
-        `;
-        locationHistory.empty().append(html);
-
-        $('.location-option').on('click', async (e) => {
-            const location = e.target.closest('.location-option').dataset.location;
-            try {
-                addLoadingUi();
-                const coordinatesArray = await fetchCoordinates(location, 1);
-                const coordinates = coordinatesArray[0];
-                searchWrapper.addClass('chosen');
-                input.trigger('blur');
-                const locationName = `${coordinates.name}, ${coordinates.country}`;
-                input.val(locationName);
-                updateLocations(locationName);
-                const weatherData = await fetchWeatherData(coordinates.lat, coordinates.lon);
-                renderWeatherData(weatherData);
-                editing = false;
-            } catch (error) {
-                toastError(error.message);
-                // set the value of the location back
-                input.val(location);
-                input.trigger('focus');
-            } finally {
-                removeLoadingUi();
-            }
-        });
-    }
-
-    const renderLocationOptionsContent = (locationOptionsData) => {
-        let html = '';
-        locationOptionsData.forEach((location) => {
-            const locationDescription = `${location.name}, ${location.state}, ${location.country}`;
-            const lat = location.lat;
-            const lon = location.lon;
-            const locationHtml = `
-                <div class="location-option" data-lat="${lat}" data-lon="${lon}" data-location="${locationDescription}">${locationDescription}</div>
-            `;
-            html += locationHtml;
-        });
-        return html;
-    }
 
     // clear input value on clear icon click
     clearIcon.on('click', (e) => {
