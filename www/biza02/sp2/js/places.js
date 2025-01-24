@@ -10,70 +10,90 @@ class PlacesService {
         this.markers = [];
         this.searchResults = [];
         this.placeDetails = new Map();
-        this.bounds = null;
+        this.bounds = L.latLngBounds();
         this.initialized = false;
     }
 
     async initialize() {
         try {
+            // Show loading spinner
             loadingManager.show('Initializing map...');
-            
+    
+            // Debugging log for the map container
             const mapContainer = document.getElementById('map');
+            console.log('Map container:', mapContainer);
+    
             if (!mapContainer) {
-                console.log('Map container not present, skipping initialization');
-                return;
+                console.error('Map container not found in DOM. Skipping initialization.');
+                NotificationManager.show({
+                    type: 'error',
+                    message: 'Map container not found. Please ensure the #map element exists.',
+                });
+                return; // Stop execution if the map container doesn't exist
             }
-
+    
             if (this.initialized) {
-                console.log('Places service already initialized');
-                return;
+                console.log('Places service already initialized.');
+                return; // Prevent multiple initializations
             }
-
-            // Set explicit height for map container
+    
+            // Debugging log for the Leaflet library
+            console.log('Leaflet library loaded:', L);
+    
+            if (!L || !L.map) {
+                console.error('Leaflet library is not available.');
+                NotificationManager.show({
+                    type: 'error',
+                    message: 'Failed to load Leaflet library. Please check your configuration.',
+                });
+                return; // Stop execution if Leaflet isn't loaded
+            }
+    
+            // Set dimensions for the map container
             mapContainer.style.height = '500px';
             mapContainer.style.width = '100%';
-
+    
             // Initialize the map
             this.map = L.map('map').setView(
                 [CONFIG.MAP.DEFAULT_CENTER.LAT, CONFIG.MAP.DEFAULT_CENTER.LNG],
                 CONFIG.MAP.DEFAULT_ZOOM
             );
-
+    
             // Add OpenStreetMap tile layer
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors',
                 maxZoom: CONFIG.MAP.MAX_ZOOM,
-                minZoom: CONFIG.MAP.MIN_ZOOM
+                minZoom: CONFIG.MAP.MIN_ZOOM,
             }).addTo(this.map);
-
-            // Initialize bounds
-            this.bounds = L.latLngBounds();
-            
+    
             // Setup event listeners
             this.setupEventListeners();
-            
+    
             // Initialize directions service
             await directionsService.initialize(this.map);
-            
+    
+            // Mark initialization as complete
             this.initialized = true;
-            console.log('Places service initialized successfully');
-
-            // Force a map resize to handle any display issues
+            console.log('Places service initialized successfully.');
+    
+            // Force a map resize
             setTimeout(() => {
                 this.map.invalidateSize();
             }, 100);
-
+    
         } catch (error) {
             console.error('Places initialization error:', error);
             NotificationManager.show({
                 type: 'error',
-                message: 'Failed to initialize map'
+                message: 'Failed to initialize map. Please check your configuration.',
             });
         } finally {
+            // Hide loading spinner
             loadingManager.hide();
         }
     }
-
+    
+    
     setupEventListeners() {
         const searchForm = document.getElementById('places-form');
         if (searchForm) {
@@ -155,16 +175,16 @@ class PlacesService {
     async displaySearchResults(places, searchQuery) {
         const placesListContainer = document.getElementById('places-list');
         if (!placesListContainer) return;
-
+    
         // Clear previous results
         this.clearResults();
-
+    
         const resultsHTML = document.createElement('div');
         resultsHTML.className = 'row mt-3';
-
+    
         // Reset bounds
         this.bounds = L.latLngBounds();
-
+    
         places.forEach(place => {
             if (place.lat && place.lon) {
                 // Create and add marker
@@ -182,10 +202,10 @@ class PlacesService {
                             </div>
                         </div>
                     `);
-
+    
                 this.markers.push(marker);
                 this.bounds.extend([place.lat, place.lon]);
-
+    
                 // Create place card
                 const placeCard = document.createElement('div');
                 placeCard.className = 'col-md-6 mb-3';
@@ -210,24 +230,29 @@ class PlacesService {
                 resultsHTML.appendChild(placeCard);
             }
         });
-
+    
         // Add results to container
         placesListContainer.innerHTML = '';
         placesListContainer.appendChild(resultsHTML);
-
+    
         // Fit map to bounds
-        if (!this.bounds.isEmpty()) {
+        if (this.bounds.isValid() && !this.bounds.equals(L.latLngBounds())) {
             this.map.fitBounds(this.bounds, {
                 padding: [50, 50],
-                maxZoom: 15
+                maxZoom: 15,
             });
+        } else {
+            this.map.setView(
+                [CONFIG.MAP.DEFAULT_CENTER.LAT, CONFIG.MAP.DEFAULT_CENTER.LNG],
+                CONFIG.MAP.DEFAULT_ZOOM
+            );
         }
-
+    
         NotificationManager.show({
             type: 'success',
-            message: `Found ${places.length} places near ${searchQuery}`
+            message: `Found ${places.length} places near ${searchQuery}`,
         });
-    }
+    }    
 
     async showPlaceDetails(placeId) {
         try {
@@ -340,7 +365,6 @@ class PlacesService {
             `;
         }
     }
-
 
     showLoadingState(isLoading) {
         const spinner = document.getElementById('loading-spinner');
