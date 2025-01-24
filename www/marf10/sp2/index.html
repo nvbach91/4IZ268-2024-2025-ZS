@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trivia Quest</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div id="loader" class="hidden loader">
+        <div class="spinner"></div>
+    </div>
+
+    <header>
+        <h1>Trivia Quest</h1>
+    </header>
+
+    <main>
+        <section id="settings">
+            <div class="container">
+                <h2>Setup Quiz</h2>
+                <form id="quiz-settings">
+                    <label for="category">Category:</label>
+                    <select id="category" name="category">
+                        <option value="random">Random</option>
+                    </select>
+
+                    <label for="difficulty">Difficulty:</label>
+                    <select id="difficulty" name="difficulty">
+                        <option value="random">Random</option>
+                    </select>
+
+                    <label for="amount">Number of Questions:</label>
+                    <input type="number" id="amount" name="amount" min="1" max="50" value="10">
+
+                    <button type="button" id="start-quiz" class="primary-button">Start Quiz</button>
+                </form>
+            </div>
+        </section>
+
+        <section id="quiz" class="hidden">
+            <div class="quiz-container">
+                <div class="question-progress">
+                    <p id="progress">0/10</p>
+                </div>
+                <div class="question-box">
+                    <h2 id="question">Question text</h2>
+                </div>
+                <div id="answers" class="answers-box"></div>
+                <div class="quiz-controls">
+                    <button id="prev-question" class="control-button blue-button">Previous Question</button>
+                    <button id="end-quiz" class="control-button red-button">Evaluate Quiz</button>
+                    <button id="next-question" class="control-button orange-button">Skip This Question</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="results" class="hidden">
+            <div class="container">
+                <h2>Results</h2>
+                <p id="score">Your Score: X/X</p>
+                <canvas id="results-chart" class="results-chart"></canvas>
+                <p>Overall Stats:</p>
+                <canvas id="global-chart" class="global-chart"></canvas>
+                <div id="results-controls">
+                    <button id="play-again" class="control-button">Play Again</button>
+                    <button id="change-settings" class="control-button">Change Settings</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 Trivia Quest</p>
+        <p><a href="https://opentdb.com" target="_blank">Powered by Open Trivia Database</a></p>
+        <p><a id="reset-stats" class="reset-link" href="#">Reset Stats</a></p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>
