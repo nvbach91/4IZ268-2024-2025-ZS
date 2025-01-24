@@ -60,8 +60,8 @@
      * @param {string} location - The name of the location.
      * @returns {Promise<Object|Error>} The coordinates of the location or an error if not found.
      */
-    const fetchCoordinates = async (location) => {
-        const url = constructUrl(BASE_URL_GEO_DIRECT, `q=${location}&limit=3`);
+    const fetchCoordinates = async (location, numberOfLocations) => {
+        const url = constructUrl(BASE_URL_GEO_DIRECT, `q=${location}&limit=4`);
         try {
             const res = await fetch(url);
             if (!res.ok) {
@@ -71,7 +71,7 @@
             if (data.length === 0) {
                 throw new Error('Location not found');
             }
-            return data[0];
+            return data.slice(0, numberOfLocations);
         } catch (error) {
             if (error.message === 'Failed to fetch') {
                 throw new Error('Network error: Please check your internet connection.');
@@ -118,7 +118,7 @@
                     <div class="big-temp">
                         <p class="main"><span class="current-temp">${Math.round(data.current.temp)}</span><span class="current-unit">°</span></p>
                         <div>
-                            <img width="90" height="90" src="./images/weather/${getIconName(data.current.weather[0], data.current.dt, data.current.sunrise, data.current.sunset)}.png" alt="Sun">
+                            <img width="90" height="90" src="./images/weather/${getIconName(data.current.weather[0], data.current.dt, data.current.sunrise, data.current.sunset)}.png" alt="${data.current.weather[0].description}" title="${data.current.weather[0].description}">
                         </div>
                     </div>
                     <div class="info">
@@ -237,7 +237,7 @@
             <div class="hour-box">
                 <p class="time">${index === 0 ? 'now' : dateTime.time}</p>
                 <div class="img-wrapper">
-                    <img width="60" src="./images/weather/${getIconName(hour.weather[0], hour.dt, sunrise, sunset)}.png" alt="">
+                    <img width="60" src="./images/weather/${getIconName(hour.weather[0], hour.dt, sunrise, sunset)}.png" alt="${hour.weather[0].description}" title="${hour.weather[0].description}">
                 </div>
                 <p class="temp"><span class="temp-number">${Math.round(hour.temp)}</span> °C</p>
             </div>
@@ -262,7 +262,7 @@
                 <div class="date">${index === 0 ? 'Today' : dateTime.weekDay} ${dateTime.dayOfMonth} ${dateTime.month}</div>
                 <div class="weather-info">
                     <div class="img-wrapper">
-                        <img width="40" src="./images/weather/${getIconName(day.weather[0], day.dt, day.sunrise, day.sunset)}.png" alt="">
+                        <img width="40" src="./images/weather/${getIconName(day.weather[0], day.dt, day.sunrise, day.sunset)}.png" alt="${day.weather[0].description}" title="${day.weather[0].description}">
                     </div>
                     <p class="min-max-temp">${Math.round(day.temp.day)}°<span class="night-temp">/</span><span class="night-temp">${Math.round(day.temp.night)}°</span></p>
                 </div>
@@ -313,7 +313,7 @@
                 <div class="xl temperature">
                     <span>${day.temp.day.toFixed()}<span class="current-unit">°</span><span class="night-temp"><span
                                 class="slash standard">/ </span>${day.temp.min.toFixed()}<span class="current-unit">°</span></span></span>
-                    <img src="./images/weather/${getIconName(day.weather[0], day.dt, day.sunrise, day.sunset)}.png" alt="weather icon" width="100">
+                    <img src="./images/weather/${getIconName(day.weather[0], day.dt, day.sunrise, day.sunset)}.png" alt="${day.weather[0].description}" title="${day.weather[0].description}" width="100">
                 </div>
                 <div class="description">${day.summary}</div>
             </div>
@@ -418,7 +418,7 @@
             <div class="hour-box day ${indexActive === index ? 'active' : ''}" data-index="${index}" data-lat="${data.lat}" data-lon="${data.lon}">
                 <p class="time">${index === 0 ? 'Today' : dateTime.weekDay.slice(0, 3)}</p>
                 <div class="img-wrapper">
-                    <img width="50" src="./images/weather/${getIconName(day.weather[0], day.dt, day.sunrise, day.sunset)}.png" alt="">
+                    <img width="50" src="./images/weather/${getIconName(day.weather[0], day.dt, day.sunrise, day.sunset)}.png" alt="${day.weather[0].description}" title="${day.weather[0].description}">
                 </div>
                 <p class="min-max-temp">${Math.floor(day.temp.day)}°<span class="night-temp">/</span><span class="night-temp">${Math.floor(day.temp.min)}°</span>
                 </p>
@@ -635,7 +635,8 @@
             addLoadingUi();
             try {
                 searchWrapper.addClass('chosen');
-                const coordinates = await fetchCoordinates(location);
+                const coordinatesArray = await fetchCoordinates(location, 1);
+                const coordinates = coordinatesArray[0];
                 // set the the location into the input
                 input.val(`${coordinates.name}, ${coordinates.country}`);
                 const weatherData = await fetchWeatherData(coordinates.lat, coordinates.lon);
@@ -833,7 +834,6 @@
     }
 
     const loader = $('.loader');
-
     let loaderTimeout;
     /**
      * Displays a loading UI with a delay.
@@ -865,6 +865,18 @@
                 loaderWrapper.slideUp();
             }, 200);
         }, 400);
+    };
+
+    const addLoadingUiLocationOptions = () => {
+        const html = `
+            <div class="center">
+                <div class="loader-wrapper visible">
+                    <div class="loader visible"></div>
+                </div>
+            </div>
+        `;
+        console.log(html);
+        locationHistory.empty().append(html);
     };
 
     /**
@@ -952,7 +964,8 @@
         // try fetching coordinates for the location
         try {
             addLoadingUi();
-            const coordinates = await fetchCoordinates(location);
+            const coordinatesArray = await fetchCoordinates(location, 1);
+            const coordinates = coordinatesArray[0];
             searchWrapper.addClass('chosen');
             input.trigger('blur');
             const locationName = `${coordinates.name}, ${coordinates.country}`;
@@ -972,14 +985,19 @@
     });
 
 
+    const locationIcon = $('#location-icon');
+    const clearIcon = $('#clear-icon');
+    const spinnerIcon = $('#spinner-icon');
+
     // handle focus event on input element
     input.on('focus', (e) => {
         value = input.val();
         editing = true;
         overlay.fadeIn('fast');
         overlay.addClass('visible');
-        $('#location-icon').css('display', 'none');
-        $('#clear-icon').css('display', 'flex');
+        locationIcon.css('display', 'none');
+        clearIcon.css('display', 'flex');
+        updateRecentSearches();
         locationHistory.slideDown({
             duration: 200,
         });
@@ -992,8 +1010,8 @@
             setTimeout(() => {
                 overlay.removeClass('visible')
             }, 300);
-            $('#location-icon').css('display', 'flex');
-            $('#clear-icon').css('display', 'none');
+            locationIcon.css('display', 'flex');
+            clearIcon.css('display', 'none');
             locationHistory.scrollTop(0);
             locationHistory.slideUp({
                 duration: 200,
@@ -1006,8 +1024,76 @@
         }
     });
 
+    // multiple locations with same name handling
+    let typingTimer;
+    input.on('keypress', () => {
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(async () => {
+            const location = input.val();
+            try {
+                addLoadingUiLocationOptions();
+                const locationOptionsData = await fetchCoordinates(location, 4);
+                renderLocationOptions(locationOptionsData);
+            } catch (error) {
+                toastError(error.message);
+            }
+        }, 500);
+    });
+
+    input.on('keydown', () => {
+        clearTimeout(typingTimer);
+    });
+
+    const renderLocationOptions = (locationOptionsData) => {
+        const html = `
+            <p class="title">Choose your location:</p>
+            <div class="locations">
+                ${renderLocationOptionsContent(locationOptionsData)}
+            </div>
+        `;
+        locationHistory.empty().append(html);
+
+        $('.location-option').on('click', async (e) => {
+            const location = e.target.closest('.location-option').dataset.location;
+            try {
+                addLoadingUi();
+                const coordinatesArray = await fetchCoordinates(location, 1);
+                const coordinates = coordinatesArray[0];
+                searchWrapper.addClass('chosen');
+                input.trigger('blur');
+                const locationName = `${coordinates.name}, ${coordinates.country}`;
+                input.val(locationName);
+                updateLocations(locationName);
+                const weatherData = await fetchWeatherData(coordinates.lat, coordinates.lon);
+                renderWeatherData(weatherData);
+                editing = false;
+            } catch (error) {
+                toastError(error.message);
+                // set the value of the location back
+                input.val(location);
+                input.trigger('focus');
+            } finally {
+                removeLoadingUi();
+            }
+        });
+    }
+
+    const renderLocationOptionsContent = (locationOptionsData) => {
+        let html = '';
+        locationOptionsData.forEach((location) => {
+            const locationDescription = `${location.name}, ${location.state}, ${location.country}`;
+            const lat = location.lat;
+            const lon = location.lon;
+            const locationHtml = `
+                <div class="location-option" data-lat="${lat}" data-lon="${lon}" data-location="${locationDescription}">${locationDescription}</div>
+            `;
+            html += locationHtml;
+        });
+        return html;
+    }
+
     // clear input value on clear icon click
-    $('#clear-icon').on('click', (e) => {
+    clearIcon.on('click', (e) => {
         input.trigger('focus');
         input.val('');
     });
@@ -1020,17 +1106,17 @@
     });
 
     // fetch location according to user position and show results
-    $('#location-icon').on('click', (e) => {
+    locationIcon.on('click', (e) => {
         e.preventDefault();
-        $('#location-icon').css('display', 'none');
-        $('#spinner-icon').css('display', 'flex');
+        locationIcon.css('display', 'none');
+        spinnerIcon.css('display', 'flex');
         navigator.geolocation.getCurrentPosition(async (position) => {
             try {
                 searchWrapper.addClass('chosen');
                 const lat = position.coords.latitude;
                 const lon = position.coords.longitude;
-                $('#spinner-icon').css('display', 'none');
-                $('#location-icon').css('display', 'flex');
+                spinnerIcon.css('display', 'none');
+                locationIcon.css('display', 'flex');
                 addLoadingUi();
                 const name = await fetchLocationName(lat, lon);
                 updateLocations(name);
@@ -1045,8 +1131,8 @@
             removeDayFromSearchParams();
         }, () => {
             toastError('Unable to retrieve your position');
-            $('#spinner-icon').css('display', 'none');
-            $('#location-icon').css('display', 'flex');
+            spinnerIcon.css('display', 'none');
+            locationIcon.css('display', 'flex');
         }, { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 });
     });
 

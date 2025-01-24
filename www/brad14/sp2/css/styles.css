@@ -188,6 +188,11 @@ body {
     height: 50px;
 }
 
+.loader-wrapper.visible {
+    display: block;
+    padding: 5px;
+}
+
 .loader {
     width: 50px;
     height: 50px;
@@ -277,7 +282,8 @@ body {
     background: rgb(200, 200, 200);
 }
 
-.location {
+.location,
+.location-option {
     margin: 2px 0px;
     border-radius: 5px;
     padding: 15px;
@@ -287,7 +293,8 @@ body {
     align-items: center;
 }
 
-.location:hover {
+.location:hover,
+.location-option:hover {
     background-color: rgb(230, 230, 230);
 }
 
