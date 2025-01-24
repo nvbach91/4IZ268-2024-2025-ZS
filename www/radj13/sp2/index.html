@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Movie search app</title>
+</head>
+<body>
+    <header>
+        <h1>Movie Search App</h1>
+        <div id="search-bar">
+            <form id="search-form">
+                <input type="text" id="search-input" placeholder="Search for movies...">
+                <button type="button" id="filtersButton">Filters</button>
+                <button type="submit" id="searchButton">Search</button>
+            </form>
+            <button id="homeButton">Home</button>
+            <button id="searchResultsButton">Search Results</button>
+            <button id="libraryButton">My Library</button>
+            <div id="popup-container" class="popup-container"></div>
+        </div>
+    </header>
+    <main>
+        <div id="loading-spinner" class="loading-spinner" style="display: none;"></div>
+        <section class="movie-section" id="home-section" style="display: none;">
+            <div class="tabs">
+                <button class="tab-button active" data-tab="newest">Newest Movies</button>
+                <button class="tab-button" data-tab="top-rated">Top Rated Movies</button>
+            </div>
+            <div class="tab-content active" id="newest">
+                <h2>Newest Movies</h2>
+                <div class="movies" id="newest-list"></div>
+            </div>
+            <div class="tab-content" id="top-rated">
+                <h2>Top Rated Movies</h2>
+                <div class="movies" id="top-rated-list"></div>
+            </div>
+        </section>
+        <section class="movie-section" id="search-results">
+            <h2>Search Results</h2>
+            <div class="movies" id="search-results-list"></div>
+        </section>
+        <section class="movie-section" id="library-results" style="display: none;">
+            <h2>My Library</h2>
+            <div class="movies" id="library-results-list"></div>
+        </section>
+    </main>
+    <div id="movie-modal" class="modal">
+        <div class="modal-content">
+            <span class="closeButton">&times;</span>
+            <div id="movie-details-content"></div>
+        </div>
+    </div>
+    <div id="filters-modal" class="filters-modal">
+        <div class="filters-modal-content">
+            <span class="closeFiltersButton">&times;</span>
+            <h2>Filters</h2>
+            <select id="language-filter">
+                <option value="">All Languages</option>
+            </select>
+            <input type="number" id="year-filter" placeholder="Year" min="1900" max="2023">
+            <select id="genre-filter">
+                <option value="">All Genres</option>
+            </select>
+            <button type="button" id="applyFiltersButton">Apply Filters</button>
+            <button type="button" id="clearFiltersButton">Clear Filters</button>
+        </div>
+    </div>
+    <script src="js/main.js"></script>
+</body>
+</html>
