@@ -1,0 +1,226 @@
+body {
+    display: flex;
+    margin-top: 50px;
+    justify-content: center;
+    background-color: #FFFCFF;
+}
+
+button {
+    width: 75px;
+    cursor: pointer;
+    box-shadow: 0px 0px 2px gray;
+    border: none;
+    outline: none;
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+    background-color: #03A9F4;
+}
+
+#authorize_button,
+#signout_button {
+    height: fit-content;
+}
+
+#header,
+#eventDisplaySection {
+    padding: 10px;
+    color: #d36c6c;
+    font-size: 26px;
+    font-family: sans-serif;
+    display: flex;
+    justify-content: space-between;
+}
+
+#eventDisplaySection {
+    margin-left: 30px;
+}
+
+#header button {
+    background-color: #92a1d1;
+}
+
+#container {
+    width: 770px;
+}
+
+#weekdays {
+    width: 100%;
+    display: flex;
+    color: #247BA0;
+}
+
+#weekdays div {
+    width: 100px;
+    padding: 10px;
+}
+
+#calendar {
+    width: 100%;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.day {
+    width: 100px;
+    padding: 10px;
+    min-height: 150px;
+    height: fit-content;
+    cursor: pointer;
+    box-sizing: border-box;
+    background-color: white;
+    margin: 5px;
+    box-shadow: 0px 0px 3px #CBD4C2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+}
+
+.day:hover {
+    background-color: #e8faed;
+}
+
+.day+#currentDay {
+    background-color: #e8f4fa;
+}
+
+.event {
+    font-size: 10px;
+    padding: 3px;
+    color: black;
+    font-size: small;
+    font-weight: bold;
+    border-radius: 5px;
+    height: fit-content;
+    overflow: hidden;
+    text-align: center;
+}
+
+.padding {
+    cursor: default !important;
+    background-color: #FFFCFF !important;
+    box-shadow: none !important;
+}
+
+#newEventModal,
+#updateEventModal,
+#deleteEventModal {
+    display: none;
+    z-index: 20;
+    padding: 25px;
+    background-color: #e8f4fa;
+    box-shadow: 0px 0px 3px black;
+    border-radius: 5px;
+    width: 350px;
+    top: 100px;
+    left: calc(50% - 175px);
+    position: absolute;
+    font-family: sans-serif;
+}
+
+#eventTitleInput,
+textarea,
+select,
+#eventUpdateTitleInput {
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+    border-radius: 3px;
+    outline: none;
+    border: none;
+    box-shadow: 0px 0px 3px gray;
+}
+
+
+#eventTitleInput.error {
+    border: 2px solid red;
+}
+
+.addButton {
+    background-color: #E1F5FE;
+    color: black;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 5px;
+    width: fit-content;
+    height: fit-content;
+    padding: 10px;
+}
+
+#cancelButton,
+#deleteButton,
+#cancelUpdateButton {
+    background-color: #d36c6c;
+}
+
+#saveButton,
+#updateButton,
+#closeButton {
+    background-color: #92a1d1;
+}
+
+#eventText {
+    font-size: 14px;
+}
+
+form {
+    margin: 0 auto;
+}
+
+#eventDisplaySection {
+    display: block;
+    padding: 10px;
+    max-width: 400px;
+    height: auto;
+    word-break: break-all;
+}
+
+#eventDisplaySection .event {
+    color: black;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+#eventDisplaySection .event strong {
+    font-size: 20px;
+    display: block;
+}
+
+#eventDisplaySection .event p {
+    color: #555;
+    display: block;
+    margin-top: 5px;
+}
+
+#modalBackDrop {
+    display: none;
+    top: 0px;
+    left: 0px;
+    z-index: 10;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.priority-low {
+    background-color: lightgreen;
+    /* For low priority */
+}
+
+.priority-middle {
+    background-color: lightyellow;
+    /* For middle priority */
+}
+
+.priority-high {
+    background-color: lightcoral;
+    /* For high priority */
+    cursor: pointer;
+}
