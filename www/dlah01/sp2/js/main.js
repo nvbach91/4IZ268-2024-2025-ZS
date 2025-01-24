@@ -1,7 +1,6 @@
 const API_KEY = 'AIzaSyDjnMazPS7A55QUNauPZHzgAdiUyGN7P2M';
 const BASE_API_URL = 'https://www.googleapis.com/books/v1';
 const searchResultsContainer = document.querySelector('#search-results');
-const favoritesContainer = document.querySelector('#favorites-results');
 let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
 const showLoader = () => {
@@ -24,7 +23,11 @@ const fetchBookSearchResults = async (searchValue, year, language, genre) => {
         return data;
     } catch (error) {
         console.error("Došlo k chybě při načítání výsledků hledání:", error);
-        alert("Došlo k chybě při načítání knih. Zkuste to prosím znovu později.");
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Došlo k chybě při načítání knih. Zkuste to znova",
+        });
         return { items: [] };
     } finally {
         hideLoader();
@@ -34,7 +37,11 @@ const fetchBookSearchResults = async (searchValue, year, language, genre) => {
 const renderBookSearchResults = (data, year, language, genre) => {
     const { items } = data;
     if (!items || items.length === 0) {
-        alert("Žádné knihy nebyly nalezeny nebo došlo k chybě při načítání dat.");
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Došlo k chybě při načítání knih. Pole nesmí zůstat prázdné.",
+        });
         return;
     }
 
@@ -74,7 +81,7 @@ const renderBookSearchResults = (data, year, language, genre) => {
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#book-details-modal">
                         Zobrazit detaily
                     </button>
-                    <button class="btn btn-warning mt-2" onclick="toggleFavorite('${item.id}')">
+                    <button class="btn btn-warning mt-2" data-id="${item.id}">
                         ${favorites.some(fav => fav.bookId === item.id) ? 'Odebrat z oblíbených' : 'Přidat do oblíbených'}
                     </button>
                 </div>
@@ -82,12 +89,23 @@ const renderBookSearchResults = (data, year, language, genre) => {
         `;
         const bookContainer = document.createElement('div');
         bookContainer.innerHTML = html;
-        bookContainer.querySelector('button[data-bs-target="#book-details-modal"]').addEventListener('click', async () => {
+
+        
+        const favoriteButton = bookContainer.querySelector('button.btn-warning');
+        favoriteButton.addEventListener('click', () => {
+            toggleFavorite(item.id);
+        });
+
+        
+        const detailsButton = bookContainer.querySelector('button[data-bs-target="#book-details-modal"]');
+        detailsButton.addEventListener('click', async () => {
             const bookDetailsData = await fetchBookDetails(item.id);
             renderBookDetails(bookDetailsData);
         });
+
         return bookContainer.firstElementChild;
     });
+
     searchResultsContainer.innerHTML = '';
     searchResultsContainer.append(...books);
 };
@@ -105,7 +123,11 @@ const fetchBookDetails = async (bookId) => {
         return data;
     } catch (error) {
         console.error("Došlo k chybě při načítání detailů knihy:", error);
-        alert("Došlo k chybě při načítání detailů knihy. Zkuste to prosím znovu později.");
+        Swal.fire({
+            icon: 'error',
+            title: 'Chyba při načítání detailů knihy',
+            text: 'Došlo k chybě při načítání detailů knihy. Zkuste to prosím znovu později.',
+        });
         return {};
     } finally {
         hideLoader();
@@ -115,7 +137,11 @@ const fetchBookDetails = async (bookId) => {
 const renderBookDetails = (data) => {
     if (!data || !data.volumeInfo) {
         console.error("Chyba: Detail knihy je neúplný.");
-        alert("Došlo k chybě při načítání detailů knihy.");
+        Swal.fire({
+            icon: 'error',
+            title: 'Chyba při načítání detailů knihy',
+            text: 'Došlo k chybě při načítání detailů knihy. Zkuste to prosím znovu později.',
+        });
         return;
     }
     const { title, imageLinks, language, description, publishedDate, categories } = data.volumeInfo;
@@ -135,50 +161,95 @@ const renderBookDetails = (data) => {
 };
 
 const toggleFavorite = (bookId) => {
-    const bookElement = searchResultsContainer.querySelector(`[data-id="${bookId}"]`);
+    const bookElement = document.querySelector(`[data-id="${bookId}"]`);
     const bookTitle = bookElement.querySelector('.card-title').textContent;
     const bookImage = bookElement.querySelector('img').src;
     const favoriteBook = { bookId, bookTitle, bookImage };
 
-
     if (favorites.some(book => book.bookId === bookId)) {
         favorites = favorites.filter(book => book.bookId !== bookId);
+        bookElement.style.backgroundColor = '';
+        const favoriteButton = bookElement.querySelector('button.btn-warning');
+        favoriteButton.textContent = 'Přidat do oblíbených';
+
     } else {
         favorites.push(favoriteBook);
+        bookElement.style.backgroundColor = '#ffeb3b';
+        const favoriteButton = bookElement.querySelector('button.btn-warning');
+        favoriteButton.textContent = 'Odebrat z oblíbených';
     }
 
     localStorage.setItem('favorites', JSON.stringify(favorites));
-    renderFavorites();
 
+    renderFavorites();
 };
 
+const favoritesContainer = document.querySelector('#favorites-results');
 const renderFavorites = () => {
+    const fragment = document.createDocumentFragment();
     favoritesContainer.innerHTML = '';
     if (favorites.length === 0) {
-        favoritesContainer.innerHTML = '<p>Žádné oblíbené knihy.</p>';
+        const noFavoritesMessage = document.createElement('p');
+        noFavoritesMessage.textContent = 'Žádné oblíbené knihy.';
+        fragment.appendChild(noFavoritesMessage);
     } else {
         favorites.forEach(favorite => {
             const html = `
-                <div class="book card col-3 text-center">
+                <div class="book card col-3 text-center" data-id="${favorite.bookId}">
                     <img src="${favorite.bookImage}" class="card-img-top" alt="${favorite.bookTitle}">
                     <div class="card-body">
                         <h5 class="card-title">${favorite.bookTitle}</h5>
-                        <button class="btn btn-danger" onclick="toggleFavorite('${favorite.bookId}')">Odebrat z oblíbených</button>
+                        <button class="btn btn-danger toggle-favorite">
+                            Odebrat z oblíbených
+                        </button>
                     </div>
                 </div>
             `;
             const bookContainer = document.createElement('div');
             bookContainer.innerHTML = html;
-            favoritesContainer.append(bookContainer.firstElementChild);
+
+            const removeButton = bookContainer.querySelector('button');
+
+            removeButton.addEventListener('click', () => {
+                removeFromFavorites(favorite.bookId);
+            });
+
+            fragment.appendChild(bookContainer.firstElementChild);
         });
     }
+    favoritesContainer.appendChild(fragment);
 };
 
 const removeFromFavorites = (bookId) => {
-    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    favorites = favorites.filter(book => book.bookId !== bookId);
-    renderFavorites();
+    Swal.fire({
+        title: "Jste si jisti?",
+        text: "Opravdu chcete odstranit knihu z oblíbených",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ano, odstranit!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            favorites = favorites.filter(book => book.bookId !== bookId);
+            const bookElement = document.querySelector(`[data-id="${bookId}"]`);
+            bookElement.style.backgroundColor = ''; 
+            const favoriteButton = bookElement.querySelector('button.btn-warning');
+            favoriteButton.textContent = 'Přidat do oblíbených';
+
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            renderFavorites();
+
+            Swal.fire({
+                title: "Odstraněno!",
+                text: "Kniha byla odstraněna z oblíbených.",
+                icon: "success"
+            });
+        }
+
+    });
 };
+
 
 const fetchAndRenderSearchResults = async () => {
     const formData = new FormData(document.querySelector('#search-form'));
@@ -187,10 +258,24 @@ const fetchAndRenderSearchResults = async () => {
     renderBookSearchResults(bookSearchData, year, language, genre);
 };
 
-const searchForm = document.querySelector('#search-form');
-searchForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    fetchAndRenderSearchResults();
+const form = document.getElementById('search-form');
+form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    const searchValue = document.getElementById('searchValue').value.trim();
+    if (searchValue === '') {
+        Swal.fire({
+            icon: 'error',
+            title: 'Chyba',
+            text: 'Pole pro hledání nesmí být prázdné!',
+        });
+    } else {
+        fetchAndRenderSearchResults(searchValue);
+    }
+});
+
+const bookDetailsModal = document.getElementById('book-details-modal');
+bookDetailsModal.addEventListener('hidden.bs.modal', () => {
+    document.querySelector('#book-details-modal .modal-body').innerHTML = '';
 });
 
 renderFavorites();
