@@ -4,7 +4,6 @@ const searchInput = document.getElementById('search-input');
 const yearInput = document.getElementById('year-input');
 const typeInput = document.getElementById('type-input');
 const resultsSection = document.getElementById('results');
-const detailsSection = document.getElementById('details');
 const favoritesList = document.getElementById('favorites-list');
 const base_url = 'https://www.omdbapi.com/';
 
@@ -61,10 +60,10 @@ const renderFavorites = () => {
     favoritesList.appendChild(fragment);
 };
 
-// Fetch movie data
+// Fetch movies
 const fetchMovies = async (query, year, type) => {
     resultsSection.innerHTML = '<p class="text-center">Loading...</p>';
-    const url = `${base_url}?apikey=${apiKey}&s=${query}${year ? `&y=${year}` : ''}${type ? `&type=${type}` : ''}`; // Added type parameter
+    const url = `${base_url}?apikey=${apiKey}&s=${query}${year ? `&y=${year}` : ''}${type ? `&type=${type}` : ''}`;
     const response = await fetch(url);
     const data = await response.json();
     return data.Search || [];
@@ -72,14 +71,12 @@ const fetchMovies = async (query, year, type) => {
 
 // Fetch movie details
 const fetchMovieDetails = async (imdbID) => {
-    detailsSection.innerHTML = '<p class="text-center">Loading details...</p>';
     const url = `${base_url}?apikey=${apiKey}&i=${imdbID}`;
     const response = await fetch(url);
     const data = await response.json();
     return data;
 };
 
-// Display search results
 const displayResults = (movies) => {
     resultsSection.innerHTML = '<h2 class="mb-3">Search Results</h2>';
 
@@ -94,7 +91,7 @@ const displayResults = (movies) => {
         const div = document.createElement('div');
         div.classList.add('card', 'col-md-3', 'p-2');
         div.innerHTML = `
-            <img src="${movie.Poster !== 'N/A' ? movie.Poster : 'https://t3.ftcdn.net/jpg/02/48/42/64/360_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg'}" alt="${movie.Title}" class="card-img-top">
+            <img src="${movie.Poster !== 'N/A' ? movie.Poster : 'https://via.placeholder.com/300x450'}" alt="${movie.Title}" class="card-img-top">
             <div class="card-body">
                 <h5 class="card-title">${movie.Title} (${movie.Year})</h5>
                 <button class="btn btn-primary btn-sm view-details" data-id="${movie.imdbID}">View Details</button>
@@ -113,44 +110,34 @@ const displayResults = (movies) => {
         div.querySelector('.view-details').addEventListener('click', async () => {
             const details = await fetchMovieDetails(movie.imdbID);
             displayDetails(details);
-            detailsSection.scrollIntoView({ behavior: 'smooth' });
         });
 
-        div.querySelector('.toggle-favorite').addEventListener('click', async (event) => {
+        div.querySelector('.toggle-favorite').addEventListener('click', (event) => {
             const isFavorite = favorites.some(f => f.imdbID === movie.imdbID);
 
             if (isFavorite) {
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: 'Do you want to remove this movie from favorites?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Yes, remove it!',
-                    cancelButtonText: 'No, keep it',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        favorites = favorites.filter(f => f.imdbID !== movie.imdbID);
-                        event.target.textContent = 'Add to Favorites';
-                        event.target.classList.remove('btn-danger');
-                        event.target.classList.add('btn-success');
-                        localStorage.setItem('favorites', JSON.stringify(favorites));
-                        renderFavorites();
-                        Swal.fire('Removed!', 'The movie has been removed from favorites.', 'success');
-                    }
-                });
+                favorites = favorites.filter(f => f.imdbID !== movie.imdbID);
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+                renderFavorites();
+
+                event.target.textContent = 'Add to Favorites';
+                event.target.classList.remove('btn-danger');
+                event.target.classList.add('btn-success');
+                Swal.fire('Removed!', 'The movie has been removed from favorites.', 'success');
             } else {
                 const minimalData = {
                     Title: movie.Title,
                     Year: movie.Year,
                     Type: movie.Type,
-                    imdbID: movie.imdbID
+                    imdbID: movie.imdbID,
                 };
                 favorites.push(minimalData);
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+                renderFavorites();
+
                 event.target.textContent = 'Remove from Favorites';
                 event.target.classList.remove('btn-success');
                 event.target.classList.add('btn-danger');
-                localStorage.setItem('favorites', JSON.stringify(favorites));
-                renderFavorites();
                 Swal.fire('Added!', 'The movie has been added to favorites.', 'success');
             }
         });
@@ -161,24 +148,33 @@ const displayResults = (movies) => {
     resultsSection.appendChild(fragment);
 };
 
-// Display movie details
+
+
+
 const displayDetails = (details) => {
+    const activePane = document.querySelector('.tab-pane.active');
+    const detailsSection = activePane.querySelector('#details');
     const isFavorite = favorites.some(f => f.imdbID === details.imdbID);
+
     detailsSection.innerHTML = `
         <h2>${details.Title}</h2>
         <p><strong>Year:</strong> ${details.Year}</p>
         <p><strong>Genre:</strong> ${details.Genre}</p>
         <p><strong>Director:</strong> ${details.Director}</p>
         <p><strong>Plot:</strong> ${details.Plot}</p>
-        <img src="${details.Poster}" alt="${details.Title}" class="img-fluid">
-        <button id="favorite-action" class="btn mt-3"></button>
+        <img src="${details.Poster}" alt="${details.Title}" class="img-fluid mb-3">
+        <button id="favorite-action" class="btn mt-3 ${
+            isFavorite ? 'btn-danger' : 'btn-success'
+        }">
+            ${isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
+        </button>
     `;
 
     const favoriteActionButton = document.getElementById('favorite-action');
-    if (isFavorite) {
-        favoriteActionButton.textContent = 'Remove from Favorites';
-        favoriteActionButton.classList.add('btn-danger');
-        favoriteActionButton.addEventListener('click', () => {
+
+    favoriteActionButton.addEventListener('click', () => {
+        if (isFavorite) {
+            // Remove from favorites
             Swal.fire({
                 title: 'Are you sure?',
                 text: 'Do you want to remove this movie from favorites?',
@@ -191,29 +187,33 @@ const displayDetails = (details) => {
                     favorites = favorites.filter(f => f.imdbID !== details.imdbID);
                     localStorage.setItem('favorites', JSON.stringify(favorites));
                     renderFavorites();
+
                     displayDetails(details);
+
                     Swal.fire('Removed!', 'The movie has been removed from favorites.', 'success');
                 }
             });
-        });
-    } else {
-        favoriteActionButton.textContent = 'Add to Favorites';
-        favoriteActionButton.classList.add('btn-success');
-        favoriteActionButton.addEventListener('click', () => {
+        } else {
+            // Add to favorites
             const minimalData = {
                 Title: details.Title,
                 Year: details.Year,
                 Type: details.Type,
-                imdbID: details.imdbID
+                imdbID: details.imdbID,
             };
             favorites.push(minimalData);
             localStorage.setItem('favorites', JSON.stringify(favorites));
             renderFavorites();
+
             displayDetails(details);
+
             Swal.fire('Added!', 'The movie has been added to favorites.', 'success');
-        });
-    }
+        }
+    });
+
+    detailsSection.scrollIntoView({ behavior: 'smooth' });
 };
+
 
 // Handle form submission
 searchForm.addEventListener('submit', async (e) => {
