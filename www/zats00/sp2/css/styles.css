@@ -17,11 +17,13 @@ button {
     background-color: #03A9F4;
 }
 
-#authorize_button,#signout_button{
+#authorize_button,
+#signout_button {
     height: fit-content;
 }
 
-#header, #eventDisplaySection {
+#header,
+#eventDisplaySection {
     padding: 10px;
     color: #d36c6c;
     font-size: 26px;
@@ -29,7 +31,8 @@ button {
     display: flex;
     justify-content: space-between;
 }
-#eventDisplaySection{
+
+#eventDisplaySection {
     margin-left: 30px;
 }
 
@@ -117,7 +120,10 @@ button {
     font-family: sans-serif;
 }
 
-#eventTitleInput, textarea, select, #eventUpdateTitleInput {
+#eventTitleInput,
+textarea,
+select,
+#eventUpdateTitleInput {
     padding: 10px;
     width: 100%;
     box-sizing: border-box;
@@ -132,18 +138,20 @@ button {
 #eventTitleInput.error {
     border: 2px solid red;
 }
-.addButton{
+
+.addButton {
     background-color: #E1F5FE;
     color: black;
     cursor: pointer;
     position: absolute;
     top: 0;
     right: 0;
-    margin: 5px; 
+    margin: 5px;
     width: fit-content;
     height: fit-content;
     padding: 10px;
 }
+
 #cancelButton,
 #deleteButton,
 #cancelUpdateButton {
@@ -164,7 +172,7 @@ form {
     margin: 0 auto;
 }
 
-#eventDisplaySection{
+#eventDisplaySection {
     display: block;
     padding: 10px;
     max-width: 400px;
@@ -172,12 +180,13 @@ form {
     word-break: break-all;
 }
 
-#eventDisplaySection .event{
+#eventDisplaySection .event {
     color: black;
     margin: 10px 0;
     padding: 10px;
     border: 1px solid #ccc;
 }
+
 #eventDisplaySection .event strong {
     font-size: 20px;
     display: block;
@@ -201,14 +210,17 @@ form {
 }
 
 .priority-low {
-    background-color: lightgreen;  /* For low priority */
+    background-color: lightgreen;
+    /* For low priority */
 }
 
 .priority-middle {
-    background-color: lightyellow;  /* For middle priority */
+    background-color: lightyellow;
+    /* For middle priority */
 }
 
 .priority-high {
-    background-color: lightcoral;  /* For high priority */
+    background-color: lightcoral;
+    /* For high priority */
     cursor: pointer;
 }

@@ -12,9 +12,16 @@ const eventNotePopUp = document.getElementById('eventNotePopUp');
 const eventUpdateNoteInput = document.getElementById('eventUpdateNoteInput');
 const eventUpdateTitleInput = document.getElementById('eventUpdateTitleInput');
 const updateEventModal = document.getElementById('updateEventModal');
+const signoutButton = document.getElementById('signout_button');
+const authorizeButton = document.getElementById('authorize_button');
+const optionsUpdate = document.getElementById('optionsUpdate');
+const selectedPriority = document.getElementById('options');
+const form = document.getElementById('my-form');
+const myUpdatedForm = document.getElementById('my-updated-form');
+const eventText = document.getElementById('eventText');
 
 // TODO(developer): Set to client ID and API key from the Developer Console
-const CLIENT_ID = '1038298541337-30bucs9236c7l2c3eqn5klq8uo8mo5kl.apps.googleusercontent.com';
+const CLIENT_ID = '';
 const API_KEY = '';
 
 // Discovery doc URL for APIs used by the quickstart
@@ -28,14 +35,14 @@ let tokenClient;
 let gapiInited = false;
 let gisInited = false;
 
-document.getElementById('authorize_button').style.visibility = 'hidden';
-document.getElementById('signout_button').style.visibility = 'hidden';
+authorizeButton.style.visibility = 'hidden';
+signoutButton.style.visibility = 'hidden';
 
 /**
  * Callback after api.js is loaded.
  */
 function gapiLoaded() {
-  gapi.load('client', initializeGapiClient);
+    gapi.load('client', initializeGapiClient);
 }
 
 /**
@@ -43,71 +50,71 @@ function gapiLoaded() {
  * discovery doc to initialize the API.
  */
 async function initializeGapiClient() {
-  await gapi.client.init({
-    apiKey: API_KEY,
-    discoveryDocs: [DISCOVERY_DOC],
-  });
-  gapiInited = true;
-  maybeEnableButtons();
+    await gapi.client.init({
+        apiKey: API_KEY,
+        discoveryDocs: [DISCOVERY_DOC],
+    });
+    gapiInited = true;
+    maybeEnableButtons();
 }
 
 /**
  * Callback after Google Identity Services are loaded.
  */
 function gisLoaded() {
-  tokenClient = google.accounts.oauth2.initTokenClient({
-    client_id: CLIENT_ID,
-    scope: SCOPES,
-    callback: '', // defined later
-  });
-  gisInited = true;
-  maybeEnableButtons();
+    tokenClient = google.accounts.oauth2.initTokenClient({
+        client_id: CLIENT_ID,
+        scope: SCOPES,
+        callback: '', // defined later
+    });
+    gisInited = true;
+    maybeEnableButtons();
 }
 
 /**
  * Enables user interaction after all libraries are loaded.
  */
 function maybeEnableButtons() {
-  if (gapiInited && gisInited) {
-    document.getElementById('authorize_button').style.visibility = 'visible';
-  }
+    if (gapiInited && gisInited) {
+        authorizeButton.style.visibility = 'visible';
+    }
 }
 
 /**
  *  Sign in the user upon button click.
  */
 function handleAuthClick() {
-  tokenClient.callback = async (resp) => {
-    if (resp.error !== undefined) {
-      throw (resp);
-    }
-    document.getElementById('signout_button').style.visibility = 'visible';
-    document.getElementById('authorize_button').innerText = 'Refresh';
-    //await listUpcomingEvents();
-  };
+    tokenClient.callback = async (resp) => {
+        if (resp.error !== undefined) {
+            throw (resp);
+        }
+        signoutButton.style.visibility = 'visible';
+        authorizeButton.innerText = 'Refresh';
+        //await listUpcomingEvents();
+    };
 
-  if (gapi.client.getToken() === null) {
-    // Prompt the user to select a Google Account and ask for consent to share their data
-    // when establishing a new session.
-    tokenClient.requestAccessToken({prompt: 'consent'});
-  } else {
-    // Skip display of account chooser and consent dialog for an existing session.
-    tokenClient.requestAccessToken({prompt: ''});
-  }
+    if (gapi.client.getToken() === null) {
+        // Prompt the user to select a Google Account and ask for consent to share their data
+        // when establishing a new session.
+        tokenClient.requestAccessToken({ prompt: 'consent' });
+    } else {
+        // Skip display of account chooser and consent dialog for an existing session.
+        tokenClient.requestAccessToken({ prompt: '' });
+    }
 }
 
 /**
  *  Sign out the user upon button click.
  */
 function handleSignoutClick() {
-  const token = gapi.client.getToken();
-  if (token !== null) {
-    google.accounts.oauth2.revoke(token.access_token);
-    gapi.client.setToken('');
-    document.getElementById('content').innerText = '';
-    document.getElementById('authorize_button').innerText = 'Authorize';
-    document.getElementById('signout_button').style.visibility = 'hidden';
-  }
+    const token = gapi.client.getToken();
+    if (token !== null) {
+        google.accounts.oauth2.revoke(token.access_token);
+        gapi.client.setToken('');
+        document.getElementById('content').innerText = '';
+        authorizeButton.innerText = 'Authorize';
+        signoutButton.style.visibility = 'hidden';
+    }
 }
 
 
@@ -123,10 +130,17 @@ function openUpdateEventModal(event) {
     updateEventModal.style.display = 'block';
     backDrop.style.display = 'block';
 };
+function securingInput(input) {
+    let inputValue = input.value;
+    inputValue = inputValue.replace(/&/g, '&amp;');
+    inputValue = inputValue.replace(/</g, '&lt;');
+    inputValue = inputValue.replace(/>/g, '&gt;');
+    return inputValue
+}
 function saveUpdatedEvent(event) {
     if (eventUpdateTitleInput.value) {
         eventUpdateTitleInput.classList.remove('error');
-        const selectedPriority = document.getElementById('optionsUpdate').value;
+        const selectedPriority = optionsUpdate.value;
         let priorityClass = '';
 
         switch (selectedPriority) {
@@ -143,8 +157,8 @@ function saveUpdatedEvent(event) {
         deleteEvent(event);
         events.push({
             date: event.date,
-            title: eventUpdateTitleInput.value,
-            priority: document.getElementById('optionsUpdate').value,
+            title: securingInput(eventUpdateTitleInput),
+            priority: optionsUpdate.value,
             priorityClass: priorityClass,
             note: eventUpdateNoteInput.value,
         });
@@ -161,18 +175,17 @@ function closeUpdateModal() {
     newEventModal.style.display = 'none';
     deleteEventModal.style.display = 'none';
     backDrop.style.display = 'none';
-    eventTitleInput.value = '';
-    eventNoteInput.value = '';
+    myUpdatedForm.reset();
     clicked = null;
-    load();
+    loadFunction();
     displayEvents();
     updateEventModal.style.display = 'none'
 }
 
 function editEvent(event) {
     if (event) {
-        document.getElementById('eventText').innerText = event.title;
-        document.getElementById('eventNotePopUp').innerText = event.note;
+        eventText.innerText = event.title;
+        eventNotePopUp.innerText = event.note;
         deleteEventModal.style.display = 'block';
         displayEditButtons(event);
     } else {
@@ -182,7 +195,7 @@ function editEvent(event) {
     backDrop.style.display = 'block';
 }
 
-function load() {
+const loadFunction = function load() {
     const dt = new Date();
 
     if (nav !== 0) {
@@ -209,6 +222,7 @@ function load() {
 
     calendar.innerHTML = '';
 
+    let displayDays = [];
     for (let i = 1; i <= paddingDays + daysInMonth; i++) {
         const daySquare = document.createElement('div');
         const addEventButton = document.createElement('button');
@@ -218,7 +232,6 @@ function load() {
 
 
         const dayString = `${year}-${String(month + 1).padStart(2, '0')}-${String(i - paddingDays).padStart(2, '0')}`;
-        //new Date(year,month + 1,i - paddingDays ).toISOString() 
 
 
         if (i > paddingDays) {
@@ -242,13 +255,16 @@ function load() {
 
             addEventButton.addEventListener('click', () => openModal(dayString));
             daySquare.append(addEventButton);
+            
 
         } else {
             daySquare.classList.add('padding');
         }
+        displayDays.push(daySquare);
 
-        calendar.appendChild(daySquare);
+        //calendar.appendChild(daySquare);
     }
+    calendar.append(...displayDays)
 }
 
 function closeModal() {
@@ -256,19 +272,20 @@ function closeModal() {
     newEventModal.style.display = 'none';
     deleteEventModal.style.display = 'none';
     backDrop.style.display = 'none';
-    eventTitleInput.value = '';
-    eventNoteInput.value = '';
+    form.reset();
     clicked = null;
-    load();
+    loadFunction();
     displayEvents();
 }
-function saveEvent() {
+function saveEvent(x) {
+    x.preventDefault();
     if (eventTitleInput.value) {
+        
         eventTitleInput.classList.remove('error');
-        const selectedPriority = document.getElementById('options').value;
+        const selectedPriorityValue = selectedPriority.value;
         let priorityClass = '';
 
-        switch (selectedPriority) {
+        switch (selectedPriorityValue) {
             case 'low':
                 priorityClass = 'priority-low';
                 break;
@@ -282,13 +299,14 @@ function saveEvent() {
 
         events.push({
             date: clicked,
-            title: eventTitleInput.value,
-            priority: document.getElementById('options').value,
+            title: securingInput(eventTitleInput),
+            priority: selectedPriorityValue,
             priorityClass: priorityClass,
             note: eventNoteInput.value,
         });
 
-        localStorage.setItem('events', JSON.stringify(events)); 
+        localStorage.setItem('events', JSON.stringify(events));
+        
         createGoogleEvent(clicked, eventTitleInput.value, eventNoteInput.value);
         closeModal();
     } else {
@@ -297,53 +315,54 @@ function saveEvent() {
 };
 
 // request permission on page load
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     if (!Notification) {
-     alert('Desktop notifications not available in your browser. Try Chromium.');
-     return;
+        alert('Desktop notifications not available in your browser. Try Chromium.');
+        return;
     }
-   
-    if (Notification.permission !== 'granted')
-     Notification.requestPermission();
-   });
-   
-   
-   function notifyMe() {
-        
-    myTime = new Date();
 
-    const myYear  = myTime.getFullYear();
+    if (Notification.permission !== 'granted')
+        Notification.requestPermission();
+});
+
+
+const notifyFunction = function notifyMe() {
+
+    const myTime = new Date();
+
+    const myYear = myTime.getFullYear();
     const myMonth = myTime.getMonth() + 1;
     const myDay = myTime.getDate();
 
-    let myTodaysDay = `${myYear}-${String(myMonth ).padStart(2, '0')}-${String(myDay).padStart(2, '0')}`;
+    let myTodaysDay = `${myYear}-${String(myMonth).padStart(2, '0')}-${String(myDay).padStart(2, '0')}`;
 
 
-    events.filter(event =>  event.date === new Date().toISOString().slice(0,10)).forEach(event => {
+    events.filter(event => event.date === new Date().toISOString().slice(0, 10)).forEach(event => {
         if (Notification.permission !== 'granted')
             Notification.requestPermission();
-           else {
+        else {
             var notification = new Notification('Notification title', {
-             icon: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678116-calendar-512.png',
-             body: 'U will miss your event ' + event.title,
+                icon: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678116-calendar-512.png',
+                body: 'U will miss your event ' + event.title,
             });
-            notification.onclick = function() {
-             window.open('http://stackoverflow.com/a/13328397/1269037');
+            notification.onclick = function () {
+                window.open('https://eso.vse.cz/~zats00/sp2/');
             };
-           }
+        }
     });
 
-   }
+}
 
-function displayEvents() {
 
-    myTime = new Date();
+const displayEvents = () => {
 
-    const myYear  = myTime.getFullYear();
+   const  myTime = new Date();
+
+    const myYear = myTime.getFullYear();
     const myMonth = myTime.getMonth() + 1;
     const myDay = myTime.getDate();
 
-    let myTodaysDay = `${myYear}-${String(myMonth ).padStart(2, '0')}-${String(myDay).padStart(2, '0')}`;
+    let myTodaysDay = `${myYear}-${String(myMonth).padStart(2, '0')}-${String(myDay).padStart(2, '0')}`;
 
 
     const eventDisplaySection = document.getElementById('eventDisplaySection');
@@ -351,31 +370,37 @@ function displayEvents() {
     // Clear existing events before updating
     eventDisplaySection.innerHTML = '<p>Upcoming Events:</p>';
 
+    let tmpEvents = [];
     // Loop through events and add them to the display section
-    events.filter(event => Date.parse(event.date) > new Date().setHours(0,0,0,0)).forEach(event => {
+    events.filter(event => Date.parse(event.date) > new Date().setHours(0, 0, 0, 0))
+        .filter(event => Date.parse(event.date) < (new Date().getTime() + (48 * 60 * 60 * 1000)))
+        .forEach(event => {
 
-        const eventElement = document.createElement('div');
-        eventElement.classList.add('event');
-        eventElement.classList.add(event.priorityClass);
-        eventElement.innerHTML = `
+            const eventElement = document.createElement('div');
+            eventElement.classList.add('event');
+            eventElement.classList.add(event.priorityClass);
+            eventElement.innerHTML = `
             <strong>${event.title}</strong>
             <p>${event.date}</p>
             <p>${event.note}</p>
         `;
-        eventDisplaySection.appendChild(eventElement);
-    }
+            tmpEvents.push(eventElement)
+        
+        }
 
-    );
+        );
+
+        eventDisplaySection.append(...tmpEvents);
 };
 
-function changeEvent(event) {
- 
+const changeEvent = (event) => {
+
     if (event) {
         clicked = event.date;
         // // // Populate the modal inputs with the event data   
         eventUpdateTitleInput.value = event.title;
         eventUpdateNoteInput.value = event.note;
-        document.getElementById('options').value = event.priority;
+        //selectedPriority.value = event.priority;
 
         // // Handle the current priority style
         let selectedPriority = event.priority;
@@ -396,8 +421,6 @@ function changeEvent(event) {
         eventTitleInput.classList.remove('error');
 
         openUpdateEventModal(event);
-
-
     }
 };
 
@@ -409,31 +432,35 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-function deleteEvent(event) {
+const deleteEvent = (event) => {
     events = events.filter(e => e.date !== event.date || e.title !== event.title);
     localStorage.setItem('events', JSON.stringify(events));
     closeModal();
 }
 
-function initButtons() {
+const initButtonsFunction = function initButtons() {
     document.getElementById('nextButton').addEventListener('click', () => {
         nav++;
-        load();
+        loadFunction();
     });
 
     document.getElementById('backButton').addEventListener('click', () => {
         nav--;
-        load();
+        loadFunction();
     });
 
-    document.getElementById('saveButton').addEventListener('click', saveEvent);
+    //document.getElementById('saveButton').addEventListener('submit', saveEvent);
+    //document.getElementById('saveButton').addEventListener('submit', console.log('ahoj'));;
+    form.addEventListener('submit', saveEvent);
+    //document.getElementById('submitButton').addEventListener('submit', console.log('odpoved zo submit'));
+    //form.addEventListener('submit', console.log('form submit'));
     document.getElementById('cancelButton').addEventListener('click', closeModal);
     document.getElementById('closeButton').addEventListener('click', closeModal);
     document.getElementById('cancelUpdateButton').addEventListener('click', closeUpdateModal);
 
 }
 
-function displayEditButtons(event) {
+const displayEditButtons = (event) => {
     document.getElementById('updateButton').addEventListener('click', () => saveUpdatedEvent(event));
     document.getElementById('changeButton').addEventListener('click', () => changeEvent(event));
     document.getElementById('deleteButton').addEventListener('click', () => deleteEvent(event));
@@ -441,13 +468,13 @@ function displayEditButtons(event) {
 
 
 function createGoogleEvent(eventDate, eventTitle, eventNote) {
-    const formattedDate =  new Date(eventDate).toISOString() ;
+    const formattedDate = new Date(eventDate).toISOString();
 
     const event = {
         summary: eventTitle,
         description: eventNote,
         start: {
-            dateTime:  formattedDate, // ISO 8601 format
+            dateTime: formattedDate, // ISO 8601 format
             timeZone: 'America/Los_Angeles'
         },
         end: {
@@ -464,8 +491,10 @@ function createGoogleEvent(eventDate, eventTitle, eventNote) {
     request.execute(event => {
         console.log('Event created: ', event.htmlLink);
     });
-}
-notifyMe();
-initButtons();
-load();
 
+
+}
+
+notifyFunction();
+initButtonsFunction();
+loadFunction();

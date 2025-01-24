@@ -31,29 +31,33 @@
         </div>
         <div id="calendar">
         </div>
-    </div>    
+    </div>
     <div id="newEventModal">
         <h2>New event</h2>
-        <input id="eventTitleInput" placeholder="Event Title">
-        <form>
+        <form id="my-form">
+            <input id="eventTitleInput" placeholder="Event Title" type="text" required>
             <h3>Details of the event</h3>
-            <textarea id="eventNoteInput" placeholder="Event Note" size="600"> </textarea>
+            <textarea id="eventNoteInput" placeholder="Event Note" type="text" size="600"> </textarea>
             <h3>Choose a priority:</h3>
             <select id="options" name="options">
                 <option value="low">Low</option>
                 <option value="middle">Middle</option>
                 <option value="high">High</option>
             </select>
+            <!--<input type="submit" value="submit" id="submit"> -->
+            <button id="saveButton" type="submit">Save</button>
+            <button id="cancelButton">Cancel</button>
         </form>
-        <button id="saveButton">Save</button>
-        <button id="cancelButton">Cancel</button>
+
+        <!-- <input type="submit" value="Submit">-->
+
     </div>
     <div id="updateEventModal">
         <h2>Update event</h2>
-        <input id="eventUpdateTitleInput" placeholder="Event Title">
-        <form>
+        <form id="my-updated-form">
+            <input id="eventUpdateTitleInput" placeholder="Event Title" type="text" required>
             <h3>Details of the event</h3>
-            <textarea id="eventUpdateNoteInput" placeholder="Event Note" size="600"> </textarea>
+            <textarea id="eventUpdateNoteInput" placeholder="Event Note" type="text" size="600"> </textarea>
             <h3>Choose a priority:</h3>
             <select id="optionsUpdate" name="options">
                 <option value="low">Low</option>
@@ -65,7 +69,7 @@
         <button id="cancelUpdateButton">Cancel</button>
     </div>
     <div id="deleteEventModal">
-        
+
         <h2 id="eventText"></h2>
         <p id="eventNotePopUp"></p>
         <button id="deleteButton">Delete</button>
@@ -80,7 +84,7 @@
     <div id="notification">
     </div>
 
-   
+
 
     <!--Add buttons to initiate auth sequence and sign out-->
     <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
@@ -90,8 +94,8 @@
 
     <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
     <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
-  
-    
+
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.slim.min.js" defer></script>
     <script src="./js/main.js"></script>
 </body>
