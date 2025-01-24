@@ -7,15 +7,11 @@ const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 document.getElementById('search-form').addEventListener('submit', async (event) => {
     event.preventDefault(); // Prevent the default form submission
     const searchValue = document.getElementById('search-input').value.trim();
-    const language = document.getElementById('language-filter').value;
-    const year = document.getElementById('year-filter').value;
-    const genre = document.getElementById('genre-filter').value;
-    console.log(language);
-    if (!searchValue && !language && !year && !genre) {
+    if (!searchValue && !filterLanguage.value && !filterYear.value && !filterGenre.value) {
         showPopupMessage('You must enter a search term or select at least one filter!', 'error'); // Show error if input is empty
         return;
     }
-    const data = await fetchMovies(searchValue, language, year, genre);
+    const data = await fetchMovies(searchValue, filterLanguage.value, filterYear.value, filterGenre.value);
     if (data.length === 0) {
         localStorage.setItem('searchResults', JSON.stringify(data));
         showSearchResults();
@@ -93,6 +89,9 @@ const homeSection = document.getElementById('home-section');
 const movieModal = document.getElementById('movie-modal');
 const movieDetailsContent = document.getElementById('movie-details-content');
 const closeButton = document.querySelector('.closeButton');
+const filterLanguage = document.getElementById('language-filter');
+const filterYear = document.getElementById('year-filter');
+const filterGenre = document.getElementById('genre-filter');
 
 // Event listener for closing the movie modal
 closeButton.addEventListener('click', () => {
@@ -132,19 +131,19 @@ window.addEventListener('load', () => {
 const fetchMovies = async (searchValue, language, year, genre) => {
     showLoadingSpinner(); // Show the loading spinner
     let url = '';
-    if(searchValue){
+    if (searchValue) {
         url = `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${searchValue}`;
     }
-    else{
+    else {
         url = `${BASE_URL}/discover/movie?api_key=${API_KEY}`;
     }
-    if(genre){
+    if (genre) {
         url += `&with_genres=${genre}`;
     }
-    if(year){
+    if (year) {
         url += `&primary_release_year=${year}`;
     }
-    if(language){
+    if (language) {
         url += `&language=${language}`;
     }
     const result = await fetch(url); // Fetch searched movies from the API
@@ -173,9 +172,9 @@ const fetchNewestMovies = async () => {
 
 // Fetch available genres from the API
 const fetchGenres = async () => {
-const result = await fetch(`${BASE_URL}/genre/movie/list?api_key=${API_KEY}`);
-const data = await result.json();
-return data.genres;
+    const result = await fetch(`${BASE_URL}/genre/movie/list?api_key=${API_KEY}`);
+    const data = await result.json();
+    return data.genres;
 };
 
 // Fetch available languages from the API
@@ -242,7 +241,8 @@ const displayMovies = (data, containerId) => {
         const toggleButton = movieElement.querySelector(isInLibrary ? '.remove-button' : '.add-button'); // Get the toggle button
         toggleButton.addEventListener('click', (event) => {
             event.stopPropagation(); // Stop event propagation to prevent the movie details modal from opening
-            toggleLibrary(movie, toggleButton)}
+            toggleLibrary(movie, toggleButton)
+        }
         );
         container.appendChild(movieElement);
     });
