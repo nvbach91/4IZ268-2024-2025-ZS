@@ -116,8 +116,7 @@ const displayResults = (movies) => {
         });
 
         div.querySelector('.toggle-favorite').addEventListener('click', async (event) => {
-            const details = await fetchMovieDetails(movie.imdbID);
-            const isFavorite = favorites.some(f => f.imdbID === details.imdbID);
+            const isFavorite = favorites.some(f => f.imdbID === movie.imdbID);
 
             if (isFavorite) {
                 Swal.fire({
@@ -129,7 +128,7 @@ const displayResults = (movies) => {
                     cancelButtonText: 'No, keep it',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        favorites = favorites.filter(f => f.imdbID !== details.imdbID);
+                        favorites = favorites.filter(f => f.imdbID !== movie.imdbID);
                         event.target.textContent = 'Add to Favorites';
                         event.target.classList.remove('btn-danger');
                         event.target.classList.add('btn-success');
@@ -139,7 +138,13 @@ const displayResults = (movies) => {
                     }
                 });
             } else {
-                favorites.push(details);
+                const minimalData = {
+                    Title: movie.Title,
+                    Year: movie.Year,
+                    Type: movie.Type,
+                    imdbID: movie.imdbID
+                };
+                favorites.push(minimalData);
                 event.target.textContent = 'Remove from Favorites';
                 event.target.classList.remove('btn-success');
                 event.target.classList.add('btn-danger');
@@ -194,7 +199,13 @@ const displayDetails = (details) => {
         favoriteActionButton.textContent = 'Add to Favorites';
         favoriteActionButton.classList.add('btn-success');
         favoriteActionButton.addEventListener('click', () => {
-            favorites.push(details);
+            const minimalData = {
+                Title: details.Title,
+                Year: details.Year,
+                Type: details.Type,
+                imdbID: details.imdbID
+            };
+            favorites.push(minimalData);
             localStorage.setItem('favorites', JSON.stringify(favorites));
             renderFavorites();
             displayDetails(details);
