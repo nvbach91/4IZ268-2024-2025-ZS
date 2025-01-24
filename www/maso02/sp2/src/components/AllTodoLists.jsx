@@ -18,13 +18,13 @@ import { useTodoLists } from "../hooks/useTodoLists.js";
 import { useAppState } from "../providers/AppState.jsx";
 
 export function AllTodoLists() {
-  const { data } = useTodoLists(); // add loading
+  const { data } = useTodoLists();
   const { currentList, setCurrentList } = useAppState();
   const dialogState = usePopupState({ variant: "dialog", popupId: "new-list" });
 
   useEffect(() => {
     if (!currentList) {
-      setCurrentList(data[0]?.id);
+      setCurrentList(data[0]?.id || null);
     }
   }, [currentList, data, setCurrentList]);
 
@@ -47,22 +47,25 @@ export function AllTodoLists() {
       {/*Empty Toolbar for spacing*/}
       <Toolbar />
       <List>
-        {data.map(({ name, id, icon }) => {
-          const Icon = Icons[icon];
-          return (
-            <ListItem key={id} disablePadding>
-              <ListItemButton
-                onClick={() => {
-                  setCurrentList(id);
-                }}
-                selected={currentList === id}
-              >
-                {Icon ? <Icon /> : <Icons.List />}
-                <ListItemText sx={{ ml: 0.5 }} primary={name} />
-              </ListItemButton>
-            </ListItem>
-          );
-        })}
+        {data
+          ?.slice()
+          .sort((a, b) => a.name.localeCompare(b.name)) // FIX - sort lists (A-Z by name)
+          .map(({ name, id, icon }) => {
+            const Icon = Icons[icon];
+            return (
+              <ListItem key={id} disablePadding>
+                <ListItemButton
+                  onClick={() => {
+                    setCurrentList(id);
+                  }}
+                  selected={currentList === id}
+                >
+                  {Icon ? <Icon /> : <Icons.List />}
+                  <ListItemText sx={{ ml: 0.5 }} primary={name} />
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
       </List>
       <Tooltip title="Add new list">
         <IconButton

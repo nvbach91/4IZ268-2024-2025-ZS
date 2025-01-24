@@ -46,5 +46,19 @@ export function useTodoLists() {
         }
       );
     },
+    // FIX - deleting list
+    async deleteList(listToDelete) {
+      return await mutate(
+        await putter({
+          url: APIs.TodoListsDelete,
+          listId: listToDelete,
+        }),
+        {
+          populateCache: false,
+          optimisticData: (oldData) => 
+            oldData.filter(({ id }) => id !== listToDelete)
+        }
+      );
+    },
   };
 }

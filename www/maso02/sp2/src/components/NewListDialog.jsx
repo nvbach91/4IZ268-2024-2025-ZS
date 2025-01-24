@@ -24,6 +24,8 @@ export function NewListDialog({ dialogState }) {
   const [state, setState] = useState("");
   const [iconSearch, setIconSearch] = useState("");
   const [icon, setIcon] = useState("");
+  // FIX - list must have a name
+  const [error, setError] = useState("");
   const { setCurrentList } = useAppState();
   const { newList } = useTodoLists();
 
@@ -46,6 +48,8 @@ export function NewListDialog({ dialogState }) {
         <TextField
           onChange={(event) => {
             setState(event.target.value);
+            // FIX - list must have a name
+            setError("");
           }}
           value={state}
           autoFocus
@@ -55,6 +59,9 @@ export function NewListDialog({ dialogState }) {
           type="text"
           fullWidth
           variant="standard"
+          // FIX - list must have a name
+          error={!!error}
+          helperText={error}
         />
         <TextField
           onChange={(event) => {
@@ -105,11 +112,18 @@ export function NewListDialog({ dialogState }) {
         <Button onClick={dialogState.close}>Cancel</Button>
         <Button
           onClick={async () => {
+            // FIX - list must have a name
+            if (!state.trim()) {
+              setError("List name must contain at least one character.");
+              return;
+            }
             const newListId = await newList(state, icon || "List");
             setCurrentList(newListId);
             mutate({ url: APIs.TodoLists });
             setState("");
             setIcon("");
+            // FIX - list must have a name
+            setError("");
             dialogState.close();
           }}
         >

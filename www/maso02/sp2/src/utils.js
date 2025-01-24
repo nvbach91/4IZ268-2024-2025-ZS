@@ -14,6 +14,8 @@ import {
 export const APIs = {
   TodoLists: "todo-lists",
   TodoListsUpdate: "todo-lists-update",
+  // FIX - deleting list
+  TodoListsDelete: "todo-lists-delete",
   TodoList: "todo-list",
   TodoListDelete: "todo-list-delete",
   TodoListUpdate: "todo-list-update",
@@ -23,7 +25,8 @@ export async function fetcher({ url, ...variables }) {
   switch (url) {
     case APIs.TodoLists:
       const listsSnapshot = await getDocs(collection(db, "lists"));
-      return listsSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      const allLists = listsSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+      return allLists;
 
     case APIs.TodoList:
       if (!variables.id) {
@@ -58,6 +61,13 @@ export async function putter({ url, listId, id, ...variables }) {
         throw new Error("Missing listId for updating TodoList.");
       }
       return await updateDoc(doc(db, "lists", listId), { name: variables.name });
+
+    // FIX - deleting list
+    case APIs.TodoListsDelete:
+      if (!listId) {
+        throw new Error("Missing listId for deleting TodoList.");
+      }
+      return await deleteDoc(doc(db, "lists", listId));
 
     case APIs.TodoList:
       return await addDoc(collection(db, "listItems"), {

@@ -1,4 +1,9 @@
-import { DeleteOutlineRounded, Send } from "@mui/icons-material";
+import {
+  DeleteOutlineRounded,
+  Send,
+  CheckBox,
+  CheckBoxOutlineBlank,
+} from "@mui/icons-material";
 import * as Icons from "@mui/icons-material";
 import {
   Box,
@@ -21,15 +26,38 @@ import { useEffect, useState } from "react";
 import { useTodoList } from "../hooks/useTodoList.js";
 import { useTodoLists } from "../hooks/useTodoLists.js";
 import { useAppState } from "../providers/AppState.jsx";
+import { DeleteDialog } from "./DeleteDialog.jsx";
 
 export function CurrentTodoList() {
-  const { currentList } = useAppState();
+  const { currentList, setCurrentList } = useAppState();
   const { data, newItem, deleteItem, toggleChecked, updateItem } =
     useTodoList(currentList);
-  const { updateList } = useTodoLists();
+  const { updateList, deleteList } = useTodoLists();
   const [newItemText, setNewItemText] = useState("");
   const [originalListName, setOriginalListName] = useState("");
   const [originalListItems, setOriginalListItems] = useState({});
+  // FIX - delete dialog
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [targetToDelete, setTargetToDelete] = useState(null);
+  const [deleteType, setDeleteType] = useState(null);
+
+  const handleDelete = (id, type) => {
+    setTargetToDelete(id);
+    setDeleteType(type);
+    setIsDialogOpen(true);
+  };
+
+  const confirmDelete = () => {
+    if (deleteType === "list") {
+      deleteList(targetToDelete);
+      setCurrentList(null);
+    } else if (deleteType === "item") {
+      deleteItem(targetToDelete);
+    }
+    setIsDialogOpen(false);
+    setTargetToDelete(null);
+    setDeleteType(null);
+  };
 
   useEffect(() => {
     if (data?.name) {
@@ -54,37 +82,72 @@ export function CurrentTodoList() {
 
   const Icon = Icons[data?.icon];
 
+  const completedCount =
+    data?.items?.filter((item) => item.checked).length || 0;
+  const unfinishedCount =
+    data?.items?.filter((item) => !item.checked).length || 0;
+
   return (
     <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
       <Toolbar />
       <Box sx={{ flex: 1 }}>
         {data ? (
           <>
-            <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-              <Box
-                sx={{
-                  border: (theme) => `1px solid ${theme.palette.divider}`,
-                  p: 1,
-                  mr: 1,
-                  borderRadius: "50%",
-                  display: "flex",
-                }}
-              >
-                {Icon ? (
-                  <Icon fontSize="large" />
-                ) : (
-                  <Icons.List fontSize="large" />
-                )}
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                mb: 2,
+              }}
+            >
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Box
+                  sx={{
+                    border: (theme) => `1px solid ${theme.palette.divider}`,
+                    p: 1,
+                    mr: 1,
+                    borderRadius: "50%",
+                    display: "flex",
+                  }}
+                >
+                  {Icon ? (
+                    <Icon fontSize="large" />
+                  ) : (
+                    <Icons.List fontSize="large" />
+                  )}
+                </Box>
+                <TextField
+                  value={originalListName}
+                  onChange={(event) => {
+                    setOriginalListName(event.target.value);
+                  }}
+                  onBlur={(event) => {
+                    void updateList(data.id, event.target.value);
+                  }}
+                />
+                <IconButton
+                  aria-label="delete list"
+                  onClick={() => handleDelete(data.id, "list")}
+                >
+                  <DeleteOutlineRounded />
+                </IconButton>
               </Box>
-              <TextField
-                value={originalListName}
-                onChange={(event) => {
-                  setOriginalListName(event.target.value);
-                }}
-                onBlur={(event) => {
-                  void updateList(data.id, event.target.value);
-                }}
-              />
+              {/* FIX - completed/unfinished counts */}
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <CheckBox fontSize="small" color="success" />
+                  <Typography variant="body2" sx={{ ml: 0.5 }} color="success">
+                    {completedCount}
+                  </Typography>
+                </Box>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <CheckBoxOutlineBlank fontSize="small" />
+                  <Typography variant="body2" sx={{ ml: 0.5 }}>
+                    {unfinishedCount}
+                  </Typography>
+                </Box>
+              </Box>
             </Box>
             <Divider />
             <List
@@ -96,8 +159,8 @@ export function CurrentTodoList() {
               }}
             >
               {data.items
-                ?.slice() // Create a shallow copy to avoid mutating the original array
-                .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)) // Sort by createdAt
+                ?.slice()
+                .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)) // sort by createdAt
                 .map(({ id, checked }) => {
                   const labelId = `checkbox-list-label-${id}`;
 
@@ -108,7 +171,7 @@ export function CurrentTodoList() {
                         <IconButton
                           edge="end"
                           aria-label="delete"
-                          onClick={() => deleteItem(id)}
+                          onClick={() => handleDelete(id, "item")}
                         >
                           <DeleteOutlineRounded />
                         </IconButton>
@@ -144,6 +207,8 @@ export function CurrentTodoList() {
                             value={originalListItems[id] ?? ""}
                             size="small"
                             variant="standard"
+                            fullWidth
+                            sx={{ pr: 3 }}
                           />
                         </ListItemText>
                         <Box
@@ -207,24 +272,39 @@ export function CurrentTodoList() {
                     type="text"
                     fullWidth
                     variant="filled"
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="submit"
-                            onClick={() => {
-                              document.activeElement.blur();
-                            }}
-                            edge="end"
-                          >
-                            <Send />
-                          </IconButton>
-                        </InputAdornment>
-                      ),
+                    // FIX - send button
+                    slotProps={{
+                      input: {
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="submit"
+                              onClick={(event) => {
+                                event.preventDefault();
+                                void newItem(newItemText);
+                                setNewItemText("");
+                              }}
+                            >
+                              <Send />
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      },
                     }}
                   />
                 </Box>
               </ListItem>
+              {/* FIX - DeleteDialog component */}
+              <DeleteDialog
+                open={isDialogOpen}
+                onClose={() => setIsDialogOpen(false)}
+                onConfirm={confirmDelete}
+                message={
+                  deleteType === "list"
+                    ? "Are you sure you want to delete this List? This action cannot be undone."
+                    : "Are you sure you want to delete this Item? This action cannot be undone."
+                }
+              />
             </List>
           </>
         ) : (
