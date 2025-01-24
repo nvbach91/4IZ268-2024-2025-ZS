@@ -6,11 +6,27 @@ const DEFAULT_CITY = "Prague";
 let favoriteCities = new Set();
 let isHourlyForecast = true;
 
+const searchForm = document.getElementById("search-form");
+const searchCityInput = document.getElementById("search-city");
+const errorMessage = document.getElementById("error-message");
+const spinnerContainer = document.getElementById("spinner-container");
+const favoritesContainer = document.getElementById("favorites-container");
+const forecastContainer = document.getElementById("forecast-container");
+const locationInfo = document.getElementById("location-info");
+const cityNameContainer = document.getElementById("city-name");
+const toggleBtn = document.getElementById("toggle-forecast-btn");
+const currentWeatherIcon = document.getElementById("weather-icon");
+const currentWeatherDescription = document.getElementById("weather-description")
+const currentTempInfo = document.getElementById("temp");
+const currentPrecipitation = document.getElementById("precipitation");
+const currentHumidity = document.getElementById("humidity");
+const currentWindSpeed = document.getElementById("wind-speed");
+
 function showSpinner() {
-  document.getElementById("spinner-container").style.display = "block";
+  spinnerContainer.style.display = "block";
 }
 function hideSpinner() {
-  document.getElementById("spinner-container").style.display = "none";
+  spinnerContainer.style.display = "none";
 }
 
 // Loading favorite cities from localStorage
@@ -27,84 +43,81 @@ function saveFavoritesToStorage() {
 
 // Display favorite cities
 async function displayFavorites() {
-  const favoritesContainer = document.getElementById("favorites-container");
   favoritesContainer.innerHTML = ''; // Celar previous list
 
-  for (const city of favoriteCities) {
-    showSpinner();
+  //const fragment = document.createDocumentFragment();
+  let favoritesHTML = '';
+
+  for (const cityKey of favoriteCities) {
+    const [city, countryCode] = cityKey.split(',');
+    //showSpinner();
     const weatherData = await getWeatherData(city);
-    hideSpinner();
-    const cityElement = document.createElement("div");  
-    cityElement.classList.add("favorite-city");
-
+    //hideSpinner();
     // Favorite city name
-    const cityName = document.createElement("h3");
-    cityName.textContent = city;
-    cityElement.appendChild(cityName);
-
+    //cityName.textContent = `${city}, ${countryCode}`;
     // Weather Icon
     if (weatherData) {
       const iconCode = weatherData.weather[0].icon;
       const iconUrl = `https://openweathermap.org/img/wn/${iconCode}.png`;
       const weatherIcon = document.createElement("img");
       weatherIcon.src = iconUrl;
-      weatherIcon.alt = weatherData.weather[0].description;
-      cityElement.appendChild(weatherIcon);
+      const description = weatherData.weather[0].description;
+      const temp = weatherData.main.temp;
 
-      // Weather description
-      const weatherDescription = document.createElement("p");
-      weatherDescription.textContent = weatherData.weather[0].description;
-      cityElement.appendChild(weatherDescription);
-
-      // Temperature
-      const temp = document.createElement("p");
-      temp.textContent = `🌡️ ${weatherData.main.temp} °C`;
-      cityElement.appendChild(temp);
+      favoritesHTML += `
+        <div class="favorite-city">
+          <h3>${city}, ${countryCode}</h3>
+          <img src="${iconUrl}" alt="${description}">
+          <p>${description}</p>
+          <p>🌡️ ${temp} °C</p>
+          <i class="fa-solid fa-heart" style="cursor: pointer;"></i>
+        </div>
+      `;
     }
+  }
+  favoritesContainer.innerHTML = favoritesHTML;
 
-    // Heart icon to remove city from favorites
-    const heartIcon = document.createElement("i");
-    heartIcon.classList.add("fa-solid", "fa-heart");
-    
-    heartIcon.addEventListener("click", () => {
-      // Change to an empty heart icon
+  favoritesContainer.querySelectorAll('.favorite-city .fa-heart').forEach((heartIcon, index) => {
+    heartIcon.addEventListener('click', () => {
+      const cityKey = Array.from(favoriteCities)[index];
+      const [city, countryCode] = cityKey.split(',');
       heartIcon.classList.remove("fa-solid");
       heartIcon.classList.add("fa-regular");
-
       setTimeout(() => {
-        removeCityFromFavorites(city);
+        removeCityFromFavorites(city, countryCode);
       }, 500); //(500 ms)
+      ;
     });
-    cityElement.appendChild(heartIcon);
-
-    favoritesContainer.appendChild(cityElement);  
-  }
+  });
 }
 
 
-function addCityToFavorites(city) {
-  if (!favoriteCities.has(city)) {
-    favoriteCities.add(city);
+function addCityToFavorites(city, countryCode) {
+  const cityKey = `${city},${countryCode}`;
+  if (!favoriteCities.has(cityKey)) {
+    favoriteCities.add(cityKey);
     saveFavoritesToStorage();
     displayFavorites();
   }
 }
 
-function removeCityFromFavorites(city) {
-  favoriteCities.delete(city);
+function removeCityFromFavorites(city, countryCode) {
+  const cityKey = `${city},${countryCode}`;
+  favoriteCities.delete(cityKey);
   saveFavoritesToStorage();
   displayFavorites();
 }
 
-function toggleFavorite(cityName, heartIcon) {
-  if (favoriteCities.has(cityName)) {
+function toggleFavorite(cityName, countryCode, heartIcon) {
+  const cityKey = `${cityName},${countryCode}`;
+  if (favoriteCities.has(cityKey)) {
     // Already in favorites -> remove it
-    removeCityFromFavorites(cityName);
+    removeCityFromFavorites(cityName, countryCode);
     heartIcon.classList.remove("fa-solid");
     heartIcon.classList.add("fa-regular");
   } else {
     // Not in favorites -> add
-    addCityToFavorites(cityName);
+    addCityToFavorites(cityName, countryCode);
     heartIcon.classList.remove("fa-regular");
     heartIcon.classList.add("fa-solid");
   }
@@ -112,20 +125,21 @@ function toggleFavorite(cityName, heartIcon) {
 
 // Initializing the heart icon
 
-function setupFavoriteIcon(cityName) {
+function setupFavoriteIcon(cityName, countryCode) {
   const favoriteIconContainer = document.querySelector(".favorite-icon");
   favoriteIconContainer.innerHTML = ''; // Remove an existing icon
+  const cityKey = `${cityName},${countryCode}`;
 
   const heartIcon = document.createElement("i");
   heartIcon.classList.add(
-    favoriteCities.has(cityName) ? "fa-solid" : "fa-regular",
+    favoriteCities.has(cityKey) ? "fa-solid" : "fa-regular",
     "fa-heart"
   );
   heartIcon.style.cursor = "pointer";
 
 
   heartIcon.addEventListener("click", () => {
-    toggleFavorite(cityName, heartIcon);
+    toggleFavorite(cityName, countryCode, heartIcon);
   });
 
   favoriteIconContainer.appendChild(heartIcon);
@@ -135,11 +149,9 @@ function setupFavoriteIcon(cityName) {
 // Load the application
 document.addEventListener("DOMContentLoaded", async () => {
   // Default for location
-  const locationInfo = document.getElementById("location-info");
   locationInfo.textContent = "Your location: Not available";
 
   // Default for toggle-forecast-btn
-  const toggleBtn = document.getElementById("toggle-forecast-btn");
   toggleBtn.textContent = isHourlyForecast ? "Daily Forecast" : "Hourly Forecast";
 
   // Display the weather for the default city (Prague)
@@ -215,17 +227,16 @@ async function getWeatherByCoordinates(lat, lon) {
 }
 
 
-document.getElementById("toggle-forecast-btn").addEventListener("click", async () => {
+toggleBtn.addEventListener("click", async () => {
   isHourlyForecast = !isHourlyForecast; // Toggle forecast mode
 
   // Change the text on the button according to the current mode
-  const toggleBtn = document.getElementById("toggle-forecast-btn");
   toggleBtn.textContent = isHourlyForecast
     ? "Daily Forecast"
     : "Hourly Forecast";
 
   // Reload forecast data in current mode
-  const city = document.getElementById("city-name").textContent.split(' ')[0];
+  const city = cityNameContainer.textContent.split(' ')[0];
   const forecastData = await getForecastData(city, isHourlyForecast);
   if (forecastData) {
     updateForecastUI(forecastData);
@@ -245,7 +256,7 @@ appid=${API_KEY}`; // 16 for daily forecast
       return null;
     }
     const data = await response.json();
-    console.log('Loaded forecast:', data);
+    //console.log('Loaded forecast:', data);
     return data;
   } catch (error) {
     console.error('Error in API call for forecast:', error);
@@ -255,8 +266,8 @@ appid=${API_KEY}`; // 16 for daily forecast
 
 // Update detailed forecast
 function updateForecastUI(forecastData) {
-  const forecastContainer = document.getElementById("forecast-container");
   forecastContainer.innerHTML = ""; // Clear previous answer
+  let forecastHTML = '';
 
   if (isHourlyForecast) {
     // Hourly forecast settings
@@ -267,17 +278,14 @@ function updateForecastUI(forecastData) {
       const description = item.weather[0].description;
       const iconCode = item.weather[0].icon;
       const iconUrl = `https://openweathermap.org/img/wn/${iconCode}.png`;
-
-      const forecastItem = document.createElement("div");
-      forecastItem.classList.add("forecast-item");
-      forecastItem.innerHTML = `
-        <p>${time}</p>
-        <img src="${iconUrl}" alt="${description}">
-        <p>${description}</p>
-        <p>🌡️ ${temp} °C</p>
+      forecastHTML += `
+        <div class="forecast-item">
+          <p>${time}</p>
+          <img src="${iconUrl}" alt="${description}">
+          <p>${description}</p>
+          <p>🌡️ ${temp} °C</p>
+        </div>
       `;
-
-      forecastContainer.appendChild(forecastItem);
     });
   } else {
     // Daily forecast settings
@@ -290,18 +298,17 @@ function updateForecastUI(forecastData) {
       const iconCode = item.weather[0].icon;
       const iconUrl = `https://openweathermap.org/img/wn/${iconCode}.png`;
 
-      const forecastItem = document.createElement("div");
-      forecastItem.classList.add("forecast-item");
-      forecastItem.innerHTML = `
-        <p>${dayName}</p>
-        <img src="${iconUrl}" alt="${description}">
-        <p>${description}</p>
-        <p>🌡️ ${tempMin} °C / ${tempMax} °C</p>
+      forecastHTML += `
+        <div class="forecast-item">
+          <p>${dayName}</p>
+          <img src="${iconUrl}" alt="${description}">
+          <p>${description}</p>
+          <p>🌡️ ${tempMin} °C / ${tempMax} °C</p>
+        </div>
       `;
-
-      forecastContainer.appendChild(forecastItem);
     });
   }
+  forecastContainer.innerHTML = forecastHTML;
 }
 
 
@@ -309,45 +316,44 @@ function updateForecastUI(forecastData) {
 // Update the user interface
 async function updateWeatherUI(data, isCurrentLocation = false) {
   if (!data) {
-      console.error('No data passed to updateWeatherUI.');
-      return;
+    console.error('No data passed to updateWeatherUI.');
+    return;
   }
 
   // Update location info
-  const locationInfo = document.getElementById("location-info");
   if (isCurrentLocation) {
     locationInfo.textContent = `Your location: ${data.name} (${data.sys.country})`;
   }
 
   // City name + country
-  const cityName = data.name; 
-  document.getElementById("city-name").textContent = `${cityName} (${data.sys.country})`;
+  const cityName = data.name;
+  const countryCode = data.sys.country;
+  cityNameContainer.textContent = `${cityName} (${countryCode})`;
 
   // Create the heart icon for favorites
   const heartIcon = document.createElement("i");
   heartIcon.classList.add("fa", "fa-heart", "heart-icon");
-  
+
 
   // Inicializace srdíčka pomocí setupFavoriteIcon
-  setupFavoriteIcon(cityName);
+  setupFavoriteIcon(cityName, countryCode);
 
 
   // Current weather icon
   const iconCode = data.weather[0].icon; // f.e. "50n"
   const iconUrl = `https://www.openweathermap.org/img/wn/${iconCode}@2x.png`;
-  document.getElementById("weather-icon").src = iconUrl;
+  currentWeatherIcon.src = iconUrl;
 
   // Weather description (mist, cloudy)
-  document.getElementById("weather-description").textContent =
-      data.weather[0].description;
+  currentWeatherDescription.textContent =
+    data.weather[0].description;
 
   // Additional weather information
-  document.getElementById("temp").textContent = `🌡️ Temperature: ${data.main.temp} °C`;
-  document.getElementById("precipitation").textContent = `🌧️ Precipitation: ${
-      data.rain ? data.rain["1h"] || 0 : 0 // Precipitation is only available when it rains
-  } mm`;
-  document.getElementById("humidity").textContent = `💧 Humidity: ${data.main.humidity} %`;
-  document.getElementById("wind-speed").textContent = `🌀 Wind speed: ${data.wind.speed} m/s`;
+  currentTempInfo.textContent = `🌡️ Temperature: ${data.main.temp} °C`;
+  currentPrecipitation.textContent = `🌧️ Precipitation: ${data.rain ? data.rain["1h"] || 0 : 0 // Precipitation is only available when it rains
+    } mm`;
+  currentHumidity.textContent = `💧 Humidity: ${data.main.humidity} %`;
+  currentWindSpeed.textContent = `🌀 Wind speed: ${data.wind.speed} m/s`;
 
 
   // Load forecast
@@ -357,49 +363,54 @@ async function updateWeatherUI(data, isCurrentLocation = false) {
   }
 
   // Load favorites
-  displayFavorites(); // Zobrazí seznam oblíbených měst
-  
+  //displayFavorites(); // Způsobovalo duplikace na seznamu oblíbených měst
+
 };
 
-  // Search settings
-  document.getElementById("search-btn").addEventListener("click", async () => {
-    const city = document.getElementById("search-city").value.trim(); // Trim removes gaps
-    const errorMessage = document.getElementById("error-message");
+// Search settings
+searchForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const city = searchCityInput.value.trim(); // Trim removes gaps
 
-    // Hide the previous error message
-    errorMessage.classList.add("hidden");
+  // Hide the previous error message
+  errorMessage.classList.add("hidden");
 
-    if (!city) {
-        errorMessage.textContent = "Enter the name of the city!";
-        errorMessage.classList.remove("hidden");
-        return;
+  if (!city) {
+    errorMessage.textContent = "Enter the name of the city!";
+    errorMessage.classList.remove("hidden");
+    return;
+  }
+
+  try {
+    showSpinner();
+    const weatherData = await getWeatherData(city); // API call, get data
+    console.log(weatherData);
+    hideSpinner();
+    if (weatherData) {
+      updateWeatherUI(weatherData); // Design update
+    } else {
+      errorMessage.textContent = "Failed to load weather data. Please try again.";
+      errorMessage.classList.remove("hidden");
     }
-
-    try {
-        const weatherData = await getWeatherData(city); // API call, get data
-        if (weatherData) {
-            updateWeatherUI(weatherData); // Design update
-        } else {
-            errorMessage.textContent = "Failed to load weather data. Please try again.";
-            errorMessage.classList.remove("hidden");
-        }
-    } catch (error) {
-        console.error("Error getting weather:", error);
-        errorMessage.textContent = "An unexpected error occurred. Please try again later.";
-        errorMessage.classList.remove("hidden");
-    }
+  } catch (error) {
+    console.error("Error getting weather:", error);
+    errorMessage.textContent = "An unexpected error occurred. Please try again later.";
+    errorMessage.classList.remove("hidden");
+  }
 });
 
 // Sidebar settings
 document.querySelectorAll('.capital-cities li').forEach(item => {
   item.addEventListener('click', async () => {
-      const city = item.getAttribute('data-city');
-      const weatherData = await getWeatherData(city);
-      if (weatherData) {
-          updateWeatherUI(weatherData);
-      } else {
-          document.getElementById("error-message").classList.remove("hidden");
-      }
+    const city = item.getAttribute('data-city');
+    showSpinner(); //  indikace nacitani dat pri vyberu hlavnich mest v levem panelu
+    const weatherData = await getWeatherData(city);
+    hideSpinner();
+    if (weatherData) {
+      updateWeatherUI(weatherData);
+    } else {
+      errorMessage.classList.remove("hidden");
+    }
   });
 });
 
