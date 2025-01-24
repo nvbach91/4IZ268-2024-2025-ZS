@@ -4,6 +4,7 @@ import StorageManager from './storage.js';
 import NotificationManager from './notifications.js';
 import auth from './auth.js';
 import Utils from './utils.js';
+import loadingManager from './loading.js';
 
 class ItineraryDetails {
     constructor() {
@@ -250,11 +251,11 @@ class ItineraryDetails {
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Start Date</label>
-                        <input id="itinerary-start-date" type="date" class="swal2-input">
+                        <input id="itinerary-start-date" type="date" class="swal2-input" onchange="window.validateDates()">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">End Date</label>
-                        <input id="itinerary-end-date" type="date" class="swal2-input">
+                        <input id="itinerary-end-date" type="date" class="swal2-input" onchange="window.validateDates()">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Details</label>
@@ -265,6 +266,11 @@ class ItineraryDetails {
                 focusConfirm: false,
                 showCancelButton: true,
                 confirmButtonText: 'Create',
+                didOpen: () => {
+                    // Set min date for start date to today
+                    const today = new Date().toISOString().split('T')[0];
+                    document.getElementById('itinerary-start-date').min = today;
+                },
                 preConfirm: () => {
                     const name = document.getElementById('itinerary-name').value;
                     const destination = document.getElementById('itinerary-destination').value;
@@ -274,6 +280,12 @@ class ItineraryDetails {
     
                     if (!name || !destination || !startDate || !endDate) {
                         Swal.showValidationMessage('Please fill all required fields');
+                        return false;
+                    }
+    
+                    // Validate dates
+                    if (new Date(startDate) > new Date(endDate)) {
+                        Swal.showValidationMessage('End date cannot be before start date');
                         return false;
                     }
     
@@ -312,45 +324,64 @@ class ItineraryDetails {
         }
     }
     
-    loadItineraryDetails(itineraryId) {
-        this.currentItinerary = this.itineraries.find(itinerary => itinerary.id === itineraryId);
-    
-        if (!this.currentItinerary) {
-            NotificationManager.show({ 
-                type: 'error', 
-                message: 'Itinerary not found.' 
-            });
-            return;
-        }
-    
-        const container = document.getElementById('main-content');
-        container.innerHTML = `
-            <div class="container py-4">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <h5 class="card-title">${this.currentItinerary.name}</h5>
-                                <p><strong>Destination:</strong> ${this.currentItinerary.destination}</p>
-                                <p><strong>Dates:</strong> ${this.currentItinerary.startDate} - ${this.currentItinerary.endDate}</p>
-                                <p><strong>Details:</strong></p>
-                                <p class="text-muted">${this.currentItinerary.details || 'No details added yet'}</p>
+    async loadItineraryDetails(itineraryId) {
+        try {
+            loadingManager.show('Loading itinerary details...');
+            this.currentItinerary = this.itineraries.find(itinerary => itinerary.id === itineraryId);
+        
+            if (!this.currentItinerary) {
+                NotificationManager.show({ 
+                    type: 'error', 
+                    message: 'Itinerary not found.' 
+                });
+                return;
+            }
+        
+            const container = document.getElementById('main-content');
+            if (container) {
+                loadingManager.showContentLoading(container);
+                container.innerHTML = `
+                    <div class="container py-4">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${this.currentItinerary.name}</h5>
+                                        <p><strong>Destination:</strong> ${this.currentItinerary.destination}</p>
+                                        <p><strong>Dates:</strong> ${this.currentItinerary.startDate} - ${this.currentItinerary.endDate}</p>
+                                        <p><strong>Details:</strong></p>
+                                        <p class="text-muted">${this.currentItinerary.details || 'No details added yet'}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div id="itinerary-activities">
+                                    ${this.renderActivities()}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div id="itinerary-activities">
-                            ${this.renderActivities()}
+                        <div class="text-center mt-3">
+                            <button class="btn btn-secondary" onclick="itineraryDetails.renderItineraryList()">
+                                Back to Itineraries
+                            </button>
                         </div>
                     </div>
-                </div>
-                <div class="text-center mt-3">
-                    <button class="btn btn-secondary" onclick="itineraryDetails.renderItineraryList()">
-                        Back to Itineraries
-                    </button>
-                </div>
-            </div>
-        `;
+                `;
+            }
+    
+        } catch (error) {
+            console.error('Error loading itinerary:', error);
+            NotificationManager.show({
+                type: 'error',
+                message: 'Failed to load itinerary details'
+            });
+        } finally {
+            loadingManager.hide();
+            const container = document.getElementById('main-content');
+            if (container) {
+                loadingManager.hideContentLoading(container);
+            }
+        }
     }
     
     async editItineraryDetails(itineraryId) {

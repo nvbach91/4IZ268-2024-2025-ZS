@@ -20,7 +20,14 @@ class Router {
             '/404': this.render404Page
         };
         this.currentRoute = null;
+        this.baseUrl = this.getBaseUrl(); // Store the base URL
         this.initializeRouting();
+    }
+
+    // Get the base URL from the current path
+    getBaseUrl() {
+        const scriptPath = document.querySelector('script[src*="/js/router.js"]').getAttribute('src');
+        return scriptPath.substring(0, scriptPath.indexOf('/js/router.js'));
     }
 
     initializeRouting() {
@@ -32,8 +39,8 @@ class Router {
         });
 
         // Handle browser back/forward navigation
-        window.addEventListener('popstate', () => {
-            this.handleNavigation(window.location.pathname);
+        window.addEventListener('popstate', (event) => {
+            this.handleNavigation(this.getRelativePath(window.location.pathname));
         });
 
         // Global event delegation for route navigation
@@ -46,6 +53,11 @@ class Router {
                 this.navigateTo(route);
             }
         });
+    }
+
+    // Convert absolute path to relative path while preserving the base context
+    getRelativePath(absolutePath) {
+        return absolutePath.replace(this.baseUrl, '') || '/';
     }
 
     handleNavigation(path) {
@@ -62,12 +74,12 @@ class Router {
     }
     
     handleInitialRoute() {
-        const path = window.location.pathname || '/';
+        const path = this.getRelativePath(window.location.pathname);
         console.log('🏁 Initial Route:', path);
-        this.navigateTo(path);
+        this.navigateTo(path, {}, true);
     }
 
-    navigateTo(route, params = {}) {
+    navigateTo(route, params = {}, isInitial = false) {
         console.group('🚀 Navigation');
         console.log('Attempting to navigate to:', route);
 
@@ -77,8 +89,13 @@ class Router {
             route = '/login';
         }
 
+        // Construct the full URL preserving the base context
+        const fullUrl = this.baseUrl + (route.startsWith('/') ? route : '/' + route);
+
         // Update browser history
-        window.history.pushState({}, '', route);
+        if (!isInitial) {
+            window.history.pushState({}, '', fullUrl);
+        }
 
         // Render the route
         this.renderRoute(route, params);
@@ -204,13 +221,20 @@ class Router {
                                     <div class="mb-3">
                                         <label class="form-label">Search Places</label>
                                         <div class="input-group">
-                                            <input type="text" id="search-input" class="form-control" placeholder="Enter location...">
+                                            <input type="text" 
+                                                id="search-input" 
+                                                class="form-control" 
+                                                placeholder="Enter city, address, or place..."
+                                                required>
                                             <button type="submit" class="btn btn-primary">
-                                                <i class="bi bi-search"></i>
+                                                <i class="bi bi-search"></i> Search
                                             </button>
                                         </div>
                                     </div>
                                 </form>
+                            </div>
+                        </div>
+                    </div>
                                 
                                 <div class="mb-3">
                                     <label class="form-label">Filter by Type</label>
@@ -252,16 +276,16 @@ class Router {
                         </div>
                     </div>
     
-                    <!-- Right Column -->
+                     <!-- Right Column -->
                     <div class="col-md-8">
-                        <!-- Map -->
+                        <!-- Map Container -->
                         <div class="card mb-3">
                             <div class="card-body p-0">
                                 <div id="map" class="map-container"></div>
                             </div>
                         </div>
                         
-                        <!-- Places List -->
+                        <!-- Results Container -->
                         <div id="places-list" class="row"></div>
                     </div>
                 </div>

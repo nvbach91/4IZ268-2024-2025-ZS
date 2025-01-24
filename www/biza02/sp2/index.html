@@ -29,9 +29,12 @@
 </head>
 <body>
     <!-- Loading Spinner -->
-    <div id="loading-spinner" class="d-none">
-        <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
+    <div id="loading-spinner" class="loading-overlay d-none">
+        <div class="spinner-container">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="loading-text mt-2">Loading...</div>
         </div>
     </div>
 
@@ -88,18 +91,22 @@
         <!-- Content will be dynamically loaded here -->
     </main>
 
-    <!-- Essential Libraries -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Third Party Libraries -->
+    <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
-    <!-- Charts and Data Processing -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-
+    <!-- Maps API -->
+    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCS8gebxgM-srFi2R1eXNCrsuSjxY_pu74&libraries=places"></script>
+    
+    <!-- Charts and Data Processing Libraries -->
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    
     <!-- Application Scripts -->
+    <script type="module" src="./js/init.js"></script>
     <script type="module" src="./js/config.js"></script>
     <script type="module" src="./js/utils.js"></script>
     <script type="module" src="./js/notifications.js"></script>
@@ -110,28 +117,7 @@
     <script type="module" src="./js/directions.js"></script>
     <script type="module" src="./js/itinerary-details.js"></script>
     <script type="module" src="./js/router.js"></script>
+    <script type="module" src="./js/recommendations.js"></script>
     <script type="module" src="./js/app.js"></script>
-
-       <script>
-        // Handle script loading errors
-        window.addEventListener('error', function(e) {
-            if (e.target.tagName === 'SCRIPT') {
-                console.error('Script loading error:', e.target.src);
-            }
-        }, true);
-    
-        // Initialize service worker
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', async () => {
-                try {
-                    const registration = await navigator.serviceWorker.register('/service-worker.js');
-                    console.log('ServiceWorker registration successful');
-                } catch (error) {
-                    console.error('ServiceWorker registration failed:', error);
-                }
-            });
-        }
-    </script>
-    
 </body>
 </html>

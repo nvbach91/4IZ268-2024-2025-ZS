@@ -1,5 +1,7 @@
 // app.js
 import CONFIG from './config.js';
+import './init.js'; 
+import { initializeServiceWorker } from './init.js';
 import router from './router.js';
 import auth from './auth.js';
 import places from './places.js';
@@ -8,6 +10,7 @@ import itineraryDetails from './itinerary-details.js';
 import NotificationManager from './notifications.js';
 import recommendationService from './recommendations.js';
 import statisticsService from './statistics.js';
+import loadingManager from './loading.js';
 
 class TripPlannerApp {
     constructor() {
@@ -16,45 +19,54 @@ class TripPlannerApp {
 
     async initializeApp() {
         try {
+            loadingManager.show('Initializing application...');
+            
             // Setup error handling
             this.setupErrorHandling();
-
+    
             // Setup offline capabilities
             this.setupOfflineSupport();
-
+    
             // Initialize core components
             await this.initializeComponents();
-
+    
             // Check initial authentication state
             this.checkAuthenticationState();
-
+    
             // Initialize notifications
             this.initializeNotifications();
-
+    
             // Setup global event listeners
             this.setupGlobalEventListeners();
-
+    
         } catch (error) {
             this.handleInitializationError(error);
+        } finally {
+            loadingManager.hide();
         }
     }
 
     setupErrorHandling() {
         window.addEventListener('error', (event) => {
-            console.error('🚨 Unhandled Error:', event.error);
-            NotificationManager.show({
-                type: 'error',
-                message: 'An unexpected error occurred. Please try again.'
+            ErrorHandler.handleApplicationError(event.error, {
+                type: 'Uncaught Error',
+                location: event.filename,
+                lineNumber: event.lineno,
+                columnNumber: event.colno
             });
         });
 
         // Handle promise rejections
         window.addEventListener('unhandledrejection', (event) => {
-            console.error('🚨 Unhandled Promise Rejection:', event.reason);
-            NotificationManager.show({
-                type: 'error',
-                message: 'An unhandled error occurred. Please check the console.'
+            ErrorHandler.handleApplicationError(event.reason, {
+                type: 'Unhandled Promise Rejection',
+                details: event.reason?.stack || event.reason
             });
+        });
+
+        // Handle API errors
+        window.addEventListener('apierror', (event) => {
+            ErrorHandler.handleNetworkError(event.detail);
         });
     }
 
@@ -166,13 +178,20 @@ class TripPlannerApp {
     }
 
     checkAuthenticationState() {
-        const user = auth.getCurrentUser();
+        // Preserve the current path when checking auth state
+        let currentPath = window.location.pathname;
+        let user = auth.getCurrentUser();
+        
         if (user) {
-            // User is logged in, navigate to dashboard
-            router.navigateTo(CONFIG.ROUTES.DASHBOARD);
+            // User is logged in, navigate to dashboard if on login/register page
+            if (['/login', '/register'].includes(currentPath)) {
+                router.navigateTo(CONFIG.ROUTES.DASHBOARD);
+            }
         } else {
-            // No user, navigate to home
-            router.navigateTo(CONFIG.ROUTES.HOME);
+            // No user and trying to access protected route, navigate to home
+            if (router.isProtectedRoute(currentPath)) {
+                router.navigateTo(CONFIG.ROUTES.HOME);
+            }
         }
     }
 

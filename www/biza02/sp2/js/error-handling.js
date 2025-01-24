@@ -4,87 +4,144 @@ import NotificationManager from './notifications.js';
 import Utils from './utils.js';
 
 class ErrorHandler {
-    /**
-     * Log errors with optional additional context
-     * @param {Error} error - Error object
-     * @param {Object} [context] - Additional context information
-     */
-    static log(error, context = {}) {
-        const errorLog = {
-            message: error.message,
-            name: error.name,
-            stack: error.stack,
-            timestamp: new Date().toISOString(),
-            ...context
-        };
-
-        // Console logging
-        console.error('Application Error:', errorLog);
-
-        // Optional: Send to error tracking service
-        // In a real-world scenario, you might integrate with services like Sentry
-        this.reportToErrorTrackingService(errorLog);
-    }
-
-    /**
-     * Placeholder for error tracking service
-     * @param {Object} errorLog - Error log details
-     */
-    static reportToErrorTrackingService(errorLog) {
-        // Implement error tracking integration
-        // For now, just log to console
-        console.warn('Error Tracking:', errorLog);
-    }
-
-    /**
-     * Handle network-related errors
-     * @param {Error} error - Network error
-     * @returns {Object} Processed error information
-     */
     static handleNetworkError(error) {
-        let userMessage = 'An unexpected network error occurred.';
+        let userMessage = '';
+        let errorDetails = '';
         
         if (error.name === 'TypeError') {
-            userMessage = 'Unable to connect to the server. Please check your internet connection.';
+            userMessage = 'Connection Error';
+            errorDetails = 'Unable to connect to the server. Please check your internet connection and try again.';
         } else if (error.response) {
             // The request was made and the server responded with a status code
             switch (error.response.status) {
                 case 400:
-                    userMessage = 'Bad request. Please check your input.';
+                    userMessage = 'Invalid Request';
+                    errorDetails = 'The request was invalid. Please check your input data and try again. ' +
+                                 (error.response.data?.message || 'Details: Invalid or missing parameters.');
                     break;
                 case 401:
-                    userMessage = 'Unauthorized. Please log in again.';
+                    userMessage = 'Authentication Required';
+                    errorDetails = 'Your session has expired or you are not logged in. Please log in again to continue.';
                     break;
                 case 403:
-                    userMessage = 'You do not have permission to access this resource.';
+                    userMessage = 'Access Denied';
+                    errorDetails = 'You do not have permission to perform this action. If you believe this is a mistake, please contact support.';
                     break;
                 case 404:
-                    userMessage = 'The requested resource could not be found.';
+                    userMessage = 'Not Found';
+                    errorDetails = 'The requested resource could not be found. Please check the URL or contact support if the problem persists.';
+                    break;
+                case 408:
+                    userMessage = 'Request Timeout';
+                    errorDetails = 'The request timed out. Please check your internet connection and try again.';
+                    break;
+                case 429:
+                    userMessage = 'Too Many Requests';
+                    errorDetails = 'You have made too many requests. Please wait a few minutes before trying again.';
                     break;
                 case 500:
-                    userMessage = 'Internal server error. Please try again later.';
+                    userMessage = 'Server Error';
+                    errorDetails = 'An internal server error occurred. Our team has been notified. Please try again later.';
+                    break;
+                case 503:
+                    userMessage = 'Service Unavailable';
+                    errorDetails = 'The service is temporarily unavailable. Please try again later.';
                     break;
                 default:
-                    userMessage = `Server error: ${error.response.status}`;
+                    userMessage = 'Error';
+                    errorDetails = `An unexpected error occurred (Status: ${error.response.status}). ${error.response.data?.message || ''}`;
             }
+        } else if (error.request) {
+            userMessage = 'Network Error';
+            errorDetails = 'No response received from the server. Please check your internet connection and try again.';
+        } else {
+            userMessage = 'Application Error';
+            errorDetails = error.message || 'An unexpected error occurred. Please try again or contact support.';
         }
 
-        // Log the error
-        this.log(error, { type: 'network' });
+        // Log the error with additional context
+        console.error('Error Details:', {
+            message: userMessage,
+            details: errorDetails,
+            originalError: error
+        });
 
-        // Show user-friendly notification
-        NotificationManager.show({
-            type: 'error',
-            message: userMessage
+        // Show detailed error notification
+        Swal.fire({
+            icon: 'error',
+            title: userMessage,
+            html: `
+                <div class="alert alert-danger">
+                    <p class="mb-2"><strong>${errorDetails}</strong></p>
+                    ${error.stack ? `
+                        <details class="mt-2">
+                            <summary>Technical Details</summary>
+                            <pre class="mt-2"><code>${error.stack}</code></pre>
+                        </details>
+                    ` : ''}
+                </div>
+            `,
+            showConfirmButton: true,
+            showCancelButton: error.response?.status === 401,
+            confirmButtonText: 'Try Again',
+            cancelButtonText: 'Login',
+            footer: '<a href="/support" class="text-decoration-none">Need help? Contact Support</a>'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Retry the last action if possible
+                if (error.config) {
+                    fetch(error.config.url, error.config)
+                        .catch(this.handleNetworkError);
+                }
+            } else if (result.dismiss === Swal.DismissReason.cancel && error.response?.status === 401) {
+                window.location.href = '/login';
+            }
         });
 
         return {
             isError: true,
             message: userMessage,
+            details: errorDetails,
             originalError: error
         };
     }
 
+    static handleApplicationError(error, context) {
+        const errorInfo = {
+            message: error.message || 'An unexpected error occurred',
+            context: context || 'General',
+            timestamp: new Date().toISOString(),
+            details: error.details || {},
+            stack: error.stack
+        };
+
+        // Log error
+        console.error('Application Error:', errorInfo);
+
+        // Show detailed error to user
+        Swal.fire({
+            icon: 'error',
+            title: `Error in ${errorInfo.context}`,
+            html: `
+                <div class="alert alert-danger">
+                    <p class="mb-2"><strong>${errorInfo.message}</strong></p>
+                    ${error.details ? `
+                        <p class="mb-0 text-muted small">Additional Details: ${error.details}</p>
+                    ` : ''}
+                </div>
+            `,
+            showConfirmButton: true,
+            confirmButtonText: 'OK',
+            footer: `
+                <div class="text-center">
+                    <a href="#" onclick="window.location.reload()" class="me-3">Reload Page</a>
+                    <a href="/support">Contact Support</a>
+                </div>
+            `
+        });
+
+        return errorInfo;
+    }
     /**
      * Validate form inputs based on configuration
      * @param {Object} inputs - Object containing input fields
