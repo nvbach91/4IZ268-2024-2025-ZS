@@ -52,6 +52,137 @@ header h1 {
     background-color: #0056b3;
 }
 
+#filters-container {
+    display: none;
+    margin-top: 10px;
+}
+
+#filters-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.filters-modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 4px;
+    position: relative;
+}
+
+.closeFiltersButton {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.closeFiltersButton:hover,
+.closeFiltersButton:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#filtersButton {
+    margin-left: 10px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #007BFF;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+#filtersButton:hover {
+    background-color: #0056b3;
+}
+
+#filters-modal select,
+#filters-modal input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+#filters-modal input[type="number"] {
+    width: calc(100% - 22px);
+}
+
+#applyFiltersButton {
+    padding: 10px 20px;
+    border: none;
+    background-color: #007BFF;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 10px;
+}
+
+#applyFiltersButton:hover {
+    background-color: #0056b3;
+}
+
+#clearFiltersButton {
+    padding: 10px 20px;
+    border: none;
+    background-color: #dc3545;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 10px;
+}
+
+#clearFiltersButton:hover {
+    background-color: #c82333;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #007BFF;
+    color: #fff;
+    border-radius: 4px 4px 0 0;
+    cursor: pointer;
+    font-size: 1em;
+    margin: 0 5px;
+}
+
+.tab-button.active {
+    background-color: #0056b3;
+}
+
+.tab-content {
+    display: none;
+    border-radius: 0 4px 4px 4px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
 .popup-container {
     position: fixed;
     top: 20px;
@@ -74,6 +205,12 @@ header h1 {
     background-color: #d4edda;
     color: #155724;
     border: 1px solid #c3e6cb;
+}
+
+.popup-message.lib-remove {
+    background-color: #f8d7da;
+    color: #155724;
+    border: 1px solid #f5c6cb;
 }
 
 .popup-message.error {
@@ -128,7 +265,7 @@ header h1 {
 
 .movie .placeholder {
     width: 100%;
-    height: 60%;
+    height: 300px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -226,15 +363,15 @@ header h1 {
     box-sizing: border-box;
 }
 
-.close-button {
+.closeButton {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
 }
 
-.close-button:hover,
-.close-button:focus {
+.closeButton:hover,
+.closeButton:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
@@ -242,18 +379,18 @@ header h1 {
 
 /* Spinner container */
 #loading-spinner {
-    display: none; /* Hidden by default */
-    position: fixed; /* Sit on top of the page content */
-    z-index: 9999; /* High z-index to ensure it's on top */
-    left: 50%; /* Center horizontally */
-    top: 50%; /* Center vertically */
-    transform: translate(-50%, -50%); /* Adjust for the spinner size */
-    width: 50px; /* Width of the spinner */
-    height: 50px; /* Height of the spinner */
-    border: 8px solid rgba(0, 0, 0, 0.1); /* Light gray border */
-    border-top: 8px solid #007BFF; /* Blue border on top */
-    border-radius: 50%; /* Rounded corners */
-    animation: spin 1s linear infinite; /* Spin animation */
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    border: 8px solid rgba(0, 0, 0, 0.1);
+    border-top: 8px solid #007BFF;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
 }
 
 /* Spin animation */
