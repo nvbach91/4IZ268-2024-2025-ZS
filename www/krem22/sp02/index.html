@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Vyhledávač novinek z celého světa">
+    <title>Novinky</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <main class="container py-4">
+        <section class="search-panel card mb-4 p-4">
+            <h1 class="text-center mb-4">Vyhledávání článků</h1>
+
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="searchInput" placeholder="Zadejte klíčové slovo">
+                        <label for="searchInput">Klíčové slovo</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="form-floating">
+                        <select class="form-select" id="languageSelect">
+                            <option value="">Všechny jazyky</option>
+                            <option value="en">Angličtina</option>
+                            <option value="ar">Arabština</option>
+                            <option value="zh">Čínština</option>
+                            <option value="fr">Francouzština</option>
+                            <option value="he">Hebrejština</option>
+                            <option value="nl">Holandština</option>
+                            <option value="it">Italština</option>
+                            <option value="de">Němčina</option>
+                            <option value="no">Norština</option>
+                            <option value="pt">Portugalština</option>
+                            <option value="ru">Ruština</option>
+                            <option value="es">Španělština</option>
+                            <option value="sv">Švédština</option>
+                        </select>
+                        <label for="languageSelect">Jazyk</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-floating">
+                        <select class="form-select" id="domainInput">
+                            <option value="">Všechny domény</option>
+                            <option value="bbc.co.uk">BBC</option>
+                            <option value="cnn.com">CNN</option>
+                            <option value="nytimes.com">New York Times</option>
+                            <option value="bloomberg.com">Bloomberg</option>
+                            <option value="washingtonpost.com">Washington Post</option>
+                            <option value="forbes.com">Forbes</option>
+                            <option value="wsj.com">Wall Street Journal</option>
+                            <option value="apnews.com">Associated Press</option>
+                        </select>
+                        <label for="domainInput">Zdroj</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-floating">
+                        <input type="date" class="form-control" id="dateFrom">
+                        <label for="dateFrom">Od</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-floating">
+                        <input type="date" class="form-control" id="dateTo">
+                        <label for="dateTo">Do</label>
+                    </div>
+                </div>
+            </div>
+            <small class="text-muted mb-4 d-block">* Lze vyhledávat články maximálně měsíc staré</small>
+
+            <div class="row">
+                <div class="col-6">
+                    <button id="searchButton" class="btn btn-primary w-100">
+                        <i class="bi bi-search"></i> Vyhledat články
+                    </button>
+                </div>
+                <div class="col-6">
+                    <button id="clearButton" class="btn btn-outline-danger w-100">
+                        <i class="bi bi-x-circle"></i> Vymazat filtry
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <nav>
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="search-tab" data-bs-toggle="tab" href="#search-results">
+                        <i class="bi bi-search"></i> Výsledky vyhledávání
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="favorites-tab" data-bs-toggle="tab" href="#favorites">
+                        <i class="bi bi-star"></i> Oblíbené články
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <section class="tab-content">
+            <div class="tab-pane fade show active" id="search-results">
+                <div class="row" id="articlesContainer"></div>
+            </div>
+            <div class="tab-pane fade" id="favorites">
+                <div class="row" id="favoritesContainer"></div>
+            </div>
+        </section>
+
+        <aside class="stats-panel card mt-4 p-4">
+            <h5><i class="bi bi-graph-up"></i> Statistiky vyhledávání</h5>
+            <div id="searchStats">
+                <h6 class="text-muted mb-3">Nejhledanější klíčová slova:</h6>
+                <div id="searchKeywords"></div>
+            </div>
+        </aside>
+    </main>
+
+    <div class="modal fade" id="articleModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="article-image mb-4"></div>
+                    <div class="article-meta mb-4">
+                        <p><strong>Zdroj:</strong> <span class="article-source"></span></p>
+                        <p><strong>Autor:</strong> <span class="article-author"></span></p>
+                        <p><strong>Datum publikace:</strong> <span class="article-date"></span></p>
+                    </div>
+                    <div class="article-content">
+                        <h6>Popis článku:</h6>
+                        <p class="article-description"></p>
+                        <h6>Obsah:</h6>
+                        <p class="article-text"></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-primary article-url" target="_blank">Číst celý článek</a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="loader" class="d-none">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Načítání...</span>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+
+</html>
