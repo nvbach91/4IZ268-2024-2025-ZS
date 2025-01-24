@@ -22,12 +22,18 @@
         <div class="container d-flex justify-content-center mt-4 main-search">
             <div class="col-md-4 mx-4">
                 <h3 class="mb-5">Vyhledejte svátek:</h3>
+
                 <form id="name-form">
                     <label for="name-input" class="form-label">Zadejte jméno</label>
                     <input type="text" class="form-control" id="name-input" name="name-input" placeholder="hledejte např. 'ludmila'">
                     <div id="name-info" class="form-text">Hledejte jména vyskytující se v českém kalendáři.</div>
-                    <button type="submit" class="btn btn-outline-primary mt-2">Odeslat</button>
+                    <button id="button-name" type="submit" class="btn btn-outline-primary mt-2">Odeslat</button>
                 </form>
+                <div class="spinner-container-name">
+                    <div class="spinner-grow spinner-grow-sm"></div>
+                    <div class="spinner-grow spinner-grow-sm"></div>
+                    <div class="spinner-grow spinner-grow-sm"></div>
+                </div>
                 <div id="name-output" class="fs-4 mt-3 mb-5 d-flex align-items-center name-output">
                 </div>                
 
@@ -35,8 +41,13 @@
                     <label for="date-input" class="form-label">Zadejte datum</label>
                     <input type="date" class="form-control" id="date-input" name="date-input">
                     <div id="date-info" class="form-text">Zobrazte kalendář kliknutím na ikonu.</div>
-                    <button type="submit" class="btn btn-outline-primary mt-2">Odeslat</button>
+                    <button id="button-date" type="submit" class="btn btn-outline-primary mt-2">Odeslat</button>
                 </form>
+                <div class="spinner-container-date">
+                    <div class="spinner-grow spinner-grow-sm"></div>
+                    <div class="spinner-grow spinner-grow-sm"></div>
+                    <div class="spinner-grow spinner-grow-sm"></div>
+                </div>
                 <div id="date-output" class="fs-4 mt-3 mb-5 d-flex align-items-center date-output">
 
                 </div>
@@ -51,7 +62,7 @@
         </div>
     
         <h3>Hledejte v seznamu:</h3>
-        <div class="spinner-container">
+        <div class="spinner-container-list">
             <div class="spinner-grow spinner-grow-sm"></div>
             <div class="spinner-grow spinner-grow-sm"></div>
             <div class="spinner-grow spinner-grow-sm"></div>

@@ -58,6 +58,10 @@ main{
     background-color: rgb(211, 211, 211);
 }
 
+.spinner-container-list, .spinner-container-name, .spinner-container-date{
+    display: none;
+}
+
 .spinner-grow{
     animation-duration: 0.8s;
 }
