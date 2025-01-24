@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="Weather App">
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="Fastest weather forecasting available.">
+    <meta property="og:url" content="https://eso.vse.cz/~brad14/sp2/">
+    <meta property="og:image" content="https://eso.vse.cz/~brad14/sp2/images/meta-image.jpg">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon" sizes="52x52">
+    <title>Weather App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="css/styles.css?v2.5">
+</head>
+
+<body>
+    <div class="overlay"></div>
+    <header>
+        <div class="center-between">
+            <a href="https://eso.vse.cz/~brad14/sp2/">
+                <h1>Weather</h1>
+            </a>
+            <div class="header-actions">
+                <div><a class="action" id="usage">Usage</a></div>
+                <div><a class="action" id="about">About</a></div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="search-wrapper">
+            <form class="search-box">
+                <input placeholder="Location" name="location" required />
+                <button>
+                    <i class="fa-solid fa-magnifying-glass fa-xl" style="color: #ffffff;"></i>
+                </button>
+                <span id="location-icon" class="icon-span">
+                    <i class="fa-solid fa-location-crosshairs fa-xl"></i>
+                </span>
+                <span id="clear-icon" class="icon-span">
+                    <i class="fa-solid fa-xmark fa-xl"></i>
+                </span>
+                <span id="spinner-icon" class="icon-span">
+                    <i class="fa-solid fa-circle-notch fa-spin fa-xl"></i>
+                </span>
+            </form>
+            <div class="location-history-wrapper">
+                <div class="location-history"></div>
+            </div>
+        </div>
+        <div class="center">
+            <div class="loader-wrapper">
+                <div class="loader"></div>
+            </div>
+        </div>
+        <div class="results">
+            <div class="daily-detail-wrapper"></div>
+            <div class="current-wrapper"></div>
+            <div class="hourly-wrapper"></div>
+            <div class="daily-wrapper"></div>
+            <div class="current-conditions-wrapper"></div>
+        </div>
+        <div class="dialogs">
+            <dialog id="usage-dialog" class="dialog">
+                <div class="dialog-title">
+                    <h3>Usage</h3>
+                    <a class="icon-wrapper" tabindex="0" autofocus>
+                        <span id="close-dialog-icon" class="icon">
+                            <i class="fa-solid fa-xmark icon fa-xl"></i>
+                        </span>
+                    </a>
+                </div>
+                <p>This is a guide on how to use this weather application.</p>
+                <img src="./images/usage/input.png" width="300" alt="">
+                <h4>1. Search by location name:</h4>
+                <p>
+                    This is the simplest way how to search for weather, simply click in the white box and start typing!
+                </p>
+                <h4>2. Search by your current GPS position:</h4>
+                <p>Click on the position icon and just wait for the weather to appear.</p>
+                <h4>3. Submit:</h4>
+                <p>Submit your location by clicking the blue search button to show weather results.</p>
+            </dialog>
+            <dialog id="about-dialog" class="dialog">
+                <div class="dialog-title">
+                    <h3>About</h3>
+                    <a class="icon-wrapper" tabindex="0" autofocus>
+                        <span id="close-dialog-icon" class="icon">
+                            <i class="fa-solid fa-xmark icon fa-xl"></i>
+                        </span>
+                    </a>
+                </div>
+                <p>This weather app was created as a semestral project in the subject <a
+                        href="https://4iz268.github.io/">4IZ268</a> at the <a href="https://www.vse.cz/">Prague
+                        University of
+                        Economics and Business</a>.</p>
+                <p>The weather data is provided by <a href="https://openweathermap.org/">OpenWeather</a>.</p>
+                <p>The author of this website is <a href="https://www.linkedin.com/in/david-brablc/">David Brablc</a>.
+                </p>
+            </dialog>
+        </div>
+    </main>
+    <footer>
+        <div class="footer-container">
+            <div class="open-weather">
+                <p>Weather data provided by:</p>
+                <a href="https://openweathermap.org/">
+                    <img width="80" src="./images/open-weather.png" alt="Open Weather image">
+                </a>
+            </div>
+            <p class="copyright">
+                &copy David Brablc
+            </p>
+        </div>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/utc.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/timezone.js"></script>
+    <script>
+        dayjs.extend(window.dayjs_plugin_utc);
+        dayjs.extend(window.dayjs_plugin_timezone);
+    </script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://kit.fontawesome.com/ad8909f7ba.js" crossorigin="anonymous"></script>
+    <script src="js/main.js?v2.5"></script>
+</body>
+
+</html>
