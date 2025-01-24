@@ -18,34 +18,38 @@
             <form id="search-form" class="d-flex justify-content-center mt-3">
                 <input type="text" id="search-input" class="form-control me-2 w-50" placeholder="Enter movie or series title..." required>
                 <input type="number" id="year-input" class="form-control me-2" placeholder="Year (optional)">
+                <select id="type-input" class="form-select me-2" style="width: auto;">
+                    <option value="">All</option>
+                    <option value="movie">Movie</option>
+                    <option value="series">Series</option>
+                    <option value="episode">Episode</option>
+                </select>
                 <button type="submit" class="btn btn-primary">Search</button>
             </form>
         </section>
-<hr>
+        <hr>
 
         <!-- Section 2: Results -->
         <section id="results" class="row mb-4">
             <h2 class="mb-3">Search Results</h2>
         </section>
-<hr>
+        <hr>
 
         <!-- Section 3: Detail -->
         <section id="details" class="mb-4">
             <h2 class="mb-3">Movie Details</h2>
         </section>
-<hr>
+        <hr>
 
         <!-- Section 4: Favorites -->
         <section id="favorites" class="mb-4">
             <h2 class="mb-3">Favorites</h2>
             <ul id="favorites-list" class="list-group"></ul>
         </section>
-<hr>
+        <hr>
     </main>
     <script src="./js/script.js"></script>
 
-        
-        
     <footer class="bg-dark text-white text-center py-3">
         <p>© 2025 Andreas Merhaut</p>
         <p>
@@ -53,5 +57,5 @@
             <a href="docs_cz.html" class="text-white">Dokumentace (Česky)</a>
         </p>
     </footer>
-</body>      
+</body>
 </html>

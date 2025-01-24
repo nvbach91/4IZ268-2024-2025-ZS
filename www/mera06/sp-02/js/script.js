@@ -2,13 +2,14 @@ const apiKey = '1a194ae9';
 const searchForm = document.getElementById('search-form');
 const searchInput = document.getElementById('search-input');
 const yearInput = document.getElementById('year-input');
+const typeInput = document.getElementById('type-input');
 const resultsSection = document.getElementById('results');
 const detailsSection = document.getElementById('details');
 const favoritesList = document.getElementById('favorites-list');
 const base_url = 'https://www.omdbapi.com/';
 
 let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-let lastSearch = JSON.parse(localStorage.getItem('lastSearch')) || { query: '', year: '' };
+let lastSearch = JSON.parse(localStorage.getItem('lastSearch')) || { query: '', year: '', type: '' };
 
 // Render favorites
 const renderFavorites = () => {
@@ -61,9 +62,9 @@ const renderFavorites = () => {
 };
 
 // Fetch movie data
-const fetchMovies = async (query, year) => {
+const fetchMovies = async (query, year, type) => {
     resultsSection.innerHTML = '<p class="text-center">Loading...</p>';
-    const url = `${base_url}?apikey=${apiKey}&s=${query}${year ? `&y=${year}` : ''}`;
+    const url = `${base_url}?apikey=${apiKey}&s=${query}${year ? `&y=${year}` : ''}${type ? `&type=${type}` : ''}`; // Added type parameter
     const response = await fetch(url);
     const data = await response.json();
     return data.Search || [];
@@ -219,11 +220,12 @@ searchForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const query = searchInput.value;
     const year = yearInput.value;
+    const type = typeInput.value;
 
-    lastSearch = { query, year };
+    lastSearch = { query, year, type };
     localStorage.setItem('lastSearch', JSON.stringify(lastSearch));
 
-    const movies = await fetchMovies(query, year);
+    const movies = await fetchMovies(query, year, type);
     displayResults(movies);
 });
 
@@ -234,7 +236,8 @@ searchForm.addEventListener('submit', async (e) => {
     if (lastSearch.query) {
         searchInput.value = lastSearch.query;
         yearInput.value = lastSearch.year;
-        const movies = await fetchMovies(lastSearch.query, lastSearch.year);
+        typeInput.value = lastSearch.type;
+        const movies = await fetchMovies(lastSearch.query, lastSearch.year, lastSearch.type);
         displayResults(movies);
     }
 })();
