@@ -1,8 +1,3 @@
-// const localStorageCats = JSON.parse(localStorage.getItem('cats')) || [];
-
-// localStorageCats.push('garfield')
-
-
 const apiUrlName = 'https://svatky.adresa.info/json?name=';
 const apiUrlDate = 'https://svatky.adresa.info/json?date=';
 const apiUrlLang = '&lang=cs';
@@ -181,7 +176,7 @@ const formatDateForAPI = (date) => {
 /***** ALL HOLIDAYS *****/
 async function getAllHolidays() {
 
-    const response = await fetch('../name-data.json');
+    const response = await fetch('./name-data.json');
     const holidays = await response.json();
 
     const allNames = [];
@@ -243,11 +238,6 @@ async function getHolidayDetails(name) {
         listOutput.textContent = 'Došlo k chybě při získávání dat.';
     }
 }
-
-// function dwlHistory(){
-//     const history = JSON.parse(localStorage.getItem('searchHistory')) || [];
-//     return history;
-// }
 
 function init() {
     getAllHolidays();
