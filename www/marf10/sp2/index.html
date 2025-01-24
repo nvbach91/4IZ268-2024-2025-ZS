@@ -27,13 +27,11 @@
                     <label for="category">Category:</label>
                     <select id="category" name="category">
                         <option value="random">Random</option>
-                        <option value="">Loading...</option>
                     </select>
 
                     <label for="difficulty">Difficulty:</label>
                     <select id="difficulty" name="difficulty">
                         <option value="random">Random</option>
-                        <option value="">Loading...</option>
                     </select>
 
                     <label for="amount">Number of Questions:</label>
@@ -54,8 +52,9 @@
                 </div>
                 <div id="answers" class="answers-box"></div>
                 <div class="quiz-controls">
-                    <button id="end-quiz" class="control-button red-button">End Quiz</button>
-                    <button id="next-question" class="control-button orange-button">Next Question</button>
+                    <button id="prev-question" class="control-button blue-button">Previous Question</button>
+                    <button id="end-quiz" class="control-button red-button">Evaluate Quiz</button>
+                    <button id="next-question" class="control-button orange-button">Skip This Question</button>
                 </div>
             </div>
         </section>
@@ -83,6 +82,5 @@
 
     <script src="js/script.js"></script>
 </body>
-
 
 </html>

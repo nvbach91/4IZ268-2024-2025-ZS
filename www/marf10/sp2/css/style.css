@@ -125,6 +125,8 @@ input {
     margin-bottom: 10px;
 }
 
+
+/* Reset Link */
 .reset-link {
     color: #ff5722;
     cursor: pointer;
@@ -162,6 +164,12 @@ input {
     background-color: #555;
 }
 
+.answer-button.selected,
+.answer-button.selected:hover {
+    background-color: #4caf50;
+    color: white;
+}
+
 /* Quiz Controls */
 .quiz-controls {
     display: flex;
@@ -192,6 +200,14 @@ input {
 .control-button:active {
     background-color: #3e8e41;
     transform: scale(0.98);
+}
+
+.blue-button {
+    background-color: #2196f3;
+}
+
+.blue-button:hover {
+    background-color: #1976d2;
 }
 
 .red-button {
