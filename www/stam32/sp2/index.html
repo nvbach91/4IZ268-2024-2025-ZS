@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LuckyPlanner</title>
   <link rel="stylesheet" href="./style/main.css">
 </head>
+
 <body>
   <div id="spinner" class="spinner"></div>
   <main id="app">
@@ -38,16 +40,31 @@
 
       <!-- Right Section -->
       <section id="task-list-section">
+
         <h2>Your Tasks</h2>
+        <div id="date-filter-container">
+          <label for="date-filter">Filter by Date:</label>
+          <input type="date" id="date-filter">
+        </div>
         <ul id="task-list">
           <!-- Tasks will be dynamically added here -->
         </ul>
       </section>
     </div>
   </main>
-  
+  <div id="delete-confirm-modal" class="modal hidden">
+    <div class="modal-content">
+      <p>Are you sure you want to delete this task?</p>
+      <div class="modal-actions">
+        <button id="confirm-delete" class="modal-button confirm">Yes</button>
+        <button id="cancel-delete" class="modal-button cancel">No</button>
+      </div>
+    </div>
+  </div>
+
   <script src="https://accounts.google.com/gsi/client"></script>
   <script src="https://apis.google.com/js/api.js"></script>
   <script src="./js/main.js"></script>
 </body>
+
 </html>
