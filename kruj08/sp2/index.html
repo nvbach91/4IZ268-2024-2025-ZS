@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Outfit:wght@100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="./src/style.css">
+    <link rel="icon" href="./public/img/icon.png" type="image/x-icon">
+    <title>Pomodio habit tracker</title>
+</head>
+
+<body>
+
+    <main>
+
+        <div class="container text-center flexbox-centered" id="login">
+
+            <div class="container" id="login-form-container">
+                <div class="card w-75 py-3 px-3 login-form-google">
+                    <img class="mb-4" src="./public/img/icon.png" alt="timer icon" width="72">
+
+                    <div class="container px-0" id="heading">
+                        <h1>Welcome to Pomodio habit tracker</h1>
+                    </div>
+
+                    <p class="lead my-5">
+                        Pomodio uses your Google drive to store data about your pomodoro sessions. Those data are used
+                        later to create dashboard with your statistics.
+                        Your data are completely under your control and won't take much space on your drive.
+                    </p>
+                    
+                    <button class="gsi-material-button" id="signin-button">
+                        <div class="gsi-material-button-state"></div>
+                        <div class="gsi-material-button-content-wrapper">
+                            <div class="gsi-material-button-icon">
+                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink" style="display: block;">
+                                    <path fill="#EA4335"
+                                        d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z">
+                                    </path>
+                                    <path fill="#4285F4"
+                                        d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z">
+                                    </path>
+                                    <path fill="#FBBC05"
+                                        d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z">
+                                    </path>
+                                    <path fill="#34A853"
+                                        d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z">
+                                    </path>
+                                    <path fill="none" d="M0 0h48v48H0z"></path>
+                                </svg>
+                            </div>
+                            <span class="gsi-material-button-contents">Sign in with Google</span>
+                            <span style="display: none;">Sign in with Google</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="container text-center hidden flexbox-centered" id="timer-settings">
+
+            <div class="container mt-4 mb-5" id="heading">
+                <h1>Set new timer</h1>
+            </div>
+
+            <div class="container my-5" id="settings">
+                <form id="timer-settings-form">
+
+                    <div class="input-group mb-3">
+                        <label class="input-group-text form-settings-input input-group-custom"
+                            for="inputGroupSelect01">Focus time</label>
+                        <select class="form-select form-settings-input input-group-custom" id="focusTime" required>
+                            <option selected></option>
+                            <option value="0.25">0,25 min</option>
+                            <option value="1">1 min</option>
+                            <option value="15">15 min</option>
+                            <option value="20">20 min</option>
+                            <option value="30">30 min</option>
+                            <option value="45">45 min</option>
+                            <option value="60">60 min</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <label class="input-group-text form-settings-input input-group-custom"
+                            for="inputGroupSelect01">Break time</label>
+                        <select class="form-select form-settings-input input-group-custom" id="breakTime" required>
+                            <option selected></option>
+                            <option value="0.05">0,05 min</option>
+                            <option value="1">1 min</option>
+                            <option value="5">5 min</option>
+                            <option value="10">10 min</option>
+                            <option value="15">15 min</option>
+                            <option value="20">20 min</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <label class="input-group-text form-settings-input input-group-custom"
+                            for="inputGroupSelect01">Sections</label>
+                        <select class="form-select form-settings-input input-group-custom" id="sections" required>
+                            <option selected></option>
+                            <option value="1">1 section</option>
+                            <option value="2">2 sections</option>
+                            <option value="3">3 sections</option>
+                            <option value="4">4 sections</option>
+                            <option value="5">5 sections</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <label class="input-group-text form-settings-input input-group-custom"
+                            for="inputGroupSelect01">Task type</label>
+                        <select class="form-select form-settings-input input-group-custom" id="taskType" required>
+                            <option selected></option>
+                            <option value="Studying">Studying</option>
+                            <option value="Work">Work</option>
+                            <option value="Exercise">Exercise</option>
+                            <option value="Learning new skill">Learning new skill</option>
+                            <option value="Coding">Coding</option>
+                            <option value="Reading">Reading</option>
+                            <option value="Meditation">Meditation</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="container my-5">
+                        <button type="button" class="mx-3 btn custom-btn-cancel-form btn-lg" id="cancel-form">Cancel</button>
+                        <button type="submit" class="mx-3 btn custom-btn-submit-form btn-lg">Start</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="container text-center hidden flexbox-centered" id="timer">
+            <Audio src="./public/audio/trumpet_fanfare.mp3" id="finished-timer-audio"></Audio>
+            <div class="container mb-5">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header custom-btn-submit-form text-white">
+                                <h4 class="mb-0 text-center" id="session-display"></h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row text-center">
+                                    <div class="col-12">
+                                        <h3 id="timer-display" class="display-4">Loading</h3>
+                                        <p id="focus-break-display" class="mb-0"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container my-5">
+                    <button type="button" class="mx-3 btn custom-btn-timer btn-lg" id="pause">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" class="bi bi-pause" viewBox="0 0 16 16">
+                            <path d="M6 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5m4 0a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5"/>
+                        </svg>
+                    </button>
+                    <button type="button" class="mx-3 btn custom-btn-timer btn-lg" id="stop">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" class="bi bi-stop" viewBox="0 0 16 16">
+                            <path d="M3.5 5A1.5 1.5 0 0 1 5 3.5h6A1.5 1.5 0 0 1 12.5 5v6a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 11zM5 4.5a.5.5 0 0 0-.5.5v6a.5.5 0 0 0 .5.5h6a.5.5 0 0 0 .5-.5V5a.5.5 0 0 0-.5-.5z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="container text-center hidden flexbox" id="dashboard">
+            <h2 class="my-5" id="dashboardTitle">Dashboard</h2>
+            <div class="chart-wrapper">
+                <canvas id="barChart"></canvas>
+            </div>
+
+            <div class="container my-5" id="daily-chart-settings">
+                <form id="daily-chart-settings-form">
+                    <div class="input-group mb-3">
+                        <label class="input-group-text form-settings-input input-group-custom"
+                            for="inputGroupSelect01">Task type</label>
+                        <select class="form-select form-settings-input input-group-custom" id="taskTypeForChart" required>
+                            <option selected></option>
+                            <option value="Studying">Studying</option>
+                            <option value="Work">Work</option>
+                            <option value="Exercise">Exercise</option>
+                            <option value="Learning new skill">Learning new skill</option>
+                            <option value="Coding">Coding</option>
+                            <option value="Reading">Reading</option>
+                            <option value="Meditation">Meditation</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="container my-5">
+                        <button type="button" class="mx-3 btn custom-btn-cancel-form btn-lg" id="cancel-chart-settings">Cancel</button>
+                        <button type="submit" class="mx-3 btn custom-btn-submit-form btn-lg">Show me</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="chart-wrapper my-5">
+                <canvas id="dailyChart"></canvas>
+            </div>
+        </div>
+
+    </main>
+
+
+    <!-- Bottom Navigation -->
+    <nav class="navbar navbar-expand fixed-bottom hidden" id="navbar-panel">
+        <div class="container-fluid justify-content-around" id="nav-panel">
+            <button type="button" class="btn btn-outline-secondary custom-btn" id="timerButton">
+                <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                    class="bi bi-stopwatch-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M6.5 0a.5.5 0 0 0 0 1H7v1.07A7.001 7.001 0 0 0 8 16a7 7 0 0 0 5.29-11.584l.013-.012.354-.354.353.354a.5.5 0 1 0 .707-.707l-1.414-1.415a.5.5 0 1 0-.707.707l.354.354-.354.354-.012.012A6.97 6.97 0 0 0 9 2.071V1h.5a.5.5 0 0 0 0-1zm2 5.6V9a.5.5 0 0 1-.5.5H4.5a.5.5 0 0 1 0-1h3V5.6a.5.5 0 1 1 1 0">
+                    </path>
+                </svg>
+            </button>
+
+            <button type="button" class="btn btn-outline-secondary custom-btn" id="dashboardButton">
+                <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                    class="bi bi-bar-chart-line-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1z" />
+                </svg>
+            </button>
+
+            <button type="button" class="btn btn-outline-secondary custom-btn" id="logOutButton">
+                <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                    class="bi bi-box-arrow-in-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0z" />
+                    <path fill-rule="evenodd"
+                        d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708z" />
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="./src/main.ts" type="module"></script>
+</body>
+
+</html>
