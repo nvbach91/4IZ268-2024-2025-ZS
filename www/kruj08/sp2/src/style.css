@@ -17,6 +17,11 @@ body {
   border: none;
 }
 
+#navbar-panel {
+  background: linear-gradient(to bottom, #302949, #101030);
+  /* background-color: #1F1B2E; */
+}
+
 .nav-icon {
   fill: #505050;
   transition: fill 0.3s ease;
