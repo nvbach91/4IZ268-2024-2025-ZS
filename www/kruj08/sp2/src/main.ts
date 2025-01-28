@@ -16,7 +16,12 @@ interface TimerSettings {
 interface TaskDetails {
   taskType: string;
   totalFocusTime: number;
-  days: Array<{ date: string; minutes: number }>;
+  days: Array<Day>;
+}
+
+interface Day {
+  date: string;
+  minutes: number;
 }
 
 let isPomodoro = false;
@@ -297,12 +302,28 @@ dashboardButton.addEventListener("click", async () => {
 });
 
 // TODO: Vykreslení grafu po dnech
-dailyChartSettingsForm.addEventListener("submit", (event) => {
+dailyChartSettingsForm.addEventListener("submit", async (event) => {
   event.preventDefault();
-
   let taskType = document.getElementById("taskTypeForChart") as HTMLSelectElement;
-
   console.log("Daily chart task: " + taskType.value);
+
+  const fileId = await findFileOnGoogleDrive(token, "pomodioSessionData.json");
+  const data = await downloadFileFromGoogleDrive(token, fileId);
+
+    if (data) {
+      console.log("File found and downloaded successfully");
+
+      const days: Array<Day> = data.taskTypes[taskType.value].days;
+      const xlabels = days.map(day => day.date);
+      const chartData = days.map(day => day.minutes / 60); // Přepočet na hodiny
+      const xlabel = 'Hours';
+      const name = 'Hours by days';
+
+      createDailyChart(xlabels, chartData, xlabel, name);
+
+    } else {
+      console.log("File not found");
+    }
   
 });
 
@@ -862,7 +883,7 @@ function createDailyChart(xlabels: Array<string>, chartData: Array<number>, xlab
     };
   
     // Vytvoření grafu
-    currentBarChart = new Chart(canvas, config);
+    currentDailyChart = new Chart(canvas, config);
   }
 
 }
