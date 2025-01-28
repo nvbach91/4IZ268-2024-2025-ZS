@@ -60,6 +60,20 @@ let tasksString = Array.from(taskType.options).map(option => option.value)
 const pauseButton = document.getElementById("pause") as HTMLButtonElement;
 const stopButton = document.getElementById("stop") as HTMLButtonElement;
 
+function showSpinner() {
+  const spinner = document.getElementById('loading-spinner');
+  if (spinner) {
+    spinner.classList.remove('hidden');
+  }
+}
+
+function hideSpinner() {
+  const spinner = document.getElementById('loading-spinner');
+  if (spinner) {
+    spinner.classList.add('hidden');
+  }
+}
+
 // User authorization and access token handling 
 let token: string;
 
@@ -235,41 +249,14 @@ timerButton.addEventListener("click", () => {
   }
 });
 
+// Charts on dashboard loading
 dashboardButton.addEventListener("click", async () => {
+  showSpinner();
+  try {
+    const isTokenValid = await verifyToken(token);
 
-  const isTokenValid = await verifyToken(token);
-
-  if (isTokenValid) {
-    changeScreen([navPanel, dashboard]);
-    // Vykreslení grafu po kategoriích
-
-    const fileId = await findFileOnGoogleDrive(token, "pomodioSessionData.json");
-    const data = await downloadFileFromGoogleDrive(token, fileId);
-
-    if (data) {
-      console.log("File found and downloaded successfully: "); 
-      console.log(data);
-
-      const xlabels = Object.keys(data.taskTypes).filter(taskType => taskType !== "");
-
-      const chartData = Object.values(data.taskTypes as Record<string, TaskDetails>)
-        .filter(details => details.taskType !== "")
-        .map(details => details.totalFocusTime / 60).map(Number); // Přepočet na hodiny
-
-      const xlabel = 'Hours';
-      const name = 'Total hours by categories';
-
-      createBarChart(xlabels, chartData, xlabel, name);
-
-    } else {
-      console.log("File not found");
-    }
-  } else {
-    try {
-      const token = await signInAndGetToken();
-      console.log("Přihlášení úspěšné, token získán: " + token);
+    if (isTokenValid) {
       changeScreen([navPanel, dashboard]);
-
       // Vykreslení grafu po kategoriích
 
       const fileId = await findFileOnGoogleDrive(token, "pomodioSessionData.json");
@@ -293,10 +280,44 @@ dashboardButton.addEventListener("click", async () => {
       } else {
         console.log("File not found");
       }
+    } else {
+      try {
+        const token = await signInAndGetToken();
+        console.log("Přihlášení úspěšné, token získán: " + token);
+        changeScreen([navPanel, dashboard]);
 
-    } catch (error) {
-      console.error("Přihlášení selhalo:", error);
+        // Vykreslení grafu po kategoriích
+
+        const fileId = await findFileOnGoogleDrive(token, "pomodioSessionData.json");
+        const data = await downloadFileFromGoogleDrive(token, fileId);
+
+        if (data) {
+          console.log("File found and downloaded successfully: "); 
+          console.log(data);
+
+          const xlabels = Object.keys(data.taskTypes).filter(taskType => taskType !== "");
+
+          const chartData = Object.values(data.taskTypes as Record<string, TaskDetails>)
+            .filter(details => details.taskType !== "")
+            .map(details => details.totalFocusTime / 60).map(Number); // Přepočet na hodiny
+
+          const xlabel = 'Hours';
+          const name = 'Total hours by categories';
+
+          createBarChart(xlabels, chartData, xlabel, name);
+
+        } else {
+          console.log("File not found");
+        }
+
+      } catch (error) {
+        console.error("Přihlášení selhalo:", error);
+      }
     }
+  } catch (error) {
+    console.error("Chyba při načítání:", error);
+  } finally {
+    hideSpinner();
   }
 
 });
@@ -304,26 +325,34 @@ dashboardButton.addEventListener("click", async () => {
 // TODO: Vykreslení grafu po dnech
 dailyChartSettingsForm.addEventListener("submit", async (event) => {
   event.preventDefault();
-  let taskType = document.getElementById("taskTypeForChart") as HTMLSelectElement;
-  console.log("Daily chart task: " + taskType.value);
+  showSpinner();
 
-  const fileId = await findFileOnGoogleDrive(token, "pomodioSessionData.json");
-  const data = await downloadFileFromGoogleDrive(token, fileId);
+  try {
+    let taskType = document.getElementById("taskTypeForChart") as HTMLSelectElement;
+    console.log("Daily chart task: " + taskType.value);
 
-    if (data) {
-      console.log("File found and downloaded successfully");
+    const fileId = await findFileOnGoogleDrive(token, "pomodioSessionData.json");
+    const data = await downloadFileFromGoogleDrive(token, fileId);
 
-      const days: Array<Day> = data.taskTypes[taskType.value].days;
-      const xlabels = days.map(day => day.date);
-      const chartData = days.map(day => day.minutes / 60); // Přepočet na hodiny
-      const xlabel = 'Hours';
-      const name = 'Hours by days';
+      if (data) {
+        console.log("File found and downloaded successfully");
 
-      createDailyChart(xlabels, chartData, xlabel, name);
+        const days: Array<Day> = data.taskTypes[taskType.value].days;
+        const xlabels = days.map(day => day.date);
+        const chartData = days.map(day => day.minutes / 60); // Přepočet na hodiny
+        const xlabel = 'Hours';
+        const name = 'Hours by days';
 
-    } else {
-      console.log("File not found");
-    }
+        createDailyChart(xlabels, chartData, xlabel, name);
+
+      } else {
+        console.log("File not found");
+      }
+  } catch (error) {
+    console.error("Chyba při načítání:", error);
+  } finally {
+    hideSpinner();
+  }
   
 });
 
