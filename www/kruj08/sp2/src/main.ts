@@ -9,7 +9,7 @@ const SCOPES = "https://www.googleapis.com/auth/drive.file";
 interface TimerSettings {
   focusTime: number; // minutes
   breakTime: number; // minutes
-  sections: number; // number of sections
+  sections: number;
   taskType: string;
 }
 
