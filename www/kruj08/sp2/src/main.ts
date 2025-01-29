@@ -44,6 +44,8 @@ const screens: Array<HTMLElement> = [
 let currentBarChart: Chart | null = null;
 let currentDailyChart: Chart | null = null;
 const dailyChartSettingsForm = document.getElementById("daily-chart-settings-form") as HTMLFormElement;
+const dailyChartCanvas = document.getElementById('dailyChart') as HTMLCanvasElement;
+const barChartCanvas = document.getElementById('barChart') as HTMLCanvasElement;
 
 const navPanelButtons = document.querySelectorAll("#nav-panel button");
 
@@ -60,15 +62,15 @@ let tasksString = Array.from(taskType.options).map(option => option.value)
 const pauseButton = document.getElementById("pause") as HTMLButtonElement;
 const stopButton = document.getElementById("stop") as HTMLButtonElement;
 
+const spinner = document.getElementById('loading-spinner');
+
 function showSpinner() {
-  const spinner = document.getElementById('loading-spinner');
   if (spinner) {
     spinner.classList.remove('hidden');
   }
 }
 
 function hideSpinner() {
-  const spinner = document.getElementById('loading-spinner');
   if (spinner) {
     spinner.classList.add('hidden');
   }
@@ -322,7 +324,6 @@ dashboardButton.addEventListener("click", async () => {
 
 });
 
-// TODO: Vykreslení grafu po dnech
 dailyChartSettingsForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   showSpinner();
@@ -352,6 +353,7 @@ dailyChartSettingsForm.addEventListener("submit", async (event) => {
     console.error("Chyba při načítání:", error);
   } finally {
     hideSpinner();
+    dailyChartCanvas.scrollIntoView({behavior: "smooth"});
   }
   
 });
@@ -772,9 +774,8 @@ function startPomodoroTimer(settings: TimerSettings): void {
 
 // Dashboard and charts
 function createBarChart(xlabels: Array<string>, chartData: Array<number>, xlabel: string, name: string){
-  const canvas = document.getElementById('barChart') as HTMLCanvasElement;
 
-  if (canvas) {
+  if (barChartCanvas) {
     if (currentBarChart) {
       currentBarChart.destroy();
     }
@@ -839,14 +840,13 @@ function createBarChart(xlabels: Array<string>, chartData: Array<number>, xlabel
     };
   
     // Vytvoření grafu
-    currentBarChart = new Chart(canvas, config);
+    currentBarChart = new Chart(barChartCanvas, config);
   }
 }
 
 function createDailyChart(xlabels: Array<string>, chartData: Array<number>, xlabel: string, name: string){
-  const canvas = document.getElementById('dailyChart') as HTMLCanvasElement;
 
-  if (canvas) {
+  if (dailyChartCanvas) {
     if (currentDailyChart) {
       currentDailyChart.destroy();
     }
@@ -912,7 +912,7 @@ function createDailyChart(xlabels: Array<string>, chartData: Array<number>, xlab
     };
   
     // Vytvoření grafu
-    currentDailyChart = new Chart(canvas, config);
+    currentDailyChart = new Chart(dailyChartCanvas, config);
   }
 
 }
