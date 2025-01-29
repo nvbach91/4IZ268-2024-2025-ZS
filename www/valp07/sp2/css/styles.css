@@ -1,6 +1,189 @@
 body {
-    font-family: 'Montserrat', 'sans-serif';
+  margin: 0;
+  font-family: 'Montserrat', 'sans-serif';
+  position: relative;
+  height: 100vh;
+  margin: 0;
 }
-h1{
-    text-align: center;
+
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -100px;
+  margin-left: -100px;
+  width: 200px;
+  height: 200px;
+  border: 5px solid #000000;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  animation: rotation 1s linear infinite;
+  z-index: 50;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+header {
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+h1 {
+  margin-right: auto;
+  padding-left: 10px;
+}
+
+input {
+  height: 30px;
+  width: 800px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.compass {
+  background-image: var(--compass);
+  position: relative;
+  width: 800px;
+  height: 800px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+
+
+#movie-list {
+  left: 50%;
+  transform: translate(-50%, 0%);
+  position: absolute;
+  z-index: 10;
+  width: 800px;
+  overflow-x: auto;
+  padding: 0px;
+  margin: auto;
+  border-radius: 10px;
+
+}
+
+.movie-search-card {
+  animation: fadeIn 5s;
+  display: flex;
+  align-items: center;
+  height: 80px;
+  overflow: hidden;
+  padding: 0 10px;
+}
+
+.movie-search-card:nth-child(odd) {
+  background-color: #e4e4e4;
+}
+
+.movie-search-card:nth-child(even) {
+  background-color: #f0f0f0;
+}
+
+.movie-search-card img {
+  width: auto;
+  height: 70px;
+  margin-right: 10px;
+}
+
+.movie-year {
+  margin-left: 7px;
+  font-size: 1em;
+  color: #777;
+  padding: 5px 0;
+}
+
+.add-button {
+  margin-left: auto;
+  margin-right: 0;
+  padding: 6px 12px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-button:hover {
+
+  background-color: #45a049;
+}
+
+.compass-movie {
+  z-index: 0;
+  border: 2px solid #000;
+  position: absolute;
+  width: 100px;
+  height: 140px;
+  background-color: rgb(148, 148, 148);
+  transform: translate(-50%, -50%);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.compass-movie:hover {
+  z-index: 1;
+}
+
+.compass-movie p {
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  color: white;
+  padding: 0px;
+  margin: 0;
+  font-weight: bold;
+  font-size: 0.8em;
+  background: rgba(0, 0, 0, 0.7);
+  width: 100%;
+}
+
+.compass-movie .delete-button {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  background-color: transparent;
+  border: none;
+  background-color: red;
+  color: white;
+  padding: 5px 10px;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.compass-movie .delete-button:hover {
+  opacity: 1;
+}
+
+:root {
+  /* This is the svg image of the compass */
+  --compass: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1000" height="1000" viewBox="0 0 264.58333 264.58333"><path d="M-.00000509-.00000509h211.66667v211.66667h-211.66667z" style="opacity:1;fill:%23fff;fill-rule:evenodd;stroke:none;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732"/><path d="M105.83333 26.458334h79.375v79.375h-79.375z" style="fill:%23d5e8d4;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dashoffset:14.1732;stroke-opacity:1;stroke-dasharray:none"/><path d="M26.458334 26.458334h79.375v79.375h-79.375z" style="fill:%23dae8fc;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dashoffset:14.1732;stroke-opacity:1;stroke-dasharray:none"/><path d="M26.45833 105.83333h79.375v79.375h-79.375z" style="fill:%23f8cecc;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dashoffset:14.1732;stroke-opacity:1;stroke-dasharray:none"/><path d="M105.83333 105.83333h79.375v79.375h-79.375z" style="fill:%23ffe6cc;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dashoffset:14.1732;stroke-opacity:1;stroke-dasharray:none"/><g style="stroke-width:.70477657;stroke-dasharray:none"><path d="M-314.1929 160.32393h211.66668M-208.35955 266.15727V54.490588" style="opacity:1;fill:%23f8cecc;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.70477657;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="matrix(.75083 0 0 .75083 262.18776 -14.453527)"/><path d="M-314.1929 266.15727h211.66668V54.490588H-314.1929Z" style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.70477657;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="matrix(.75083 0 0 .75083 262.18776 -14.453527)"/></g><path d="M26.458334 185.20943h15.874998v9.9218779H26.458334z" style="fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1"/><path d="M169.32431-26.458338h15.885107v9.921875H169.32431z" style="fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="rotate(90)"/><text xml:space="preserve" x="21.4708" y="178.25757" style="font-size:3.71039px;font-family:Futura;-inkscape-font-specification:Futura;text-align:center;text-anchor:middle;opacity:1;fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="scale(.99825 1.00176)"><tspan x="21.4708" y="178.25757" style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:3.71039px;font-family:Arial;-inkscape-font-specification:Arial;fill:%23000;fill-opacity:1;stroke:none;stroke-width:.52916667;stroke-dasharray:none">10%</tspan></text><text xml:space="preserve" x="34.343048" y="191.14749" style="font-size:3.71039px;font-family:Futura;-inkscape-font-specification:Futura;text-align:center;text-anchor:middle;fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="scale(.99825 1.00176)"><tspan x="34.343048" y="191.14749" style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:3.71039px;font-family:Arial;-inkscape-font-specification:Arial;fill:%23000;fill-opacity:1;stroke:none;stroke-width:.52916667;stroke-dasharray:none">1</tspan></text><path d="M42.333332 185.20943H58.20833v9.9218779H42.333332z" style="fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1"/><text xml:space="preserve" x="50.245945" y="191.14749" style="font-size:3.71039px;font-family:Futura;-inkscape-font-specification:Futura;text-align:center;text-anchor:middle;fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="scale(.99825 1.00176)"><tspan x="50.245945" y="191.14749" style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:3.71039px;font-family:Arial;-inkscape-font-specification:Arial;fill:%23000;fill-opacity:1;stroke:none;stroke-width:.52916667;stroke-dasharray:none">2</tspan></text><path d="M58.208328 185.20943h15.874998v9.9218779H58.208328z" style="fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1"/><text xml:space="preserve" x="66.148849" y="191.14749" style="font-size:3.71039px;font-family:Futura;-inkscape-font-specification:Futura;text-align:center;text-anchor:middle;fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="scale(.99825 1.00176)"><tspan x="66.148849" y="191.14749" style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:3.71039px;font-family:Arial;-inkscape-font-specification:Arial;fill:%23000;fill-opacity:1;stroke:none;stroke-width:.52916667;stroke-dasharray:none">3</tspan></text><path d="M74.083328 185.20943h15.874998v9.9218779H74.083328z" style="fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1"/><text xml:space="preserve" x="82.051743" y="191.14749" style="font-size:3.71039px;font-family:Futura;-inkscape-font-specification:Futura;text-align:center;text-anchor:middle;fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="scale(.99825 1.00176)"><tspan x="82.051743" y="191.14749" style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:3.71039px;font-family:Arial;-inkscape-font-specification:Arial;fill:%23000;fill-opacity:1;stroke:none;stroke-width:.52916667;stroke-dasharray:none">4</tspan></text><path d="M89.958313 185.20943h15.874998v9.9218779H89.958313z" style="fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1"/><text xml:space="preserve" x="97.954636" y="191.14749" style="font-size:3.71039px;font-family:Futura;-inkscape-font-specification:Futura;text-align:center;text-anchor:middle;fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="scale(.99825 1.00176)"><tspan x="97.954636" y="191.14749" style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:3.71039px;font-family:Arial;-inkscape-font-specification:Arial;fill:%23000;fill-opacity:1;stroke:none;stroke-width:.52916667;stroke-dasharray:none">5</tspan></text><path d="M105.83332 185.20943h15.874998v9.9218779H105.83332z" style="fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1"/><text xml:space="preserve" x="113.85754" y="191.14749" style="font-size:3.71039px;font-family:Futura;-inkscape-font-specification:Futura;text-align:center;text-anchor:middle;fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="scale(.99825 1.00176)"><tspan x="113.85754" y="191.14749" style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:3.71039px;font-family:Arial;-inkscape-font-specification:Arial;fill:%23000;fill-opacity:1;stroke:none;stroke-width:.52916667;stroke-dasharray:none">6</tspan></text><path d="M121.70833 185.20943h15.874998v9.9218779H121.70833z" style="fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1"/><text xml:space="preserve" x="129.76042" y="191.14749" style="font-size:3.71039px;font-family:Futura;-inkscape-font-specification:Futura;text-align:center;text-anchor:middle;fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="scale(.99825 1.00176)"><tspan x="129.76042" y="191.14749" style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:3.71039px;font-family:Arial;-inkscape-font-specification:Arial;fill:%23000;fill-opacity:1;stroke:none;stroke-width:.52916667;stroke-dasharray:none">7</tspan></text><path d="M137.58331 185.20943h15.874998v9.9218779H137.58331z" style="fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1"/><text xml:space="preserve" x="145.66335" y="191.14749" style="font-size:3.71039px;font-family:Futura;-inkscape-font-specification:Futura;text-align:center;text-anchor:middle;fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="scale(.99825 1.00176)"><tspan x="145.66335" y="191.14749" style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:3.71039px;font-family:Arial;-inkscape-font-specification:Arial;fill:%23000;fill-opacity:1;stroke:none;stroke-width:.52916667;stroke-dasharray:none">8</tspan></text><path d="M153.45833 185.20943h15.874998v9.9218779H153.45833z" style="fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1"/><text xml:space="preserve" x="161.56624" y="191.14751" style="font-size:3.71039px;font-family:Futura;-inkscape-font-specification:Futura;text-align:center;text-anchor:middle;fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="scale(.99825 1.00176)"><tspan x="161.56624" y="191.14751" style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:3.71039px;font-family:Arial;-inkscape-font-specification:Arial;fill:%23000;fill-opacity:1;stroke:none;stroke-width:.52916667;stroke-dasharray:none">9</tspan></text><path d="M169.33333 185.20943h15.874998v9.9218779H169.33333z" style="fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1"/><text xml:space="preserve" x="177.46913" y="191.14751" style="font-size:3.71039px;font-family:Futura;-inkscape-font-specification:Futura;text-align:center;text-anchor:middle;fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="scale(.99825 1.00176)"><tspan x="177.46913" y="191.14751" style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:3.71039px;font-family:Arial;-inkscape-font-specification:Arial;fill:%23000;fill-opacity:1;stroke:none;stroke-width:.52916667;stroke-dasharray:none">10</tspan></text><path d="M153.43921-26.458338h15.885107v9.921875H153.43921z" style="fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="rotate(90)"/><text xml:space="preserve" x="21.4708" y="162.40034" style="font-size:3.71039px;font-family:Futura;-inkscape-font-specification:Futura;text-align:center;text-anchor:middle;fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="scale(.99825 1.00176)"><tspan x="21.4708" y="162.40034" style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:3.71039px;font-family:Arial;-inkscape-font-specification:Arial;fill:%23000;fill-opacity:1;stroke:none;stroke-width:.52916667;stroke-dasharray:none">20%</tspan></text><path d="M137.55409-26.458338h15.885107v9.921875H137.55409z" style="fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="rotate(90)"/><text xml:space="preserve" x="21.4708" y="146.54311" style="font-size:3.71039px;font-family:Futura;-inkscape-font-specification:Futura;text-align:center;text-anchor:middle;fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="scale(.99825 1.00176)"><tspan x="21.4708" y="146.54311" style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:3.71039px;font-family:Arial;-inkscape-font-specification:Arial;fill:%23000;fill-opacity:1;stroke:none;stroke-width:.52916667;stroke-dasharray:none">30%</tspan></text><path d="M121.66899-26.458338h15.885107v9.921875H121.66899z" style="fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="rotate(90)"/><text xml:space="preserve" x="21.4708" y="130.68587" style="font-size:3.71039px;font-family:Futura;-inkscape-font-specification:Futura;text-align:center;text-anchor:middle;fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="scale(.99825 1.00176)"><tspan x="21.4708" y="130.68587" style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:3.71039px;font-family:Arial;-inkscape-font-specification:Arial;fill:%23000;fill-opacity:1;stroke:none;stroke-width:.52916667;stroke-dasharray:none">40%</tspan></text><path d="M105.8849-26.458338h15.885107v9.921875H105.8849z" style="fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="rotate(90)"/><text xml:space="preserve" x="21.4708" y="114.92944" style="font-size:3.71039px;font-family:Futura;-inkscape-font-specification:Futura;text-align:center;text-anchor:middle;fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="scale(.99825 1.00176)"><tspan x="21.4708" y="114.92944" style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:3.71039px;font-family:Arial;-inkscape-font-specification:Arial;fill:%23000;fill-opacity:1;stroke:none;stroke-width:.52916667;stroke-dasharray:none">50%</tspan></text><path d="M89.999771-26.458336h15.885107v9.921875H89.999771z" style="fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="rotate(90)"/><text xml:space="preserve" x="21.4708" y="99.07222" style="font-size:3.71039px;font-family:Futura;-inkscape-font-specification:Futura;text-align:center;text-anchor:middle;fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="scale(.99825 1.00176)"><tspan x="21.4708" y="99.07222" style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:3.71039px;font-family:Arial;-inkscape-font-specification:Arial;fill:%23000;fill-opacity:1;stroke:none;stroke-width:.52916667;stroke-dasharray:none">60%</tspan></text><path d="M74.114662-26.458336h15.885107v9.921875H74.114662z" style="fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="rotate(90)"/><text xml:space="preserve" x="21.4708" y="83.214973" style="font-size:3.71039px;font-family:Futura;-inkscape-font-specification:Futura;text-align:center;text-anchor:middle;fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="scale(.99825 1.00176)"><tspan x="21.4708" y="83.214973" style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:3.71039px;font-family:Arial;-inkscape-font-specification:Arial;fill:%23000;fill-opacity:1;stroke:none;stroke-width:.52916667;stroke-dasharray:none">70%</tspan></text><path d="M58.229568-26.458336h15.885107v9.921875H58.229568z" style="fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="rotate(90)"/><text xml:space="preserve" x="21.4708" y="67.357758" style="font-size:3.71039px;font-family:Futura;-inkscape-font-specification:Futura;text-align:center;text-anchor:middle;fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="scale(.99825 1.00176)"><tspan x="21.4708" y="67.357758" style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:3.71039px;font-family:Arial;-inkscape-font-specification:Arial;fill:%23000;fill-opacity:1;stroke:none;stroke-width:.52916667;stroke-dasharray:none">80%</tspan></text><path d="M42.344471-26.458336h15.885107v9.921875H42.344471z" style="fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="rotate(90)"/><text xml:space="preserve" x="21.470798" y="51.500511" style="font-size:3.71039px;font-family:Futura;-inkscape-font-specification:Futura;text-align:center;text-anchor:middle;fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="scale(.99825 1.00176)"><tspan x="21.470798" y="51.500511" style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:3.71039px;font-family:Arial;-inkscape-font-specification:Arial;fill:%23000;fill-opacity:1;stroke:none;stroke-width:.52916667;stroke-dasharray:none">90%</tspan></text><path d="M26.459366-26.458334h15.885107v9.921875H26.459366z" style="fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="rotate(90)"/><text xml:space="preserve" x="21.470798" y="35.643276" style="font-size:3.71039px;font-family:Futura;-inkscape-font-specification:Futura;text-align:center;text-anchor:middle;fill:%23fff;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="scale(.99825 1.00176)"><tspan x="21.470798" y="35.643276" style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:3.71039px;font-family:Arial;-inkscape-font-specification:Arial;fill:%23000;fill-opacity:1;stroke:none;stroke-width:.52916667;stroke-dasharray:none">100%</tspan></text><text xml:space="preserve" x="145.30017" y="63.3876" style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:7.40834px;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle;opacity:1;fill:%2365cb00;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1"><tspan x="145.30017" y="63.3876" style="font-size:7.40834px;fill:%2365cb00;fill-opacity:1;stroke:none;stroke-width:.52916667;stroke-dasharray:none">"The ratings are never</tspan><tspan x="145.30017" y="72.648018" style="font-size:7.40834px;fill:%2365cb00;fill-opacity:1;stroke:none;stroke-width:.52916667;stroke-dasharray:none">wrong"</tspan></text><text xml:space="preserve" x="145.37794" y="143.49872" style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:7.40834px;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle;fill:%23cb6504;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1"><tspan x="145.37794" y="143.49872" style="font-size:7.40834px;fill:%23cb6504;fill-opacity:1;stroke:none;stroke-width:.52916667;stroke-dasharray:none">"Movie critics are out</tspan><tspan x="145.37794" y="152.75914" style="font-size:7.40834px;fill:%23cb6504;fill-opacity:1;stroke:none;stroke-width:.52916667;stroke-dasharray:none">of touch"</tspan></text><text xml:space="preserve" x="66.243507" y="142.806" style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:7.40834px;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle;fill:%23fe0f0f;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1"><tspan x="66.243507" y="142.806" style="font-size:7.40834px;fill:%23fe0f0f;fill-opacity:1;stroke:none;stroke-width:.52916667;stroke-dasharray:none">"Misunderstood</tspan><tspan x="66.243507" y="152.06642" style="font-size:7.40834px;fill:%23fe0f0f;fill-opacity:1;stroke:none;stroke-width:.52916667;stroke-dasharray:none">masterpiece"</tspan></text><text xml:space="preserve" x="66.118713" y="63.3876" style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:7.40834px;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle;fill:%232e96ff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1"><tspan x="66.118713" y="63.3876" style="font-size:7.40834px;fill:%232e96ff;fill-opacity:1;stroke:none;stroke-width:.52916667;stroke-dasharray:none">"The general audiences</tspan><tspan x="66.118713" y="72.648018" style="font-size:7.40834px;fill:%232e96ff;fill-opacity:1;stroke:none;stroke-width:.52916667;stroke-dasharray:none">are too stupid to get it"</tspan></text><text xml:space="preserve" x="105.78448" y="202.74376" style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:7.40833px;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle;opacity:1;fill:%23000;fill-opacity:1;fill-rule:evenodd;stroke:%23686868;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1"><tspan x="105.78448" y="202.74376" style="fill:%23000;fill-opacity:1;stroke:none;stroke-width:.52916667;stroke-dasharray:none">iMDB</tspan></text><text xml:space="preserve" x="-106.03321" y="14.231942" style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:7.40833px;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle;opacity:1;fill:%23000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:.52916667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:19.7;stroke-dasharray:none;stroke-dashoffset:14.1732;stroke-opacity:1" transform="rotate(-90)"><tspan x="-106.03321" y="14.231942" style="stroke-width:.52916667;stroke-dasharray:none">Rotten Tomatoes</tspan></text></svg>');
 }
