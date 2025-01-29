@@ -1,9 +1,11 @@
-const BASE_API_URL = 'https://newsapi.org/v2/everything';
+const BASE_API_URL = 'https://eso.vse.cz/~smam02/proxy/index.php';
 const API_KEY = '3db70ebd613645489875c0c8ce396156';
 
 async function fetchData(apiString) {
     try {
-        const movieResponse = await fetch(apiString);
+        const movieResponse = await fetch(apiString, {
+            headers: { "User-Agent": "User-Agent: MyNewsProxy/1.0" }
+        });
         const data = await movieResponse.json();
         console.log('Data from the server:', data);
         return data.articles;
