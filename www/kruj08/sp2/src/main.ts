@@ -33,12 +33,14 @@ const timerSettings = document.getElementById("timer-settings")!;
 const navPanel = document.getElementById("navbar-panel")!;
 const timer = document.getElementById("timer")!;
 const dashboard = document.getElementById("dashboard")!;
+const manualEntry = document.getElementById("manual-entry")!;
 const screens: Array<HTMLElement> = [
   loginScreen,
   timerSettings,
   navPanel,
   timer,
   dashboard,
+  manualEntry
 ];
 
 let currentBarChart: Chart | null = null;
@@ -52,9 +54,11 @@ const navPanelButtons = document.querySelectorAll("#nav-panel button");
 const timerButton = document.getElementById("timerButton")!;
 const dashboardButton = document.getElementById("dashboardButton")!;
 const logOutButton = document.getElementById("logOutButton")!;
+const manualEntryButton = document.getElementById("manualEntryButton")!;
 
 const timerSettingsForm = document.getElementById("timer-settings-form") as HTMLFormElement;
 const timerSettingsFormCancelButton = document.getElementById("cancel-form")!;
+const manualEntryForm = document.getElementById("manual-entry-form") as HTMLFormElement;
 
 let taskType = document.getElementById("taskType") as HTMLSelectElement;
 let tasksString = Array.from(taskType.options).map(option => option.value)
@@ -409,6 +413,67 @@ timerSettingsForm.addEventListener("submit", (event) => {
 
 timerSettingsFormCancelButton.addEventListener('click', () => {
   timerSettingsForm.reset();
+});
+
+// Manual entry logika
+manualEntryButton.addEventListener("click", () => {
+  changeScreen([navPanel, manualEntry]);
+});
+
+manualEntryForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  try {
+    let isTokenValid = await verifyToken(token);
+
+    if (!isTokenValid) {
+      try {
+        const accessToken = await signInAndGetToken();
+        console.log("Přihlášení úspěšné, token získán: " + accessToken);
+        isTokenValid = true;
+      } catch (error) {
+        console.error("Přihlášení selhalo: ", error);
+        changeScreen([navPanel, timerSettings]);
+        return;
+      }
+    }
+    showSpinner();
+
+    let totalFocusTimeInput = document.getElementById("manualTotalFocusTime") as HTMLInputElement;
+    let dateInput = document.getElementById("manualDate") as HTMLInputElement;
+    let taskTypeInput = document.getElementById("manualTaskType") as HTMLSelectElement;
+    const totalFocusTime: number = parseInt(totalFocusTimeInput.value, 10);
+    const date = dateInput.value;
+    const taskType = taskTypeInput.value;
+
+    // console.log(totalFocusTime);
+    //console.log(taskType);
+    // console.log(date);
+
+    const fileId = await findFileOnGoogleDrive(token, 'pomodioSessionData.json');
+  
+    if (fileId) {
+      const res = await downloadFileFromGoogleDrive(token, fileId);
+      console.log("File found and downloaded, updating file ...");
+      
+      updateSessionData(res, taskType, totalFocusTime, date);
+      res.taskTypes[taskType].days.sort((a: Day, b: Day) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+      console.log(res);
+
+      const updatedFile = new File([JSON.stringify(res, null, 2)], 'pomodioSessionData.json', { type: "application/json" });
+      return await updateFileOnGoogleDrive(token, fileId, updatedFile);
+
+    } else {
+      return ("File not found ...")
+    }
+
+  } catch (error) {
+    console.error("Chyba při načítání:", error);
+  } finally {
+    hideSpinner();
+  }
+
 });
 
 let isPaused = false;

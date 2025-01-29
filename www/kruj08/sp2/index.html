@@ -176,29 +176,6 @@
         </div>
 
         <div class="container text-center hidden flexbox" id="dashboard">
-
-            <div id="loading-spinner" class="hidden">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="animate-spin"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <circle
-                    class="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    stroke-width="4"
-                  ></circle>
-                  <path
-                    class="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8v8H4z"
-                  ></path>
-                </svg>
-            </div>
               
             <h2 class="my-5" id="dashboardTitle">Dashboard</h2>
             <div class="chart-wrapper">
@@ -233,6 +210,74 @@
             </div>
         </div>
 
+        <div class="container text-center hidden flexbox-centered" id="manual-entry">
+
+            <div class="container mt-4 mb-5" id="heading">
+                <h1>Add your habits manually</h1>
+            </div>
+
+            <div class="container my-5" id="manual-entry-wrapper">
+                <form id="manual-entry-form">
+
+                    <div class="input-group mb-3">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text input-group-custom form-settings-input" id="basic-addon1">Date</span>
+                            <input type="date" class="form-control input-group-custom form-settings-input" id="manualDate" aria-label="Username" required>
+                        </div>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text input-group-custom form-settings-input" id="basic-addon1">Total focus time in Minutes</span>
+                            <input type="number" class="form-control input-group-custom form-settings-input" id="manualTotalFocusTime" aria-label="Username" required>
+                        </div>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <label class="input-group-text form-settings-input input-group-custom"
+                            for="inputGroupSelect01">Task type</label>
+                        <select class="form-select form-settings-input input-group-custom" id="manualTaskType" required>
+                            <option selected></option>
+                            <option value="Studying">Studying</option>
+                            <option value="Work">Work</option>
+                            <option value="Exercise">Exercise</option>
+                            <option value="Learning new skill">Learning new skill</option>
+                            <option value="Coding">Coding</option>
+                            <option value="Reading">Reading</option>
+                            <option value="Meditation">Meditation</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="container my-5">
+                        <button type="submit" class="mx-3 btn custom-btn-submit-form btn-lg">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="loading-spinner" class="hidden">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="animate-spin"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v8H4z"
+              ></path>
+            </svg>
+        </div>
+
     </main>
 
 
@@ -253,6 +298,12 @@
                     class="bi bi-bar-chart-line-fill" viewBox="0 0 16 16">
                     <path
                         d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1z" />
+                </svg>
+            </button>
+
+            <button type="button" class="btn btn-outline-secondary custom-btn" id="manualEntryButton">
+                <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
                 </svg>
             </button>
 
