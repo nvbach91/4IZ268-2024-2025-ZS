@@ -3,36 +3,46 @@
 <head>
   <!-- Metadata a odkazy na CSS -->
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Moje filmová aplikace</title>
   <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/style.css"> <!-- Oprava cesty k CSS -->
 </head>
 <body>
   <!-- Hlavička aplikace s vyhledáváním -->
-  <header class="page-header p-3 mb-3">
+  <header class="page-header p-3">
     <h1 class="page-title h3">Moje filmová aplikace</h1>
-    <form id="searchForm" class="search-form d-flex" novalidate>
-      <input 
-        type="text" 
-        id="searchInput" 
-        class="search-input form-control" 
-        placeholder="Vyhledat film..."
-        minlength="2"
-        maxlength="100"
-        pattern="[a-zA-ZěščřžýáíéůúňĚŠČŘŽÝÁÍÉŮÚŇ0-9\s\-]+"
-        required
-        aria-label="Vyhledávání filmu">
-      <button type="submit" class="btn btn-primary">Hledat</button>
-    </form>
+    <div class="header-right d-flex align-items-center gap-2">
+      <button id="burgerButton" class="burger-button d-md-none">☰</button>
+      <form id="searchForm" class="search-form d-flex" novalidate>
+        <input 
+          type="text" 
+          id="searchInput" 
+          class="search-input form-control" 
+          placeholder="Vyhledat film..."
+          minlength="2"
+          maxlength="100"
+          pattern="[a-zA-ZěščřžýáíéůúňĚŠČŘŽÝÁÍÉŮÚŇ0-9\s\-]+"
+          required
+          aria-label="Vyhledávání filmu">
+        <button type="submit" class="btn btn-primary">Hledat</button>
+      </form>
+    </div>
   </header>
+
+  <!-- Menu overlay pro mobilní režim -->
+  <div class="menu-overlay"></div>
 
   <!-- Hlavní kontejner -->
   <div class="container-fluid">
     <div class="row">
       <!-- Boční menu s kategoriemi -->
       <aside class="col-12 col-md-2 p-3 bg-danger text-white">
-        <h2 class="sidebar-title h5">Menu</h2>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h2 class="sidebar-title h5 mb-0">Menu</h2>
+          <button class="close-menu d-md-none">×</button>
+        </div>
         <nav class="nav flex-column">
           <div class="menu-main mb-3">
             <a class="nav-link text-white" href="#" id="homeButton">Domů</a>

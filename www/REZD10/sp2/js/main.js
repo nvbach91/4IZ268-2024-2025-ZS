@@ -1,5 +1,8 @@
 // Globální konstanty pro API a konfiguraci
-const API_KEY = '893c2b20ff334bcff61db54c19370af0';
+const API = {
+    BASE_URL: 'https://api.themoviedb.org/3',
+    KEY: '893c2b20ff334bcff61db54c19370af0'
+};
 const MAX_RATING = 10;
 let GENRE_NAMES = {};
 
@@ -23,27 +26,98 @@ const $DOM = {
     homeButton: $('#homeButton'),
     favoritesButton: $('#favoritesButton'),
     ratedButton: $('#ratedButton'),
-    movieToast: document.getElementById('movieToast'),
-    loader: $('#loader')
+    movieToast: $('#movieToast'),  // Změna na jQuery selektor
+    loader: $('#loader'),
+    loaderContainer: $('.loader-container'),
+    pageTitle: $('h1'),
+    menuCategoriesLinks: $('.menu-categories .nav-link'),
+    moviesList: $('#moviesList'),
+    favoritesSection: $('#favorites'),
+    ratedSection: $('#ratedMovies'),
+    movieCards: $('.movie-card')
 };
 
 // Funkce pro zobrazení/skrytí načítacího indikátoru
 const showLoader = () => {
-    $('#loader').addClass('visible');
+    $DOM.loader.addClass('visible');
+    $DOM.loaderContainer.addClass('visible');
 };
 
+// Oprava funkce hideLoader aby skutečně odstranila loader
 const hideLoader = () => {
-    $('#loader').removeClass('visible');
+    $DOM.loader.removeClass('visible');
+    $DOM.loaderContainer.removeClass('visible');
 };
 
-// Inicializace aplikace po načtení DOMu
+// Přidání ošetření chyb při načítání
+window.addEventListener('load', () => {
+    hideLoader();
+});
+
+/* Remove the global error event listener */
+/*
+window.addEventListener('error', () => {
+    hideLoader();
+    showToast('Došlo k chybě při načítání dat');
+});
+*/
+
+// Single source of truth for app data
+const appState = {
+    favorites: [],
+    ratings: {},
+    
+    init() {
+        const storedFavorites = localStorage.getItem('favorites');
+        const storedRatings = localStorage.getItem('ratings');
+        
+        if (storedFavorites) this.favorites = JSON.parse(storedFavorites);
+        if (storedRatings) this.ratings = JSON.parse(storedRatings);
+    },
+    
+    save() {
+        localStorage.setItem('favorites', JSON.stringify(this.favorites));
+        localStorage.setItem('ratings', JSON.stringify(this.ratings));
+    }
+};
+
+const loadAppData = () => {
+    appState.init();
+};
+
+// Sjednocená jQuery inicializace
 (($ => {
     $(() => {
+        // Definice funkcí pro mobilní menu
+        const toggleMenu = () => {
+            $('aside').toggleClass('show');
+            $('.menu-overlay').toggleClass('show');
+            $('body').toggleClass('menu-open');
+        };
+
+        const closeMenu = () => {
+            $('aside').removeClass('show');
+            $('.menu-overlay').removeClass('show');
+            $('body').removeClass('menu-open');
+        };
+
+        // Inicializace aplikace
+        loadAppData();
         fetchGenres().then(() => {
             handleHashChange();
             
+            // Event handlers
+            $('#burgerButton').on('click', toggleMenu);
+            $('.close-menu').on('click', closeMenu);
+            $('.menu-overlay').on('click', closeMenu);
+            
+            // Mobilní menu - zavření po kliknutí na odkaz
+            $('aside .nav-link').on('click', () => {
+                if (window.innerWidth < 768) closeMenu();
+            });
+
             // Fix h1 click handler - prevent default and remove duplicate
-            $('h1').on('click', (event) => {
+            $DOM.pageTitle.on('click', (event) => {
                 event.preventDefault();
                 window.location.hash = '';  // Reset to home state
                 handleHashChange();
@@ -91,16 +165,50 @@ const hideLoader = () => {
                 window.location.hash = 'rated';
                 handleHashChange();
             });
+
+            $('#burgerButton').on('click', () => {
+                $('aside').toggleClass('collapsed');
+            });
+
+            // Přidání overlay pro mobilní menu
+            $('body').append('<div class="menu-overlay"></div>');
+            
+            // Handler pro burger button
+            $('#burgerButton').on('click', (e) => {
+                e.stopPropagation();
+                $('aside').addClass('show');
+                $('.menu-overlay').addClass('show');
+                $('body').addClass('menu-open');
+            });
+
+            // Handler pro close button
+            $('.close-menu').on('click', (e) => {
+                e.stopPropagation();
+                closeMenu();
+            });
+
+            // Skrýt menu při kliknutí na overlay
+            $('.menu-overlay').on('click', closeMenu);
+
+            // Skrýt menu při kliknutí na odkaz v menu (na mobilu)
+            $('aside .nav-link').on('click', () => {
+                if (window.innerWidth < 768) {
+                    closeMenu();
+                }
+            });
         });
     });
 }))(jQuery);
 
 // Načtení žánrů z API a jejich uložení do paměti
-async function fetchGenres() {
-    const url = `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&language=cs-CZ`;
+const fetchGenres = async () => {
+    const url = `${API.BASE_URL}/genre/movie/list?api_key=${API.KEY}&language=cs-CZ`;
     showLoader();
     try {
         const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
         const data = await response.json();
         GENRE_NAMES = data.genres.reduce((acc, genre) => {
             acc[genre.id] = genre.name;
@@ -109,6 +217,7 @@ async function fetchGenres() {
         updateGenreMenu(data.genres);
     } catch (err) {
         console.error('Chyba při načítání žánrů:', err);
+        showToast('Chyba při načítání dat');
     } finally {
         hideLoader();
     }
@@ -129,10 +238,13 @@ const updateGenreMenu = (genres) => {
 };
 
 // Univerzální funkce pro načtení a zobrazení filmů
-async function fetchAndRenderMovies(url, containerSelector, noResultsMessage = 'Nebyly nalezeny žádné filmy.', limitTo8 = true, afterRender = null) {
+const fetchAndRenderMovies = async (url, containerSelector, noResultsMessage = 'Nebyly nalezeny žádné filmy.', limitTo8 = true, afterRender = null) => {
     showLoader();
     try {
         const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
         const data = await response.json();
         const container = $(containerSelector);
         container.empty();
@@ -146,20 +258,25 @@ async function fetchAndRenderMovies(url, containerSelector, noResultsMessage = '
     } catch (err) {
         console.error('Chyba při načítání filmů:', err);
         $(containerSelector).html('<p>Došlo k chybě při načítání filmů.</p>');
+        showToast('Chyba při načítání dat');
     } finally {
         hideLoader();
     }
 }
 
 // Univerzální funkce pro volání API
-async function fetchFromAPI(endpoint, params = {}) {
+const fetchFromAPI = async (endpoint, params = {}) => {
     showLoader();
-    const url = `https://api.themoviedb.org/3/${endpoint}?api_key=${API_KEY}&language=cs-CZ${Object.entries(params).map(([key, value]) => `&${key}=${value}`).join('')}`;
+    const url = `${API.BASE_URL}/${endpoint}?api_key=${API.KEY}&language=cs-CZ${Object.entries(params).map(([key, value]) => `&${key}=${value}`).join('')}`;
     try {
         const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
         return await response.json();
     } catch (err) {
         console.error('API Error:', err);
+        showToast('Chyba při načítání dat');
         throw err;
     } finally {
         hideLoader();
@@ -167,50 +284,50 @@ async function fetchFromAPI(endpoint, params = {}) {
 }
 
 // Přepínání mezi sekcemi aplikace
-function showSection($button, $section, action) {
-    // Nejdřív připravíme novou sekci
-    $section.css('opacity', '0');
-    $section.removeClass('d-none');
+const showSection = ($button, $section, action) => {
+    // Nejdřív odebereme active třídu ze všech menu položek
+    $('.nav-link').removeClass('active');
     
-    // Pak skryjeme ostatní sekce
-    $DOM.sections.not($section).addClass('d-none');
-    $DOM.navLinks.removeClass('active');
+    // Pak skryjeme všechny sekce
+    $DOM.sections.addClass('d-none');
+    
+    // Zvýrazníme aktivní položku menu
     $button.addClass('active');
+    
+    // Zobrazíme vybranou sekci
+    $section.removeClass('d-none');
 
-    // Nakonec zobrazíme novou sekci s animací
-    setTimeout(() => {
-        $section.css('opacity', '1');
-        if (typeof action === 'function') action();
-    }, 50);
+    // Spustíme callback
+    if (typeof action === 'function') action();
 }
 
 // Načtení nejlépe hodnocených filmů
-async function fetchTopRatedMovies() {
-    const url = `https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}&language=cs-CZ&page=1`;
+const fetchTopRatedMovies = async () => {
+    const url = `${API.BASE_URL}/movie/top_rated?api_key=${API.KEY}&language=cs-CZ&page=1`;
     await fetchAndRenderMovies(url, '#topRatedWrapper');
 }
 
 // Načtení doporučených filmů
-function fetchRecommendedMovies() {
-    const url = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=cs-CZ&page=1`;
+const fetchRecommendedMovies = () => {
+    const url = `${API.BASE_URL}/movie/popular?api_key=${API.KEY}&language=cs-CZ&page=1`;
     fetchAndRenderMovies(url, '#recommendedMoviesWrapper');
 }
 
 // Načtení filmů podle žánru
-async function fetchMoviesByGenre(genreId) {
-    const url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=cs-CZ&with_genres=${genreId}&sort_by=popularity.desc`;
+const fetchMoviesByGenre = async (genreId) => {
+    const url = `${API.BASE_URL}/discover/movie?api_key=${API.KEY}&language=cs-CZ&with_genres=${genreId}&sort_by=popularity.desc`;
     
     await fetchAndRenderMovies(url, '#searchResultsWrapper', 'Pro tento žánr nebyly nalezeny žádné filmy.', false);
 }
 
 // Vyhledávání filmů podle zadaného textu
-function searchMovies(query) {
+const searchMovies = (query) => {
     const validatedQuery = validateInput(query);
     if (!validatedQuery) {
         showToast('Neplatný vstup pro vyhledávání');
         return;
     }
-    const url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=cs-CZ&query=${encodeURIComponent(validatedQuery)}`;
+    const url = `${API.BASE_URL}/search/movie?api_key=${API.KEY}&language=cs-CZ&query=${encodeURIComponent(validatedQuery)}`;
     fetchAndRenderMovies(url, '#searchResultsWrapper', 'Nebyly nalezeny žádné filmy.', false, () => {
         $DOM.searchResults.removeClass('d-none')
             .find('h2')
@@ -220,11 +337,8 @@ function searchMovies(query) {
 
 // Vytvoření HTML struktury karty filmu
 const createMovieCard = (movie) => {
-    const favorites = getFromStorage('favorites') || [];
-    const ratings = getFromStorage('ratings') || {};
-    
-    const isFavorite = favorites.some(f => f.id === movie.id);
-    const currentRating = ratings[movie.id] || 0;
+    const isFavorite = appState.favorites.some(f => f.id === movie.id);
+    const currentRating = appState.ratings[movie.id] || 0;
     
     const buttonHtml = isFavorite ? 
         `<button 
@@ -286,15 +400,17 @@ const generateMovieCards = (movies, targetSelector, limitTo8 = true) => {
         movies = movies.slice(0, 8);
     }
 
+    let html = '';
     movies.forEach((movie) => {
         if (!movie.poster_path && !movie.posterPath) return;
-        container.append(createMovieCard(movie));
+        html += createMovieCard(movie);
     });
+    container.html(html);
 }
 
 // Zobrazení oblíbených filmů
 const displayFavorites = () => {
-    const favorites = getFromStorage('favorites') || [];
+    const favorites = appState.favorites;
     const container = $DOM.favoritesWrapper;
     container.empty();
     showLoader();
@@ -307,7 +423,7 @@ const displayFavorites = () => {
 
     Promise.all(favorites.map((movie) => 
         $.ajax({
-            url: `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${API_KEY}&language=cs-CZ`,
+            url: `${API.BASE_URL}/movie/${movie.id}?api_key=${API.KEY}&language=cs-CZ`,
             method: 'GET'
         })
     )).then((movies) => {
@@ -337,12 +453,11 @@ const addToFavorites = (id, title, posterPath) => {
         return;
     }
 
-    let favorites = getFromStorage('favorites') || [];
+    let favorites = appState.favorites;
     if (!favorites.some(f => f.id === id)) {
         favorites.push({ id, title, posterPath });
-        saveToStorage('favorites', favorites);
+        appState.save(); // Use appState's save method
         showToast(`Film "${title}" byl přidán do oblíbených!`);
-        refreshCurrentView();
     } else {
         showToast(`Film "${title}" už je v oblíbených.`);
     }
@@ -350,23 +465,36 @@ const addToFavorites = (id, title, posterPath) => {
 
 // Odebrání filmu z oblíbených
 const removeFromFavorites = (id) => {
-    let favorites = getFromStorage('favorites') || [];
+    let favorites = appState.favorites;
     const movieTitle = favorites.find(f => f.id === id)?.title;
-    favorites = favorites.filter(f => f.id !== id);
-    saveToStorage('favorites', favorites);
-    showToast(movieTitle ? `Film "${movieTitle}" byl odebrán z oblíbených.` : 'Film byl odebrán z oblíbených.');
     
-    refreshCurrentView();
+    // Aktualizace dat
+    appState.favorites = favorites.filter(f => f.id !== id);
+    appState.save(); // Use appState's save method
+    
+    // Pouze odstranit kartu z DOM bez překreslování celé sekce
+    if ($DOM.favorites.is(':visible')) {
+        $(`#favoritesWrapper .movie-card-wrapper`).filter(function() {
+            return $(this).find(`button[onclick="removeFromFavorites(${id})"]`).length > 0;
+        }).fadeOut(300, function() {
+            $(this).remove();
+            // Pokud už nejsou žádné oblíbené filmy, zobrazit zprávu
+            if ($('#favoritesWrapper .movie-card-wrapper').length === 0) {
+                $('#favoritesWrapper').html('<p>Nemáte žádné oblíbené filmy.</p>');
+            }
+        });
+    }
+
+    showToast(movieTitle ? `Film "${movieTitle}" byl odebrán z oblíbených.` : 'Film byl odebrán z oblíbených.');
 }
 
 // Zobrazení informační zprávy uživateli
 const showToast = (message) => {
-    const toastEl = $DOM.movieToast;
-    const toast = new bootstrap.Toast(toastEl, {
+    const toast = new bootstrap.Toast($DOM.movieToast[0], {
         delay: 3000
     });
     
-    toastEl.querySelector('.toast-body').textContent = message;
+    $DOM.movieToast.find('.toast-body').text(message);
     toast.show();
 }
 
@@ -385,26 +513,27 @@ const generateStars = (movieId, currentRating) => {
 }
 
 // Zpracování hodnocení filmu
-function rateMovie(movieId, rating) {
+const rateMovie = (movieId, rating) => {
     const validRating = validateRating(rating);
     if (validRating === null) {
         showToast('Neplatné hodnocení');
         return;
     }
 
-    let ratings = getFromStorage('ratings') || {};
+    let ratings = appState.ratings;
     ratings[movieId] = rating;
-    saveToStorage('ratings', ratings);
+    appState.save(); // Use appState's save method
     
-    const starsContainer = $(`.stars[data-movie-id="${movieId}"]`);
-    starsContainer.find('.rating-star').removeClass('active');
-    starsContainer.find('.rating-star').each(function() {      
+    const $starsContainer = $(`.stars[data-movie-id="${movieId}"]`);
+    const $stars = $starsContainer.find('.rating-star');
+    $stars.removeClass('active');
+    $stars.each(function() {      
         if ($(this).data('rating') <= rating) {
             $(this).addClass('active');
         }
     });
     
-    const container = starsContainer.closest('.rating-container');
+    const container = $starsContainer.closest('.rating-container');
     container.find('.rating-text').text(`Vaše hodnocení: ${rating}/10`);
     
     if (container.find('.btn-outline-danger').length === 0) {
@@ -418,29 +547,25 @@ function rateMovie(movieId, rating) {
     }
     
     showToast('Hodnocení bylo uloženo');
-    
-    refreshCurrentView();
 }
 
 // Odstranění hodnocení filmu
-function removeRating(movieId) {
-    let ratings = getFromStorage('ratings') || {};
+const removeRating = (movieId) => {
+    let ratings = appState.ratings;
     delete ratings[movieId];
-    saveToStorage('ratings', ratings);
+    appState.save(); // Use appState's save method
 
-    const starsContainer = $(`.stars[data-movie-id="${movieId}"]`);
-    starsContainer.find('.rating-star').removeClass('active');
-    const cancelButton = starsContainer.closest('.rating-container').find('.btn-outline-danger');
-    cancelButton.remove();
-    starsContainer.closest('.rating-container').find('.rating-text').text('Nehodnoceno');
+    const $starsContainer = $(`.stars[data-movie-id="${movieId}"]`);
+    const $cancelButton = $starsContainer.closest('.rating-container').find('.btn-outline-danger');
+    $starsContainer.find('.rating-star').removeClass('active');
+    $cancelButton.remove();
+    $starsContainer.closest('.rating-container').find('.rating-text').text('Nehodnoceno');
     showToast('Hodnocení bylo zrušeno');
-    refreshCurrentView();
 }
 
 // Zobrazení ohodnocených filmů
 const displayRatedMovies = () => {
-    const ratings = getFromStorage('ratings') || {};
-    const ratedMovieIds = Object.keys(ratings);
+    const ratedMovieIds = Object.keys(appState.ratings);
     showLoader();
     
     if (ratedMovieIds.length === 0) {
@@ -451,11 +576,11 @@ const displayRatedMovies = () => {
 
     Promise.all(ratedMovieIds.map((id) => 
         $.ajax({
-            url: `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=cs-CZ`,
+            url: `${API.BASE_URL}/movie/${id}?api_key=${API.KEY}&language=cs-CZ`,
             method: 'GET'
         })
     )).then((movies) => {
-        movies.forEach((movie) => movie.vote_average = ratings[movie.id]);
+        movies.forEach((movie) => movie.vote_average = appState.ratings[movie.id]);
         generateMovieCards(movies, '#ratedMoviesWrapper', false);
     }).finally(() => {
         hideLoader();
@@ -463,10 +588,10 @@ const displayRatedMovies = () => {
 }
 
 // Obsluha změny URL adresy
-function handleHashChange() {
+const handleHashChange = () => {
+    $DOM.navLinks.removeClass('active'); // Změněno z menuCategoriesLinks na navLinks
     const hash = window.location.hash.slice(1);
-    $('.menu-categories .nav-link').removeClass('active');
-    
+
     if (!hash) {
         showSection($DOM.homeButton, $DOM.topRated.add($DOM.recommendedMovies), () => {
             fetchTopRatedMovies();
@@ -481,8 +606,8 @@ function handleHashChange() {
             showToast('Neplatné ID žánru');
             return;
         }
-        $(`.menu-categories .nav-link[data-genre="${genreId}"]`).addClass('active');
-        showSection($(`.menu-categories .nav-link[data-genre="${genreId}"]`), $DOM.searchResults, () => {
+        const $genreLink = $(`.menu-categories .nav-link[data-genre="${genreId}"]`);
+        showSection($genreLink, $DOM.searchResults, () => {
             $DOM.searchResults.find('h2').text(GENRE_NAMES[genreId] || 'Filmy podle žánru');
             fetchMoviesByGenre(genreId);
         });
@@ -588,3 +713,80 @@ const validateMovieId = (id) => {
 
 // Obsluha historie prohlížeče
 window.addEventListener('popstate', handleHashChange);
+
+(($ => {
+    $(() => {
+        const $burgerButton = $('#burgerButton');
+        const $closeMenuButton = $('.close-menu');
+        const $menuOverlay = $('.menu-overlay');
+        const $aside = $('aside');
+
+        // Otevření menu
+        $burgerButton.on('click', () => {
+            $aside.addClass('show');
+            $menuOverlay.addClass('show');
+            $('body').addClass('menu-open');
+        });
+
+        // Zavření menu
+        const closeMenu = () => {
+            $aside.removeClass('show');
+            $menuOverlay.removeClass('show');
+            $('body').removeClass('menu-open');
+        };
+
+        $closeMenuButton.on('click', closeMenu);
+        $menuOverlay.on('click', closeMenu);
+
+        // Zavření menu při výběru stránky
+        $('.nav-link').on('click', () => {
+            closeMenu();
+        });
+    });
+})(jQuery));
+
+const updateMovieCards = (movies) => {
+    // Create document fragment
+    const fragment = document.createDocumentFragment();
+    
+    movies.forEach(movie => {
+        const card = createMovieCard(movie);
+        fragment.appendChild(card);
+    });
+    
+    // Single DOM update
+    $DOM.moviesList.empty().append(fragment);
+};
+
+// Add event listeners in JS
+$DOM.moviesList.on('click', '.favorite-btn', function() {
+    const movieId = $(this).closest('.movie-card').data('id');
+    toggleFavorite(movieId);
+});
+
+const toggleFavorite = (movieId) => {
+    const $card = $(`.movie-card[data-id="${movieId}"]`);
+    const $btn = $card.find('.favorite-btn');
+    
+    if (appState.favorites.includes(movieId)) {
+        appState.favorites = appState.favorites.filter(id => id !== movieId);
+        $btn.removeClass('active');
+    } else {
+        appState.favorites.push(movieId);
+        $btn.addClass('active');
+    }
+    
+    appState.save();
+};
+
+$(document).ready(() => {
+    appState.init();
+    bindEventHandlers();
+    loadInitialContent();
+});
+
+const bindEventHandlers = () => {
+    $DOM.searchForm.on('submit', handleSearch);
+    $DOM.moviesList.on('click', '.favorite-btn', handleFavoriteClick);
+    $DOM.moviesList.on('click', '.rating-star', handleRating);
+};
