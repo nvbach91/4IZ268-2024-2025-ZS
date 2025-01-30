@@ -1,4 +1,3 @@
-/* General Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -23,6 +22,12 @@ body {
     align-items: center;
     width: 90%;
     margin: 0 auto;
+    font-size: 1.2px;
+  }
+
+  .mainbutton {
+    text-decoration: none;
+    color: white;
   }
   
   .logo {
@@ -47,7 +52,6 @@ body {
     color: #FFD700;
   }
   
-  /* Main Sections */
   main {
     padding: 2rem 1rem;
   }
@@ -65,9 +69,14 @@ body {
     font-size: 1.8rem;
     margin-bottom: 1rem;
     color: #0074D9;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+
+  h1:hover {
+    color: #005bb5;
   }
   
-  /* Results, Teams, Favorites */
   #results-container, #teams-container, #favorites-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -85,6 +94,39 @@ body {
   .card:hover {
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
   }
+
+  /* Styl pro sekci výběru data */
+.date-picker {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
+#date-input {
+  font-size: 1.2rem; /* Zvětšení písma */
+  padding: 10px; /* Větší padding */
+  border: 1px solid #ddd;
+  border-radius: 8px; /* Zaoblení rohů */
+  width: 200px; /* Šířka políčka */
+}
+
+#submit-date {
+  font-size: 1.2rem; /* Zvětšení písma */
+  padding: 10px 20px; /* Větší tlačítko */
+  border: none;
+  border-radius: 8px; /* Zaoblení rohů */
+  background-color: #0074D9; /* Barva tlačítka */
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#submit-date:hover {
+  background-color: #005bb5; /* Tmavší barva při hoveru */
+}
+
   
   /* Footer */
   footer {

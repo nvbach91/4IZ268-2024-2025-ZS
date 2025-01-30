@@ -9,45 +9,39 @@
 <body>
   <header>
     <nav>
-      <div class="logo">SportLiveData</div>
+      <div class="logo"><a href="./" class="mainbutton">SportLiveData</a></div>
       <ul class="nav-links">
-        <li><a href="#results">Výsledky</a></li>
-        <li><a href="#teams">Týmy</a></li>
-        <li><a href="#favorites">Oblíbené</a></li>
+        <li><a href="#soccer-results">Fotbal</a></li>
+        <li><a href="#mlb-results">MLB</a></li>
       </ul>
     </nav>
   </header>
 
   <main>
-    <!-- Výsledky -->
-    <section id="results" class="section">
-      <h1>Poslední výsledky</h1>
+    <div class="date-picker">
+      <input type="date" id="date-input" placeholder="dd.mm.rrrr" />
+      <button id="submit-date">Zobrazit výsledky</button>
+    </div>
+    
+
+    <section id="soccer-results" class="section">
+      <h1 onclick="App.toggleSection('soccer-container')">Fotbalové zápasy</h1>
+      <div id="soccer-container">
+      </div>
+    </section>    
+
+    <section id="mlb-results" class="section">
+      <h1 onclick="App.toggleSection('results-container')">MLB zápasy</h1>
       <div id="results-container">
-        <!-- Prostor na výsledky -->
-      </div>
-    </section>
-
-    <!-- Týmy -->
-    <section id="teams" class="section">
-      <h1>Týmy</h1>
-      <div id="teams-container">
-        <!-- Prostor na týmy -->
-      </div>
-    </section>
-
-    <!-- Oblíbené -->
-    <section id="favorites" class="section">
-      <h1>Moje oblíbené</h1>
-      <div id="favorites-container">
-        <!-- Oblíbené uživatele -->
       </div>
     </section>
   </main>
 
   <footer>
-    <p>© 2024 SportLiveData</p>
+    <p>© 2025 SportLiveData</p>
   </footer>
-
-  <script src="script.js"></script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="assets/js/script.js"></script>
 </body>
 </html>
