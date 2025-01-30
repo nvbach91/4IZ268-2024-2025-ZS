@@ -1,567 +1,216 @@
-/* Global Variables */
+/* Base styles and variables */
 :root {
-    /* Color Palette */
-    --primary-color: #4285f4;
-    --secondary-color: #34a853;
-    --accent-color: #fbbc05;
-    --danger-color: #ea4335;
-    --background-color: #f5f6f8;
-    --text-color: #202124;
-    --text-muted: #6c757d;
-    --card-background: #ffffff;
-    --border-color: #e0e0e0;
-
-    /* Typography */
-    --font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    
-    /* Spacing */
-    --spacing-xs: 0.5rem;
-    --spacing-sm: 1rem;
-    --spacing-md: 1.5rem;
-    --spacing-lg: 2rem;
-
-    /* Border Radius */
-    --border-radius-sm: 0.25rem;
-    --border-radius-md: 0.5rem;
-    --border-radius-lg: 1rem;
-
-    /* Shadows */
-    --shadow-subtle: 0 2px 4px rgba(0, 0, 0, 0.05);
-    --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.1);
-    --shadow-large: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --light-bg: #f8f9fa;
+    --dark-bg: #343a40;
 }
 
-/* Reset and Base Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* Dark mode enhancements */
+.dark-mode .card {
+    background-color: #2d2d2d;
+    border-color: #404040;
 }
 
-body {
-    font-family: var(--font-family-base);
-    background-color: var(--background-color);
-    color: var(--text-color);
-    line-height: 1.6;
+.dark-mode .form-control {
+    background-color: #333;
+    border-color: #404040;
+    color: #ffffff;
 }
 
-/* Layout */
-#app {
+.dark-mode .form-control:focus {
+    background-color: #404040;
+    border-color: #505050;
+    color: #ffffff;
+}
+
+/* Accessibility improvements */
+.btn:focus,
+.form-control:focus {
+    box-shadow: 0 0 0 0.25rem rgba(0,123,255,0.25);
+    outline: none;
+}
+
+/* Map container responsive height */
+#map {
+    height: 50vh;
+    min-height: 400px;
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+/* Loading spinner overlay */
+.loading-spinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
     display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
 }
 
-/* Navigation */
-.navbar {
-    background-color: var(--card-background) !important;
-    box-shadow: var(--shadow-subtle);
-    padding: 1rem 0;
-}
-
-.navbar-brand {
-    font-weight: 600;
-    color: var(--primary-color) !important;
-    font-size: 1.5rem;
-}
-
-.nav-link {
-    color: var(--text-color);
-    transition: color 0.3s ease;
-    padding: 0.5rem 1rem !important;
-}
-
-.nav-link:hover {
-    color: var(--primary-color);
-}
-
-.nav-link i {
-    margin-right: 0.5rem;
-}
-
-/* Content Sections */
-.content-section {
-    display: none;
-    animation: fadeIn 0.3s ease-in-out;
-    padding: var(--spacing-md) 0;
-}
-
-.content-section.active {
-    display: block;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Cards */
+/* Improved card layouts */
 .card {
-    background-color: var(--card-background);
+    transition: transform 0.2s ease-in-out;
     border: none;
-    border-radius: var(--border-radius-md);
-    box-shadow: var(--shadow-medium);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    margin-bottom: var(--spacing-md);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 .card:hover {
     transform: translateY(-5px);
-    box-shadow: var(--shadow-large);
 }
 
-.card-title {
-    color: var(--text-color);
-    font-weight: 600;
-    margin-bottom: var(--spacing-sm);
+/* Navigation */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.card-body {
-    padding: var(--spacing-md);
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
 }
 
-/* Buttons */
-.btn {
-    padding: 0.5rem 1rem;
-    border-radius: var(--border-radius-sm);
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.btn-primary {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-}
-
-.btn-primary:hover {
-    background-color: #3b77db;
-    transform: translateY(-2px);
-}
-
-.btn-outline-primary {
-    color: var(--primary-color);
-    border-color: var(--primary-color);
-}
-
-.btn-outline-primary:hover {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-/* Form Elements */
+/* Forms */
 .form-control {
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-sm);
-    padding: 0.5rem 1rem;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    padding: 0.75rem;
 }
 
 .form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 0.2rem rgba(66, 133, 244, 0.25);
 }
 
-.form-label {
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-    color: var(--text-color);
-}
-
-/* Map Styles */
-.map-container {
-    height: 500px !important;
-    width: 100% !important;
-    z-index: 1;
-}
-
-#map {
-    height: 100% !important;
-    width: 100% !important;
-    border-radius: var(--border-radius-md);
-    overflow: hidden;
-}
-
-/* Leaflet specific styles */
-.leaflet-container {
-    height: 100%;
-    width: 100%;
-    font-family: var(--font-family-base);
-}
-
-.leaflet-popup-content-wrapper {
-    border-radius: var(--border-radius-md);
-    min-width: 200px;
-}
-
-.leaflet-popup-content {
-    margin: 0.5rem;
-}
-
-/* Place popup customization */
-.place-popup {
-    padding: 10px;
-}
-
-.place-popup h6 {
-    margin-bottom: 8px;
-}
-
-.place-popup .btn-group {
-    margin-top: 10px;
-}
-
-/* Ensure map controls are above other elements */
-.leaflet-top,
-.leaflet-bottom {
-    z-index: 999;
-}
-
-/* Custom Marker Styles */
-.custom-marker {
-    background: none;
-    border: none;
-}
-
-.marker-content {
-    width: 30px;
-    height: 30px;
-    background-color: var(--primary-color);
-    border: 2px solid white;
-    border-radius: 50%;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    box-shadow: var(--shadow-medium);
-}
-
-/* Place Cards */
-.place-card {
-    height: 100%;
-    transition: transform 0.2s ease;
-}
-
-.place-card:hover {
-    transform: translateY(-5px);
-}
-
-.place-card .card-title {
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
-}
-
-.place-card .card-text {
-    color: var(--text-muted);
-    font-size: 0.9rem;
+/* Weather Widget */
+.weather-widget {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
     margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
 }
 
-/* Route Styles */
-.route-details {
-    background-color: var(--card-background);
-    padding: var(--spacing-md);
-    border-radius: var(--border-radius-md);
-    margin-top: var(--spacing-md);
-}
-
-.route-marker {
-    background: none;
-    border: none;
-}
-
-.marker-label {
-    background-color: var(--primary-color);
-    color: white;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
+.weather-header {
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.weather-icon {
+    width: 50px;
+    height: 50px;
+}
+
+.temperature {
+    font-size: 2rem;
     font-weight: bold;
-    border: 2px solid white;
-    box-shadow: var(--shadow-medium);
-}
-
-/* Search Results */
-#places-list {
-    margin-top: var(--spacing-md);
-}
-
-#places-list .card {
-    height: 100%;
-    margin-bottom: var(--spacing-md);
-}
-
-/* Loading Spinner */
-#loading-spinner {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(255, 255, 255, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
-
-.spinner-border {
-    width: 3rem;
-    height: 3rem;
     color: var(--primary-color);
 }
 
-/* Place Details Modal */
-.place-details img {
-    max-width: 100%;
-    border-radius: var(--border-radius-md);
-    margin-bottom: var(--spacing-md);
+.weather-details {
+    font-size: 1rem;
+    color: var(--secondary-color);
 }
 
-.place-details p {
-    color: var(--text-color);
-    line-height: 1.6;
+/* Dark Mode Adjustments */
+.dark-mode .weather-widget {
+    background: #2d2d2d;
+    color: white;
 }
 
-/* Utility Classes */
-.hover-lift {
-    transition: transform 0.3s ease;
+.dark-mode .temperature {
+    color: var(--warning-color);
 }
 
-.hover-lift:hover {
-    transform: translateY(-5px);
+/* Budget Manager */
+.budget-container {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    #map {
-        height: 300px !important;
-    }
-
-    .card-body {
-        padding: var(--spacing-sm);
-    }
-
-    .btn {
-        padding: 0.375rem 0.75rem;
-    }
-
-    .navbar-brand {
-        font-size: 1.2rem;
-    }
-
-    .content-section {
-        padding: var(--spacing-sm) 0;
-    }
-
-    .place-card {
-        margin-bottom: var(--spacing-sm);
-    }
-}
-
-/* Dark Mode Support */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --background-color: #121212;
-        --card-background: #1e1e1e;
-        --text-color: #e0e0e0;
-        --text-muted: #a0a0a0;
-        --border-color: #2d2d2d;
-    }
-
-    .card {
-        background-color: var(--card-background);
-    }
-
-    .form-control {
-        background-color: var(--card-background);
-        color: var(--text-color);
-        border-color: var(--border-color);
-    }
-
-    .form-control:focus {
-        background-color: var(--card-background);
-        color: var(--text-color);
-    }
-
-    #loading-spinner {
-        background-color: rgba(0, 0, 0, 0.8);
-    }
-}
-
-/* Fix map tiles */
-.leaflet-tile {
-    width: 256px !important;
-    height: 256px !important;
-}
-
-/* Search results styles */
-#search-results {
-    max-height: 500px;
-    overflow-y: auto;
-}
-
-.list-group-item {
+.expense-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: var(--spacing-sm);
-    border: 1px solid var(--border-color);
-    margin-bottom: var(--spacing-xs);
-    border-radius: var(--border-radius-sm);
-    background-color: var(--card-background);
-}
-
-/* Map controls */
-.leaflet-top,
-.leaflet-bottom {
-    z-index: 400;
-}
-
-/* Waypoint styles */
-.waypoint-group {
-    position: relative;
-    margin-bottom: 1rem;
-}
-
-.remove-waypoint {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-}
-
-#route-info {
-    margin-top: 1rem;
-}
-
-/* Route line styles */
-.leaflet-polyline {
-    stroke-width: 4;
-    opacity: 0.7;
-    stroke: var(--primary-color);
-}
-
-/* Place popup customization */
-.place-popup {
     padding: 10px;
+    margin-bottom: 5px;
+    background: var(--light-bg);
+    border-radius: 5px;
 }
 
-.place-popup h6 {
-    margin-bottom: 8px;
+.expense-name {
+    font-weight: bold;
+    color: var(--primary-color);
 }
 
-.place-popup .btn-group {
-    margin-top: 10px;
+.expense-amount {
+    font-weight: bold;
+    color: var(--danger-color);
 }
 
-.place-popup .btn {
-    padding: 4px 8px;
-    font-size: 0.875rem;
-}
-.map-container {
-    height: 500px !important;
-    width: 100% !important;
-    z-index: 1;
+/* Dark Mode Adjustments */
+.dark-mode .budget-container {
+    background: #2d2d2d;
+    color: white;
 }
 
-#map {
-    height: 100% !important;
-    width: 100% !important;
+.dark-mode .expense-item {
+    background: #404040;
 }
 
-.place-popup {
-    padding: 10px;
+.dark-mode .expense-name {
+    color: var(--warning-color);
 }
 
-.place-popup h6 {
-    margin-bottom: 8px;
+.dark-mode .expense-amount {
+    color: var(--success-color);
 }
 
-.place-popup .btn-group {
-    margin-top: 10px;
+/* Dark mode specific styles */
+.dark-mode {
+    background-color: var(--dark-bg);
+    color: #ffffff;;
 }
 
-#places-list .card {
-    margin-bottom: 1rem;
-    transition: transform 0.2s ease;
+.dark-mode .navbar {
+    background-color: #2d2d2d !important;
 }
 
-#places-list .card:hover {
-    transform: translateY(-5px);
+.dark-mode .weather-widget {
+    background: #2d2d2d;
 }
 
-/* Loading Spinner */
-#loading-spinner {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
+.dark-mode .timeline-item {
+    background: #2d2d2d;
 }
 
-.leaflet-top,
-.leaflet-bottom {
-    z-index: 999;
-}
-
-.leaflet-popup-content-wrapper {
-    min-width: 200px;
-}
-
-.loading-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    backdrop-filter: blur(2px);
-}
-
-.spinner-container {
-    text-align: center;
-    background: white;
-    padding: 2rem;
-    border-radius: var(--border-radius-md);
-    box-shadow: var(--shadow-medium);
-}
-
-.loading-text {
-    color: var(--text-color);
-    font-weight: 500;
-}
-
-.spinner-border {
-    width: 3rem;
-    height: 3rem;
-}
-
-/* For content-specific loading states */
-.content-loading {
-    position: relative;
-    min-height: 200px;
-}
-
-.content-loading::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* Responsive design */
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+    
+    #map {
+        height: 300px;
+    }
+    
+    .recommendations-grid {
+        grid-template-columns: 1fr;
+    }
 }

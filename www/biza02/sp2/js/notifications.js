@@ -1,69 +1,35 @@
 // notifications.js
-import CONFIG from './config.js';
+const Notifications = {
+    init() {
+        this.checkNotificationPermission();
+        this.setupServiceWorker();
+    },
 
-class NotificationManager {
-    /**
-     * Request browser notification permission
-     * @returns {Promise<string>} Permission status
-     */
-    static async requestPermission() {
+    async checkNotificationPermission() {
         if ('Notification' in window) {
-            try {
-                const permission = await Notification.requestPermission();
-                return permission;
-            } catch (error) {
-                console.warn('Notification permission error:', error);
-                return 'denied';
+            if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
+                await Notification.requestPermission();
             }
         }
-        return 'unsupported';
-    }
+    },
 
-    /**
-     * Show a notification
-     * @param {Object} options - Notification configuration
-     */
-    static show(options) {
-        const {
-            type = 'info',
-            message,
-            title = this.getTitleForType(type),
-            duration = CONFIG.NOTIFICATIONS.DURATION.SHORT
-        } = options;
-
-        // Browser notification for supported browsers
-        this.showBrowserNotification(title, message);
-
-        // SweetAlert toast notification
-        this.showSwalNotification(type, message, duration);
-    }
-
-    /**
-     * Show browser notification
-     * @param {string} title - Notification title
-     * @param {string} message - Notification message
-     */
-    static showBrowserNotification(title, message) {
-        if ('Notification' in window && Notification.permission === 'granted') {
-            new Notification(title, {
-                body: message,
-                icon: this.getNotificationIcon(title)
-            });
+    async setupServiceWorker() {
+        if ('serviceWorker' in navigator) {
+            try {
+                const registration = await navigator.serviceWorker.register('/sw.js');
+                console.log('ServiceWorker registration successful');
+            } catch (error) {
+                console.error('ServiceWorker registration failed:', error);
+            }
         }
-    }
+    },
 
-    /**
-     * Show SweetAlert toast notification
-     * @param {string} type - Notification type
-     * @param {string} message - Notification message
-     * @param {number} duration - Notification duration
-     */
-    static showSwalNotification(type, message, duration) {
+    showAlert(message, type = 'info', duration = 3000) {
         Swal.fire({
+            text: message,
+            icon: type,
             toast: true,
             position: 'top-end',
-            icon: type,
-            title: message,
             showConfirmButton: false,
             timer: duration,
             timerProgressBar: true,
@@ -72,114 +38,98 @@ class NotificationManager {
                 toast.addEventListener('mouseleave', Swal.resumeTimer);
             }
         });
-    }
+    },
 
-    /**
-     * Get notification title based on type
-     * @param {string} type - Notification type
-     * @returns {string} Notification title
-     */
-    static getTitleForType(type) {
-        const titles = {
-            success: 'Success',
-            error: 'Error',
-            warning: 'Warning',
-            info: 'Information'
-        };
-        return titles[type] || 'Notification';
-    }
+    async scheduleReminder(activity, time) {
+        const timestamp = new Date(time).getTime();
+        const now = Date.now();
+        const delay = timestamp - now;
 
-    /**
-     * Get notification icon
-     * @param {string} title - Notification title
-     * @returns {string} Icon path
-     */
-    static getNotificationIcon(title) {
-        const icons = {
-            Success: '/icons/success.png',
-            Error: '/icons/error.png',
-            Warning: '/icons/warning.png',
-            Information: '/icons/info.png'
-        };
-        return icons[title] || '/icons/default.png';
-    }
+        if (delay <= 0) {
+            console.warn('Cannot schedule reminder for past time');
+            return;
+        }
 
-    /**
-     * Schedule a reminder notification
-     * @param {Object} activity - Activity details
-     */
-    static scheduleReminder(activity) {
-        if (!CONFIG.FEATURES.NOTIFICATIONS) return;
+        if (delay > 2147483647) {
+            console.warn('Reminder scheduled too far in the future');
+            return;
+        }
 
-        const { name, date, time, description } = activity;
-        
-        // Calculate notification time (e.g., 1 hour before activity)
-        const notificationTime = new Date(`${date} ${time}`);
-        notificationTime.setHours(notificationTime.getHours() - 1);
+        setTimeout(() => {
+            this.showNotification('Travel Reminder', `Time for: ${activity}`);
+        }, delay);
 
-        // Schedule local notification
+        // Also save to localStorage for persistence
+        const reminders = JSON.parse(localStorage.getItem('reminders') || '[]');
+        reminders.push({ activity, time });
+        localStorage.setItem('reminders', JSON.stringify(reminders));
+    },
+
+    showNotification(title, message) {
         if ('Notification' in window && Notification.permission === 'granted') {
-            const timeout = notificationTime.getTime() - Date.now();
-            
-            if (timeout > 0) {
-                setTimeout(() => {
-                    this.show({
-                        type: 'info',
-                        title: `Upcoming Activity: ${name}`,
-                        message: description
-                    });
-                }, timeout);
+            new Notification(title, {
+                body: message,
+                icon: '/img/favicon.ico',
+                badge: '/img/favicon.ico',
+                requireInteraction: true
+            });
+        } else {
+            this.showAlert(message, 'info');
+        }
+    },
+
+    showConfirmation(title, text) {
+        return Swal.fire({
+            title,
+            text,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+            reverseButtons: true
+        });
+    },
+
+    async showPrompt(title, input = 'text', placeholder = '') {
+        const result = await Swal.fire({
+            title,
+            input,
+            inputPlaceholder: placeholder,
+            showCancelButton: true,
+            inputValidator: (value) => {
+                if (!value) {
+                    return 'Please enter a value!';
+                }
             }
-        }
+        });
+
+        return result.value;
+    },
+
+    showLoading(message = 'Loading...') {
+        Swal.fire({
+            title: message,
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            willOpen: () => {
+                Swal.showLoading();
+            }
+        });
+    },
+
+    hideLoading() {
+        Swal.close();
+    },
+
+    restoreReminders() {
+        const reminders = JSON.parse(localStorage.getItem('reminders') || '[]');
+        reminders.forEach(reminder => {
+            this.scheduleReminder(reminder.activity, reminder.time);
+        });
+    },
+
+    clearAllReminders() {
+        localStorage.removeItem('reminders');
     }
-
-    /**
-     * Handle system-wide events
-     * @param {string} eventType - Type of event
-     * @param {Object} [data] - Additional event data
-     */
-    static handleSystemEvent(eventType, data = {}) {
-        switch (eventType) {
-            case 'offline':
-                this.show({
-                    type: 'warning',
-                    message: 'You are currently offline. Some features may be limited.'
-                });
-                break;
-            
-            case 'online':
-                this.show({
-                    type: 'success',
-                    message: 'Connection restored.'
-                });
-                break;
-            
-            case 'sync-complete':
-                this.show({
-                    type: 'info',
-                    message: 'Data synchronized successfully.'
-                });
-                break;
-            
-            default:
-                console.warn('Unhandled system event:', eventType, data);
-        }
-    }
-
-    /**
-     * Send custom notification
-     * @param {Object} options - Notification options
-     */
-    static custom(options) {
-        const defaultOptions = {
-            type: 'info',
-            message: '',
-            duration: CONFIG.NOTIFICATIONS.DURATION.MEDIUM
-        };
-
-        const mergedOptions = { ...defaultOptions, ...options };
-        this.show(mergedOptions);
-    }
-}
-
-export default NotificationManager;
+};
+export default Notifications;

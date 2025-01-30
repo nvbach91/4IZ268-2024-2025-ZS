@@ -1,216 +1,319 @@
-// app.js
-import CONFIG from './config.js';
-import './init.js'; 
-import { initializeServiceWorker } from './init.js';
-import router from './router.js';
-import auth from './auth.js';
-import places from './places.js';
-import directions from './directions.js';
-import itineraryDetails from './itinerary-details.js';
-import NotificationManager from './notifications.js';
-import recommendationService from './recommendations.js';
-import statisticsService from './statistics.js';
-import loadingManager from './loading.js';
+import API from './api.js';
+import Auth from './auth.js';
+import Itinerary from './itinerary.js';
+import Recommendations from './recommendations.js';
+import Profile from './profile.js';
+import Budget from './budget.js';
+import Notifications from './notifications.js';
+import Utils from './utils.js';
+import TravelMap from './map.js';
+import Weather from './weather.js';
+import Stats from './stats.js';
+import Sharing from './sharing.js';
+import { auth } from './firebase-init.js';
 
-class TripPlannerApp {
+function ensureNode(content) {
+    if (typeof content === 'string') {
+        const wrapper = document.createElement('div');
+        wrapper.innerHTML = content;
+        return wrapper;
+    }
+    return content instanceof HTMLElement ? content : document.createElement('div');
+}
+
+class App {
     constructor() {
-        this.initializeApp();
+        this.appContainer = null;
     }
 
-    async initializeApp() {
+    async init() {
         try {
-            loadingManager.show('Initializing application...');
-            
-            // Setup error handling
-            this.setupErrorHandling();
-    
-            // Setup offline capabilities
-            this.setupOfflineSupport();
-    
-            // Initialize core components
-            await this.initializeComponents();
-    
-            // Check initial authentication state
-            this.checkAuthenticationState();
-    
-            // Initialize notifications
-            this.initializeNotifications();
-    
-            // Setup global event listeners
-            this.setupGlobalEventListeners();
-    
+            await new Promise((resolve) => auth.onAuthStateChanged(resolve));
+            this.appContainer = document.getElementById('app');
+            Utils.init();
+            await Auth.init();
+            await Itinerary.init();
+            this.bindEvents();
+            await this.router(window.location.hash.slice(1) || 'home');
+            this.setupTheme();
         } catch (error) {
-            this.handleInitializationError(error);
-        } finally {
-            loadingManager.hide();
+            console.error('Initialization error:', error);
+            Notifications.showAlert('Failed to initialize application', 'error');
         }
     }
 
-    setupErrorHandling() {
-        window.addEventListener('error', (event) => {
-            ErrorHandler.handleApplicationError(event.error, {
-                type: 'Uncaught Error',
-                location: event.filename,
-                lineNumber: event.lineno,
-                columnNumber: event.colno
-            });
-        });
+    async router(page) {
+        try {
+            Utils.showLoading();
+            
+            this.removeExistingContent();
 
-        // Handle promise rejections
-        window.addEventListener('unhandledrejection', (event) => {
-            ErrorHandler.handleApplicationError(event.reason, {
-                type: 'Unhandled Promise Rejection',
-                details: event.reason?.stack || event.reason
-            });
-        });
+            const protectedRoutes = ['trips', 'profile', 'budget'];
+            const isAuthenticated = await Auth.checkLoginState();
+            
+            // Check if the base route is protected
+            const baseRoute = page.split('/')[0];
+            if (protectedRoutes.includes(baseRoute) && !isAuthenticated) {
+                window.location.hash = 'login';
+                return;
+            }
 
-        // Handle API errors
-        window.addEventListener('apierror', (event) => {
-            ErrorHandler.handleNetworkError(event.detail);
-        });
-    }
+            this.updateNavigation(baseRoute);
+            let pageContent = null;
 
-    setupOfflineSupport() {
-        if ('serviceWorker' in navigator && CONFIG.FEATURES.OFFLINE_MODE) {
-            window.addEventListener('load', async () => {
-                try {
-                    // Dynamically calculate the base path
-                    const basePath = window.location.pathname.replace(/\/[^/]*$/, '');
-                    const registration = await navigator.serviceWorker.register(`${basePath}/js/service-worker.js`, {
-                        scope: `${basePath}/`
-                    });
-        
-                    console.log('Service Worker registered successfully', registration);
-                } catch (error) {
-                    console.error('Service Worker registration failed', error);
+            // Handle trip details route first
+            if (page.match(/^trips\/[^/]+$/) && page !== 'trips/new') {
+                const tripId = page.split('/')[1];
+                pageContent = await ensureNode(await Itinerary.renderTripDetails(tripId));
+                this.appContainer.appendChild(pageContent);
+                if (Itinerary.bindEvents) {
+                    Itinerary.bindEvents();
                 }
-            });
-        }
-    }
+                return;
+            }
 
-    async initializeComponents() {
-        try {
-            // Core services that should always initialize
-            await auth.initialize();
-    
-            // Initialize route-dependent services based on current path
-            const currentPath = window.location.pathname;
-            
-            // Initialize only required services based on route
-            const initPromises = [];
-    
-            // Auth should always initialize
-            initPromises.push(auth.initialize());
-    
-            // Only initialize services if we're on their respective pages
-            if (currentPath === '/search') {
-                // Delay places initialization until after router renders the page
-                setTimeout(() => places.initialize(), 100);
+            switch (page) {
+                case 'recommendations': {
+                    pageContent = await ensureNode(await Recommendations.render());
+                    this.appContainer.appendChild(pageContent);
+                    
+                    setTimeout(() => {
+                        const mapElement = document.getElementById('map');
+                        if (mapElement) {
+                            TravelMap.init('map');
+                            if (Recommendations.init) Recommendations.init();
+                        }
+                    }, 100);
+                    break;
+                }
+                case 'search': {
+                    pageContent = await ensureNode(await Stats.render());
+                    this.appContainer.appendChild(pageContent);
+                    
+                    requestAnimationFrame(async () => {
+                        const stats = await Stats.collectStatistics();
+                        if (stats) {
+                            Stats.initializeCharts(stats);
+                        }
+                    });
+                    break;
+                }
+                case 'profile': {
+                    const profilePage = await Profile.render();
+                    if (profilePage) {
+                        this.appContainer.appendChild(ensureNode(profilePage));
+                        await Profile.init();
+                    } else {
+                        this.appContainer.innerHTML = '<p>Error loading profile.</p>';
+                    }
+                    break;
+                }
+                case 'trips': {
+                    const tripsContent = await Itinerary.renderTripsList();
+                    if (tripsContent instanceof HTMLElement) {
+                        this.appContainer.appendChild(tripsContent);
+                        if (Itinerary.bindEvents) {
+                            Itinerary.bindEvents();
+                        }
+                    } else {
+                        this.appContainer.innerHTML = '<p>Error loading trips.</p>';
+                    }
+                    break;
+                }
+                case 'trips/new': {
+                    pageContent = await ensureNode(await Itinerary.createTripForm());
+                    this.appContainer.appendChild(pageContent);
+                    if (Itinerary.bindEvents) {
+                        Itinerary.bindEvents();
+                    }
+                    break;
+                }
+                case 'budget': {
+                    pageContent = await ensureNode(await Budget.render());
+                    this.appContainer.appendChild(pageContent);
+                    if (Budget.init) {
+                        Budget.init();
+                    }
+                    break;
+                }
+                case 'weather': {
+                    pageContent = await ensureNode(await Weather.render());
+                    this.appContainer.appendChild(pageContent);
+                    if (Weather.init) {
+                        Weather.init();
+                    }
+                    break;
+                }
+                case 'login': {
+                    pageContent = document.createElement('div');
+                    pageContent.innerHTML = Auth.renderLoginForm();
+                    this.appContainer.appendChild(pageContent);
+                    Auth.bindEvents();
+                    break;
+                }
+                case 'register': {
+                    pageContent = document.createElement('div');
+                    pageContent.innerHTML = Auth.renderRegisterForm();
+                    this.appContainer.appendChild(pageContent);
+                    Auth.bindEvents();
+                    break;
+                }
+                case 'home': {
+                    pageContent = this.renderHome();
+                    this.appContainer.appendChild(pageContent);
+                    break;
+                }
+                default: {
+                    this.removeMap();
+                    pageContent = this.renderNotFound();
+                    this.appContainer.appendChild(pageContent);
+                }
             }
-    
-            if (currentPath === '/recommendations') {
-                setTimeout(() => recommendationService.initialize(), 100);
-            }
-    
-            if (currentPath === '/itineraries') {
-                initPromises.push(itineraryDetails.initialize());
-            }
-    
-            // Statistics should only initialize on dashboard
-            if (currentPath === '/dashboard') {
-                initPromises.push(statisticsService.initialize());
-            }
-    
-            await Promise.allSettled(initPromises);
-            console.log('✅ Core components initialized successfully');
         } catch (error) {
-            console.error('❌ Component initialization failed:', error);
+            console.error('Routing error:', error);
+            Notifications.showAlert(error.message, 'error');
+            this.appContainer.innerHTML = '<h2 class="text-center">Oops! Something went wrong</h2>';
+        } finally {
+            Utils.hideLoading();
         }
     }
-    
-    setupGlobalEventListeners() {
-        // Global event delegation for route and action buttons
-        document.addEventListener('click', (event) => {
-            const loginButton = event.target.closest('#loginButton');
-            const signUpButton = event.target.closest('#signUpButton');
-            const logoutButton = event.target.closest('#logout-btn');
 
-            if (loginButton) {
-                console.log('🔐 Login button clicked');
-                router.navigateTo('/login');
-            }
-
-            if (signUpButton) {
-                console.log('🆕 Sign Up button clicked');
-                router.navigateTo('/register');
-            }
-
-            if (logoutButton) {
-                console.log('🚪 Logout button clicked');
-                auth.logout();
-                router.navigateTo('/');
-            }
-        });
-
-        // Setup global custom events
-        document.addEventListener('addToItinerary', (event) => {
-            console.log('📅 Add to Itinerary Event:', event.detail);
-            NotificationManager.show({
-                type: 'success',
-                message: 'Item added to itinerary'
-            });
-        });
-
-        // Network status events
-        window.addEventListener('online', () => {
-            NotificationManager.show({
-                type: 'success',
-                message: 'Internet connection restored'
-            });
-        });
-
-        window.addEventListener('offline', () => {
-            NotificationManager.show({
-                type: 'warning',
-                message: 'You are currently offline'
-            });
-        });
-    }
-
-    checkAuthenticationState() {
-        // Preserve the current path when checking auth state
-        let currentPath = window.location.pathname;
-        let user = auth.getCurrentUser();
+    removeExistingContent() {
+        // Clear the app container
+        this.appContainer.innerHTML = '';
         
-        if (user) {
-            // User is logged in, navigate to dashboard if on login/register page
-            if (['/login', '/register'].includes(currentPath)) {
-                router.navigateTo(CONFIG.ROUTES.DASHBOARD);
-            }
-        } else {
-            // No user and trying to access protected route, navigate to home
-            if (router.isProtectedRoute(currentPath)) {
-                router.navigateTo(CONFIG.ROUTES.HOME);
-            }
+        // Remove any existing recommendations container
+        const existingRecommendations = document.getElementById('recommendationsContainer');
+        if (existingRecommendations && existingRecommendations.parentElement !== this.appContainer) {
+            existingRecommendations.remove();
+        }
+
+        // Remove any existing map instance
+        this.removeMap();
+    }
+
+    removeMap() {
+        const mapElement = document.getElementById('map');
+        if (mapElement) {
+            mapElement.remove();
         }
     }
 
-    initializeNotifications() {
-        if (CONFIG.FEATURES.NOTIFICATIONS) {
-            NotificationManager.requestPermission();
-        }
-    }
+    bindEvents() {
+        window.addEventListener("hashchange", () => this.router(window.location.hash.slice(1) || 'home'));
 
-    handleInitializationError(error) {
-        console.error('🚨 App initialization failed:', error);
-        NotificationManager.show({
-            type: 'error',
-            message: 'Failed to start the application. Please refresh or contact support.'
+        document.addEventListener("click", (e) => {
+            if (e.target.matches('.logout-btn')) {
+                Auth.logout();
+            }
         });
+
+        const themeToggle = document.getElementById("themeToggle");
+        if (themeToggle) {
+            themeToggle.addEventListener("click", () => this.toggleTheme());
+        }
+    }
+
+    updateNavigation(currentPage) {
+        const links = document.querySelectorAll('.nav-link');
+        links.forEach(link => {
+            const href = link.getAttribute('href')?.slice(1); // Remove the # from href
+            if (href === currentPage) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+    }
+
+    renderHome() {
+        const container = document.createElement('div');
+        container.className = 'home-section container py-4';
+
+        const title = document.createElement('h1');
+        title.className = 'display-4';
+        title.textContent = 'Welcome to Travel Planner';
+
+        const subtitle = document.createElement('p');
+        subtitle.className = 'lead';
+        subtitle.textContent = 'Plan your perfect trip with ease';
+
+        const featuresContainer = document.createElement('div');
+        featuresContainer.className = 'row mt-4';
+
+        const features = [
+            { title: "📍 Plan Your Trip", desc: "Create detailed itineraries for your next adventure.", link: "#trips" },
+            { title: "🔍 Discover Places", desc: "Find interesting locations and activities.", link: "#search" },
+            { title: "⭐ Get Recommendations", desc: "Personalized suggestions based on your interests.", link: "#recommendations" }
+        ];
+
+        features.forEach(feature => {
+            const col = document.createElement('div');
+            col.className = 'col-md-4 mb-4';
+
+            const card = document.createElement('div');
+            card.className = 'card h-100';
+
+            const cardBody = document.createElement('div');
+            cardBody.className = 'card-body';
+
+            const cardTitle = document.createElement('h5');
+            cardTitle.className = 'card-title';
+            cardTitle.textContent = feature.title;
+
+            const cardText = document.createElement('p');
+            cardText.className = 'card-text';
+            cardText.textContent = feature.desc;
+
+            const link = document.createElement('a');
+            link.href = feature.link;
+            link.className = 'btn btn-primary';
+            link.textContent = 'Explore';
+
+            cardBody.append(cardTitle, cardText, link);
+            card.appendChild(cardBody);
+            col.appendChild(card);
+            featuresContainer.appendChild(col);
+        });
+
+        container.append(title, subtitle, featuresContainer);
+        return container;
+    }
+
+    renderNotFound() {
+        const container = document.createElement('div');
+        container.className = 'not-found-page text-center py-5';
+        
+        const title = document.createElement('h2');
+        title.textContent = '404 - Page Not Found';
+        
+        const message = document.createElement('p');
+        message.textContent = "The page you're looking for doesn't exist.";
+        
+        const backLink = document.createElement('a');
+        backLink.href = '#home';
+        backLink.className = 'btn btn-primary mt-3';
+        backLink.textContent = 'Go to Home';
+        
+        container.append(title, message, backLink);
+        return container;
+    }
+
+    setupTheme() {
+        const savedTheme = localStorage.getItem("theme") || "light";
+        document.body.classList.toggle("dark-mode", savedTheme === "dark");
+    }
+
+    toggleTheme() {
+        document.body.classList.toggle("dark-mode");
+        localStorage.setItem("theme", document.body.classList.contains("dark-mode") ? "dark" : "light");
     }
 }
 
-// Create and initialize the app
-const app = new TripPlannerApp();
-
-export default app;
+document.addEventListener('DOMContentLoaded', () => {
+    const app = new App();
+    app.init().catch(error => {
+        console.error('App initialization error:', error);
+        Notifications.showAlert('Failed to start application', 'error');
+    });
+});
