@@ -9,14 +9,10 @@
     justify-content: flex-start;
     height: 100%;
 }
-.rating-stars {
-    color: #f4c10f;
-    margin-top: auto;
-    margin-bottom: 10px;
-}
-.rating-count {
+.card-rating span{
     font-size: 14px;
-    color: #6c757d;
+    color: #1b1b1b;
+    margin-bottom: 10px;
 }
 .view-details-btn {
     align-self: flex-end;
@@ -28,6 +24,9 @@
     margin-top: 20px;
 }
 .card-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-top: auto;
 }
 .no-results {
@@ -35,6 +34,7 @@
     font-size: 20px;
     color: #6c757d;
     margin-top: 20px;
+    display: none;
 }
 .details-section {
     display: none;
@@ -88,9 +88,6 @@
 h1 {
     background-color: #007bff;
 }
-.no-results {
-    display: none;
-}
 #savedGamesSection {
     display: none;
     padding: 20px;
@@ -103,4 +100,14 @@ footer {
     padding: 16px 0;
     margin-top: auto;
     background-color: #f8f9fa;
+}
+.fade-in {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+.fade-in.show {
+    opacity: 1;
+    transform: translateY(0);
 }

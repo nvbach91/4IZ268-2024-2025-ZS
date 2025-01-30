@@ -5,21 +5,45 @@ let currentPage = 1;
 const maxVisiblePages = 5;
 const pageSize = 15; // Number of games per page
 let ratingsChartInstance = null;
+const savedGames = new Map();
+const gameCache = new Map();
 
-document.getElementById('searchForm').addEventListener('submit', (event) => {
-    event.preventDefault(); // Prevent page reload
+const gameTitle = document.getElementById('gameTitle');
+const gameImage = document.getElementById('gameImage');
+const gameGenres = document.getElementById('gameGenres');
+const gameRating = document.getElementById('gameRating');
+const gameReleased = document.getElementById('gameReleased');
+const gameDescription = document.getElementById('gameDescription');
+const detailsSection = document.getElementById('detailsSection');
+const backButton = document.getElementById('backButton');
+const searchSection = document.getElementById('searchSection');
+const savedGamesSection = document.getElementById('savedGamesSection');
+const loadingSpinner = document.getElementById('loadingSpinner');
+const saveGameButton = document.getElementById('saveGameButton');
+const searchForm = document.getElementById('searchForm');
+const searchBar = document.getElementById('searchBar');
+const genreFilter = document.getElementById('genreFilter');
+const sortFilter = document.getElementById('sortFilter');
+const resultsContainer = document.getElementById('results');
+const paginationContainer = document.getElementById('pagination');
+const noResultsMessage = document.getElementById('noResultsMessage');
+const loadingMessage = document.getElementById('loadingMessage');
+const toggleSavedGamesButton = document.getElementById('toggleSavedGames');
+const backToSearchButton = document.getElementById('backToSearchButton');
+const carouselContent = document.getElementById('carouselContent');
+const ctx = document.getElementById('ratingsChart').getContext('2d');
+const savedGamesList = document.getElementById("savedGamesList");
 
-    const query = document.getElementById('searchBar').value;
-    const genre = document.getElementById('genreFilter').value;
-    const sortBy = document.getElementById('sortFilter').value;
 
-    fetchGames(query, genre, 1, sortBy);
+searchForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    fetchGames(searchBar.value, genreFilter.value, 1, sortFilter.value);
 });
 
-document.getElementById('backButton').addEventListener('click', () => {
-    document.getElementById('detailsSection').style.display = 'none';
-    document.getElementById('searchSection').style.display = 'block';
-    document.getElementById('toggleSavedGames').textContent = 'My List';
+backButton.addEventListener('click', () => {
+    detailsSection.style.display = 'none';
+    searchSection.style.display = 'block';
+    toggleSavedGamesButton.textContent = 'My List';
 
     // Avoid pushing the same state again
     const currentState = history.state || {};
@@ -28,71 +52,67 @@ document.getElementById('backButton').addEventListener('click', () => {
     }
 });
 
-document.getElementById('toggleSavedGames').addEventListener('click', function() {
-    const searchSection = document.getElementById('searchSection');
-    const savedGamesSection = document.getElementById('savedGamesSection');
-    
+toggleSavedGamesButton.addEventListener('click', () => {
     if (searchSection.style.display !== 'none') {
         searchSection.style.display = 'none';
         savedGamesSection.style.display = 'block';
         this.textContent = 'Back to Search';
-
         history.pushState({ section: 'savedGames' }, '', '');
     } else {
         searchSection.style.display = 'block';
         savedGamesSection.style.display = 'none';
-        this.textContent = 'View Saved Games';
-
+        this.textContent = 'My List';
         history.pushState({ section: 'search' }, '', '');
     }
 });
 
-document.getElementById('backToSearchButton').addEventListener('click', function() {
-    document.getElementById('savedGamesSection').style.display = 'none';
-    document.getElementById('searchSection').style.display = 'block';
-    document.getElementById('toggleSavedGames').textContent = 'My List';
+backToSearchButton.addEventListener('click', () => {
+    savedGamesSection.style.display = 'none';
+    searchSection.style.display = 'block';
+    toggleSavedGamesButton.textContent = 'My List';
+
+    const currentState = history.state || {};
+    if (currentState.section !== 'search') {
+        history.pushState({ section: 'search' }, '', '');
+    }
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-    loadSavedGames();
+document.addEventListener("DOMContentLoaded", async () => {
+    loadSavedGamesFromStorage();
+    await loadGenres();
 });
 
 window.addEventListener('popstate', async (event) => {
     if (!event.state) return;
 
     if (event.state.section === 'details') {
-        document.getElementById('searchSection').style.display = 'none';
-        document.getElementById('savedGamesSection').style.display = 'none';
-        document.getElementById('detailsSection').style.display = 'block';
+        searchSection.style.display = 'none';
+        savedGamesSection.style.display = 'none';
+        detailsSection.style.display = 'block';
         await viewDetails(event.state.gameId);
     } else if (event.state.section === 'search') {
         const { query, genre, page, sortBy } = event.state;
-        document.getElementById('searchSection').style.display = 'block';
-        document.getElementById('detailsSection').style.display = 'none';
-        document.getElementById('savedGamesSection').style.display = 'none';
+        searchSection.style.display = 'block';
+        detailsSection.style.display = 'none';
+        savedGamesSection.style.display = 'none';
 
-        document.getElementById('toggleSavedGames').textContent = 'My List';
-        document.getElementById('searchBar').value = query || '';
-        document.getElementById('genreFilter').value = genre || '';
-        document.getElementById('sortFilter').value = sortBy || '';
+        toggleSavedGamesButton.textContent = 'My List';
+        searchBar.value = query || '';
+        genreFilter.value = genre || '';
+        sortFilter.value = sortBy || '';
 
         currentPage = page || 1;
         await fetchGames(query, genre, currentPage, sortBy);
     } else if (event.state.section === 'savedGames') {
-        document.getElementById('searchSection').style.display = 'none';
-        document.getElementById('detailsSection').style.display = 'none';
-        document.getElementById('savedGamesSection').style.display = 'block';
+        searchSection.style.display = 'none';
+        detailsSection.style.display = 'none';
+        savedGamesSection.style.display = 'block';
 
-        document.getElementById('toggleSavedGames').textContent = 'Back to Search';
+        toggleSavedGamesButton.textContent = 'Back to Search';
     }
 });
 
-async function fetchGames(query = '', genre = '', page = 1, sortBy = '') {
-    const noResultsMessage = document.getElementById('noResultsMessage');
-    const resultsContainer = document.getElementById('results');
-    const paginationContainer = document.getElementById('pagination');
-    const loadingMessage = document.getElementById('loadingMessage');
-
+const fetchGames = async (query = '', genre = '', page = 1, sortBy = '') => {
     loadingMessage.style.display = 'block';
     resultsContainer.innerHTML = '';
     paginationContainer.innerHTML = '';
@@ -123,7 +143,9 @@ async function fetchGames(query = '', genre = '', page = 1, sortBy = '') {
             games.sort((a, b) => b.name.localeCompare(a.name));
         } else if (sortBy === 'rating-asc') {
             games.sort((a, b) => a.rating - b.rating);
-        }
+        } else if (sortBy === 'most-rated') {
+            games.sort((a, b) => b.ratings_count - a.ratings_count);
+        }        
 
         loadingMessage.style.display = 'none';
 
@@ -141,10 +163,9 @@ async function fetchGames(query = '', genre = '', page = 1, sortBy = '') {
     }
 }
 
-async function fetchScreenshots(gameId) {
+const fetchScreenshots = async (gameId) => {
     const response = await axios.get(`${API_URL}/${gameId}/screenshots?key=${API_KEY}`);
     const screenshots = response.data.results;
-    const carouselContent = document.getElementById('carouselContent');
     carouselContent.innerHTML = screenshots.map((screenshot, index) => `
         <div class="carousel-item ${index === 0 ? 'active' : ''}">
             <img src="${screenshot.image}" class="d-block w-100" alt="Screenshot">
@@ -152,98 +173,81 @@ async function fetchScreenshots(gameId) {
     `).join('');
 }
 
-async function displayResults(games) {
-    const resultsContainer = document.getElementById('results');
+const displayResults = async (games) => {
     resultsContainer.innerHTML = '';
 
-    let savedGames = JSON.parse(localStorage.getItem("savedGames")) || [];
+    let savedGamesSet = new Set(savedGames.keys());
+    const fragment = document.createDocumentFragment();
 
-    for (const game of games) {
-        try {
-            const gameDetails = await axios.get(`${API_URL}/${game.id}?key=${API_KEY}`);
-            const description = _.truncate(gameDetails.data.description_raw || 'No description available.', {
-                'length': 150,
-                'separator': ' '
-            });
-            const rating = gameDetails.data.rating || 0;
-            const ratingsCount = gameDetails.data.ratings_count || 0;
-            const genres = gameDetails.data.genres.map(genre => genre.name).join(' | ') || 'Unknown';
+    games.forEach(game => {
+        const card = document.createElement('div');
+        card.className = 'col-md-4';
 
-            const maxRating = 5;
-            const stars = Array.from({ length: maxRating }, (_, i) => {
-                return i < Math.round(rating) ? '★' : '☆';
-            }).join('');
-
-            const isSaved = savedGames.some(g => g.id === game.id);
-            const buttonText = isSaved ? "Remove from List" : "Add to List";
-            const buttonClass = isSaved ? "btn-danger" : "btn-success";
-
-            const card = document.createElement('div');
-            card.className = 'col-md-4';
-
-            card.innerHTML = `
-                <div class="card h-100">
-                    <img src="${game.background_image}" class="card-img-top" alt="${game.name}">
-                    <div class="card-body">
-                        <h5 class="card-title">${game.name}</h5>
-                        <p class="card-text">${genres}</p>
-                        <p class="card-text">${description}</p>
-                        <div class="card-bottom">
-                            <p class="card-text rating-stars">${stars} <span class="rating-count">(${ratingsCount} ratings)</span></p>
-                            <div class="d-flex justify-content-between mt-2">
-                                <button class="btn btn-primary view-details-btn" onclick="viewDetails('${game.id}')">View Details</button>
-                                <button class="btn ${buttonClass} save-game-btn" data-game-id="${game.id}">${buttonText}</button>
-                            </div>
-                        </div>
+        const isSaved = savedGamesSet.has(game.id);
+        card.innerHTML = `
+            <div class="card h-100">
+                <img src="${game.background_image}" class="card-img-top" alt="${game.name}">
+                <div class="card-body">
+                    <h5 class="card-title">${game.name}</h5>
+                    <p class="card-text">${game.genres.map(genre => genre.name).join(' | ') || 'Unknown'}</p>
+                    <p class="card-rating">⭐ ${game.rating.toFixed(1)} / 5 <span>(${game.ratings_count} ratings)</span></p>
+                    <div class="card-bottom">
+                        <button class="btn btn-primary view-details-btn" data-game-id="${game.id}">View Details</button>
+                        <button class="btn ${isSaved ? 'btn-danger' : 'btn-success'} save-game-btn" data-game-id="${game.id}">
+                            ${isSaved ? "Remove from List" : "Add to List"}
+                        </button>
                     </div>
                 </div>
-            `;
+            </div>
+        `;
 
-            resultsContainer.appendChild(card);
-        } catch (error) {
-            console.error('Error fetching game details:', error);
-        }
-    }
+        fragment.appendChild(card);
+    });
+
+    resultsContainer.appendChild(fragment);
+
+    document.querySelectorAll('.view-details-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const gameId = parseInt(this.getAttribute('data-game-id'));
+            viewDetails(gameId);
+        });
+    });
 
     document.querySelectorAll('.save-game-btn').forEach(button => {
         button.addEventListener('click', function () {
             const gameId = parseInt(this.getAttribute('data-game-id'));
-            const game = games.find(g => g.id === gameId);
-            if (game) {
-                toggleGame(game);
-            }
+            toggleGame({ id: gameId, name: games.find(g => g.id === gameId).name });
         });
     });
-}
+};
 
-async function viewDetails(gameId) {
-    const searchSection = document.getElementById('searchSection');
-    const savedGamesSection = document.getElementById('savedGamesSection');
-    const detailsSection = document.getElementById('detailsSection');
-    const loadingSpinner = document.getElementById('loadingSpinner');
-
+const viewDetails = async (gameId) => {
     searchSection.style.display = 'none';
     savedGamesSection.style.display = 'none';
     detailsSection.style.display = 'none';
     loadingSpinner.style.display = 'block';
 
     try {
-        const response = await axios.get(`${API_URL}/${gameId}?key=${API_KEY}`);
-        const game = response.data;
+        let game;
+        if (gameCache.has(gameId)) {
+            game = gameCache.get(gameId); // Použití cache
+        } else {
+            const response = await axios.get(`${API_URL}/${gameId}?key=${API_KEY}`);
+            game = response.data;
+            gameCache.set(gameId, game); // Uložení do cache
+        }
 
-        document.getElementById('gameTitle').innerText = game.name;
-        document.getElementById('gameImage').src = game.background_image;
-        document.getElementById('gameGenres').innerText = game.genres.map(genre => genre.name).join(', ') || 'Unknown';
-        document.getElementById('gameRating').innerText = `${game.rating} (${game.ratings_count} ratings)`;
-        document.getElementById('gameReleased').innerText = game.released ? moment(game.released).format('DD. MM. YYYY') : 'N/A';
-        document.getElementById('gameDescription').innerText = game.description_raw || 'No detailed description available.';
+        gameTitle.innerText = game.name;
+        gameImage.src = game.background_image || 'default-image.jpg';
+        gameGenres.innerText = game.genres.map(genre => genre.name).join(', ') || 'Unknown';
+        gameRating.innerText = `${game.rating} (${game.ratings_count} ratings)`;
+        gameReleased.innerText = game.released ? moment(game.released).format('DD. MM. YYYY') : 'N/A';
+        gameDescription.innerText = game.description_raw || 'No detailed description available.';
 
-        const savedGames = JSON.parse(localStorage.getItem("savedGames")) || [];
-        const isSaved = savedGames.some(g => g.id === game.id);
-        const saveButton = document.getElementById('saveGameButton');
-        saveButton.textContent = isSaved ? "Remove from List" : "Add to List";
-        saveButton.className = `btn ${isSaved ? "btn-danger" : "btn-success"}`;
-        saveButton.onclick = () => toggleGame(game);
+        const isSaved = savedGames.has(game.id);
+        saveGameButton.textContent = isSaved ? "Remove from List" : "Add to List";
+        saveGameButton.className = `btn ${isSaved ? "btn-danger" : "btn-success"}`;
+        saveGameButton.onclick = () => toggleGame(game);
 
         await fetchScreenshots(gameId);
         generateRatingsChart(game.ratings);
@@ -261,20 +265,11 @@ async function viewDetails(gameId) {
     }
 }
 
-function viewSavedGameDetails(gameId) {
-    document.getElementById('savedGamesSection').style.display = 'none';
-    document.getElementById('detailsSection').style.display = 'block';
-    document.getElementById('toggleSavedGames').textContent = 'My List';
-    viewDetails(gameId);
-}
-
-function generateRatingsChart(ratings) {
+const generateRatingsChart = (ratings) => {
     if (!ratings || ratings.length === 0) {
         console.warn('No ratings data available.');
         return;
     }
-
-    const ctx = document.getElementById('ratingsChart').getContext('2d');
 
     // Destroy existing chart instance if it exists
     if (ratingsChartInstance) {
@@ -312,107 +307,134 @@ function generateRatingsChart(ratings) {
     });
 }
 
-function setupPagination(totalResults, query, genre, minRating) {
-    const paginationContainer = document.getElementById('pagination');
+const setupPagination = (totalResults, query, genre, sortBy) => {
     paginationContainer.innerHTML = '';
     const totalPages = Math.ceil(totalResults / pageSize);
     const startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
     const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
 
+    const fragment = document.createDocumentFragment();
+
     if (currentPage > 1) {
-        const firstButton = createPaginationButton('First', 1, query, genre, minRating);
-        const prevButton = createPaginationButton('Prev', currentPage - 1, query, genre, minRating);
-        paginationContainer.appendChild(firstButton);
-        paginationContainer.appendChild(prevButton);
+        fragment.appendChild(createPaginationButton('First', 1, query, genre, sortBy));
+        fragment.appendChild(createPaginationButton('Prev', currentPage - 1, query, genre, sortBy));
     }
 
     for (let i = startPage; i <= endPage; i++) {
-        const button = createPaginationButton(i, i, query, genre, minRating, i === currentPage);
-        paginationContainer.appendChild(button);
+        fragment.appendChild(createPaginationButton(i, i, query, genre, sortBy, i === currentPage));
     }
 
     if (currentPage < totalPages) {
-        const nextButton = createPaginationButton('Next', currentPage + 1, query, genre, minRating);
-        const lastButton = createPaginationButton('Last', totalPages, query, genre, minRating);
-        paginationContainer.appendChild(nextButton);
-        paginationContainer.appendChild(lastButton);
+        fragment.appendChild(createPaginationButton('Next', currentPage + 1, query, genre, sortBy));
+        fragment.appendChild(createPaginationButton('Last', totalPages, query, genre, sortBy));
     }
+
+    paginationContainer.appendChild(fragment);
 }
 
-function createPaginationButton(text, page, query, genre, minRating, isActive = false) {
+const createPaginationButton = (text, page, query, genre, sortBy, isActive = false) => {
     const button = document.createElement('button');
     button.className = `btn btn-outline-primary mx-1 ${isActive ? 'active' : ''}`;
     button.innerText = text;
     button.addEventListener('click', async () => {
-        currentPage = page;
-        await fetchGames(query, genre, minRating, currentPage);
-        history.pushState({ section: 'search', query, genre, minRating, page: currentPage }, '', '');
+        if (currentPage !== page) {
+            currentPage = page;
+            await fetchGames(query, genre, currentPage, sortBy);
+            history.pushState({ section: 'search', query, genre, sortBy, page: currentPage }, '', '');
+        }
     });
     return button;
 }
 
-function loadSavedGames() {
-    let savedGames = JSON.parse(localStorage.getItem("savedGames")) || [];
-    const savedGamesList = document.getElementById("savedGamesList");
+const loadSavedGamesFromStorage = () => {
+    const storedGames = JSON.parse(localStorage.getItem("savedGames")) || [];
+    savedGames.clear();
+    storedGames.forEach(game => savedGames.set(game.id, game.name));
+    updateSavedGamesUI();
+}
+
+const saveGamesToStorage = () => {
+    const gamesArray = Array.from(savedGames.entries()).map(([id, name]) => ({ id, name }));
+    localStorage.setItem("savedGames", JSON.stringify(gamesArray));
+}
+
+const toggleGame = (game) => {
+    const button = document.querySelector(`.save-game-btn[data-game-id="${game.id}"]`);
+
+    if (savedGames.has(game.id)) {
+        savedGames.delete(game.id);
+        if (button) {
+            button.textContent = "Add to List";
+            button.classList.remove("btn-danger");
+            button.classList.add("btn-success");
+        }
+        if (saveGameButton) {
+            saveGameButton.textContent = "Add to List";
+            saveGameButton.classList.remove("btn-danger");
+            saveGameButton.classList.add("btn-success");
+        }
+    } else {
+        savedGames.set(game.id, game.name);
+        if (button) {
+            button.textContent = "Remove from List";
+            button.classList.remove("btn-success");
+            button.classList.add("btn-danger");
+        }
+        if (saveGameButton) {
+            saveGameButton.textContent = "Remove from List";
+            saveGameButton.classList.remove("btn-success");
+            saveGameButton.classList.add("btn-danger");
+        }
+    }
+
+    saveGamesToStorage();
+    updateSavedGamesUI();
+}
+
+const updateSavedGamesUI = () => {
     savedGamesList.innerHTML = "";
 
-    savedGames.forEach(game => {
+    savedGames.forEach((name, id) => {
         const listItem = document.createElement("li");
         listItem.className = "list-group-item d-flex justify-content-between align-items-center";
         listItem.innerHTML = `
-            <span>${game.name}</span>
+            <span>${name}</span>
             <div>
-                <button class="btn btn-primary btn-sm" onclick="viewSavedGameDetails(${game.id})">View Details</button>
-                <button class="btn btn-danger btn-sm remove-game-btn" data-game-id="${game.id}">Remove</button>
+                <button class="btn btn-primary btn-sm view-details-btn" data-game-id="${id}">View Details</button>
+                <button class="btn btn-danger btn-sm remove-game-btn" data-game-id="${id}">Remove</button>
             </div>
         `;
         savedGamesList.appendChild(listItem);
     });
 
-    document.querySelectorAll(".remove-game-btn").forEach(button => {
+    document.querySelectorAll(".view-details-btn").forEach(button => {
         button.addEventListener("click", function () {
             const gameId = parseInt(this.getAttribute("data-game-id"));
-            const game = savedGames.find(g => g.id === gameId);
-            if (game) {
-                toggleGame(game);
-            }
+            viewDetails(gameId);
         });
     });
 
-    document.querySelectorAll('.save-game-btn').forEach(button => {
-        const gameId = parseInt(button.getAttribute('data-game-id'));
-        const isSaved = savedGames.some(g => g.id === gameId);
-        button.textContent = isSaved ? "Remove from List" : "Add to List";
-        button.classList.remove("btn-success", "btn-danger");
-        button.classList.add(isSaved ? "btn-danger" : "btn-success");
+    document.querySelectorAll(".remove-game-btn").forEach(button => {
+        button.addEventListener("click", function () {
+            const gameId = parseInt(this.getAttribute("data-game-id"));
+            toggleGame({ id: gameId });
+        });
     });
 }
 
-function toggleGame(game) {
-    let savedGames = JSON.parse(localStorage.getItem("savedGames")) || [];
-    const index = savedGames.findIndex(g => g.id === game.id);
+const loadGenres = async () => {
+    try {
+        const response = await axios.get(`https://api.rawg.io/api/genres?key=${API_KEY}`);
+        const genres = response.data.results;
 
-    if (index === -1) {
-        savedGames.push(game);
-    } else {
-        savedGames.splice(index, 1);
-    }
-
-    localStorage.setItem("savedGames", JSON.stringify(savedGames));
-    loadSavedGames();
-
-    const isSaved = savedGames.some(g => g.id === game.id);
-
-    document.querySelectorAll(`.save-game-btn[data-game-id='${game.id}']`).forEach(button => {
-        button.textContent = isSaved ? "Remove from List" : "Add to List";
-        button.classList.remove("btn-success", "btn-danger");
-        button.classList.add(isSaved ? "btn-danger" : "btn-success");
-    });
-
-    const saveButton = document.getElementById('saveGameButton');
-    if (saveButton) {
-        saveButton.textContent = isSaved ? "Remove from List" : "Add to List";
-        saveButton.classList.remove("btn-success", "btn-danger");
-        saveButton.classList.add(isSaved ? "btn-danger" : "btn-success");
+        genreFilter.innerHTML = '<option value="">All Genres</option>';
+        genres.forEach(genre => {
+            const option = document.createElement("option");
+            option.value = genre.slug;
+            option.textContent = genre.name;
+            genreFilter.appendChild(option);
+        });
+    } catch (error) {
+        console.error("Error loading genres:", error);
     }
 }
