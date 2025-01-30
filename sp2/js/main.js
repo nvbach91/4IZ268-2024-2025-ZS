@@ -14,6 +14,17 @@ $(document).ready(() => {
         }
     });
 
+    $(document).ready(() => {
+        $("body").append(`
+            <div id="loader" class="loader-container">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        `);
+        hideLoader();
+    });
+
     $(".sort-option").on("click", function () {
         currentSort = $(this).data("sort");
         fetchTasks();
@@ -100,6 +111,14 @@ $(".sort-option").on("click", function () {
     fetchTasks();
 });
 
+function showLoader() {
+    $("#loader").show();
+}
+
+function hideLoader() {
+    $("#loader").hide();
+}
+
 const savedFilter = localStorage.getItem("taskFilter");
 if (savedFilter) {
     $("#taskFilter").val(savedFilter).trigger("change");
@@ -121,11 +140,12 @@ $(document).on("click", ".edit-task", function () {
 const savedTaskId = localStorage.getItem("selectedTaskId");
 if (savedTaskId) {
     selectedTaskId = savedTaskId;
-    $("#editTaskModal").modal("show");
+    
 }
 
 
 async function fetchTasks() {
+    showLoader();
     try {
         const response = await fetch(TODOIST_API_URL, {
             method: "GET",
@@ -138,9 +158,10 @@ async function fetchTasks() {
         renderTasks(tasks);
     } catch (error) {
         console.error("Error fetching tasks:", error);
+    } finally {
+        hideLoader();
     }
 }
-
 function sortTasks(tasks) {
     switch (currentSort) {
         case "name":
@@ -159,14 +180,8 @@ function sortTasks(tasks) {
 }
 
 async function fetchFilteredTasks(filter) {
-    let apiFilter;
-    if (filter === "today") {
-        apiFilter = "today";
-    } else if (filter === "overdue") {
-        apiFilter = "overdue";
-    } else {
-        apiFilter = "";
-    }
+    showLoader();
+    let apiFilter = filter === "today" ? "today" : filter === "overdue" ? "overdue" : "";
 
     try {
         const response = await fetch(`${TODOIST_API_URL}?filter=${encodeURIComponent(apiFilter)}`, {
@@ -180,10 +195,10 @@ async function fetchFilteredTasks(filter) {
         renderTasks(tasks);
     } catch (error) {
         console.error("Error fetching filtered tasks:", error);
+    } finally {
+        hideLoader();
     }
 }
-
-
 
 function renderTasks(tasks) {
     $("#taskList").empty();
@@ -254,7 +269,8 @@ async function addTask() {
     const priority = priorityMap[selectedPriority];
 
     if (!taskName) {
-        alert("Task name is required!");
+        const toast = new bootstrap.Toast(document.getElementById("taskToast"));
+        toast.show();
         return;
     }
 
@@ -278,11 +294,7 @@ async function addTask() {
             body: JSON.stringify(taskData)
         });
 
-        if (!response.ok) {
-            const errorDetails = await response.json();
-            console.error("Error adding task:", errorDetails);
-            throw new Error("Failed to add task");
-        }
+        if (!response.ok) throw new Error("Failed to add task");
 
         $("#taskName").val("");
         $("#dueDate").val("");
@@ -371,8 +383,6 @@ async function updateTaskPriority(taskId, selectedPriority) {
     }
 }
 
-
-
 function getPriorityIcon(priority) {
     const priorityMap = { 4: 1, 3: 2, 2: 3, 1: 4 };
     const appPriority = priorityMap[priority] || 4;
@@ -390,7 +400,6 @@ function getPriorityIcon(priority) {
 }
 
 
-
 async function deleteTask(taskId) {
     try {
         const response = await fetch(`${TODOIST_API_URL}/${taskId}`, {
@@ -405,3 +414,16 @@ async function deleteTask(taskId) {
         console.error("Error deleting task:", error);
     }
 }
+
+const loaderCSS = `
+    .loader-container {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: none;
+        z-index: 1050;
+    }
+`;
+
+$("head").append(`<style>${loaderCSS}</style>`);
