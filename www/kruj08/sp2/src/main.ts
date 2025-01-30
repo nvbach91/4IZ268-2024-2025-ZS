@@ -24,6 +24,16 @@ interface Day {
   minutes: number;
 }
 
+type TaskTypeData = {
+  taskType: string;
+  totalFocusTime: number;
+  days: Array<string>;
+}
+
+type TaskTypeAccumulator = {
+  [key: string]: TaskTypeData;
+}
+
 let isPomodoro = false;
 
 // Elements
@@ -465,7 +475,22 @@ manualEntryForm.addEventListener("submit", async (event) => {
       return await updateFileOnGoogleDrive(token, fileId, updatedFile);
 
     } else {
-      return ("File not found ...")
+      console.log("File not found, creating new one ...");
+
+      // Inicializace prázného objektu sessionData pro následné naplnění a upload
+      const sessionData = {
+        taskTypes: tasksString.reduce( (acc: TaskTypeAccumulator, taskType: string) => {
+          acc[taskType] = {
+            taskType,
+            totalFocusTime: 0,
+            days: []
+          };
+          return acc;
+        }, {} as TaskTypeAccumulator),
+      };
+      
+      updateSessionData(sessionData, taskType, totalFocusTime, date);
+      return await createNewFileOnGoogleDrive(token, 'pomodioSessionData.json', sessionData);
     }
 
   } catch (error) {
@@ -704,16 +729,6 @@ function startPomodoroTimer(settings: TimerSettings): void {
       
       const sound = document.getElementById('finished-timer-audio') as HTMLAudioElement;
       sound.play().catch(error => console.error("Audio cannot be played: ", error));
-
-      type TaskTypeData = {
-        taskType: string;
-        totalFocusTime: number;
-        days: Array<string>;
-      }
-
-      type TaskTypeAccumulator = {
-        [key: string]: TaskTypeData;
-      }
 
       // Inicializace prázného objektu sessionData pro následné naplnění a upload
       const sessionData = {
