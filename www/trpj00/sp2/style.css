@@ -1,0 +1,70 @@
+* {
+  box-sizing: border-box;
+}
+
+/* HEADER */
+.navbar {
+  border: 1px solid black;
+  border-radius: 10px;
+  margin: 10px;
+  gap: 2rem;
+}
+
+/* MAIN */
+
+.form-inline {
+  gap: 0.5rem;
+}
+
+.custom-select {
+  width: 15%;
+}
+
+.week-forecast {
+  width: 50%;
+}
+
+.today-card {
+  width: 50%;
+}
+
+.chart-forecast {
+  width: 50%;
+  height: 500px;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  height: 5vh;
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+}
+
+.spinner-overlay {
+  position: fixed;
+  top: 80px; 
+  left: 0;
+  width: 100vw;
+  height: calc(100vh - 80px); 
+  z-index: 9999;
+
+  display: none; 
+
+  backdrop-filter: blur(5px);
+  background-color: rgba(255, 255, 255, 0.3);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner-border {
+  width: 5rem;
+  height: 5rem;
+  border-width: 6px;
+}
