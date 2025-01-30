@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">   
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="./img/banan.png">
+    <link href="./css/style.css" rel="stylesheet">
+    <!-- AXIOS po vyzkoušení hledání byl mnohem pomalejší, než nativní funkce JavaScriptu -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> --> 
+    <script src="./js/main.js"></script>
+    <title>Vyhledávač potravin</title> 
+</head>
+
+<body>
+    <h1>Vyhledávač potravin</h1>
+    <div class="search-box">
+        <form onsubmit="handleSearch(event)">
+            <input type="text" id="search-input" placeholder="např. karamel">
+            <button type="submit">Vyhledat</button>
+        </form>
+    </div>
+    <div class="container">
+        <div class="sidebar">
+            <div id="diary-container"></div>
+            <input type="date" id="date-picker" value="" onchange="updateDiary()">
+            <!-- Přidání inputu pro výběr data -->
+            <button class="delete-results" onclick="clearDiaryForDate()">Vyprázdnit jídelníček</button>
+        </div>
+        <div class="content">
+            <div class="results-container" id="results-container">
+                <!-- Výsledky hledání se zobrazí sem -->
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
