@@ -78,13 +78,13 @@ const stopButton = document.getElementById("stop") as HTMLButtonElement;
 
 const spinner = document.getElementById('loading-spinner');
 
-function showSpinner() {
+const showSpinner = function() {
   if (spinner) {
     spinner.classList.remove('hidden');
   }
 }
 
-function hideSpinner() {
+const hideSpinner = function() {
   if (spinner) {
     spinner.classList.add('hidden');
   }
@@ -99,7 +99,7 @@ interface ExtendedTokenClient extends google.accounts.oauth2.TokenClient {
 let client: ExtendedTokenClient;
 
 
-function loadGoogleLibrary(): Promise<void> {
+const loadGoogleLibrary = function (): Promise<void> {
   return new Promise((resolve) => {
     const script = document.createElement("script");
     script.src = "https://accounts.google.com/gsi/client";
@@ -113,7 +113,7 @@ function loadGoogleLibrary(): Promise<void> {
   });
 }
 
-function initializeGoogleClient() {
+const initializeGoogleClient = function() {
   client = google.accounts.oauth2.initTokenClient({
     client_id: CLIENT_ID,
     scope: SCOPES,
@@ -129,14 +129,14 @@ function initializeGoogleClient() {
   });
 }
 
-async function init() {
+const init = async function() {
   await loadGoogleLibrary();
   initializeGoogleClient();
 }
 
 init();
 
-async function signInAndGetToken(): Promise<string> {
+const signInAndGetToken = async function(): Promise<string> {
   if (!client) {
     throw new Error("Google gsi client not loaded");
   }
@@ -179,17 +179,17 @@ signinButton.addEventListener("click", async () => {
   }
 });
 
-function saveToken(expiresIn: number): void {
+const saveToken = function(expiresIn: number): void {
   const currentDate = new Date();
   const expiryDate = new Date(currentDate.getTime() + expiresIn * 1000);
   localStorage.setItem("tokenExpiryDate", expiryDate.toISOString());
 }
 
-function clearToken(): void {
+const clearToken = function(): void {
   localStorage.removeItem("tokenExpiryDate");
 }
 
-function isTokenValid(): boolean {
+const isTokenValid = function(): boolean {
   let tokenExpiryStr = localStorage.getItem("tokenExpiryDate");
   if (!tokenExpiryStr) return false;
 
@@ -200,7 +200,7 @@ function isTokenValid(): boolean {
   return now < tokenExpiryDate;
 }
 
-function autoRefreshToken(): void {
+const autoRefreshToken = function(): void {
   let tokenExpiryStr = localStorage.getItem("tokenExpiryDate");
   if (!tokenExpiryStr) return;
 
@@ -215,7 +215,7 @@ function autoRefreshToken(): void {
   }
 }
 
-async function verifyToken(token: string): Promise<boolean> {
+const verifyToken = async function(token: string): Promise<boolean> {
   try {
     const response = await fetch(`https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=${token}`);
     if (response.ok) {
@@ -234,7 +234,7 @@ async function verifyToken(token: string): Promise<boolean> {
 
 
 // Changing screens and nav panel navigation
-function changeScreen(visibleScreens: Array<HTMLElement>): void {
+const changeScreen = function(visibleScreens: Array<HTMLElement>): void {
   screens.forEach((screen) => {
     screen.classList.add("hidden");
   });
@@ -488,7 +488,7 @@ manualEntryForm.addEventListener("submit", async (event) => {
           return acc;
         }, {} as TaskTypeAccumulator),
       };
-      
+
       updateSessionData(sessionData, taskType, totalFocusTime, date);
       return await createNewFileOnGoogleDrive(token, 'pomodioSessionData.json', sessionData);
     }
@@ -504,7 +504,7 @@ manualEntryForm.addEventListener("submit", async (event) => {
 let isPaused = false;
 
 // Implementace Google Drive handling logiky
-function updateSessionData(sessionData: any, taskType: string, focusTime: number, date: string) {
+const updateSessionData = function(sessionData: any, taskType: string, focusTime: number, date: string) {
   const task = sessionData.taskTypes[taskType];
 
   if (task) {
@@ -532,7 +532,7 @@ function updateSessionData(sessionData: any, taskType: string, focusTime: number
     
 }
 
-async function createNewFileOnGoogleDrive(accessToken: string, fileName: string, fileContent: object) {
+const createNewFileOnGoogleDrive = async function(accessToken: string, fileName: string, fileContent: object) {
   const metadata = {
     name: fileName,
     mimeType: "appliaction/json"
@@ -561,7 +561,7 @@ async function createNewFileOnGoogleDrive(accessToken: string, fileName: string,
   return res;
 }
 
-async function findFileOnGoogleDrive(accessToken: string, fileName: string) {
+const findFileOnGoogleDrive = async function (accessToken: string, fileName: string) {
   const response = await fetch(`https://www.googleapis.com/drive/v3/files?q=name='${fileName}'&fields=files(id,name)`, {
     method: "GET",
     headers: {
@@ -584,7 +584,7 @@ async function findFileOnGoogleDrive(accessToken: string, fileName: string) {
 
 }
 
-async function downloadFileFromGoogleDrive(accessToken: string, fileId: string) {
+const downloadFileFromGoogleDrive = async function(accessToken: string, fileId: string) {
   const response = await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, {
     method: "GET",
     headers: {
@@ -601,7 +601,7 @@ async function downloadFileFromGoogleDrive(accessToken: string, fileId: string) 
 
 }
 
-async function updateFileOnGoogleDrive(accessToken: string, fileId: string, file: File) {
+const updateFileOnGoogleDrive = async function(accessToken: string, fileId: string, file: File) {
   const response = await fetch('https://www.googleapis.com/upload/drive/v3/files/'+ fileId +'?uploadType=media', {
     method: "PATCH",
     headers: {
@@ -620,7 +620,7 @@ async function updateFileOnGoogleDrive(accessToken: string, fileId: string, file
   return result;
 }
 
-async function handleGoogleDriveFile(accessToken: string, fileName: string, data: object, settings: TimerSettings) {
+const handleGoogleDriveFile = async function(accessToken: string, fileName: string, data: object, settings: TimerSettings) {
   
   let isTokenValid = await verifyToken(accessToken);
 
@@ -671,7 +671,7 @@ async function handleGoogleDriveFile(accessToken: string, fileName: string, data
 }
 
 // Timer setup and logic
-function startPomodoroTimer(settings: TimerSettings): void {
+const startPomodoroTimer = function(settings: TimerSettings): void {
   isPomodoro = true;
   isPaused = false;
 
@@ -698,7 +698,7 @@ function startPomodoroTimer(settings: TimerSettings): void {
   let totalFocusTime = 0; // seconds
   let totalBreakTime = 0; // seconds
 
-  function updateTimer(): void {
+  const updateTimer = function(): void {
 
     if (isFocus) {
       totalFocusTime++;
@@ -706,14 +706,14 @@ function startPomodoroTimer(settings: TimerSettings): void {
       totalBreakTime++;
     }
 
-    function formatTime(seconds: number): string {
+    const formatTime = function(seconds: number): string {
       let mins = Math.floor(seconds / 60);
       let secs = seconds % 60;
       return `${mins}:${secs.toString().padStart(2, "0")}`;
     }
 
     // Ukončení session a upload dat na disk
-    function completeSession(): void {
+    const completeSession = function(): void {
       isPomodoro = false;
 
       console.log("Pomodoro finished!");
@@ -853,7 +853,7 @@ function startPomodoroTimer(settings: TimerSettings): void {
 }
 
 // Dashboard and charts
-function createBarChart(xlabels: Array<string>, chartData: Array<number>, xlabel: string, name: string){
+const createBarChart = function(xlabels: Array<string>, chartData: Array<number>, xlabel: string, name: string){
 
   if (barChartCanvas) {
     if (currentBarChart) {
@@ -924,7 +924,7 @@ function createBarChart(xlabels: Array<string>, chartData: Array<number>, xlabel
   }
 }
 
-function createDailyChart(xlabels: Array<string>, chartData: Array<number>, xlabel: string, name: string){
+const createDailyChart = function(xlabels: Array<string>, chartData: Array<number>, xlabel: string, name: string){
 
   if (dailyChartCanvas) {
     if (currentDailyChart) {
@@ -998,7 +998,7 @@ function createDailyChart(xlabels: Array<string>, chartData: Array<number>, xlab
 }
 
 // Initialize screens
-function initApp(): void {
+const initApp = function(): void {
   if (isTokenValid()) {
     console.log("User token valid.");
     changeScreen([navPanel, timerSettings]);
