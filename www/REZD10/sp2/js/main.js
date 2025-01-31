@@ -34,7 +34,30 @@ const $DOM = {
     burgerButton: $('#burgerButton'),
     closeMenuButton: $('.close-menu'),
     menuOverlay: $('.menu-overlay'),
-    aside: $('aside')
+    aside: $('aside'),
+    movieDetailModal: $('#movieDetailModal'),
+    movieDetailModalLabel: $('#movieDetailModalLabel'),
+    modalPoster: $('#modalPoster'),
+    modalOverview: $('#modalOverview'),
+    modalGenres: $('#modalGenres'),
+    modalRating: $('#modalRating'),
+    modalReleaseDate: $('#modalReleaseDate')
+};
+
+// Přidat do globálních dat
+const appData = {
+    favorites: [],
+    ratings: {},
+    
+    init() {
+        this.favorites = getFromStorage('favorites') || [];
+        this.ratings = getFromStorage('ratings') || {};
+    },
+    
+    save() {
+        saveToStorage('favorites', this.favorites);
+        saveToStorage('ratings', this.ratings);
+    }
 };
 
 // Funkce pro zobrazení/skrytí načítacího indikátoru
@@ -49,6 +72,7 @@ const hideLoader = () => {
 // Inicializace aplikace po načtení DOMu
 (($ => {
     $(() => {
+        appData.init();
         fetchGenres().then(() => {
             handleHashChange();
             
@@ -133,15 +157,17 @@ const updateGenreMenu = (genres) => {
     
     genres.sort((a, b) => a.name.localeCompare(b.name, 'cs'));
     
-    genres.forEach((genre) => {
-        $container.append(
-            $('<a>')
-                .addClass('nav-link text-white')
-                .attr('href', '#')
-                .attr('data-genre', genre.id)
-                .text(genre.name)
-        );
-    });
+    // Místo append v cyklu, vytvoříme pole elementů
+    const menuItems = genres.map(genre => 
+        $('<a>')
+            .addClass('nav-link text-white')
+            .attr('href', '#')
+            .attr('data-genre', genre.id)
+            .text(genre.name)
+    );
+    
+    // Přidáme všechny elementy najednou
+    $container.append(menuItems);
 };
 
 // Univerzální funkce pro načtení a zobrazení filmů
@@ -237,114 +263,108 @@ const searchMovies = (query) => {
 
 // Vytvoření HTML struktury karty filmu
 const createMovieCard = (movie) => {
-    const favorites = getFromStorage('favorites') || [];
-    const ratings = getFromStorage('ratings') || {};
+    const isFavorite = appData.favorites.some(f => f.id === movie.id);
+    const currentRating = appData.ratings[movie.id] || 0;
     
-    const isFavorite = favorites.some(f => f.id === movie.id);
-    const currentRating = ratings[movie.id] || 0;
+    const $card = $('<div>').addClass('movie-card-wrapper col-6 col-md-4 col-lg-3 mb-4');
+    const $cardInner = $('<div>').addClass('movie-card d-flex flex-column');
     
-    const buttonHtml = isFavorite ? 
-        `<button 
-            class="btn btn-sm btn-danger w-100 remove-favorite-btn"
-            data-id="${movie.id}"
-            data-title="${movie.title.replace("'", "\\'")}"
-        >
-            Odebrat z oblíbených
-        </button>` :
-        `<button 
-            class="btn btn-sm btn-primary w-100 add-favorite-btn"
-            data-id="${movie.id}"
-            data-title="${movie.title.replace("'", "\\'")}"
-            data-poster="${movie.poster_path}"
-        >
-            Přidat do oblíbených
-        </button>`;
-
-    const ratingHtml = `
-        <div class="rating-container mb-2">
-            <div class="stars" data-movie-id="${movie.id}">
-                ${generateStars(movie.id, currentRating)}
-            </div>
-            <small class="rating-text">${currentRating > 0 ? `Vaše hodnocení: ${currentRating}/10` : 'Nehodnoceno'}</small>
-            ${currentRating > 0 ? 
-                `<button 
-                    class="btn btn-sm btn-outline-danger mt-1 remove-rating-btn"
-                    data-id="${movie.id}"
-                >Zrušit hodnocení</button>` 
-                : ''}
-        </div>
-    `;
-
+    // Vytvořit obrázek
     const posterPath = movie.poster_path || movie.posterPath;
     const posterUrl = `https://image.tmdb.org/t/p/w500${posterPath}`;
-
-    return `
-        <div class="movie-card-wrapper col-6 col-md-4 col-lg-3 mb-4">
-            <div class="movie-card d-flex flex-column">
-                <img class="movie-poster mb-2"
-                    src="${posterUrl}" 
-                    onerror="this.onerror=null; this.src='${posterUrl}';"
-                    alt="${movie.title}" 
-                />
-                <h3 class="movie-title h6" data-movie-id="${movie.id}" style="cursor: pointer;">${movie.title}</h3>
-                <p class="small">Hodnocení TMDB: ${movie.vote_average.toFixed(1)}</p>
-                <div class="movie-card__bottom mt-auto">
-                    ${ratingHtml}
-                    ${buttonHtml}
-                </div>
-            </div>
-        </div>
-    `;
+    const $poster = $('<img>')
+        .addClass('movie-poster mb-2')
+        .attr('src', posterUrl)
+        .attr('alt', movie.title);
+    
+    // Vytvořit název
+    const $title = $('<h3>')
+        .addClass('movie-title h6')
+        .attr('data-movie-id', movie.id)
+        .css('cursor', 'pointer')
+        .text(movie.title);
+    
+    // Vytvořit hodnocení
+    const $rating = $('<p>')
+        .addClass('small')
+        .text(`Hodnocení TMDB: ${movie.vote_average.toFixed(1)}`);
+    
+    // Vytvořit hvězdičky a tlačítka
+    const $bottom = $('<div>').addClass('movie-card__bottom mt-auto');
+    
+    // Rating container
+    const $ratingContainer = $('<div>').addClass('rating-container mb-2');
+    const $stars = $('<div>')
+        .addClass('stars')
+        .attr('data-movie-id', movie.id)
+        .html(generateStars(movie.id, currentRating));
+    
+    const $ratingText = $('<small>')
+        .addClass('rating-text')
+        .text(currentRating > 0 ? `Vaše hodnocení: ${currentRating}/10` : 'Nehodnoceno');
+    
+    $ratingContainer.append($stars, $ratingText);
+    
+    if (currentRating > 0) {
+        const $removeRating = $('<button>')
+            .addClass('btn btn-sm btn-outline-danger mt-1 remove-rating-btn')
+            .attr('data-id', movie.id)
+            .text('Zrušit hodnocení');
+        $ratingContainer.append($removeRating);
+    }
+    
+    // Favorite button
+    const $favoriteBtn = $('<button>')
+        .addClass(`btn btn-sm w-100 ${isFavorite ? 'btn-danger remove-favorite-btn' : 'btn-primary add-favorite-btn'}`)
+        .attr('data-id', movie.id)
+        .attr('data-title', movie.title)
+        .text(isFavorite ? 'Odebrat z oblíbených' : 'Přidat do oblíbených');
+    
+    if (!isFavorite) {
+        $favoriteBtn.attr('data-poster', movie.poster_path);
+    }
+    
+    $bottom.append($ratingContainer, $favoriteBtn);
+    
+    // Složení karty
+    $cardInner.append($poster, $title, $rating, $bottom);
+    $card.append($cardInner);
+    
+    return $card;
 }
 
-// Generování karet filmů do zadaného kontejneru
 const generateMovieCards = (movies, targetSelector, limitTo8 = true) => {
-    const container = $(targetSelector);
-    container.empty();
+    const $container = $(targetSelector);
+    $container.empty();
     
     if (limitTo8) {
         movies = movies.slice(0, 8);
     }
 
-    // Místo přidávání karet do DOM v cyklu je nejprve uložíme do pole
-    const allCards = [];
+    // Vytvoříme všechny karty najednou jako jQuery objekty
     movies.forEach((movie) => {
         if (!movie.poster_path && !movie.posterPath) return;
-        allCards.push(createMovieCard(movie));
+        createMovieCard(movie).appendTo($container);
     });
-
-    // Vložíme všechny karty najednou
-    container.html(allCards.join(''));
 }
 
 // Zobrazení oblíbených filmů
 const displayFavorites = () => {
-    const favorites = getFromStorage('favorites') || [];
-    const container = $DOM.favoritesWrapper;
-    container.empty();
-    showLoader();
-    
-    if (favorites.length === 0) {
-        container.append('<p>Nemáte žádné oblíbené filmy.</p>');
-        hideLoader();
+    if (appData.favorites.length === 0) {
+        $DOM.favoritesWrapper.append($('<p>').text('Nemáte žádné oblíbené filmy.'));
         return;
     }
 
-    Promise.all(favorites.map((movie) => 
-        $.ajax({
-            url: `${BASE_URL}movie/${movie.id}?api_key=${API_KEY}&language=cs-CZ`,
-            method: 'GET'
-        })
-    )).then((movies) => {
-        movies.forEach((movie) => {
-            const savedMovie = favorites.find(f => f.id === movie.id);
+    Promise.all(appData.favorites.map(movie => 
+        fetchFromAPI(`movie/${movie.id}`)
+    )).then(movies => {
+        movies.forEach(movie => {
+            const savedMovie = appData.favorites.find(f => f.id === movie.id);
             if (savedMovie) {
                 movie.poster_path = savedMovie.posterPath;
             }
         });
         generateMovieCards(movies, '#favoritesWrapper', false);
-    }).finally(() => {
-        hideLoader();
     });
 }
 
@@ -362,10 +382,9 @@ const addToFavorites = (id, title, posterPath) => {
         return;
     }
 
-    let favorites = getFromStorage('favorites') || [];
-    if (!favorites.some(f => f.id === id)) {
-        favorites.push({ id, title, posterPath });
-        saveToStorage('favorites', favorites);
+    if (!appData.favorites.some(f => f.id === id)) {
+        appData.favorites.push({ id, title, posterPath });
+        appData.save();
         showToast(`Film "${title}" byl přidán do oblíbených!`);
         
         // Lokální DOM úprava tlačítka
@@ -380,10 +399,9 @@ const addToFavorites = (id, title, posterPath) => {
 };
 
 const removeFromFavorites = (id) => {
-    let favorites = getFromStorage('favorites') || [];
-    const movieTitle = favorites.find(f => f.id === id)?.title;
-    favorites = favorites.filter(f => f.id !== id);
-    saveToStorage('favorites', favorites);
+    const movieTitle = appData.favorites.find(f => f.id === id)?.title;
+    appData.favorites = appData.favorites.filter(f => f.id !== id);
+    appData.save();
     showToast(movieTitle ? `Film "${movieTitle}" byl odebrán z oblíbených.` : 'Film byl odebrán z oblíbených.');
     
     // Lokální DOM úprava: pokud jsme v sekci oblíbených, kartu odstraníme
@@ -412,16 +430,19 @@ const showToast = (message) => {
 
 // Generování hvězdiček pro hodnocení
 const generateStars = (movieId, currentRating) => {
-    let starsHtml = '';
+    const stars = [];
     for (let i = 1; i <= MAX_RATING; i++) {
-        starsHtml += `
-            <span class="rating-star ${i <= currentRating ? 'active' : ''}" 
-                  data-rating="${i}" 
-                  data-movie-id="${movieId}"
-                  onclick="rateMovie(${movieId}, ${i})">★</span>
-        `;
+        const $star = $('<span>')
+            .addClass('rating-star')
+            .addClass(i <= currentRating ? 'active' : '')
+            .attr({
+                'data-rating': i,
+                'data-movie-id': movieId
+            })
+            .text('★');
+        stars.push($star);
     }
-    return starsHtml;
+    return stars;
 }
 
 // Zpracování hodnocení filmu
@@ -432,9 +453,8 @@ const rateMovie = (movieId, rating) => {
         return;
     }
 
-    let ratings = getFromStorage('ratings') || {};
-    ratings[movieId] = rating;
-    saveToStorage('ratings', ratings);
+    appData.ratings[movieId] = rating;
+    appData.save();
     
     const starsContainer = $(`.stars[data-movie-id="${movieId}"]`);
     starsContainer.find('.rating-star').removeClass('active');
@@ -450,8 +470,8 @@ const rateMovie = (movieId, rating) => {
     if (container.find('.btn-outline-danger').length === 0) {
         const cancelButton = $(`
             <button 
-                class="btn btn-sm btn-outline-danger mt-1"
-                onclick="removeRating(${movieId})"
+                class="btn btn-sm btn-outline-danger mt-1 remove-rating-btn"
+                data-id="${movieId}"
             >Zrušit hodnocení</button>
         `);
         container.append(cancelButton);
@@ -462,9 +482,8 @@ const rateMovie = (movieId, rating) => {
 
 // Odstranění hodnocení filmu
 const removeRating = (movieId) => {
-    let ratings = getFromStorage('ratings') || {};
-    delete ratings[movieId];
-    saveToStorage('ratings', ratings);
+    delete appData.ratings[movieId];
+    appData.save();
 
     const starsContainer = $(`.stars[data-movie-id="${movieId}"]`);
     starsContainer.find('.rating-star').removeClass('active');
@@ -476,8 +495,7 @@ const removeRating = (movieId) => {
 
 // Zobrazení ohodnocených filmů
 const displayRatedMovies = () => {
-    const ratings = getFromStorage('ratings') || {};
-    const ratedMovieIds = Object.keys(ratings);
+    const ratedMovieIds = Object.keys(appData.ratings);
     showLoader();
     
     if (ratedMovieIds.length === 0) {
@@ -492,7 +510,7 @@ const displayRatedMovies = () => {
             method: 'GET'
         })
     )).then((movies) => {
-        movies.forEach((movie) => movie.vote_average = ratings[movie.id]);
+        movies.forEach((movie) => movie.vote_average = appData.ratings[movie.id]);
         generateMovieCards(movies, '#ratedMoviesWrapper', false);
     }).finally(() => {
         hideLoader();
@@ -665,27 +683,28 @@ const bindDynamicEventListeners = () => {
 
 // Function to fetch and display movie details in the modal
 const openMovieDetailModal = async (movieId) => {
-    const url = `${BASE_URL}movie/${movieId}?api_key=${API_KEY}&language=cs-CZ`;
     showLoader();
     try {
         const data = await fetchFromAPI(`movie/${movieId}`);
         
-        // Populate modal with movie details
-        $('#movieDetailModalLabel').text(data.title);
-        $('#modalPoster').attr('src', data.poster_path ? `https://image.tmdb.org/t/p/w500${data.poster_path}` : 'img/no-poster.jpg');
-        $('#modalOverview').text(data.overview || 'N/A');
-        const genreNames = data.genres.map(genre => genre.name).join(', ') || 'N/A';
-        $('#modalGenres').text(genreNames);
-        $('#modalRating').text(
-          (data.vote_average && data.vote_count)
-            ? `${data.vote_average.toFixed(2)} z ${data.vote_count} recenzí`
-            : 'N/A'
+        // Populate modal with movie details using jQuery selectors from $DOM
+        $DOM.movieDetailModalLabel.text(data.title);
+        $DOM.modalPoster.attr('src', data.poster_path ? 
+            `https://image.tmdb.org/t/p/w500${data.poster_path}` : 
+            'img/no-poster.jpg'
         );
-        $('#modalReleaseDate').text(data.release_date || 'N/A');
+        $DOM.modalOverview.text(data.overview || 'N/A');
+        $DOM.modalGenres.text(data.genres.map(genre => genre.name).join(', ') || 'N/A');
+        $DOM.modalRating.text(
+            (data.vote_average && data.vote_count)
+                ? `${data.vote_average.toFixed(2)} z ${data.vote_count} recenzí`
+                : 'N/A'
+        );
+        $DOM.modalReleaseDate.text(data.release_date || 'N/A');
         
-        // Show the modal
-        const movieDetailModal = new bootstrap.Modal(document.getElementById('movieDetailModal'));
-        movieDetailModal.show();
+        // Show modal using jQuery
+        const modalInstance = new bootstrap.Modal($DOM.movieDetailModal[0]);
+        modalInstance.show();
         
     } catch (err) {
         console.error('Chyba při načítání detailů filmu:', err);
