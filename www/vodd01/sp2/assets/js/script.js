@@ -1,26 +1,34 @@
 const App = {
+  corsProxyURL: "https://api.codetabs.com/v1/proxy?quest=",
+
   init: async function () {
     try {
-      // Nastavení dnešního data
       this.setTodayDate();
-
-      // Najdeme kontejnery pro výsledky
+  
       this.resultsContainer = document.getElementById("results-container");
       this.soccerContainer = document.getElementById("soccer-container");
       this.loader = this.createLoader();
       this.resultsContainer.appendChild(this.loader.cloneNode(true));
       this.soccerContainer.appendChild(this.loader.cloneNode(true));
-
-      // Načteme data z proxy serveru pro dnešní datum
+  
       const mlbData = await this.fetchData("mlb");
       const soccerData = await this.fetchData("soccer");
-
+  
       this.displayResults(mlbData, this.resultsContainer);
       this.displayResults(soccerData, this.soccerContainer);
-
-      // Odstraníme loadery
+  
+      this.addTeamLinksEvent();
+  
       this.resultsContainer.querySelector(".loader")?.remove();
       this.soccerContainer.querySelector(".loader")?.remove();
+  
+      document.getElementById("date-input").addEventListener("change", async () => {
+        const mlbData = await this.fetchData("mlb");
+        const soccerData = await this.fetchData("soccer");
+  
+        this.displayResults(mlbData, this.resultsContainer);
+        this.displayResults(soccerData, this.soccerContainer);
+      });
     } catch (error) {
       console.error("Error initializing app:", error);
     }
@@ -32,15 +40,11 @@ const App = {
     const month = String(today.getMonth() + 1).padStart(2, "0");
     const day = String(today.getDate()).padStart(2, "0");
 
-    // Nastavení dnešního data do inputu ve formátu YYYY-MM-DD
-    const todayFormattedForInput = `${year}-${month}-${day}`;
-    document.getElementById("date-input").value = todayFormattedForInput;
+    document.getElementById("date-input").value = `${year}-${month}-${day}`;
   },
 
   fetchData: async function (sport) {
     const dateInput = document.getElementById("date-input").value;
-
-    // Převod na správný formát podle sportu
     const selectedDate = new Date(dateInput);
     const year = selectedDate.getFullYear();
     const month = String(selectedDate.getMonth() + 1).padStart(2, "0");
@@ -50,16 +54,73 @@ const App = {
       sport === "mlb" ? `${year}/${month}/${day}` : `${year}-${month}-${day}`;
 
     console.log(`Fetching ${sport.toUpperCase()} results for date: ${formattedDate}`);
-    const url = `http://localhost:3000/api/${sport}?date=${formattedDate}`;
+
+    const apiKey = "tG40ttntc5R9FhKlPONiYvTBINTDUCMSNzCDLrnf";
+    const baseURL =
+      sport === "mlb"
+        ? `https://api.sportradar.com/mlb/trial/v7/en/games/${formattedDate}/boxscore.json`
+        : `https://api.sportradar.com/soccer/trial/v4/en/schedules/${formattedDate}/schedules.json`;
+
+    const fullURL = `${this.corsProxyURL}${encodeURIComponent(baseURL + `?api_key=${apiKey}`)}`;
 
     try {
-      const response = await axios.get(url);
-      console.log(`Data received for ${sport}:`, response.data);
-      return response.data;
+      console.log("Calling API with URL:", fullURL);
+      const response = await $.getJSON(fullURL);
+      console.log(`Data received for ${sport}:`, response);
+      return response;
     } catch (error) {
-      console.error(`Error fetching ${sport} data:`, error.message);
+      console.error(`Error fetching ${sport} data:`, error.responseText || error.message);
       return [];
     }
+  },
+
+  fetchTeamProfile: async function (teamId) {
+    const apiKey = "tG40ttntc5R9FhKlPONiYvTBINTDUCMSNzCDLrnf";
+    const baseURL = `https://api.sportradar.com/soccer/trial/v4/en/competitors/${encodeURIComponent(
+      teamId
+    )}/profile.json?api_key=${apiKey}`;
+    const fullURL = `${this.corsProxyURL}${encodeURIComponent(baseURL)}`;
+
+    try {
+      console.log("Fetching team profile with URL:", fullURL);
+      const response = await $.getJSON(fullURL);
+
+      let profileContainer = document.getElementById("team-profile-container");
+      if (!profileContainer) {
+        profileContainer = document.createElement("div");
+        profileContainer.id = "team-profile-container";
+        profileContainer.className = "profile-container";
+        document.body.appendChild(profileContainer);
+      }
+
+      profileContainer.innerHTML = `
+        <h2>Profil týmu: ${response.competitor.name}</h2>
+        <p>Zkratka týmu: ${response.competitor.abbreviation || "N/A"}</p>
+        <p>Země: ${response.category?.name || "N/A"}</p>
+        <p>Trenér: ${response.manager?.name || "N/A"}</p>
+        <p>Kapacita stadionu: ${response.venue?.capacity || "N/A"}</p>
+      `;
+
+      profileContainer.scrollIntoView({ behavior: "smooth" });
+    } catch (error) {
+      console.error("Error fetching team profile:", error.responseText || error.message);
+      alert("Nepodařilo se načíst profil týmu.");
+    }
+  },
+
+  addTeamLinksEvent: function () {
+    document.body.addEventListener("click", (event) => {
+      const link = event.target.closest(".team-link");
+      if (link) {
+        event.preventDefault();
+        const teamId = link.getAttribute("data-team-id");
+        if (teamId) {
+          this.fetchTeamProfile(teamId);
+        } else {
+          alert("Neplatné ID týmu.");
+        }
+      }
+    });
   },
 
   createLoader: function () {
@@ -69,62 +130,27 @@ const App = {
     return loader;
   },
 
-  toggleSection: function (sectionId) {
-    const section = document.getElementById(sectionId);
-    if (section.style.display === "none" || !section.style.display) {
-      section.style.display = "block"; // Zobrazíme sekci
-    } else {
-      section.style.display = "none"; // Skryjeme sekci
-    }
-  },
-
   displayResults: function (data, container) {
-    container.innerHTML = ""; // Vymažeme předchozí obsah
+    container.innerHTML = "";
 
-    if (data && data.league && Array.isArray(data.league.games)) {
-      const games = data.league.games;
-
-      games.forEach(({ game }) => {
-        const homeName = game.home?.name || "Unknown Home Team";
-        const awayName = game.away?.name || "Unknown Away Team";
-        const scheduled = game.scheduled || "Unknown Date";
-        const venueName = game.venue?.name || "Unknown Venue";
-        const homeScore = game.home.runs || "N/A";
-        const awayScore = game.away.runs || "N/A";
-
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `
-          <h2>${homeName} vs. ${awayName}</h2>
-          <p>Date: ${new Date(scheduled).toLocaleString()}</p>
-          <p>Venue: ${venueName}</p>
-          <p>Score: ${homeScore} - ${awayScore}</p>
-        `;
-        container.appendChild(card);
-      });
-    } else if (data && data.schedules && Array.isArray(data.schedules)) {
+    if (data && data.schedules && Array.isArray(data.schedules)) {
       const matches = data.schedules;
 
       matches.forEach((match) => {
-        const sport_event = match.sport_event;
-        const sport_event_status = match.sport_event_status;
-
-        if (!sport_event || !sport_event_status) return;
-
-        const homeName = sport_event.competitors[0]?.name || "Unknown Home Team";
-        const awayName = sport_event.competitors[1]?.name || "Unknown Away Team";
-        const homeScore = sport_event_status.home_score ?? "N/A";
-        const awayScore = sport_event_status.away_score ?? "N/A";
-        const matchStatus = sport_event_status.match_status || "Unknown Status";
-        const scheduled = sport_event.start_time || "Unknown Date";
+        const home = match.sport_event.competitors[0];
+        const away = match.sport_event.competitors[1];
 
         const card = document.createElement("div");
         card.className = "card";
         card.innerHTML = `
-          <h2>${homeName} vs. ${awayName}</h2>
-          <p>Score: ${homeScore} - ${awayScore}</p>
-          <p>Date: ${new Date(scheduled).toLocaleString()}</p>
-          <p>Status: ${matchStatus}</p>
+          <h2>
+            <a href="#" class="team-link" data-team-id="${home.id}">${home.name}</a> vs.
+            <a href="#" class="team-link" data-team-id="${away.id}">${away.name}</a>
+          </h2>
+          <p>Score: ${match.sport_event_status.home_score ?? "N/A"} - ${
+          match.sport_event_status.away_score ?? "N/A"
+        }</p>
+          <p>Date: ${new Date(match.sport_event.start_time).toLocaleString()}</p>
         `;
         container.appendChild(card);
       });
@@ -134,14 +160,14 @@ const App = {
   },
 };
 
-// Připojení události na tlačítko
-document.getElementById("submit-date").addEventListener("click", async () => {
-  const mlbData = await App.fetchData("mlb");
-  const soccerData = await App.fetchData("soccer");
+// Event listener pro tlačítko
+document.getElementById("date-input").addEventListener("change", async () => {
+  const mlbData = await this.fetchData("mlb");
+  const soccerData = await this.fetchData("soccer");
 
-  App.displayResults(mlbData, App.resultsContainer);
-  App.displayResults(soccerData, App.soccerContainer);
+  this.displayResults(mlbData, this.resultsContainer);
+  this.displayResults(soccerData, this.soccerContainer);
 });
 
-// Spuštění aplikace při načtení stránky
+// Spuštění aplikace
 document.addEventListener("DOMContentLoaded", () => App.init());
