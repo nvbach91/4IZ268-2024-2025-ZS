@@ -1,0 +1,460 @@
+/* Base styles and variables */
+:root {
+    --primary-color: #007bff;
+    --primary-dark: #0056b3;
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --light-bg: #f8f9fa;
+    --dark-bg: #343a40;
+    --text-color: #212529;
+    --border-color: #ced4da;
+    --input-bg: #ffffff;
+    --disabled-bg: #e9ecef;
+    --hover-bg: #e9ecef;
+    --light-text: #ffffff;
+    --light-secondary: #adb5bd;
+    --light-muted: #6c757d;
+    --dark-input-bg: #2d2d2d;
+    --dark-border: #404040;
+    --dark-hover-bg: #404040;
+    --light-primary: #4dabf7;
+    --dark-text: #e0e0e0;
+}
+
+/* General Layout */
+body {
+    min-height: 100vh;
+    transition: background-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    padding: 2rem 1rem;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+/* Navigation */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.navbar-nav .nav-item {
+    margin: 0 0.25rem;
+}
+
+.nav-link {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.nav-link.active {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Auth-related styles */
+.auth-link {
+    display: none;
+}
+
+.auth-link.show {
+    display: block;
+}
+
+/* Login and Register Forms */
+.login-container,
+.register-container {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 1rem;
+}
+
+.auth-form {
+    padding: 1.5rem;
+    border-radius: 8px;
+    background: var(--input-bg);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.auth-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.auth-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.auth-form .form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.auth-form .form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25);
+}
+
+.auth-form .btn {
+    width: 100%;
+    padding: 0.75rem;
+    font-weight: 500;
+}
+
+/* Map container */
+.map-container, #map {
+    height: 50vh;
+    min-height: 400px;
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+/* Loading spinner */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+/* Cards */
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Forms */
+.form-control {
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    padding: 0.75rem;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+/* Form validation states */
+.form-control.is-invalid {
+    border-color: var(--danger-color);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23dc3545' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right calc(0.375em + 0.1875rem) center;
+    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+
+.form-control.is-valid {
+    border-color: var(--success-color);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right calc(0.375em + 0.1875rem) center;
+    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+
+/* Weather Widget */
+.weather-widget {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.weather-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.weather-icon {
+    width: 50px;
+    height: 50px;
+}
+
+.temperature {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.weather-details {
+    font-size: 1rem;
+    color: var(--secondary-color);
+}
+
+/* Budget Manager */
+.budget-container {
+    max-width: 800px;
+    margin: auto;
+}
+
+.budget-content {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.expense-form {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: var(--light-bg);
+    border-radius: 8px;
+}
+
+.expense-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    background: var(--light-bg);
+    border-radius: 5px;
+    transition: transform 0.2s ease;
+}
+
+/* Profile Styles */
+.profile-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.profile-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.profile-header {
+    background: var(--primary-color);
+    color: white;
+    padding: 1.5rem;
+}
+
+.profile-form {
+    padding: 2rem;
+}
+
+/* Stats Styles */
+.stats-container {
+    padding: 2rem 0;
+}
+
+.stats-cards-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.chart-container {
+    height: 300px;
+    position: relative;
+}
+
+/* Footer */
+.footer {
+    margin-top: auto;
+    padding: 1rem 0;
+    background-color: var(--light-bg);
+    transition: background-color 0.3s ease;
+}
+
+/* Dark Mode Styles */
+.dark-mode {
+    background-color: var(--dark-bg);
+    color: var(--light-text);
+}
+
+.dark-mode .navbar {
+    background-color: var(--dark-input-bg);
+    border-bottom: 1px solid var(--dark-border);
+}
+
+.dark-mode .footer {
+    background-color: var(--dark-input-bg);
+    color: var(--light-text);
+    border-top: 1px solid var(--dark-border);
+}
+
+.dark-mode .auth-form {
+    background: var(--dark-input-bg);
+    border-color: var(--dark-border);
+}
+
+.dark-mode .auth-form label {
+    color: var(--light-text);
+}
+
+.dark-mode .auth-form .form-control {
+    background-color: var(--dark-input-bg);
+    border-color: var(--dark-border);
+    color: var(--light-text);
+}
+
+.dark-mode .auth-form .form-control:focus {
+    border-color: var(--light-primary);
+    box-shadow: 0 0 0 2px rgba(74, 171, 247, 0.25);
+}
+
+.dark-mode .card,
+.dark-mode .weather-widget,
+.dark-mode .budget-content,
+.dark-mode .profile-card {
+    background: var(--dark-input-bg);
+    border-color: var(--dark-border);
+    color: var(--light-text);
+}
+
+/* Fix input fields in dark mode */
+.dark-mode .form-control {
+    background-color: var(--dark-input-bg) !important;
+    border-color: var(--dark-border) !important;
+    color: var(--light-text) !important;
+}
+
+.dark-mode .form-control::placeholder {
+    color: var(--light-secondary);
+}
+
+/* Ensure dropdowns (select elements) match dark mode */
+.dark-mode select.form-control, 
+.dark-mode .trip-selector {
+    background-color: var(--dark-input-bg) !important;
+    border-color: var(--dark-border) !important;
+    color: var(--light-text) !important;
+}
+
+/* Fix number input arrows in dark mode */
+.dark-mode input[type="number"] {
+    background-color: var(--dark-input-bg) !important;
+    color: var(--light-text) !important;
+    border-color: var(--dark-border) !important;
+}
+
+.dark-mode .expense-item {
+    background: var(--dark-hover-bg);
+    color: var(--light-text);
+}
+
+.dark-mode h1,
+.dark-mode h2,
+.dark-mode h3,
+.dark-mode h4,
+.dark-mode h5,
+.dark-mode h6 {
+    color: var(--light-text);
+}
+
+.dark-mode .card-text,
+.dark-mode p {
+    color: var(--light-text);
+}
+/* Mobile Navigation */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: var(--primary-color);
+        padding: 1rem;
+        border-radius: 0 0 8px 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transform: translateY(-10px);
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.3s ease;
+        z-index: 1000;
+    }
+
+    .navbar-collapse.show {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .dark-mode .navbar-collapse {
+        background-color: var(--dark-input-bg);
+        border: 1px solid var(--dark-border);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+    
+    .stats-cards-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .share-buttons {
+        grid-template-columns: 1fr;
+    }
+    
+    .map-container, #map {
+        height: 300px;
+    }
+
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+    
+    .auth-form {
+        padding: 1rem;
+    }
+}
+
+/* Utility Classes */
+.d-none {
+    display: none;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
