@@ -50,7 +50,8 @@ body {
   visibility: hidden;
   position: absolute;
   bottom: 100%;
-  /* left: 45%; */
+  left: 50%;
+  transform: translateX(-50%); 
   opacity: 0;
   transition: opacity 0.4s ease-in-out;
 }
