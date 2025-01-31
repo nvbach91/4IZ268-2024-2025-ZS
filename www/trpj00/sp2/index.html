@@ -12,7 +12,7 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./style/style.css" />
     <title>SP2 - Weather app</title>
   </head>
   <body>
@@ -22,11 +22,18 @@
         <select class="custom-select w-15" id="inputGroupSelect">
           <option selected disabled>Select location...</option>
         </select>
+
+        <!-- Select for units -->
+        <select class="custom-select w-15" id="unitsSelect">
+          <option selected value="metric">Celsius</option>
+          <option value="standard">Kelvin</option>
+          <option value="imperial">Fahrenheit</option>
+        </select>
         <!-- Current chosen location -->
-        <h3 id="selected-location" class="ml-3">Placeholder</h3>
+        <h3 id="selected-location" class="ml-3 w-20">Prague</h3>
 
         <!-- Location search -->
-        <form class="form-inline ml-5" id="search-form">
+        <form class="form-inline ml-5 w-20" id="search-form">
           <input
             class="form-control"
             type="search"
@@ -48,17 +55,15 @@
       </nav>
     </header>
 
-    <div id="spinner-overlay" class="spinner-overlay" style="display: none">
-      <div class="spinner-inner">
-        <div class="spinner-border text-primary" role="status">
-          <span class="sr-only">Loading...</span>
-        </div>
-      </div>
-    </div>
-
-    <div id="alert-container" class="container"></div>
-
     <main class="main">
+
+      <div id="alert-container" class="container"></div>
+      <div id="spinner-overlay" class="spinner-overlay" style="display: none">
+          <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+      </div>
+
       <section id="week-forecast" class="week-forecast">
         <h2>Weekly Forecast</h2>
       </section>
@@ -85,6 +90,6 @@
       crossorigin="anonymous"
     ></script>
 
-    <script src="./main.js"></script>
+    <script src="./JS/main.js"></script>
   </body>
 </html>
