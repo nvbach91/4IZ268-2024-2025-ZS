@@ -188,7 +188,6 @@
                         <label class="input-group-text form-settings-input input-group-custom"
                             for="inputGroupSelect01">Task type</label>
                         <select class="form-select form-settings-input input-group-custom" id="taskTypeForChart" required>
-                            <option selected></option>
                             <option value="Studying">Studying</option>
                             <option value="Work">Work</option>
                             <option value="Exercise">Exercise</option>
@@ -284,7 +283,7 @@
     <!-- Bottom Navigation -->
     <nav class="navbar navbar-expand fixed-bottom hidden" id="navbar-panel">
         <div class="container-fluid justify-content-around" id="nav-panel">
-            <button type="button" class="btn btn-outline-secondary custom-btn" id="timerButton">
+            <button type="button" class="btn btn-outline-secondary custom-btn btn-tooltip" id="timerButton" data-tooltip="Timer">
                 <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
                     class="bi bi-stopwatch-fill" viewBox="0 0 16 16">
                     <path
@@ -293,7 +292,7 @@
                 </svg>
             </button>
 
-            <button type="button" class="btn btn-outline-secondary custom-btn" id="dashboardButton">
+            <button type="button" class="btn btn-outline-secondary custom-btn btn-tooltip" id="dashboardButton" data-tooltip="Dashboard">
                 <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
                     class="bi bi-bar-chart-line-fill" viewBox="0 0 16 16">
                     <path
@@ -301,13 +300,13 @@
                 </svg>
             </button>
 
-            <button type="button" class="btn btn-outline-secondary custom-btn" id="manualEntryButton">
+            <button type="button" class="btn btn-outline-secondary custom-btn btn-tooltip" id="manualEntryButton" data-tooltip="Manual Entry">
                 <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
                     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
                 </svg>
             </button>
 
-            <button type="button" class="btn btn-outline-secondary custom-btn" id="logOutButton">
+            <button type="button" class="btn btn-outline-secondary custom-btn btn-tooltip" id="logOutButton" data-tooltip="Log out">
                 <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
                     class="bi bi-box-arrow-in-left" viewBox="0 0 16 16">
                     <path fill-rule="evenodd"

@@ -45,6 +45,21 @@ body {
   color: white;
 }
 
+.btn-tooltip::after {
+  content: attr(data-tooltip);
+  visibility: hidden;
+  position: absolute;
+  bottom: 100%;
+  /* left: 45%; */
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+}
+
+.btn-tooltip:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
 .form-settings-input {
   background-color: #505050;
   border-color: #505050;
@@ -248,6 +263,16 @@ body {
 
 #daily-chart-settings-form label{
   font-size: 14px;
+}
+
+.swal-confirm-btn {
+  background-color: #c43030 !important;
+  color: white !important;
+}
+
+.swal-deny-btn {
+  background-color: #6f6c6c !important;
+  color: white !important;
 }
 
 @media (min-width: 1000px) {

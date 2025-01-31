@@ -58,6 +58,7 @@ let currentDailyChart: Chart | null = null;
 const dailyChartSettingsForm = document.getElementById("daily-chart-settings-form") as HTMLFormElement;
 const dailyChartCanvas = document.getElementById('dailyChart') as HTMLCanvasElement;
 const barChartCanvas = document.getElementById('barChart') as HTMLCanvasElement;
+const selectElement = document.getElementById("taskTypeForChart") as HTMLSelectElement;
 
 const navPanelButtons = document.querySelectorAll("#nav-panel button");
 
@@ -90,7 +91,7 @@ const hideSpinner = function() {
   }
 }
 
-// User authorization and access token handling 
+// User authorization and access token handling xx
 let token: string;
 
 interface ExtendedTokenClient extends google.accounts.oauth2.TokenClient {
@@ -293,6 +294,13 @@ dashboardButton.addEventListener("click", async () => {
 
         createBarChart(xlabels, chartData, xlabel, name);
 
+        if (selectElement) {
+          Array.from(selectElement.options).forEach(option => {
+            let count = data.taskTypes[option.value].days.length;
+            option.textContent = `${option.value} (${count})`;
+          })
+        }
+
       } else {
         console.log("File not found");
       }
@@ -321,6 +329,13 @@ dashboardButton.addEventListener("click", async () => {
           const name = 'Total hours by categories';
 
           createBarChart(xlabels, chartData, xlabel, name);
+
+          if (selectElement) {
+            Array.from(selectElement.options).forEach(option => {
+              let count = data.taskTypes[option.value].days.length;
+              option.textContent = `${option.value} (${count})`;
+            })
+          }
 
         } else {
           console.log("File not found");
@@ -379,6 +394,10 @@ logOutButton.addEventListener("click", () => {
     showDenyButton: true,
     confirmButtonText: "Yes",
     denyButtonText: `Don't Log Out`,
+    customClass: {
+      confirmButton: "swal-confirm-btn",
+      denyButton: "swal-deny-btn",
+    }
   }).then((result) => {
     if (result.isConfirmed) {
       clearToken();
