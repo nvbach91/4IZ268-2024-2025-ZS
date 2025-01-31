@@ -1,11 +1,11 @@
 (() => {
     /* API && Constants && Stuff */
-    CLIENT_ID = '1341bf9d386c40ebbcebd35b9874f20b';
-    CLIENT_SECRET = '39f70e92744442c9873771cf6b66d737';
-    TOKEN_URL = 'https://accounts.spotify.com/api/token';
-    BASE_API_URL = "https://api.spotify.com/v1/"
-    STORAGE_KEY = 'personalSaves';
-    RESULTS_LIMIT = 10;
+    const CLIENT_ID = '1341bf9d386c40ebbcebd35b9874f20b';
+    const CLIENT_SECRET = '39f70e92744442c9873771cf6b66d737';
+    const TOKEN_URL = 'https://accounts.spotify.com/api/token';
+    const BASE_API_URL = "https://api.spotify.com/v1/"
+    const STORAGE_KEY = 'personalSaves';
+    const RESULTS_LIMIT = 10;
 
 
     // Class handling the API calls and access tokens //
@@ -138,11 +138,90 @@
         // process of saving items into the storage //
         saveItem(type, item) {
             if (!this.savedItems[type].some(savedItem => savedItem.id === item.id)) {
-                this.savedItems[type].push(item);
+                const trimmedItem = this.trimSavedItem(type, item);
+                this.savedItems[type].push(trimmedItem);
                 this.saveToStorage();
                 return true;
             }
             return false;
+        }
+
+        trimSavedItem(type, item) {
+            if (type === "tracks") {
+                const {
+                    name,
+                    id,
+                    external_urls,
+                    duration_ms,
+                    artists,
+                    album,
+                    popularity,
+                    images,
+                    type
+                } = item;
+
+                return {
+                    name,
+                    id,
+                    external_urls,
+                    duration_ms,
+                    artists,
+                    album,
+                    popularity,
+                    images,
+                    type
+                };
+            } else if (type === "artists") {
+                const {
+                    name,
+                    id,
+                    external_urls,
+                    genres,
+                    popularity,
+                    type,
+                    images,
+                    followers
+                } = item;
+
+                return {
+                    name,
+                    id,
+                    external_urls,
+                    genres,
+                    popularity,
+                    type,
+                    images,
+                    followers
+                };
+            } else if (type === 'albums') {
+                const {
+                    name,
+                    id,
+                    external_urls,
+                    artists,
+                    type,
+                    images,
+                    followers,
+                    release_date,
+                    album_type,
+                    total_tracks
+                } = item;
+
+                return {
+                    name,
+                    id,
+                    external_urls,
+                    artists,
+                    type,
+                    images,
+                    followers,
+                    release_date,
+                    album_type,
+                    total_tracks
+                };
+            } else {
+                return item;
+            }
         }
 
         // removing items from the storage //
@@ -327,6 +406,11 @@
         }
     }
 
+    const tracksContent = document.getElementById('tracks');
+    const artistsContent = document.getElementById('artists');
+    const albumsContent = document.getElementById('albums');
+    const searchInput = document.getElementById('search-input');
+
     document.addEventListener('DOMContentLoaded', async () => {
         const spotify = new SpotifyClient(CLIENT_ID, CLIENT_SECRET);
         const searchForm = document.getElementById('search-form');
@@ -358,17 +442,17 @@
         // Form event listener //
         searchForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const searchInput = document.getElementById('search-input');
             const query = searchInput.value.trim();
             if (query && query.length > 0) {
                 try {
-                    const tracksContent = document.getElementById('tracks');
-                    const artistsContent = document.getElementById('artists');
-                    const albumsContent = document.getElementById('albums');
+                    //const tracksContent = document.getElementById('tracks');
+                    //const artistsContent = document.getElementById('artists');
+                    //const albumsContent = document.getElementById('albums');
 
                     [tracksContent, artistsContent, albumsContent].forEach(el => el.innerHTML = spinnerManager.loadSpinner());
 
                     const results = await spotify.search(query, 'track,artist,album');
+                    //console.log(results);
                     currentResults = results;
 
                     const tracksCount = results.tracks?.items?.length || 0;
@@ -489,7 +573,9 @@
                 trackSaved = savedItems.tracks.map(track => `
                 <div class="track saved-item">
                     <h3>${track.name}</h3>
-                    <p>Artist: ${track.artists.map(artist => artist.name).join(', ')}</p>
+                    <p>Artist: ${track.artists.map(artist =>
+                        `<a href="${artist.external_urls.spotify}" target="_blank">${artist.name}</a>`
+                    ).join(', ')}</p>
                     ${track.album.images.length ?
                         `<img src="${track.album.images[track.album.images.length - 1].url}" alt="Album cover">` :
                         ''}
@@ -552,7 +638,9 @@
                 albumSaved = savedItems.albums.map(album => `
                 <div class="album saved-item">
                     <h3>${album.name}</h3>
-                    <p>Artist: ${album.artists.map(artist => artist.name).join(', ')}</p>
+                    <p>Artist:  ${album.artists.map(artist =>
+                        `<a href="${artist.external_urls.spotify}" target="_blank">${artist.name}</a>`
+                    ).join(', ')}</p>
                     ${album.images.length ?
                         `<img src="${album.images[album.images.length - 1].url}" alt="Album cover">` :
                         ''}
@@ -586,21 +674,39 @@
             });
 
             // event handler for remove-btn & details-btn //
-            document.getElementById('saved')?.addEventListener('click', async function (event) {
-                let type;
-                let id;
-                let call;
-                if (event.target.classList.contains('remove-btn')) {
-                    type = event.target.getAttribute('data-type');
-                    id = event.target.getAttribute('data-id');
-                    removeItem(type, id);
-                } else if (event.target.classList.contains('details-btn')) {
-                    type = event.target.getAttribute('data-type');
-                    id = event.target.getAttribute('data-id');
-                    call = 'saved';
-                    showDetails(type, id, call);
-                }
+            document.querySelectorAll('.remove-btn, .details-btn').forEach(element => {
+                element.addEventListener('click', async function (event) {
+                    let type;
+                    let id;
+                    let call;
+                    if (event.target.classList.contains('remove-btn')) {
+                        type = event.target.getAttribute('data-type');
+                        id = event.target.getAttribute('data-id');
+                        removeItem(type, id);
+                    } else if (event.target.classList.contains('details-btn')) {
+                        type = event.target.getAttribute('data-type');
+                        id = event.target.getAttribute('data-id');
+                        call = 'saved';
+                        showDetails(type, id, call);
+                    }
+                });
             });
+            /*
+                        document.getElementById('saved')?.addEventListener('click', async function (event) {
+                            let type;
+                            let id;
+                            let call;
+                            if (event.target.classList.contains('remove-btn')) {
+                                type = event.target.getAttribute('data-type');
+                                id = event.target.getAttribute('data-id');
+                                removeItem(type, id);
+                            } else if (event.target.classList.contains('details-btn')) {
+                                type = event.target.getAttribute('data-type');
+                                id = event.target.getAttribute('data-id');
+                                call = 'saved';
+                                showDetails(type, id, call);
+                            }
+                        }); */
         }
 
 
@@ -624,11 +730,10 @@
             try {
                 let details;
                 let additionalContent = '';
-
                 switch (type) {
                     case 'track':
                         if (call === 'saved') {
-                            const savedItems = await localManager.savedItems
+                            const savedItems = await localManager.savedItems;
                             details = savedItems.tracks.find(track => track.id === id);
                         } else {
                             details = currentResults.tracks.items.find(track => track.id === id);
@@ -642,7 +747,7 @@
                                 .filter(track => track.id !== details.id)
                                 .map(track => `
                                     <li>
-                                        <button id="new-search-btn" data-input = "${track.name}" class="btn btn-primary">
+                                        <button data-input = "${track.name}" class="btn btn-primary new-search-btn">
                                             ${track.name} 
                                         </button>
                                     </li>
@@ -656,19 +761,21 @@
                         ${details.album.images.length ?
                                 `<img src="${details.album.images[0].url}" alt="Album cover" class="img-detail">` :
                                 ''}
-                        <p><strong>Artists:</strong> ${details.artists.map(artist => artist.name).join(', ')}</p>
+                        <p><strong>Artists:</strong>${details.artists.map(artist => artist.name).join(', ')}</p>
                         <p><strong>Album:</strong> ${details.album.name}</p>
                         <p><strong>Release Date:</strong> ${details.album.release_date}</p>
                         <p><strong>Duration:</strong> ${Math.floor(details.duration_ms / 60000)}:${(((details.duration_ms % 60000) / 1000)
                                 .toFixed(0)).padStart(2, '0')}</p>
                         <p><strong>Popularity:</strong> ${details.popularity}/100</p>
+                        <p><strong>Spotify url:</strong> <a href="${details.external_urls.spotify}" target="_blank">${details.name}</a></p>
                         ${additionalContent}
                         `;
                         break;
 
                     case 'artist':
                         if (call === 'saved') {
-                            const savedItems = await localManager.savedItems
+                            const savedItems = await localManager.savedItems;
+
                             details = savedItems.artists.find(artist => artist.id === id);
                         } else {
                             details = currentResults.artists.items.find(artist => artist.id === id);
@@ -680,7 +787,7 @@
                             <ul>
                                 ${topTracks.tracks.slice(0, 5).map(track => `
                                     <li>
-                                        <button id="new-search-btn" data-input = "${track.name}" class="btn btn-primary">
+                                        <button data-input = "${track.name}" class="btn btn-primary new-search-btn">
                                             ${track.name} (Popularity: ${track.popularity})
                                         </button>
                                     </li>
@@ -697,14 +804,14 @@
                             <p><strong>Followers:</strong> ${details.followers.total.toLocaleString()}</p>
                             <p><strong>Genres:</strong> ${details.genres.length ? details.genres.join(', ') : 'Not specified'}</p>
                             <p><strong>Popularity:</strong> ${details.popularity}/100</p>
-                            <p><strong>Spotify URI:</strong> ${details.uri}</p>
+                            <p><strong>Spotify URL:</strong> <a href="${details.external_urls.spotify}" target="_blank">${details.name}</a></p>
                             ${additionalContent}
                         `;
                         break;
 
                     case 'album':
                         if (call === 'saved') {
-                            const savedItems = await localManager.savedItems
+                            const savedItems = await localManager.savedItems;
                             details = savedItems.albums.find(album => album.id === id);
                         } else {
                             details = currentResults.albums.items.find(album => album.id === id);
@@ -716,7 +823,7 @@
                             <ul>
                                 ${tracks.items.map(track => `
                                     <li>
-                                        <button id="new-search-btn" data-input = "${track.name}" class="btn btn-primary">
+                                        <button data-input = "${track.name}" class="btn btn-primary new-search-btn">
                                             ${track.name}
                                         </button>
                                     </li>
@@ -734,7 +841,7 @@
                             <p><strong>Release Date:</strong> ${details.release_date}</p>
                             <p><strong>Total Tracks:</strong> ${details.total_tracks}</p>
                             <p><strong>Album Type:</strong> ${details.album_type}</p>
-                            <p><strong>Spotify URI:</strong> ${details.uri}</p>
+                            <p><strong>Spotify URL:</strong> <a href="${details.external_urls.spotify}" target="_blank">${details.name}</a></p>
                             ${additionalContent}
                         `;
                         break;
@@ -743,17 +850,13 @@
                 modalContent.innerHTML = `<p>Error loading details: ${error.message}</p>`;
             }
 
-            document.querySelectorAll('#new-search-btn').forEach(element => {
+            document.querySelectorAll('.new-search-btn').forEach(element => {
                 element.addEventListener('click', async function (event) {
                     bootstrapModal.hide();
                     const newQuery = event.target.getAttribute('data-input').toString();
                     if (newQuery && newQuery.length > 0) {
                         try {
-                            const searchInput = document.getElementById('search-input');
                             searchInput.value = newQuery;
-                            const tracksContent = document.getElementById('tracks');
-                            const artistsContent = document.getElementById('artists');
-                            const albumsContent = document.getElementById('albums');
 
                             [tracksContent, artistsContent, albumsContent].forEach(el => el.innerHTML = spinnerManager.loadSpinner());
 
@@ -783,8 +886,10 @@
                     .map(track => `
                     <div class="track">
                         <h3>${track.name}</h3>
-                        <p>Artist: ${track.artists.map(artist => artist.name).join(', ')}</p>
-                        <p>Album: ${track.album.name}</p>
+                        <p>Artist: ${track.artists.map(artist =>
+                        `<a href="${artist.external_urls.spotify}" target="_blank">${artist.name}</a>`
+                    ).join(', ')}</p>
+                        <p>Album: <a href="${track.album.external_urls.spotify}" target="_blank">${track.album.name}</a></p>
                         ${track.album.images.length ?
                             `<img src="${track.album.images[track.album.images.length - 1].url}" alt="Album cover">` :
                             ''}
@@ -836,7 +941,9 @@
                     .map(album => `
                     <div class="album">
                         <h3>${album.name}</h3>
-                        <p>Artist: ${album.artists.map(artist => artist.name).join(', ')}</p>
+                        <p>Artist:  ${album.artists.map(artist =>
+                        `<a href="${artist.external_urls.spotify}" target="_blank">${artist.name}</a>`
+                    ).join(', ')}</p>
                         ${album.images.length ?
                             `<img src="${album.images[album.images.length - 1].url}" alt="Album cover">` :
                             ''}
@@ -857,8 +964,9 @@
             }
 
             // event handler for save & details-btn //
-            document.querySelectorAll('#tracks, #artists, #albums').forEach(element => {
+            document.querySelectorAll('.save-btn, .details-btn').forEach(element => {
                 element.addEventListener('click', async function (event) {
+                    console.log('clicked');
                     let type;
                     let id;
                     if (event.target.classList.contains('details-btn')) {
@@ -871,7 +979,7 @@
                         const dataJSON = event.target.getAttribute('data');
                         try {
                             const data = JSON.parse(dataJSON);
-                            saveItem(type, data);
+                            await saveItem(type, data);
                         } catch (error) {
                             console.error('Error during parsing JSON:', error);
                         }
@@ -880,9 +988,9 @@
             });
         }
 
-        window.showDetails = showDetails;
+       /* window.showDetails = showDetails;
         window.saveItem = saveItem;
         window.removeItem = removeItem;
-        window.clearSavedItems = clearSavedItems;
+        window.clearSavedItems = clearSavedItems; */
     });
 })();
