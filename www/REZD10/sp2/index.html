@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <!-- Metadata a odkazy na CSS -->
+  <meta charset="UTF-8">
+  <title>Moje filmová aplikace</title>
+  <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <!-- Hlavička aplikace s vyhledáváním -->
+  <header class="page-header p-3 mb-3">
+    <h1 class="page-title h3">Moje filmová aplikace</h1>
+    <form id="searchForm" class="search-form d-flex" novalidate>
+      <input 
+        type="text" 
+        id="searchInput" 
+        class="search-input form-control" 
+        placeholder="Vyhledat film..."
+        minlength="2"
+        maxlength="100"
+        pattern="[a-zA-ZěščřžýáíéůúňĚŠČŘŽÝÁÍÉŮÚŇ0-9\s\-]+"
+        required
+        aria-label="Vyhledávání filmu">
+      <button type="submit" class="btn btn-primary">Hledat</button>
+    </form>
+  </header>
+
+  <!-- Hlavní kontejner -->
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Boční menu s kategoriemi -->
+      <aside class="col-12 col-md-2 p-3 bg-danger text-white">
+        <h2 class="sidebar-title h5">Menu</h2>
+        <nav class="nav flex-column">
+          <div class="menu-main mb-3">
+            <a class="nav-link text-white" href="#" id="homeButton">Domů</a>
+            <a class="nav-link text-white" href="#" id="favoritesButton">Oblíbené filmy</a>
+            <a class="nav-link text-white" href="#" id="ratedButton">Ohodnocené filmy</a>
+          </div>
+          
+          <h3 class="menu-subtitle h6 mt-3">Kategorie</h3>
+          <div class="menu-categories">
+          </div>
+        </nav>
+      </aside>
+
+      <!-- Hlavní obsah -->
+      <main class="col-12 col-md-10 px-4">
+        <!-- Načítací indikátor -->
+        <div id="loader" class="loader-container">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Načítání...</span>
+          </div>
+          <p class="mt-2">Načítám data...</p>
+        </div>
+
+        <!-- Sekce pro výsledky vyhledávání -->
+        <section id="searchResults" class="section-results mb-5 section d-none">
+          <h2>Výsledky vyhledávání</h2>
+          <div id="searchResultsWrapper" class="movies-grid row">
+          </div>
+        </section>
+
+        <!-- Sekce pro oblíbené filmy -->
+        <section id="favorites" class="section-favorites mb-5 section d-none">
+          <h2>Oblíbené filmy</h2>
+          <div id="favoritesWrapper" class="movies-grid row">
+          </div>
+        </section>
+
+        <!-- Sekce pro nejlépe hodnocené filmy -->
+        <section id="topRated" class="section-top-rated mb-5 section">
+          <h2>Nejlépe hodnocené filmy</h2>
+          <div id="topRatedWrapper" class="movies-grid row">
+          </div>
+        </section>
+
+        <!-- Sekce pro doporučené filmy -->
+        <section id="recommendedMovies" class="section-recommended mb-5 section">
+          <h2>Doporučujeme shlédnout</h2>
+          <div id="recommendedMoviesWrapper" class="movies-grid row">
+          </div>
+        </section>
+
+        <!-- Sekce pro ohodnocené filmy -->
+        <section id="ratedMovies" class="section-rated mb-5 section d-none">
+          <h2>Ohodnocené filmy</h2>
+          <div id="ratedMoviesWrapper" class="movies-grid row">
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Kontejner pro notifikace -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="movieToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <strong class="me-auto">Oznámení</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body">
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Bootstrap modal for movie details -->
+  <div class="modal fade" id="movieDetailModal" tabindex="-1" aria-labelledby="movieDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="movieDetailModalLabel">Název filmu</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-4">
+              <img id="modalPoster" src="" alt="Plakát filmu" class="img-fluid rounded">
+            </div>
+            <div class="col-md-8">
+              <p id="modalOverview"><!-- Přehled filmu --></p>
+              <p><strong>Kategorie:</strong> <span id="modalGenres"></span></p>
+              <p><strong>Hodnocení:</strong> <span id="modalRating"></span></p>
+              <p><strong>Datum vydání:</strong> <span id="modalReleaseDate"></span></p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript knihovny a aplikační skript -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="./js/main.js"></script>
+</body>
+</html>
