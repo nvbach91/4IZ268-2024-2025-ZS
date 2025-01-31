@@ -3,7 +3,8 @@
     CLIENT_ID = '1341bf9d386c40ebbcebd35b9874f20b';
     CLIENT_SECRET = '39f70e92744442c9873771cf6b66d737';
     TOKEN_URL = 'https://accounts.spotify.com/api/token';
-    STORAGE_KEY = 'spotifyAppSavedItems';
+    BASE_API_URL = "https://api.spotify.com/v1/"
+    STORAGE_KEY = 'personalSaves';
     RESULTS_LIMIT = 10;
 
 
@@ -20,7 +21,7 @@
             const authOptions = {
                 method: 'POST',
                 headers: {
-                    'Authorization': 'Basic ' + btoa(this.clientId + ':' + this.clientSecret),
+                    'Authorization': `Basic ${btoa(`${this.clientId}:${this.clientSecret}`)}`,
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 body: 'grant_type=client_credentials'
@@ -52,7 +53,7 @@
 
             try {
                 const response = await fetch(
-                    `https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=${type}`,
+                    `${BASE_API_URL}search?q=${encodeURIComponent(query)}&type=${type}`,
                     searchOptions
                 );
                 return await response.json();
@@ -76,14 +77,14 @@
             };
 
             try {
-                const response = await fetch(`https://api.spotify.com/v1/${endpoint}`, options);
+                const response = await fetch(`${BASE_API_URL}${endpoint}`, options);
 
                 // checks if token is not expired //
                 if (response.status === 401) {
                     // if expired calls the getAccessToken function once more //
                     await this.getAccessToken();
                     options.headers['Authorization'] = `Bearer ${this.accessToken}`;
-                    const retryResponse = await fetch(`https://api.spotify.com/v1/${endpoint}`, options);
+                    const retryResponse = await fetch(`${BASE_API_URL}${endpoint}`, options);
 
                     if (!retryResponse.ok) {
                         throw new Error(`API request failed with status ${retryResponse.status}`);
@@ -111,7 +112,7 @@
         }
         // loads the data from the storage //
         loadFromStorage() {
-            const storedData = localStorage.getItem(this.STORAGE_KEY);
+            const storedData = localStorage.getItem(STORAGE_KEY);
             if (storedData) {
                 try {
                     return JSON.parse(storedData);
@@ -130,7 +131,7 @@
                 artists: [],
                 albums: []
             };
-            localStorage.setItem(this.STORAGE_KEY, JSON.stringify(emptyData));
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(emptyData));
             return emptyData;
         }
 
@@ -153,7 +154,7 @@
         // saving item into the storage //
         saveToStorage() {
             try {
-                localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.savedItems));
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(this.savedItems));
             } catch (error) {
                 console.error('Error saving data to localStorage:', error);
                 throw new Error('Unable to save the data. localStorage might be full.');
@@ -163,7 +164,7 @@
         // purging the storage //
         clearStorage() {
             this.savedItems = this.initializeEmptyStorage();
-            localStorage.removeItem(this.STORAGE_KEY);
+            localStorage.removeItem(STORAGE_KEY);
         }
 
         // fetches information about all of the saved items //
@@ -175,8 +176,155 @@
         getItemsByType(type) {
             return this.savedItems[type] || [];
         }
+    }
 
 
+    //Universal class for all modal pop-ups - utilized instead of the alert() and confirm() functions //
+    class universalModal {
+        constructor() {
+            this.modal = null;
+            this.modalElement = null;
+            this.modalTitle = null;
+            this.modalBody = null;
+            this.createModalElement();
+            this.initialize();
+        }
+
+        // Modals HTML structure //
+        createModalElement() {
+            this.modalElement = document.createElement('div');
+            this.modalElement.className = 'modal fade';
+            this.modalElement.id = 'universalModal';
+            this.modalElement.setAttribute('tabindex', '-1');
+
+            this.modalElement.innerHTML = `
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title"></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(this.modalElement);
+        }
+
+        // inicialization //
+        initialize() {
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', () => this.initializeModal());
+            } else {
+                this.initializeModal();
+            }
+        }
+        //inicialization of modals properties //
+        initializeModal() {
+            this.modal = new bootstrap.Modal(this.modalElement);
+            this.modalTitle = this.modalElement.querySelector('.modal-title');
+            this.modalBody = this.modalElement.querySelector('.modal-body');
+        }
+
+        // Basic method for showing modal window //
+        show(message, title = 'Warning') {
+            if (this.modal && this.modalTitle && this.modalBody) {
+                this.modalTitle.textContent = title;
+                this.modalBody.textContent = message;
+                this.modal.show();
+            } else {
+                console.error('Modal is not inicialized');
+            }
+        }
+
+        // Method for hiding the modal //
+        hide() {
+            if (this.modal) {
+                this.modal.hide();
+            }
+        }
+
+        // Method for hiding the modals footer //
+        clearFooter() {
+            const footer = this.modalElement.querySelector('.modal-footer');
+            footer.innerHTML = '';
+            return footer;
+        }
+
+        // Confirmation modal dialog option //
+        confirm(message, title = 'Confirmation', options = {}) {
+            const defaultOptions = {
+                confirmText: 'Yes',
+                cancelText: 'No',
+                confirmClass: 'btn-primary',
+                cancelClass: 'btn-secondary'
+            };
+
+            const finalOptions = { ...defaultOptions, ...options };
+
+            return new Promise((resolve) => {
+                if (this.modal && this.modalTitle && this.modalBody) {
+                    this.modalTitle.textContent = title;
+                    this.modalBody.textContent = message;
+
+                    const footer = this.clearFooter();
+
+                    // Handling of "No" button being clicked //
+                    const cancelButton = document.createElement('button');
+                    cancelButton.type = 'button';
+                    cancelButton.className = `btn ${finalOptions.cancelClass}`;
+                    cancelButton.textContent = finalOptions.cancelText;
+                    cancelButton.addEventListener('click', () => {
+                        this.hide();
+                        resolve(false);
+                    });
+
+                    // Handling of "Yes" button being clicked //
+                    const confirmButton = document.createElement('button');
+                    confirmButton.type = 'button';
+                    confirmButton.className = `btn ${finalOptions.confirmClass}`;
+                    confirmButton.textContent = finalOptions.confirmText;
+                    confirmButton.addEventListener('click', () => {
+                        this.hide();
+                        resolve(true);
+                    });
+
+                    footer.appendChild(cancelButton);
+                    footer.appendChild(confirmButton);
+
+                    // Handling of the modal being closed by ESC or cross button //
+                    this.modalElement.addEventListener('hidden.bs.modal', () => {
+                        resolve(false);
+                    }, { once: true });
+
+                    this.modal.show();
+                }
+            });
+        }
+
+        // Setting the HTML content of the modal //
+        setHtmlContent(content) {
+            if (this.modalBody) {
+                this.modalBody.innerHTML = content;
+            }
+        }
+    }
+
+    class universalSpinner {
+        loadSpinner() {
+            const spinner = `
+                    <div class="d-flex justify-content-center align-items-center p-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                    `;
+            return spinner;
+        }
     }
 
     document.addEventListener('DOMContentLoaded', async () => {
@@ -184,6 +332,9 @@
         const searchForm = document.getElementById('search-form');
         const tabs = document.querySelectorAll('.tab');
         const localManager = new SpotifyLocalManager();
+        const modalManager = new universalModal();
+        const spinnerManager = new universalSpinner();
+
 
         updateSavedItemsDisplay();
 
@@ -208,27 +359,44 @@
         searchForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const searchInput = document.getElementById('search-input');
-            const query = searchInput.value;
-            if (query) {
+            const query = searchInput.value.trim();
+            if (query && query.length > 0) {
                 try {
+                    const tracksContent = document.getElementById('tracks');
+                    const artistsContent = document.getElementById('artists');
+                    const albumsContent = document.getElementById('albums');
+
+                    [tracksContent, artistsContent, albumsContent].forEach(el => el.innerHTML = spinnerManager.loadSpinner());
+
                     const results = await spotify.search(query, 'track,artist,album');
                     currentResults = results;
-                    displayResults();
+
+                    const tracksCount = results.tracks?.items?.length || 0;
+                    const artistsCount = results.artists?.items?.length || 0;
+                    const albumsCount = results.albums?.items?.length || 0;
+
+                    document.getElementById('search-statistics').innerHTML =
+                        `Found: ${tracksCount} tracks, 
+                        ${artistsCount} artists, 
+                        ${albumsCount} albums`;
+
+                    displayResults(tracksContent, artistsContent, albumsContent);
                 } catch (error) {
                     document.querySelectorAll('.tab-content').forEach(content => {
                         content.innerHTML = `<p>Error: ${error.message}</p>`;
                     });
                 }
             } else {
-                alert('Input form is empty.');
+                //alert('Input form is empty.');
+                modalManager.show('Input form is empty.', 'Warning')
             }
         });
 
         ///////////////////////////////////////////////////////////////////////////////////////
-        //Modal window section //
+        //Modal window section (for item details) //
         ///////////////////////////////////////////////////////////////////////////////////////    
 
-       // insertion of modal window //
+        // insertion of modal window //
         document.body.insertAdjacentHTML('beforeend', `
             <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel">
                 <div class="modal-dialog modal-dialog-scrollable">
@@ -273,9 +441,11 @@
             try {
                 if (localManager.saveItem(type, item)) {
                     updateSavedItemsDisplay();
-                    alert(`${type.slice(0, -1)} saved successfully!`);
+                    //alert(`${type.slice(0, -1)} saved successfully!`);
+                    modalManager.show(`${type.slice(0, -1)} saved successfully!`, 'Item saved');
                 } else {
-                    alert('Item has been already saved!');
+                    //alert('Item has been already saved!');
+                    modalManager.show('Item has been already saved!', 'Already saved');
                 }
             } catch (error) {
                 alert(error.message);
@@ -283,35 +453,40 @@
         }
 
         // function for removing items from localStorage //
-        function removeItem(type, itemId) {
-            localManager.removeItem(type, itemId);
-            updateSavedItemsDisplay();
+        async function removeItem(type, itemId) {
+            //if (confirm('Do you really want to remove this item from your saved items?')) {
+            if (await modalManager.confirm('Do you really want to remove this item from your saved items?')) {
+                localManager.removeItem(type, itemId);
+                updateSavedItemsDisplay();
+            }
         }
 
         // function for removing everything at once from the localStorage //
-        function clearSavedItems() {
-            if (confirm('Do you really want to remove all of your saved items?')) {
+        async function clearSavedItems() {
+            if (await modalManager.confirm('Do you really want to remove all of your saved items?')) {
                 localManager.clearStorage();
                 updateSavedItemsDisplay();
             }
         }
+
         // function for updating information from the localStorage //
         async function updateSavedItemsDisplay() {
             const savedContent = document.getElementById('saved');
             if (!savedContent) return;
-
-            let html = `
+            let removeAllButtonHTML = `
             <div class="container storage-info">
-                <button onclick="clearSavedItems()" class="btn btn-primary clear-btn">Remove all</button>
+                <button id="remove-all-btn" class="btn btn-primary clear-btn">Remove all</button>
             </div>
-        `;
+            `;
 
             const savedItems = await localManager.getAllItems();
 
             // Tracks section //
-            html += '<div class="saved-section"><h2>Saved tracks</h2>';
+            let trackSavedHTML = '';
+            let trackSaved = '';
+            //html += '<div class="saved-section"><h2>Saved tracks</h2>';
             if (savedItems.tracks.length) {
-                html += savedItems.tracks.map(track => `
+                trackSaved = savedItems.tracks.map(track => `
                 <div class="track saved-item">
                     <h3>${track.name}</h3>
                     <p>Artist: ${track.artists.map(artist => artist.name).join(', ')}</p>
@@ -319,48 +494,62 @@
                         `<img src="${track.album.images[track.album.images.length - 1].url}" alt="Album cover">` :
                         ''}
                     <div class="saved-item-buttons">
-                        <button onclick="showDetails('track', '${track.id}')" class="btn btn-primary details-btn">
+                        <button data-type="track" data-id="${track.id}" class="btn btn-primary details-btn">
                             Show Details
                         </button>
-                        <button onclick="removeItem('tracks', '${track.id}')" class="btn btn-primary remove-btn">
+                        <button data-type="tracks" data-id="${track.id}" class="btn btn-primary remove-btn">
                             Remove
                         </button>
                     </div>
                 </div>
             `).join('');
             } else {
-                html += '<p>You do not have any saved songs</p>';
+                trackSaved = '<p>You do not have any saved songs</p>';
             }
-            html += '</div>';
+            trackSavedHTML = `
+            <div class="saved-section">
+                <h2>Saved tracks</h2>
+                ${trackSaved}
+            </div>    
+            `;
 
             // Artists section //
-            html += '<div class="saved-section"><h2>Saved artists</h2>';
+            let artistSavedHTML = '';
+            let artistSaved = '';
+            //html += '<div class="saved-section"><h2>Saved artists</h2>';
             if (savedItems.artists.length) {
-                html += savedItems.artists.map(artist => `
+                artistSaved = savedItems.artists.map(artist => `
                 <div class="artist saved-item">
                     <h3>${artist.name}</h3>
                     ${artist.images.length ?
                         `<img src="${artist.images[artist.images.length - 1].url}" alt="Artist photo">` :
                         ''}
                     <div class="saved-item-buttons">
-                        <button onclick="showDetails('artist', '${artist.id}')" class="btn btn-primary details-btn">
+                        <button data-type="artist" data-id = "${artist.id}" class="btn btn-primary details-btn">
                             Show Details
                         </button>
-                        <button onclick="removeItem('artists', '${artist.id}')" class="btn btn-primary remove-btn">
+                        <button data-type="artists" data-id="${artist.id}" class="btn btn-primary remove-btn">
                             Remove
                         </button>
                     </div>
                 </div>
             `).join('');
             } else {
-                html += '<p>You do not have any saved artists</p>';
+                artistSaved = '<p>You do not have any saved artists</p>';
             }
-            html += '</div>';
+            artistSavedHTML = `
+            <div class="saved-section">
+                <h2>Saved artists</h2>
+                ${artistSaved}
+            </div>    
+            `;
 
             // Albums section //
-            html += '<div class="saved-section"><h2>Saved albums</h2>';
+            let albumSavedHTML = '';
+            let albumSaved = '';
+            //html += '<div class="saved-section"><h2>Saved albums</h2>';
             if (savedItems.albums.length) {
-                html += savedItems.albums.map(album => `
+                albumSaved = savedItems.albums.map(album => `
                 <div class="album saved-item">
                     <h3>${album.name}</h3>
                     <p>Artist: ${album.artists.map(artist => artist.name).join(', ')}</p>
@@ -368,21 +557,50 @@
                         `<img src="${album.images[album.images.length - 1].url}" alt="Album cover">` :
                         ''}
                     <div class="saved-item-buttons">
-                        <button onclick="showDetails('album', '${album.id}')" class="btn btn-primary details-btn">
+                        <button data-type="album" data-id="${album.id}" class="btn btn-primary details-btn">
                             Show Details
                         </button>
-                        <button onclick="removeItem('albums', '${album.id}')" class="btn btn-primary remove-btn">
+                        <button data-type="albums" data-id="${album.id}" class="btn btn-primary remove-btn">
                             Remove
                         </button>
+                        
                     </div>
                 </div>
             `).join('');
             } else {
-                html += '<p>You do not have any saved albums</p>';
+                albumSaved = '<p>You do not have any saved albums</p>';
             }
-            html += '</div>';
+            albumSavedHTML = `
+            <div class="saved-section">
+                <h2>Saved albums</h2>
+                ${albumSaved}
+            </div>    
+            `;
 
-            savedContent.innerHTML = html;
+            savedContent.innerHTML = `${removeAllButtonHTML}${trackSavedHTML}${artistSavedHTML}${albumSavedHTML}`;
+
+            // Event handlers for saved section //
+            const removeAllButton = document.getElementById('remove-all-btn');
+            removeAllButton.addEventListener('click', async () => {
+                clearSavedItems();
+            });
+
+            // event handler for remove-btn & details-btn //
+            document.getElementById('saved')?.addEventListener('click', async function (event) {
+                let type;
+                let id;
+                let call;
+                if (event.target.classList.contains('remove-btn')) {
+                    type = event.target.getAttribute('data-type');
+                    id = event.target.getAttribute('data-id');
+                    removeItem(type, id);
+                } else if (event.target.classList.contains('details-btn')) {
+                    type = event.target.getAttribute('data-type');
+                    id = event.target.getAttribute('data-id');
+                    call = 'saved';
+                    showDetails(type, id, call);
+                }
+            });
         }
 
 
@@ -392,8 +610,7 @@
 
         // Funtion for showing the detail card //
 
-        async function showDetails(type, id) {
-            // Zobrazení modalu
+        async function showDetails(type, id, call) {
             bootstrapModal.show();
             modalTitle.innerHTML = '';
             modalContent.innerHTML = `
@@ -402,7 +619,7 @@
                     <span class="visually-hidden">Loading...</span>
                 </div>
             </div>
-        `;
+            `;
 
             try {
                 let details;
@@ -410,7 +627,12 @@
 
                 switch (type) {
                     case 'track':
-                        details = currentResults.tracks.items.find(track => track.id === id);
+                        if (call === 'saved') {
+                            const savedItems = await localManager.savedItems
+                            details = savedItems.tracks.find(track => track.id === id);
+                        } else {
+                            details = currentResults.tracks.items.find(track => track.id === id);
+                        }
                         const albumTracks = await spotify.get(`albums/${details.album.id}/tracks?limit=5`);
                         additionalContent = `
                         <div class="related-content">
@@ -420,7 +642,9 @@
                                 .filter(track => track.id !== details.id)
                                 .map(track => `
                                     <li>
-                                        ${track.name}
+                                        <button id="new-search-btn" data-input = "${track.name}" class="btn btn-primary">
+                                            ${track.name} 
+                                        </button>
                                     </li>
                                 `).join('')}
                             </ul>
@@ -443,7 +667,12 @@
                         break;
 
                     case 'artist':
-                        details = currentResults.artists.items.find(artist => artist.id === id);
+                        if (call === 'saved') {
+                            const savedItems = await localManager.savedItems
+                            details = savedItems.artists.find(artist => artist.id === id);
+                        } else {
+                            details = currentResults.artists.items.find(artist => artist.id === id);
+                        }
                         const topTracks = await spotify.get(`artists/${id}/top-tracks?limit=5`);
                         additionalContent = `
                         <div class="related-content">
@@ -451,8 +680,9 @@
                             <ul>
                                 ${topTracks.tracks.slice(0, 5).map(track => `
                                     <li>
-                                        ${track.name}
-                                        (Popularity: ${track.popularity})
+                                        <button id="new-search-btn" data-input = "${track.name}" class="btn btn-primary">
+                                            ${track.name} (Popularity: ${track.popularity})
+                                        </button>
                                     </li>
                                 `).join('')}
                             </ul>
@@ -473,7 +703,12 @@
                         break;
 
                     case 'album':
-                        details = currentResults.albums.items.find(album => album.id === id);
+                        if (call === 'saved') {
+                            const savedItems = await localManager.savedItems
+                            details = savedItems.albums.find(album => album.id === id);
+                        } else {
+                            details = currentResults.albums.items.find(album => album.id === id);
+                        }
                         const tracks = await spotify.get(`albums/${id}/tracks?limit=5`);
                         additionalContent = `
                         <div class="related-content">
@@ -481,7 +716,9 @@
                             <ul>
                                 ${tracks.items.map(track => `
                                     <li>
-                                        ${track.name}
+                                        <button id="new-search-btn" data-input = "${track.name}" class="btn btn-primary">
+                                            ${track.name}
+                                        </button>
                                     </li>
                                 `).join('')}
                             </ul>
@@ -505,15 +742,41 @@
             } catch (error) {
                 modalContent.innerHTML = `<p>Error loading details: ${error.message}</p>`;
             }
+
+            document.querySelectorAll('#new-search-btn').forEach(element => {
+                element.addEventListener('click', async function (event) {
+                    bootstrapModal.hide();
+                    const newQuery = event.target.getAttribute('data-input').toString();
+                    if (newQuery && newQuery.length > 0) {
+                        try {
+                            const searchInput = document.getElementById('search-input');
+                            searchInput.value = newQuery;
+                            const tracksContent = document.getElementById('tracks');
+                            const artistsContent = document.getElementById('artists');
+                            const albumsContent = document.getElementById('albums');
+
+                            [tracksContent, artistsContent, albumsContent].forEach(el => el.innerHTML = spinnerManager.loadSpinner());
+
+                            const newResults = await spotify.search(newQuery, 'track,artist,album');
+                            currentResults = newResults;
+
+                            displayResults(tracksContent, artistsContent, albumsContent);
+                        } catch (error) {
+                            document.querySelectorAll('.tab-content').forEach(content => {
+                                content.innerHTML = `<p>Error: ${error.message}</p>`;
+                            });
+                        }
+                    }
+                });
+            });
         }
 
         ///////////////////////////////////////////////////////////////////////////////////////
         // Display section //
         ///////////////////////////////////////////////////////////////////////////////////////
 
-        function displayResults() {
-            // Tracks tab content //
-            const tracksContent = document.getElementById('tracks');
+        // Tracks tab content //
+        function displayResults(tracksContent, artistsContent, albumsContent) {
             if (currentResults.tracks?.items?.length) {
                 tracksContent.innerHTML = currentResults.tracks.items
                     .slice(0, RESULTS_LIMIT)
@@ -526,10 +789,10 @@
                             `<img src="${track.album.images[track.album.images.length - 1].url}" alt="Album cover">` :
                             ''}
                         <div class="button-group">
-                            <button onclick="showDetails('track', '${track.id}')" class="btn btn-primary details-btn">
-                                Show Details
-                            </button>
-                            <button onclick="saveItem('tracks', ${JSON.stringify(track).replace(/"/g, '&quot;')})" class="btn btn-primary save-btn">
+                            <button data-type="track" data-id="${track.id}" class="btn btn-primary details-btn">
+                            Show Details
+                        </button>
+                            <button data-type="tracks" data = '${JSON.stringify(track).replace(/"/g, "&quot;")}' class="btn btn-primary save-btn">
                                 Save
                             </button>
                         </div>
@@ -540,7 +803,6 @@
             }
 
             // Artists tab content //
-            const artistsContent = document.getElementById('artists');
             if (currentResults.artists?.items?.length) {
                 artistsContent.innerHTML = currentResults.artists.items
                     .slice(0, RESULTS_LIMIT)
@@ -554,10 +816,10 @@
                         <p>Genres: ${artist.genres.join(', ') || 'Not specified'}</p>
                         <p>Popularity: ${artist.popularity}/100</p>
                         <div class="button-group">
-                            <button onclick="showDetails('artist', '${artist.id}')" class="btn btn-primary details-btn">
-                                Show Details
+                            <button data-type="artist" data-id = "${artist.id}" class="btn btn-primary details-btn">
+                            Show Details
                             </button>
-                            <button onclick="saveItem('artists', ${JSON.stringify(artist).replace(/"/g, '&quot;')})" class="btn btn-primary save-btn">
+                            <button data-type="artists" data = '${JSON.stringify(artist).replace(/"/g, "&quot;")}' class="btn btn-primary save-btn">                        
                                 Save
                             </button>
                         </div>
@@ -568,7 +830,6 @@
             }
 
             // Albums tab content //
-            const albumsContent = document.getElementById('albums');
             if (currentResults.albums?.items?.length) {
                 albumsContent.innerHTML = currentResults.albums.items
                     .slice(0, RESULTS_LIMIT)
@@ -582,10 +843,10 @@
                         <p>Release date: ${album.release_date}</p>
                         <p>Total tracks: ${album.total_tracks}</p>
                         <div class="button-group">
-                            <button onclick="showDetails('album', '${album.id}')" class="btn btn-primary details-btn">
+                            <button data-type="album" data-id="${album.id}" class="btn btn-primary details-btn">
                                 Show Details
                             </button>
-                            <button onclick="saveItem('albums', ${JSON.stringify(album).replace(/"/g, '&quot;')})" class="btn btn-primary save-btn">
+                            <button data-type="albums" data = '${JSON.stringify(album).replace(/"/g, "&quot;")}' class="btn btn-primary save-btn">
                                 Save
                             </button>
                         </div>
@@ -594,6 +855,29 @@
             } else {
                 albumsContent.innerHTML = '<p>No albums found</p>';
             }
+
+            // event handler for save & details-btn //
+            document.querySelectorAll('#tracks, #artists, #albums').forEach(element => {
+                element.addEventListener('click', async function (event) {
+                    let type;
+                    let id;
+                    if (event.target.classList.contains('details-btn')) {
+                        type = event.target.getAttribute('data-type');
+                        id = event.target.getAttribute('data-id');
+                        showDetails(type, id);
+                    }
+                    else if (event.target.classList.contains('save-btn')) {
+                        type = event.target.getAttribute('data-type');
+                        const dataJSON = event.target.getAttribute('data');
+                        try {
+                            const data = JSON.parse(dataJSON);
+                            saveItem(type, data);
+                        } catch (error) {
+                            console.error('Error during parsing JSON:', error);
+                        }
+                    }
+                });
+            });
         }
 
         window.showDetails = showDetails;
