@@ -1,0 +1,158 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  
+  header {
+    background: #0074D9;
+    color: white;
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    margin: 0 auto;
+    font-size: 1.2px;
+  }
+
+  .mainbutton {
+    text-decoration: none;
+    color: white;
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  .profile-container {
+    margin: 20px auto;
+    max-width: 800px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .profile-container h2 {
+    color: #0074D9;
+  }
+  .profile-container p {
+    font-size: 1.1rem;
+    margin: 10px 0;
+  }
+  
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+  }
+  
+  .nav-links a {
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+    transition: color 0.3s;
+  }
+  
+  .nav-links a:hover {
+    color: #FFD700;
+  }
+  
+  main {
+    padding: 2rem 1rem;
+  }
+  
+  .section {
+    margin: 2rem auto;
+    max-width: 1200px;
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #0074D9;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+
+  h1:hover {
+    color: #005bb5;
+  }
+  
+  #results-container, #teams-container, #favorites-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+  }
+  
+  .card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card:hover {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Styl pro sekci výběru data */
+.date-picker {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
+#date-input {
+  font-size: 1.2rem; /* Zvětšení písma */
+  padding: 10px; /* Větší padding */
+  border: 1px solid #ddd;
+  border-radius: 8px; /* Zaoblení rohů */
+  width: 200px; /* Šířka políčka */
+}
+
+#submit-date {
+  font-size: 1.2rem; /* Zvětšení písma */
+  padding: 10px 20px; /* Větší tlačítko */
+  border: none;
+  border-radius: 8px; /* Zaoblení rohů */
+  background-color: #0074D9; /* Barva tlačítka */
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#submit-date:hover {
+  background-color: #005bb5; /* Tmavší barva při hoveru */
+}
+
+  
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 1rem;
+    background: #0074D9;
+    color: white;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+  }
+  

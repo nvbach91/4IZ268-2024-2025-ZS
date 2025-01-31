@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SportLiveData</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo"><a href="./" class="mainbutton">SportLiveData</a></div>
+      <ul class="nav-links">
+        <li><a href="#soccer-results">Fotbal</a></li>
+        <li><a href="#mlb-results">MLB</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="date-picker">
+      <input type="date" id="date-input" placeholder="dd.mm.rrrr" />
+      <button id="submit-date">Zobrazit výsledky</button>
+    </div>
+    
+
+    <section id="soccer-results" class="section">
+      <h1 onclick="App.toggleSection('soccer-container')">Fotbalové zápasy</h1>
+      <div id="soccer-container">
+      </div>
+    </section>    
+
+    <section id="mlb-results" class="section">
+      <h1 onclick="App.toggleSection('results-container')">MLB zápasy</h1>
+      <div id="results-container">
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 SportLiveData</p>
+  </footer>
+  
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="assets/js/script.js"></script>
+</body>
+</html>
