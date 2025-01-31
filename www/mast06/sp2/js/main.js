@@ -1,19 +1,52 @@
-// Funkce pro hledání jídel z OpenFoodFacts API
-async function handleSearch(event) {
+let diaryData = {}; // In-memory objekt pro jídelníček
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Pridani event listeneru
+    document.getElementById('delete-results-button').addEventListener('click', clearDiaryForDate);
+    document.getElementById('weekly-results-button').addEventListener('click', showWeeklyResults);
+    document.getElementById('date-picker').addEventListener('change', updateDiary);
+    document.getElementById('search-form').addEventListener('submit', function (event) {
+        handleSearch(event)
+    });
+    document.getElementById('results-container').addEventListener('click', function (event) {
+        if (event.target.classList.contains('add-item-button')) {
+            const button = event.target;
+            addItemToDiary(
+                button.dataset.name,
+                parseFloat(button.dataset.calories),
+                parseFloat(button.dataset.proteins),
+                parseFloat(button.dataset.fats),
+                parseFloat(button.dataset.carbs),
+                parseFloat(button.dataset.sugars)
+            );
+        }
+    });
+
+    // Spusteni init funkci
+    loadDiaryData(); // Načtení dat z localStorage při spuštění
+    setTodayDate();
+    updateDiary();
+});
+
+const loadDiaryData = () => {
+    diaryData = JSON.parse(localStorage.getItem('diary')) || {}; // Načtení dat z localStorage při spuštění
+}
+
+const saveDiaryData = () => {
+    localStorage.setItem('diary', JSON.stringify(diaryData)); // Uložení dat do localStorage
+}
+
+const handleSearch = async (event) => {
     event.preventDefault();
-    const query = document.getElementById('search-input').value;
+    const dirtyQuery = document.getElementById('search-input').value;
+    const query = DOMPurify.sanitize(dirtyQuery);
     const resultsContainer = document.getElementById('results-container');
     resultsContainer.classList.add('grid');
     resultsContainer.innerHTML = 'Načítání...';
 
     try {
-        const response = await fetch(`https://world.openfoodfacts.org/cgi/search.pl?search_terms=${query}&search_simple=1&json=1`);
+        const response = await fetch(`https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}&search_simple=1&json=1`);
         const data = await response.json();
-
-        // AXIOS po vyzkoušení hledání byl mnohem pomalejší, než nativní funkce JavaScriptu!!!
-
-        // const response = await axios.get(`https://world.openfoodfacts.org/cgi/search.pl?search_terms=${query}&search_simple=1&json=1`);
-        // const data = response.data;
         resultsContainer.innerHTML = '';
 
         if (data.products.length === 0) {
@@ -21,8 +54,7 @@ async function handleSearch(event) {
             return;
         }
 
-        // Pro každý produkt vytvořím položku
-        data.products.forEach(product => {
+        data.products.forEach((product, index) => {
             const item = document.createElement('div');
             item.classList.add('item');
             item.innerHTML = `
@@ -33,68 +65,88 @@ async function handleSearch(event) {
                 <p>Tuky: ${product.nutriments?.fat_100g || 'Není k dispozici'}</p>
                 <p>Sacharidy: ${product.nutriments?.carbohydrates_100g || 'Není k dispozici'}</p>
                 <p>Cukry: ${product.nutriments?.sugars_100g || 'Není k dispozici'}</p>
-                <button onclick="addItemToDiary('${product.product_name}', ${product.nutriments?.energy_100g || 0}, ${product.nutriments?.proteins_100g || 0}, ${product.nutriments?.fat_100g || 0}, ${product.nutriments?.carbohydrates_100g || 0}, ${product.nutriments?.sugars_100g || 0})">Přidat položku</button>
-            `;
-            resultsContainer.appendChild(item);
+                <button class="add-item-button" 
+                    data-name="${product.product_name}" 
+                    data-calories="${product.nutriments?.energy_100g || 0}" 
+                    data-proteins="${product.nutriments?.proteins_100g || 0}" 
+                    data-fats="${product.nutriments?.fat_100g || 0}" 
+                    data-carbs="${product.nutriments?.carbohydrates_100g || 0}" 
+                    data-sugars="${product.nutriments?.sugars_100g || 0}">
+                    Přidat položku
+                </button>
+                `;
+                resultsContainer.appendChild(item);
+            });
+        } catch (error) {
+            resultsContainer.innerHTML = 'Chyba při načítání dat.';
+        }
+    }
+    // <button id="add-item-button${index}" onclick="addItemToDiary('${product.product_name}', ${product.nutriments?.energy_100g || 0}, ${product.nutriments?.proteins_100g || 0}, ${product.nutriments?.fat_100g || 0}, ${product.nutriments?.carbohydrates_100g || 0}, ${product.nutriments?.sugars_100g || 0})">Přidat položku</button>
+    
+const addItemToDiary = (name, calories, proteins, fats, carbohydrates, sugars) => {
+    const uniqueId = uuid.v4();
+    const date = document.getElementById('date-picker').value;
+    if (!date) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Chyba!',
+            text: 'Prosím vyberte datum pro jídelníček.'
         });
-    } catch (error) {
-        resultsContainer.innerHTML = 'Chyba při načítání dat.';
-    }
-}
-
-// Funkce pro přidání položky do jídelníčku pro zvolené datum
-function addItemToDiary(name, calories, proteins, fats, carbohydrates, sugars) {
-    const date = document.getElementById('date-picker').value; // Získání hodnoty z inputu pro datum
-    if (!date) {
-        alert("Prosím vyberte datum pro jídelníček.");
         return;
     }
 
-    const diary = JSON.parse(localStorage.getItem('diary')) || {};
-    if (!diary[date]) {
-        diary[date] = [];
+    if (!diaryData[date]) {
+        diaryData[date] = [];
     }
 
-    diary[date].push({ name, calories, proteins, fats, carbohydrates, sugars });
-    localStorage.setItem('diary', JSON.stringify(diary));
-    updateDiary(); // Aktualizuje jídelníček pro vybrané datum
+    diaryData[date].push({ id: uniqueId, name, calories, proteins, fats, carbohydrates, sugars });
+    saveDiaryData(); // Uložení změn do localStorage
+    updateDiary();
 }
 
-// Funkce pro zobrazení jídelníčku pro vybrané datum
-function updateDiary() {
-    const date = document.getElementById('date-picker').value; // Získání hodnoty z inputu pro datum
+const updateDiary = () => {
+    const date = document.getElementById('date-picker').value;
     if (!date) {
-        alert("Prosím vyberte datum pro jídelníček.");
+        Swal.fire({
+            icon: 'warning',
+            title: 'Chyba!',
+            text: 'Prosím vyberte datum pro jídelníček.'
+        });
         return;
     }
 
-    const diary = JSON.parse(localStorage.getItem('diary')) || {};
     const diaryContainer = document.getElementById('diary-container');
     diaryContainer.innerHTML = `<h3>Jídelníček pro datum: ${date}</h3>`;
 
-    if (diary[date]) {
+    if (diaryData[date]) {
         let totalCalories = 0, totalProteins = 0, totalFats = 0, totalCarbs = 0, totalSugars = 0;
-        diary[date].forEach(item => {
+        diaryData[date].forEach((item) => {
             totalCalories += item.calories;
             totalProteins += item.proteins;
             totalFats += item.fats;
             totalCarbs += item.carbohydrates;
             totalSugars += item.sugars;
             const itemElement = document.createElement('div');
+            itemElement.id = `diary-item-${item.id}`;
+            const itemDeleteButtonElement = document.createElement('button');
+            itemDeleteButtonElement.innerHTML = ' &#128465; Delete';
+            itemDeleteButtonElement.addEventListener('click', function () { removeItem(date, item.id) })
+            const itemDetailsElement = document.createElement('div');
+            itemDetailsElement.innerHTML = `<b>${item.name}</b> - Kalorie: ${Number(item.calories.toFixed(2))}kcal, Bílkoviny: ${Number(item.proteins.toFixed(2))}g, Tuky: ${Number(item.fats.toFixed(2))}g, Sacharidy: ${Number(item.carbohydrates.toFixed(2))}g, Cukry: ${Number(item.sugars.toFixed(2))}g`;
             itemElement.classList.add('diary-item');
-            itemElement.innerHTML = `${item.name} - Kalorie: ${item.calories}kcal, Bílkoviny: ${item.proteins}g, Tuky: ${item.fats}g, Sacharidy: ${item.carbohydrates}g, Cukry: ${item.sugars}g`;
+            itemElement.appendChild(itemDetailsElement);
+            itemElement.appendChild(itemDeleteButtonElement);
             diaryContainer.appendChild(itemElement);
         });
 
-        // Zobrazení součtů
         const totalElement = document.createElement('div');
         totalElement.innerHTML = `
             <strong>Celkové hodnoty tento den:</strong><br>
-            Kalorie: ${totalCalories} kcal<br>
-            Bílkoviny: ${totalProteins} g<br>
-            Tuky: ${totalFats} g<br>
-            Sacharidy: ${totalCarbs} g<br>
-            Cukry: ${totalSugars} g
+            Kalorie: ${Number(totalCalories.toFixed(2))} kcal<br>
+            Bílkoviny: ${Number(totalProteins.toFixed(2))} g<br>
+            Tuky: ${Number(totalFats.toFixed(2))} g<br>
+            Sacharidy: ${Number(totalCarbs.toFixed(2))} g<br>
+            Cukry: ${Number(totalSugars.toFixed(2))} g
         `;
         diaryContainer.appendChild(totalElement);
     } else {
@@ -102,29 +154,51 @@ function updateDiary() {
     }
 }
 
-// Funkce pro zobrazení a vyprázdnění jídelníčku pro vybraný den
-function clearDiaryForDate() {
-    const date = document.getElementById('date-picker').value; // Získání hodnoty z inputu pro datum
+const clearDiaryForDate = () => {
+    const date = document.getElementById('date-picker').value;
     if (!date) {
-        alert("Prosím vyberte datum pro jídelníček.");
+        Swal.fire({
+            icon: 'warning',
+            title: 'Chyba!',
+            text: 'Prosím vyberte datum pro jídelníček.'
+        });
         return;
     }
 
-    const diary = JSON.parse(localStorage.getItem('diary')) || {};
-
-    // Vymazání jídelníčku pro vybrané datum
-    delete diary[date];
-    localStorage.setItem('diary', JSON.stringify(diary));
-
-    updateDiary();  // Aktualizace levého panelu po vymazání
+    Swal.fire({
+        title: `Opravdu chcete smazat jídelníček pro datum ${date}?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ano, smazat!',
+        cancelButtonText: 'Zrušit'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            delete diaryData[date];
+            saveDiaryData(); // Uložení změn do localStorage
+            updateDiary();
+        }
+    });
 }
 
-function setTodayDate() {
+const showWeeklyResults = () => {
+    // loadDiaryData();
+    window.location.href = 'weeklyResults'
+    // Implementace pro zobrazení týdenních výsledků
+}
+
+const setTodayDate = () => {
     let today = new Date().toISOString().split("T")[0];
     document.getElementById("date-picker").value = today;
 }
 
-window.onload = function () {
-    setTodayDate();
+const removeItem = (date, itemId) => {
+    const itemElement = document.getElementById(`diary-item-${itemId}`);
+    itemElement.remove();
+    diaryData[date] = diaryData[date].filter((item) => item.id !== itemId);
+    saveDiaryData();
     updateDiary();
-};
+}
+
+const redirectToWeekly = () => {
+    window.location.href = "subdirectory";
+}
