@@ -101,13 +101,3 @@ footer {
     margin-top: auto;
     background-color: #f8f9fa;
 }
-.fade-in {
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
-}
-
-.fade-in.show {
-    opacity: 1;
-    transform: translateY(0);
-}

@@ -45,9 +45,8 @@ backButton.addEventListener('click', () => {
     searchSection.style.display = 'block';
     toggleSavedGamesButton.textContent = 'My List';
 
-    // Avoid pushing the same state again
-    const currentState = history.state || {};
-    if (currentState.section !== 'search') {
+    // Ensure we don't push duplicate states
+    if (!history.state || history.state.section !== 'search') {
         history.pushState({ section: 'search' }, '', '');
     }
 });
@@ -56,13 +55,19 @@ toggleSavedGamesButton.addEventListener('click', () => {
     if (searchSection.style.display !== 'none') {
         searchSection.style.display = 'none';
         savedGamesSection.style.display = 'block';
-        this.textContent = 'Back to Search';
-        history.pushState({ section: 'savedGames' }, '', '');
+        toggleSavedGamesButton.textContent = 'Back to Search';
+
+        if (!history.state || history.state.section !== 'savedGames') {
+            history.pushState({ section: 'savedGames' }, '', '');
+        }
     } else {
         searchSection.style.display = 'block';
         savedGamesSection.style.display = 'none';
-        this.textContent = 'My List';
-        history.pushState({ section: 'search' }, '', '');
+        toggleSavedGamesButton.textContent = 'My List';
+
+        if (!history.state || history.state.section !== 'search') {
+            history.pushState({ section: 'search' }, '', '');
+        }
     }
 });
 
@@ -71,8 +76,7 @@ backToSearchButton.addEventListener('click', () => {
     searchSection.style.display = 'block';
     toggleSavedGamesButton.textContent = 'My List';
 
-    const currentState = history.state || {};
-    if (currentState.section !== 'search') {
+    if (!history.state || history.state.section !== 'search') {
         history.pushState({ section: 'search' }, '', '');
     }
 });
@@ -85,18 +89,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 window.addEventListener('popstate', async (event) => {
     if (!event.state) return;
 
+    searchSection.style.display = 'none';
+    detailsSection.style.display = 'none';
+    savedGamesSection.style.display = 'none';
+
     if (event.state.section === 'details') {
-        searchSection.style.display = 'none';
-        savedGamesSection.style.display = 'none';
-        detailsSection.style.display = 'block';
         await viewDetails(event.state.gameId);
+        detailsSection.style.display = 'block';
     } else if (event.state.section === 'search') {
         const { query, genre, page, sortBy } = event.state;
         searchSection.style.display = 'block';
-        detailsSection.style.display = 'none';
-        savedGamesSection.style.display = 'none';
-
         toggleSavedGamesButton.textContent = 'My List';
+
         searchBar.value = query || '';
         genreFilter.value = genre || '';
         sortFilter.value = sortBy || '';
@@ -104,10 +108,7 @@ window.addEventListener('popstate', async (event) => {
         currentPage = page || 1;
         await fetchGames(query, genre, currentPage, sortBy);
     } else if (event.state.section === 'savedGames') {
-        searchSection.style.display = 'none';
-        detailsSection.style.display = 'none';
         savedGamesSection.style.display = 'block';
-
         toggleSavedGamesButton.textContent = 'Back to Search';
     }
 });
@@ -230,11 +231,11 @@ const viewDetails = async (gameId) => {
     try {
         let game;
         if (gameCache.has(gameId)) {
-            game = gameCache.get(gameId); // Použití cache
+            game = gameCache.get(gameId);
         } else {
             const response = await axios.get(`${API_URL}/${gameId}?key=${API_KEY}`);
             game = response.data;
-            gameCache.set(gameId, game); // Uložení do cache
+            gameCache.set(gameId, game);
         }
 
         gameTitle.innerText = game.name;
@@ -393,6 +394,7 @@ const toggleGame = (game) => {
 
 const updateSavedGamesUI = () => {
     savedGamesList.innerHTML = "";
+    const fragment = document.createDocumentFragment();
 
     savedGames.forEach((name, id) => {
         const listItem = document.createElement("li");
@@ -404,8 +406,10 @@ const updateSavedGamesUI = () => {
                 <button class="btn btn-danger btn-sm remove-game-btn" data-game-id="${id}">Remove</button>
             </div>
         `;
-        savedGamesList.appendChild(listItem);
+        fragment.appendChild(listItem);
     });
+
+    savedGamesList.appendChild(fragment);
 
     document.querySelectorAll(".view-details-btn").forEach(button => {
         button.addEventListener("click", function () {
@@ -428,13 +432,17 @@ const loadGenres = async () => {
         const genres = response.data.results;
 
         genreFilter.innerHTML = '<option value="">All Genres</option>';
+
+        const fragment = document.createDocumentFragment();
         genres.forEach(genre => {
             const option = document.createElement("option");
             option.value = genre.slug;
             option.textContent = genre.name;
-            genreFilter.appendChild(option);
+            fragment.appendChild(option);
         });
+
+        genreFilter.appendChild(fragment);
     } catch (error) {
         console.error("Error loading genres:", error);
     }
-}
+};
