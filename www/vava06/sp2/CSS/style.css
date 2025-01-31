@@ -256,3 +256,42 @@ button:disabled {
     max-width: 100%;
     height: auto;
 }
+
+#loader {
+    display: none;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #74d7cd;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+
+  .difficulty-select {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f8f8f8;
+    cursor: pointer;
+    text-align: center;
+    margin-bottom: 15px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.difficulty-select:hover {
+    background-color: #e8e8e8;
+}
+
+.difficulty-select:focus {
+    border-color: #74d7cd;
+    outline: none;
+}

@@ -1,59 +1,76 @@
 const API_KEY = 'wcjTZpjqrrT9lDL9xHSZXFtG6MkMAjujYpQcpbtx';
+const $questionsSection = $('#questions-section');
+const $categoriesSection = $('#categories-section');
+const $statsSection = $('#stats-section');
+const $loader = $('#loader');
 
-let QUESTIONS = [];
-let CURRENT_QUESTION_INDEX = 0;
-let CURRENT_CATEGORY = '';
-let CORRECT_ANSWERS_COUNT = 0;
-let INCORRECT_ANSWERS_COUNT = 0;
+let questions = [];
+let current_questions_index = 0;
+let current_category = '';
+let correct_answers_count = 0;
+let incorrect_answers_count = 0;
+let userAnswers = {};  
+let all_stats = {};
 
-let ALL_STATS = {};
-
-function initState(questions, category) {
-    QUESTIONS = questions;
-    CURRENT_CATEGORY = category;
-    CURRENT_QUESTION_INDEX = 0;
-    CORRECT_ANSWERS_COUNT = 0;
-    INCORRECT_ANSWERS_COUNT = 0;
-};
-
-function updateStateFromStorage(category) {
-    const state = JSON.parse(localStorage.getItem(`${category}-state`));
-    if (state === null) {
-        return;
-    }
-
-    QUESTIONS = state.questions;
-    CURRENT_QUESTION_INDEX = state.currentQuestionIndex;
-    CURRENT_CATEGORY = state.currentCategory;
-    CORRECT_ANSWERS_COUNT = state.correctAnswersCount;
-    INCORRECT_ANSWERS_COUNT = state.incorrectAnswersCount;
+function initState(questions_setup, category, difficulty) {
+    questions = questions_setup;
+    current_category = category;
+    current_difficulty = difficulty;
+    current_questions_index = 0; // 
+    correct_answers_count = 0;
+    incorrect_answers_count = 0;
 }
 
-function nextQuestion() {
-    if (CURRENT_QUESTION_INDEX < QUESTIONS.length) {
-        localStorage.setItem(`${CURRENT_CATEGORY}-state`, JSON.stringify({
-            questions: QUESTIONS,
-            currentQuestionIndex: CURRENT_QUESTION_INDEX,
-            currentCategory: CURRENT_CATEGORY,
-            correctAnswersCount: CORRECT_ANSWERS_COUNT,
-            incorrectAnswersCount: INCORRECT_ANSWERS_COUNT
-        }));
+function updateStateFromStorage(category, difficulty) {
+    const storageKey = `${category}-${difficulty}-state`; // 
+    const state = JSON.parse(localStorage.getItem(storageKey));
 
-        renderQuestion(QUESTIONS[CURRENT_QUESTION_INDEX]);
-
+    if (state === null) {
+        console.warn(`Nebyl nalezen žádný uložený stav pro: ${storageKey}`);
         return;
     }
 
-    localStorage.setItem(`${CURRENT_CATEGORY}-state`, null);
+    console.log("Obnovuji uložený stav:", state);
+    questions = state.questions;
+    current_questions_index = state.currentQuestionIndex;
+    current_category = state.currentCategory;
+    current_difficulty = state.currentDifficulty;
+    correct_answers_count = state.correctAnswersCount;
+    incorrect_answers_count = state.incorrectAnswersCount;
+}
+
+
+function nextQuestion() {
+    if (current_questions_index < questions.length) {
+        const storageKey = `${current_category}-${current_difficulty}-state`; 
+        localStorage.setItem(storageKey, JSON.stringify({
+            questions: questions,
+            currentQuestionIndex: current_questions_index,
+            currentCategory: current_category,
+            currentDifficulty: current_difficulty,
+            correctAnswersCount: correct_answers_count,
+            incorrectAnswersCount: incorrect_answers_count
+        }));
+
+        renderQuestion(questions[current_questions_index]);
+        return;
+    }
+
+   
+    localStorage.removeItem(`${current_category}-${current_difficulty}-state`);
     setButtonsText();
 
+ 
     const currentStats = calculateStats();
-    ALL_STATS[CURRENT_CATEGORY].correct += currentStats.correct;
-    ALL_STATS[CURRENT_CATEGORY].incorrect += currentStats.incorrect;
-    localStorage.setItem('stats', JSON.stringify(ALL_STATS));
+    all_stats[current_category] = all_stats[current_category] || { correct: 0, incorrect: 0 };
+    all_stats[current_category].correct += currentStats.correct;
+    all_stats[current_category].incorrect += currentStats.incorrect;
+    localStorage.setItem('stats', JSON.stringify(all_stats));
 
-    const $categoriesSection = $('#questions-section');
-    $categoriesSection.html(`
+   
+  
+
+        $questionsSection.html(`
         <p>Konec 10 náhodně vygenerovaných otázek, podívej se jak sis vedl:</p>
         <p>Správné odpovědi: ${currentStats.correct}</p>
         <p>Špatné odpovědi: ${currentStats.incorrect}</p>
@@ -63,7 +80,7 @@ function nextQuestion() {
     `);
 
     $("#restart-category").on("click", function () {
-        fetchQuestions(CURRENT_CATEGORY, () => {
+        fetchQuestions(current_category, current_difficulty, () => {
             nextQuestion();
             $('#stats-section').hide();
         });
@@ -84,7 +101,11 @@ function nextQuestion() {
     renderOverallCharts();
 }
 
+
+
 function renderQuestion(question) {
+    console.log(question.question);
+
     const $categoriesSection = $('#questions-section');
     $categoriesSection.empty();
 
@@ -92,13 +113,18 @@ function renderQuestion(question) {
     const $buttonsDiv = $('<div>').addClass('buttons');
 
     let answersHtml = '';
+    const isAnswered = userAnswers.hasOwnProperty(question.id); 
+    const selectedAnswer = userAnswers[question.id]; // 
 
     $.each(question.answers, (key, value) => {
         if (value !== null) {
             const isCorrect = question.correct_answers[`${key}_correct`] === 'true';
+            const isSelected = selectedAnswer === key; 
 
             answersHtml += `
-                <button class="answer" data-key="${key}" data-question-id="${question.id}" data-is-correct="${isCorrect}">
+                <button class="answer" data-key="${key}" data-question-id="${question.id}" data-is-correct="${isCorrect}"
+                    ${isAnswered ? 'disabled' : ''} 
+                    ${isSelected ? 'style="background-color: lightblue;"' : ''}>
                     ${key.split('_')[1].toUpperCase()}) ${value}
                 </button>
             `;
@@ -106,7 +132,7 @@ function renderQuestion(question) {
     });
 
     $categoryDiv.html(`
-        <h2>Otázka ${CURRENT_QUESTION_INDEX + 1}: ${question.question}</h2>
+        <h2>Otázka ${current_questions_index + 1}: ${question.question}</h2>
         <div class="answers">${answersHtml}</div>
         <p class="feedback" id="feedback-${question.id}" style="display:none;"></p>
     `);
@@ -119,18 +145,31 @@ function renderQuestion(question) {
         </div>
     `);
 
+    if (current_questions_index > 0) {
+        $buttonsDiv.find('#question-previous').show();
+    }
+
+    if (current_questions_index < questions.length - 1) {
+        $buttonsDiv.find('#question-next').show();
+    }
+
+    if (current_questions_index === questions.length - 1) {
+        $buttonsDiv.find('#question-result').show();
+    }
+
+
     $buttonsDiv.find('#question-next').on('click', function () {
-        CURRENT_QUESTION_INDEX++;
+        current_questions_index++;
         nextQuestion();
     });
 
     $buttonsDiv.find('#question-previous').on('click', function () {
-        CURRENT_QUESTION_INDEX--;
+        current_questions_index--;
         nextQuestion();
     });
 
     $buttonsDiv.find('#question-result').on('click', function () {
-        CURRENT_QUESTION_INDEX = QUESTIONS.length;
+        current_questions_index = questions.length;
         nextQuestion();
     });
 
@@ -138,49 +177,87 @@ function renderQuestion(question) {
     $categoriesSection.append($buttonsDiv);
 }
 
-
-function fetchQuestions(category, callback) {
-  
-
-    let url = '';
-
-    switch (category) {
-        case 'Linux':
-            url = `https://quizapi.io/api/v1/questions?apiKey=${API_KEY}&category=linux&difficulty=Easy&limit=10`;
-            break;
-        case 'Code':
-            url = `https://quizapi.io/api/v1/questions?apiKey=${API_KEY}&category=code&difficulty=Easy&limit=10`;
-            break;
-        case 'SQL':
-            url = `https://quizapi.io/api/v1/questions?apiKey=${API_KEY}&category=sql&difficulty=Easy&limit=10`;
-            break;
-        case 'Docker':
-            url = `https://quizapi.io/api/v1/questions?apiKey=${API_KEY}&category=docker&difficulty=Easy&limit=10`;
-            break;
-        default:
-            console.error('Neznámá kategorie');
+    function fetchQuestions(category, difficulty, callback) {
+        const API_BASE_URL = 'https://quizapi.io/api/v1/questions?apiKey=';
+        const randomParam = `nocache=${new Date().getTime()}`;
+        const url = `${API_BASE_URL}${API_KEY}&category=${category.toLowerCase()}&difficulty=${difficulty}&limit=10&${randomParam}`;
+    
+        console.log(`Odesílám dotaz na API: ${url}`);
+    
+        $loader.show();
+    
+        const storageKey = `${category}-${difficulty}-state`;
+        const savedState = JSON.parse(localStorage.getItem(storageKey));
+    
+        if (savedState && savedState.currentDifficulty === difficulty && savedState.currentCategory === category) {
+            console.log("Obnovuji uložený stav:", savedState);
+            updateStateFromStorage(category, difficulty);
+            $loader.hide();
+            callback(questions, category, difficulty);
             return;
-    }
-
-
-    $.ajax({
-        url: url,
-        method: 'GET',
-        success: function (questions) {
-         
-
-            initState(questions, category);
-            callback();
-        },
-        error: function (xhr, status, error) {
-            console.error('Chyba při získávání otázek:', status, error);
         }
-    });
-}
+    
+        console.log(`Změna obtížnosti nebo nová hra, načítám nové otázky...`);
+        $.ajax({
+            url: url,
+            method: 'GET',
+            success: function (questionsData) {
+                $loader.hide();
+                console.log("Načtené otázky:", questionsData);
+    
+                if (!questionsData || questionsData.length === 0) {
+                    console.error("API nevrátilo žádné otázky!");
+                    return;
+                }
+    
+                const filteredQuestions = questionsData.filter(q => q.multiple_correct_answers === "false");
+    
+                console.log(`Počet otázek po filtrování: ${filteredQuestions.length}`);
+    
+                if (filteredQuestions.length === 0) {
+                    console.warn("Všechny otázky byly multiple-choice a byly odstraněny");
+                    return;
+                }
+
+
+    
+                initState(filteredQuestions, category, difficulty);
+                saveStateToStorage();
+    
+                console.log("Data před voláním callbacku:", {
+                    questions: filteredQuestions,
+                    category: category,
+                    difficulty: difficulty
+                });
+    
+                callback(filteredQuestions, category, difficulty);
+            },
+            error: function (xhr, status, error) {
+                $loader.hide();
+                console.error('Chyba při získávání otázek:', xhr.responseText);
+            }
+        });
+    }
+    
+
+
+    function saveStateToStorage() {
+        const storageKey = `${current_category}-${current_difficulty}-state`; // Unikátní klíč pro každou kombinaci
+        localStorage.setItem(storageKey, JSON.stringify({
+            questions: questions,
+            currentQuestionIndex: current_questions_index,
+            currentCategory: current_category,
+            currentDifficulty: current_difficulty,
+            correctAnswersCount: correct_answers_count,
+            incorrectAnswersCount: incorrect_answers_count
+        }));
+    }
+    
+
 
 
 function checkAnswer(selectedAnswer, questionId) {
-    const question = QUESTIONS.find(q => q.id === questionId);
+    const question = questions.find(q => q.id === questionId);
     if (!question) {
         console.error('Otázka nebyla nalezena!');
         return;
@@ -191,6 +268,9 @@ function checkAnswer(selectedAnswer, questionId) {
     const $feedbackElement = $(`#feedback-${questionId}`);
     const $CORRECT_ANSWERS_COUNT = $('<p>').addClass('correct-answer');
 
+    // Uložení odpovědi uživatele
+    userAnswers[questionId] = selectedAnswer;
+
     // Zobrazení správné odpovědi
     $.each(question.answers, (key, value) => {
         if (question.correct_answers[`${key}_correct`] === 'true') {
@@ -199,40 +279,38 @@ function checkAnswer(selectedAnswer, questionId) {
     });
 
     if (isCorrect) {
-        CORRECT_ANSWERS_COUNT++;
+        correct_answers_count++;
         $feedbackElement.text('Správná odpověď!').css('color', 'green');
     } else {
-        INCORRECT_ANSWERS_COUNT++;
+        incorrect_answers_count++;
         $feedbackElement.text('Špatná odpověď.').css('color', 'red');
-        $feedbackElement.after($CORRECT_ANSWERS_COUNT); 
+        $feedbackElement.after($CORRECT_ANSWERS_COUNT);
     }
 
-    if (CURRENT_QUESTION_INDEX !== 0) {
-        const $previousQuestionButton = $('#question-previous');
-        $previousQuestionButton.show();
-    }
-    
-    if (CURRENT_QUESTION_INDEX !== QUESTIONS.length - 1) {
-        const $nextQuestionButton = $('#question-next');
-        $nextQuestionButton.show();
-    }
-
-    if (CURRENT_QUESTION_INDEX === QUESTIONS.length - 1) {
-        const $resultButton = $('#question-result');
-        $resultButton.show();
-    }
 
     $feedbackElement.show();
 
-    // Deaktivujeme tlačítka
-    $('.answer').prop('disabled', true);
+
+    $(`button[data-question-id="${questionId}"]`).prop('disabled', true);
+
+    
+    if (current_questions_index > 0) {
+        $('#question-previous').show();
+    }
+    if (current_questions_index < questions.length - 1) {
+        $('#question-next').show();
+    }
+    if (current_questions_index === questions.length - 1) {
+        $('#question-result').show();
+    }
 }
+
 
 
 function calculateStats() {
     const currentStats = {
-        correct: CORRECT_ANSWERS_COUNT,
-        incorrect: INCORRECT_ANSWERS_COUNT,
+        correct: correct_answers_count,
+        incorrect: incorrect_answers_count,
     };
     return currentStats;
 }
@@ -245,13 +323,14 @@ function renderOverallCharts() {
     
     categories.forEach(category => {
         const canvasId = `chart-${category}`;
-        const ctx = document.getElementById(canvasId).getContext('2d');
+        const ctx = $(`#${canvasId}`)[0].getContext('2d');
+    
         
         if (window.chartInstances && window.chartInstances[canvasId]) {
             window.chartInstances[canvasId].destroy();
         }
 
-        const data = [ALL_STATS[category]?.correct || 0, ALL_STATS[category]?.incorrect || 0];
+        const data = [all_stats[category]?.correct || 0, all_stats[category]?.incorrect || 0];
         
         
         const chart = new Chart(ctx, {
@@ -306,46 +385,26 @@ $('#questions-section').on('click', 'button.answer', function () {
     checkAnswer(selectedAnswer, questionId);
 });
 
+const categories = ['Linux', 'Code', 'SQL', 'Docker'];
 
-$('#category-1-button').on('click', function () {
-    fetchQuestions('Linux', () =>  { 
-        updateStateFromStorage('Linux');
-        nextQuestion();
-        $('#categories-section').hide();
-        $('#questions-section').show();
-        $('#stats-section').hide();
+categories.forEach((category, index) => {
+    $(`#category-${index + 1}-button`).on('click', function () {
+        const selectedDifficulty = $(`#difficulty-${category.toLowerCase()}`).val() || 'Easy';
+
+        $('#loader').show();  
+
+        fetchQuestions(category, selectedDifficulty, function () {
+            updateStateFromStorage(category, selectedDifficulty);
+            nextQuestion();
+            $('#categories-section').hide();
+            $('#questions-section').show();
+            $('#stats-section').hide();
+            $loader.hide(); 
+        });
     });
 });
 
-$('#category-2-button').on('click', function () {
-    fetchQuestions('Code', () => {
-        updateStateFromStorage('Code');
-        nextQuestion();
-        $('#categories-section').hide();
-        $('#questions-section').show();
-        $('#stats-section').hide();
-    });
-});
 
-$('#category-3-button').on('click', function () {
-    fetchQuestions('SQL', () => {
-        updateStateFromStorage('SQL');
-        nextQuestion();
-        $('#categories-section').hide();
-        $('#questions-section').show();
-        $('#stats-section').hide();
-    });
-});
-
-$('#category-4-button').on('click', function () {
-    fetchQuestions('Docker', () => {
-        updateStateFromStorage('Docker');
-        nextQuestion();
-        $('#categories-section').hide();
-        $('#questions-section').show();
-        $('#stats-section').hide();
-    });
-});
 
 $('.header-title').on('click', function () {
     returnHome();
@@ -357,19 +416,16 @@ $('.header-title, .profile-link').on('click', function () {
 
 function returnHome() {
     setButtonsText();
-
-    $('#questions-section').hide();
-    $(".categories").show();
-
-    document.getElementById('stats-section').style.display = 'block';
-    sessionStorage.removeItem('gameState_' + CURRENT_CATEGORY);
-
+    $questionsSection.hide();
+    $categoriesSection.show();
+    $statsSection.show();
+    sessionStorage.removeItem('gameState_' + current_category);
+    
     if (window.chartInstances) {
         Object.values(window.chartInstances).forEach(chart => chart.destroy());
         window.chartInstances = {}; 
     }
-
-   
+    
     const stats = JSON.parse(localStorage.getItem('categoryStats')) || {};
     renderOverallCharts(stats);  
 }
@@ -383,8 +439,9 @@ function updateTimeSpent() {
     timeSpent = Math.floor((now - startTime) / 1000);  
     const minutes = Math.floor(timeSpent / 60);
     const seconds = timeSpent % 60;
-    document.getElementById('time-spent').textContent = `${minutes}m ${seconds}s`; // Aktualizace textu
+    $('#time-spent').text(`${minutes}m ${seconds}s`); // Aktualfizace textu pomocí jQuery
 }
+
 
 setInterval(updateTimeSpent, 1000);
 
@@ -392,15 +449,15 @@ setInterval(updateTimeSpent, 1000);
 function initStats() {
     const stats = JSON.parse(localStorage.getItem('stats'));
     if (stats !== null) {
-        ALL_STATS = stats;
-        return;
+        all_stats = stats;
+    } else {
+        resetStats();
     }
-
-    resetStats();
 }
 
+
 function resetStats() {
-    ALL_STATS = {
+    all_stats = {
         Linux: { correct: 0, incorrect: 0 },
         Code: { correct: 0, incorrect: 0 },
         SQL: { correct: 0, incorrect: 0 },
@@ -409,31 +466,12 @@ function resetStats() {
 }
 
 function setButtonsText() {
-    if (JSON.parse(localStorage.getItem('Linux-state')) !== null) {
-        $('#category-1-button').text('Continue Learning');
-    }
-    else {
-        $('#category-1-button').text('Start Learning');
-    }
-
-    if (JSON.parse(localStorage.getItem('Code-state')) !== null) {
-        $('#category-2-button').text('Continue Learning');
-    }
-    else {
-        $('#category-2-button').text('Start Learning');
-    }
-
-    if (JSON.parse(localStorage.getItem('SQL-state')) !== null) {
-        $('#category-3-button').text('Continue Learning');
-    }
-    else {
-        $('#category-3-button').text('Start Learning');
-    }
-
-    if (JSON.parse(localStorage.getItem('Docker-state')) !== null) {
-        $('#category-4-button').text('Continue Learning');
-    }
-    else {
-        $('#category-4-button').text('Start Learning');
-    }
+    categories.forEach((category, index) => {
+        const button = $(`#category-${index + 1}-button`);
+        if (JSON.parse(localStorage.getItem(`${category}-state`)) !== null) {
+            button.text('Continue Learning');
+        } else {
+            button.text('Start Learning');
+        }
+    });
 }
