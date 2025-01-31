@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards Learning App</title>
+    <meta name="description" content="Flashcards Learning App je interaktivní aplikace pro efektivní učení Linuxu, programování, SQL a Dockeru pomocí flashcards.">
+    <meta name="keywords" content="flashcards, learning, education, Linux, coding, SQL, Docker, programming">
+    <meta name="author" content="Anna Vavřínková">
+    <link rel="stylesheet" href="./CSS/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="icon" type="image/png" href="./Images/favicon_school.png">
+</head>
+<body>
+    <header>
+        <div class="header-title" id="home-link">Flashcards Learning</div>
+        <div class="profile-link">
+            <img src="./Images/my_profile.png" alt="Profile Image" class="profile-image"> My Profile
+        </div>
+        <div id="time-spent-container">
+            <p>&nbsp;</p>
+            <p id="time-spent">00m 00s</p> 
+        </div>
+    </header>
+
+    <main>
+    
+        <section class="categories" id="categories-section">
+            <div class="category" id="category-1">
+                <h2>Linux</h2>
+                <select class="difficulty-select" id="difficulty-linux">
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                </select>
+                <button id="category-1-button" class="start-learning-btn" data-category="Linux">Start Learning</button>
+            </div>
+        
+            <div class="category" id="category-2">
+                <h2>Code</h2>
+                <select class="difficulty-select" id="difficulty-code">
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                </select>
+                <button id="category-2-button" class="start-learning-btn" data-category="Code">Start Learning</button>
+            </div>
+        
+            <div class="category" id="category-3">
+                <h2>SQL</h2>
+                <select class="difficulty-select" id="difficulty-sql">
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                </select>
+                <button id="category-3-button" class="start-learning-btn" data-category="SQL">Start Learning</button>
+            </div>
+        
+            <div class="category" id="category-4">
+                <h2>Docker</h2>
+                <select class="difficulty-select" id="difficulty-docker">
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                </select>
+                <button id="category-4-button" class="start-learning-btn" data-category="Docker">Start Learning</button>
+            </div>
+        
+            <div id="loader"></div>
+        </section>
+        
+
+        <section class="statistics-section" id="stats-section">
+            <h2 class="statistics-header">Statistiky kategorií</h2>
+            <div class="chart-container">
+                <div class="chart-wrapper">
+                    <h3>Linux</h3>
+                    <canvas id="chart-Linux"></canvas>
+                </div>
+                <div class="chart-wrapper">
+                    <h3>Code</h3>
+                    <canvas id="chart-Code"></canvas>
+                </div>
+                <div class="chart-wrapper">
+                    <h3>SQL</h3>
+                    <canvas id="chart-SQL"></canvas>
+                </div>
+                <div class="chart-wrapper">
+                    <h3>Docker</h3>
+                    <canvas id="chart-Docker"></canvas>
+                </div>
+            </div>
+            <button id="reset-stats-home" style="margin-top: 20px;">Vynulovat statistiky</button>
+        </section>
+        
+        <section class="questions" id="questions-section" style="display: none;">
+            <button id="back-to-categories">Zpět na výběr kategorií</button>
+            <button id="reset-stats" style="margin-top: 20px;">Vynulovat statistiky</button>
+            <div id="question-container"></div>
+        </section>
+    </main>
+
+    <script src="./JS/main.js"></script>
+</body>
+</html>
