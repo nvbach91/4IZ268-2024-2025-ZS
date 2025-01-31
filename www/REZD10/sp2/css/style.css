@@ -6,7 +6,7 @@ body {
 
 /* Karta filmu - základní kontejner */
 .movie-card {
-    border: 1px solid #ddd;
+    border: '1px solid #ddd';
     border-radius: 8px;
     padding: 1rem;
     height: 100%;
@@ -49,44 +49,39 @@ body {
 
 /* Hlavička stránky */
 .page-header {
-    position: relative; /* Pro správné umístění burger tlačítka, pokud je absolute */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #212529 !important;
-    color: white;
-    padding: 1rem;
-    gap: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #212529 !important;
+  color: white;
 }
 
 .page-header h1 {
-    color: white;
-    margin-bottom: 0;
+  color: white;
+  margin-bottom: 0;
 }
 
 /* Vyhledávací formulář */
 .search-form {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .search-input {
-    margin-right: 0.5rem;
+  margin-right: 0.5rem;
 }
 
 /* Mřížka pro zobrazení filmů */
 .movies-grid {
-    margin: 0 -1rem;
-    display: flex;
-    flex-wrap: wrap;
+  margin: 0 -1rem;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 /* Obal karty filmu */
 .movie-card-wrapper {
     padding: 1rem;
 }
-
-
 
 /* Sekce stránky */
 .section {
@@ -103,14 +98,22 @@ body {
     opacity: 1;
 }
 
+/* Kontejner s plnou výškou */
+.container-fluid {
+    min-height: 100vh;
+}
+
+.container-fluid > .row {
+    min-height: inherit;
+}
 
 /* Boční panel */
 aside {
     background-color: #dc3545;
     height: 100%;
+    min-height: 100vh;
     position: sticky;
     top: 0;
-    transition: transform 0.3s ease;
 }
 
 /* Hlavní menu */
@@ -124,10 +127,10 @@ aside {
     padding-top: 0.5rem;
 }
 
+/* Odkazy v navigaci */
 .menu-categories .nav-link {
     padding-left: 1rem;
     font-size: 0.9rem;
-    position: relative;
 }
 
 .menu-categories .nav-link:hover {
@@ -137,6 +140,10 @@ aside {
 .nav-link.active {
     background-color: rgba(255,255,255,0.2);
     font-weight: bold;
+}
+
+.menu-categories .nav-link.active {
+    border-left: 3px solid white;
 }
 
 /* Kontejner pro hvězdičkové hodnocení */
@@ -229,91 +236,4 @@ aside {
 .spinner-border {
     width: 3rem;
     height: 3rem;
-}
-
-/* Burger tlačítko (mobil) */
-.burger-button {
-    display: none;
-    border: none;
-    background: transparent;
-    color: white;
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: 0.5rem;
-    margin-right: 1rem;
-}
-
-/* Mobilní menu overlay */
-.menu-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 998;
-}
-
-.close-menu {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: 0.5rem;
-}
-
-@media (max-width: 767px) {
-    aside {
-        position: fixed;
-        top: 0;
-        left: -100%;
-        width: 80%;
-        max-width: 300px;
-        height: 100vh;
-        z-index: 999;
-        overflow-y: auto;
-        transform: translateY(0);
-    }
-
-    aside.show {
-        left: 0;
-    }
-
-    .menu-overlay.show {
-        display: block;
-    }
-
-    /* Zobrazení burger tlačítka na mobilu */
-    .burger-button {
-        display: block;
-    }
-
-    /* Skrytí burger tlačítka když je menu otevřené */
-    body.menu-open .burger-button {
-        display: none;
-    }
-
-    .close-menu {
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-        color: white;
-        font-size: 24px;
-        border: none;
-        background: none;
-        padding: 0.5rem;
-        cursor: pointer;
-    }
-}
-
-@media (max-width: 767.98px) {
-    .search-form {
-        flex: 1;
-    }
-
-    .burger-button {
-        margin-right: 0.5rem;
-    }
 }
