@@ -1,74 +1,77 @@
 class Util {
-    static constructCard(article) {
+    static constructCard(article, iframe) {
         if (!article.urlToImage){
             article.urlToImage = './img/img_not_available.png'
         }
-        return $(`<div class='card' style='width: 18rem;'>
+        const $card = $(`<div class='card' style='width: 18rem;'>
                                     <div class='inner-card'>
                                         <img src='${article.urlToImage}' class='card-img-top' alt='Article image'>
                                         <div class='card-body'>
                                             <h5 class='card-title'>${article.title}</h5>
                                             <p class='card-text'>${article.description}</p>
                                             <div>
-                                                <a href='${article.url}' class='btn btn-primary'>Full article</a>
-                                                <a href='${this.extractBaseUrl(article.url)}' class='card-link'>${article.source.name}</a>
+                                                <a href='${article.url}' class='btn btn-primary' target='_blank'>Full article</a>
+                                                <a href='${this.extractBaseUrl(article.url)}' class='card-link' target='_blank'>${article.source.name}</a>
                                             </div>
                                         </div>
                                     </div>
                   </div>`);
+        $card.on('click', () => {
+            iframe.attr('src', article.url);
+        });
+        return $card;
     }
 
     static constructCutomizeSearchDiv() {
-        const $customizeSearchDiv =  $('<div>' +
-                        '<h3 class="mt-5">I would like to get articles in following languages:</h3>'+
-                        '<div class="languages-container">'+
-                            '<div id="all">All languages</div>' +
-                            '<div id="ar">ar</div>'+
-                            '<div id="de">de</div>'+
-                            '<div id="en">en</div>'+
-                            '<div id="es">es</div>'+
-                            '<div id="fr">fr</div>'+
-                            '<div id="he">he</div>'+
-                            '<div id="it">it</div>'+
-                            '<div id="nl">nl</div>'+
-                            '<div id="no">no</div>'+
-                            '<div id="pt">pt</div>'+
-                            '<div id="ru">ru</div>'+
-                            '<div id="sv">sv</div>'+
-                            '<div id="ud">ud</div>'+
-                            '<div id="zh">zh</div>'+
-                        '</div>'+
-                        '<h3 class="mt-5">Customize sources</h3>' +
-                        '<div class="customize-sources-container">' +
-                            '<div>' +
-                            '<h5>Blacklisted sources: </h5>' +
-                            '<ol id="blacklisted-sources"></ol>' +
-                            '<form id="blacklist-sources-form">' +
-                                '<input type="text" class="form-control" id="blacklist-sources-input">' +
-                                '<button class="btn btn-primary">Add</button>' +
-                            '</form>' +
-                        '</div>' +
-                        '<div>' +
-                            '<h5>Restrict sources to: </h5>' +
-                            '<ol id="restricted-sources"></ol>' +
-                            '<form id="restrict-sources-form">' +
-                                '<input type="text" class="form-control" id="restrict-sources-input">' +
-                                '<button class="btn btn-primary">Add</button>' +
-                            '</form>' +
-                        '</div>' +
-                        '<div>' +
-                            '<h5>Sort by: </h5>' +
-                            '<div>' +
-                                '<button class="btn btn-outline-info sorting-button"' +
-            ' id="relevancy-button">Relevancy</button>' +
-                                '<button class="btn btn-outline-info sorting-button" id="popularity-button">Popularity</button>' +
-                                '<button class="btn btn-outline-info sorting-button" id="date-published-button">Date' +
-            ' published</button>' +
-                            '</div>' +
-                        '</div>' +
-                        '</div>' +
-                        '<button class="btn btn-success mt-5" id="save-customized-params">Save</button>' +
-                 '</div>');
+        const $customizeSearchDiv =  $(`<div>
+                        <h3 class='mt-5'>I would like to get articles in following languages:</h3>
+                        <div class='languages-container'>
+                            <div id='all'>All languages</div>
+                            <div id='ar'>ar</div>
+                            <div id='de'>de</div>
+                            <div id='en'>en</div>
+                            <div id='es'>es</div>
+                            <div id='fr'>fr</div>
+                            <div id='he'>he</div>
+                            <div id='it'>it</div>
+                            <div id='nl'>nl</div>
+                            <div id='no'>no</div>
+                            <div id='pt'>pt</div>
+                            <div id='ru'>ru</div>
+                            <div id='sv'>sv</div>
+                            <div id='ud'>ud</div>
+                            <div id='zh'>zh</div>
+                        </div>
+                        <h3 class='mt-5'>Customize sources</h3>
+                        <div class='customize-sources-container'>
+                            <div>
+                            <h5>Blacklisted sources: </h5>
+                                <select name='blacklisted-sources' class='form-select' id='blacklisted-sources' multiple>
+                                    <option value='bbc.co.uk'>BBC</option>
+                                    <option value='techcrunch.com'>TechCrunch</option>
+                                    <option value='engadget.com'>Engadget</option>
+                                </select>
+                          
+                        </div>
+                        <div>
+                            <h5>Restrict sources to: </h5>
+                              <select name='restricted-sources' class='form-select' id='restricted-sources' multiple>
+                                   <option value='bbc.co.uk'>BBC</option>
+                                   <option value='techcrunch.com'>TechCrunch</option>
+                                   <option value='engadget.com'>Engadget</option>
+                              </select>
+                        </div>
+                        <div>
+                            <h5>Sort by: </h5>
+                            <div>
+                                <button class='btn btn-outline-info sorting-button' id='relevancy-button'>Relevancy</button>
+                                <button class='btn btn-outline-info sorting-button' id='popularity-button'>Popularity</button>
+                                <button class='btn btn-outline-info sorting-button' id='date-published-button'>Date published</button>
+                            </div>
+                        </div>
+                        </div>
+                        <button class='btn btn-success mt-5' id='save-customized-params'>Save</button>
+                 </div>`);
 
         const languagePreference = localStorage.getItem('selectedLanguage');
         if (languagePreference) {
@@ -81,24 +84,19 @@ class Util {
         }
 
         const blacklistedSources = localStorage.getItem('blackListedSources');
-
-        if (blacklistedSources) {
-            const $blacklistedSourcesOl = $customizeSearchDiv.find('#blacklisted-sources');
-            const sourcesArray = blacklistedSources.split(',');
-
-            const listItems = sourcesArray.map(source => this.createListElement(source));
-            $blacklistedSourcesOl.append(...listItems);
-        }
+        $customizeSearchDiv.find('#blacklisted-sources option').each(function () {
+            if (blacklistedSources && blacklistedSources.includes(this.value)) {
+                $(this).prop('selected', true);
+            }
+        });
 
         const restrictedSources = localStorage.getItem('restrictedSources');
 
-        if (restrictedSources) {
-            const $restrictedSourcesOl = $customizeSearchDiv.find('#restricted-sources');
-            const sourcesArray = restrictedSources.split(',');
-
-            const listItems = sourcesArray.map(source => this.createListElement(source));
-            $restrictedSourcesOl.append(...listItems);
-        }
+        $customizeSearchDiv.find('#restricted-sources option').each(function () {
+            if (restrictedSources && restrictedSources.includes(this.value)) {
+                $(this).prop('selected', true);
+            }
+        });
 
         return $customizeSearchDiv;
     }
@@ -195,15 +193,9 @@ class Util {
         const saveConfigurationButton = $('#save-customized-params');
 
         saveConfigurationButton.on('click', () => {
-            const blackListedSources = $('#blacklisted-sources li').map(function() {
-                const text = $(this).text();
-                return text.slice(0, -1);
-            }).get();
+            const blackListedSources = $('#blacklisted-sources').val();
 
-            const restrictedSources = $('#restricted-sources li').map(function() {
-                const text = $(this).text();
-                return text.slice(0, -1);
-            }).get();
+            const restrictedSources = $('#restricted-sources').val();
 
             if (restrictedSources.length > 0 && blackListedSources.length > 0) {
                 Swal.fire({
@@ -247,7 +239,7 @@ class Util {
 
     static createListElement(inputValue) {
         const listItem = $('<li></li>').text(inputValue);
-        const removeButton = $('<span class="remove-cross">x</span>').css({
+        const removeButton = $(`<span class='remove-cross'>x</span>`).css({
             color: 'red',
             marginLeft: '10px',
             cursor: 'pointer'
@@ -315,34 +307,20 @@ class Util {
     }
 
     static buildApiStringFromUrl(baseApiUrl, searchValue, apiKey, selectedLanguage, domains, excludeDomains, sortBy) {
-        let finalString = baseApiUrl + '?';
+        const params = new URLSearchParams();
 
-        if (searchValue) {
-            finalString += `q=${searchValue}&`;
-        }
+        if (searchValue) params.append("q", searchValue);
+        if (selectedLanguage && selectedLanguage !== "all") params.append("language", selectedLanguage);
+        if (domains) params.append("domains", domains);
+        if (excludeDomains) params.append("excludeDomains", excludeDomains);
 
+        const activeSorting = localStorage.getItem("activeSorting");
+        if (activeSorting) params.append("sortBy", sortBy);
 
-        if (selectedLanguage && selectedLanguage !== 'all') {
-            finalString += `language=${selectedLanguage}&`;
-        }
+        params.append("apiKey", apiKey);
+        params.append("pageSize", "10");
 
-        if (domains) {
-            finalString += `domains=${domains}&`;
-        }
-
-        if (excludeDomains) {
-            finalString += `excludeDomains=${excludeDomains}&`
-        }
-
-        const activeSorting = localStorage.getItem('activeSorting');
-
-        if (activeSorting) {
-            finalString += `sortBy=${sortBy}&`;
-        }
-
-        finalString += `apiKey=${apiKey}&pageSize=10`;
-
-        return finalString;
+        return `${baseApiUrl}?${params.toString()}`;
     }
 
     static showSpinner() {
