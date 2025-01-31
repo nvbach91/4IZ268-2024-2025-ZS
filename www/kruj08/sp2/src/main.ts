@@ -295,9 +295,17 @@ dashboardButton.addEventListener("click", async () => {
         createBarChart(xlabels, chartData, xlabel, name);
 
         if (selectElement) {
-          Array.from(selectElement.options).forEach(option => {
-            let count = data.taskTypes[option.value].days.length;
-            option.textContent = `${option.value} (${count})`;
+          selectElement.innerHTML = '';
+
+          const options = [
+            "Studying", "Work", "Exercise", "Learning new skill", "Coding", "Reading", "Meditation", "Other"
+          ]
+
+          options.forEach(option => {
+            const optionElement = document.createElement('option');
+            optionElement.value = option;
+            optionElement.textContent = `${option} (${data.taskTypes[option].days.length})`;
+            selectElement.appendChild(optionElement);
           })
         }
 
