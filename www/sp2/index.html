@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="./img/banan.png" />
+    <link href="./css/style.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuid.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@2.3.8/dist/purify.min.js"></script>
+    <title>Vyhledávač potravin</title>
+  </head>
+
+  <body>
+    <h1>Vyhledávač potravin</h1>
+
+    <div class="search-box">
+      <form id="search-form">
+        <input type="text" id="search-input" placeholder="např. karamel" />
+        <button type="submit">Vyhledat</button>
+      </form>
+    </div>
+
+    <div class="container">
+      <div class="sidebar">
+        <div id="diary-container"></div>
+        <input type="date" id="date-picker" value="" />
+        <!-- Přidání inputu pro výběr data -->
+        <button id="delete-results-button" class="delete-results">Vyprázdnit jídelníček</button><br />
+        <button id="open-modal-btn" class="weekly-results">14-ti denní výpis</button>
+        <!-- The Modal -->
+        <div id="summary-modal" class="modal">
+          <!-- Modal content -->
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <h1>Výpis jídelníčků z posledních 14 dnů</h1>
+            <ul id="diary-list"></ul>
+          </div>
+        </div>
+      </div>
+    
+      <div class="content">
+        <div class="results-container" id="results-container">
+          <!-- Výsledky hledání se zobrazí sem -->
+        </div>
+      </div>
+    </div>
+
+    <script src="./js/main.js"></script>
+  </body>
+</html>
